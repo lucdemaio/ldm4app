@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ldm4app - Soluzioni Gestionali su Misura</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144994464681657"
+     crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0f172a',
+                        'cobalt': '#2563eb',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold gradient-text">
+                    ldm4app
+                </div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium">
+                    <li><a href="#servizi" class="text-gray-700 hover:text-cobalt transition">Servizi</a></li>
+                    <li><a href="#prodotti" class="text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                    <li><a href="#filosofia" class="text-gray-700 hover:text-cobalt transition">Filosofia</a></li>
+                    <li><a href="#blog" class="text-gray-700 hover:text-cobalt transition">Blog</a></li>
+                    <li><a href="#contatti" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Contatti</a></li>
+                </ul>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
+                <li><a href="#servizi" class="block text-gray-700 hover:text-cobalt transition">Servizi</a></li>
+                <li><a href="#prodotti" class="block text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                <li><a href="#filosofia" class="block text-gray-700 hover:text-cobalt transition">Filosofia</a></li>
+                <li><a href="#blog" class="block text-gray-700 hover:text-cobalt transition">Blog</a></li>
+                <li><a href="#contatti" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-white via-blue-50 to-gray-100 py-20 md:py-32">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-navy mb-6 leading-tight">
+                Soluzioni Gestionali su Misura.<br>
+                <span class="gradient-text">Potenti. Semplici. Sicure.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+                Sviluppiamo software gestionali personalizzati che ottimizzano il tuo lavoro quotidiano. 
+                Ogni soluzione è progettata esattamente sulle tue esigenze, con un focus su sicurezza, privacy e prestazioni.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contatti" class="bg-cobalt text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">
+                    Richiedi una Consulenza
+                </a>
+                <a href="#prodotti" class="bg-white text-cobalt px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition border-2 border-cobalt">
+                    Scopri i Prodotti
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- AdSense Placeholder - Sotto Hero Section -->
+    <!-- <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE
+        </div>
+    </div> -->
+
+    <!-- I Nostri Pilastri -->
+    <section id="servizi" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-4">I Nostri Pilastri</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Ogni progetto che sviluppiamo si basa su tre principi fondamentali
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1: Privacy & Sicurezza -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy mb-4">Privacy & Sicurezza</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Software che proteggono i tuoi dati. Soluzioni offline e locali che garantiscono 
+                        il massimo controllo e riservatezza delle informazioni aziendali.
+                    </p>
+                </div>
+
+                <!-- Card 2: Efficienza Operativa -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy mb-4">Efficienza Operativa</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Interfacce pulite e intuitive che riducono drasticamente i tempi di gestione. 
+                        Automazioni intelligenti per lavorare meglio, non di più.
+                    </p>
+                </div>
+
+                <!-- Card 3: Sviluppo Sartoriale -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy mb-4">Sviluppo Sartoriale</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Creato esattamente sulle esigenze del cliente. Nessun compromesso, 
+                        ogni funzionalità è pensata per il tuo flusso di lavoro specifico.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AdSense Placeholder - Tra i Servizi e Prodotti -->
+    <!-- <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE
+        </div>
+    </div> -->
+
+    <!-- Sezione Prodotti -->
+    <section id="prodotti" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-4">I Nostri Prodotti</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Software gestionali specializzati per ogni settore
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Placeholder Product 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                    <div class="w-12 h-12 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg mb-6"></div>
+                    <h3 class="text-xl font-bold text-navy mb-3">SoccerManager Pro</h3>
+                    <p class="text-gray-600 mb-4">
+                        Gestione completa per società sportive. Atleti, presenze, finanze e molto altro.
+                    </p>
+                    <a href="#" class="text-cobalt font-semibold hover:underline">Scopri di più →</a>
+                </div>
+
+                <!-- Placeholder Product 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                    <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg mb-6"></div>
+                    <h3 class="text-xl font-bold text-navy mb-3">Soluzione Custom</h3>
+                    <p class="text-gray-600 mb-4">
+                        Hai un'esigenza specifica? Sviluppiamo la tua soluzione su misura.
+                    </p>
+                    <a href="#contatti" class="text-cobalt font-semibold hover:underline">Contattaci →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filosofia -->
+    <section id="filosofia" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-8 text-center">La Nostra Filosofia</h2>
+                
+                <div class="space-y-6 text-lg text-gray-600 leading-relaxed">
+                    <p>
+                        Crediamo che ogni azienda sia unica e meriti strumenti altrettanto unici. 
+                        Non vendiamo soluzioni standard, ma progettiamo software che si adattano perfettamente 
+                        al tuo modo di lavorare. Privacy, sicurezza e controllo totale dei dati sono al centro 
+                        di ogni nostro progetto. Sviluppiamo soluzioni che durano nel tempo e crescono insieme 
+                        alla tua azienda.
+                    </p>
+                    
+                    <h3 class="text-2xl font-bold text-navy mt-8 mb-4">I Vantaggi dei Software Gestionali Offline</h3>
+                    
+                    <p>
+                        In un'era dominata dal cloud computing, potrebbe sembrare controcorrente proporre soluzioni 
+                        offline. Tuttavia, i software gestionali che operano localmente offrono vantaggi concreti e 
+                        misurabili, particolarmente rilevanti per le aziende che gestiscono dati sensibili o che 
+                        operano in settori regolamentati.
+                    </p>
+                    
+                    <p>
+                        <strong>Controllo assoluto dei dati:</strong> Con un software gestionale offline, i tuoi dati 
+                        rimangono sempre sul tuo hardware. Non vengono sincronizzati su server esterni, non transitano 
+                        su internet, e soprattutto non sono soggetti alle policy di terze parti che possono cambiare 
+                        nel tempo. Questo significa che hai il controllo completo su chi può accedere alle informazioni, 
+                        quando e come.
+                    </p>
+                    
+                    <p>
+                        <strong>Privacy garantita per normative GDPR:</strong> La conformità al Regolamento Generale 
+                        sulla Protezione dei Dati è molto più semplice quando i dati non lasciano mai la tua 
+                        infrastruttura. Non devi preoccuparti di data breach su server cloud, di trasferimenti 
+                        internazionali di dati o di condivisioni non autorizzate. Ogni dato resta nel tuo perimetro 
+                        di sicurezza, facilitando enormemente la gestione della compliance.
+                    </p>
+                    
+                    <p>
+                        <strong>Prestazioni superiori e affidabilità:</strong> Un software installato localmente non 
+                        dipende dalla connessione internet. Questo significa zero latenza, velocità di risposta 
+                        istantanea e operatività garantita anche in assenza di rete. Per attività critiche come la 
+                        gestione di presenze, fatturazione o inventario, l'affidabilità di un sistema offline è 
+                        insuperabile.
+                    </p>
+                    
+                    <p>
+                        <strong>Personalizzazione profonda:</strong> Le soluzioni cloud sono spesso vincolate a 
+                        funzionalità standard che devono servire migliaia di clienti diversi. Un software gestionale 
+                        sviluppato su misura e installato localmente può essere personalizzato fino al minimo dettaglio, 
+                        integrando esattamente i processi della tua organizzazione senza compromessi. Ogni funzione è 
+                        pensata per te, non per una "media" di utenti.
+                    </p>
+                    
+                    <p>
+                        <strong>Costi prevedibili nel lungo periodo:</strong> Mentre i servizi cloud richiedono canoni 
+                        mensili o annuali che possono aumentare nel tempo, un software offline rappresenta un 
+                        investimento una tantum. Non ci sono costi ricorrenti nascosti, aumenti improvvisi delle 
+                        tariffe o necessità di aggiornare il piano quando l'azienda cresce. Paghi una volta e il 
+                        software è tuo.
+                    </p>
+                    
+                    <h3 class="text-2xl font-bold text-navy mt-8 mb-4">Perché Scegliere ldm4app</h3>
+                    
+                    <p>
+                        La nostra missione è sviluppare strumenti gestionali che migliorano concretamente la vita 
+                        lavorativa di chi li utilizza. Non crediamo nelle soluzioni "taglia unica": ogni settore, 
+                        ogni azienda, ogni team ha esigenze specifiche che meritano risposte specifiche. Per questo 
+                        ogni nostro progetto inizia con un'analisi approfondita delle tue necessità operative.
+                    </p>
+                    
+                    <p>
+                        Progettiamo interfacce intuitive che riducono drasticamente i tempi di formazione del personale. 
+                        Un software ben progettato non dovrebbe richiedere manuali di istruzioni: dovrebbe essere così 
+                        chiaro da risultare ovvio. Questo approccio "user-first" garantisce adozione rapida, riduzione 
+                        degli errori e aumento della produttività dal primo giorno di utilizzo.
+                    </p>
+                    
+                    <p>
+                        Utilizziamo tecnologie moderne e consolidate come C#, .NET, SQL Server e JavaScript per 
+                        garantire solidità, prestazioni eccellenti e manutenibilità nel tempo. I nostri software non 
+                        sono esperimenti tecnologici, ma soluzioni professionali costruite per durare anni. E quando 
+                        la tua azienda cresce o cambiano le esigenze, siamo qui per evolvere il software insieme a te.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AdSense Placeholder - Dopo Filosofia -->
+    <!-- <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER RETTANGOLARE GRANDE
+        </div>
+    </div> -->
+
+    <!-- Blog -->
+    <section id="blog" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-4">Dal Nostro Blog</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Approfondimenti, novità e riflessioni sul mondo dei software gestionali
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Articolo 1 -->
+                <article class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition">
+                    <div class="h-48 bg-gradient-to-br from-cobalt to-blue-700 flex items-center justify-center">
+                        <svg class="w-20 h-20 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-cobalt font-semibold uppercase tracking-wide">Privacy & Sicurezza</span>
+                        <h3 class="text-xl font-bold text-navy mt-2 mb-3">I vantaggi dei gestionali offline nel 2026</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            Nel panorama digitale sempre più orientato al cloud, i software gestionali offline stanno vivendo 
+                            una nuova primavera. La crescente attenzione alla privacy dei dati, le normative GDPR sempre più 
+                            stringenti e la necessità di garantire continuità operativa anche senza connessione internet hanno 
+                            riportato l'attenzione sui vantaggi delle soluzioni locali. Un gestionale offline offre controllo 
+                            totale, zero dipendenza da fornitori esterni, prestazioni superiori e costi prevedibili. Per settori 
+                            che trattano dati sensibili, la scelta offline non è solo preferibile, è strategica.
+                        </p>
+                        <span class="text-sm text-gray-500">9 Gennaio 2026</span>
+                    </div>
+                </article>
+
+                <!-- Articolo 2 -->
+                <article class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition">
+                    <div class="h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <svg class="w-20 h-20 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-indigo-600 font-semibold uppercase tracking-wide">Innovazione</span>
+                        <h3 class="text-xl font-bold text-navy mt-2 mb-3">Come la tecnologia PWA sta cambiando il software desktop</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            Le Progressive Web App (PWA) stanno rivoluzionando il concetto di software gestionale. Questa 
+                            tecnologia permette di creare applicazioni web che si comportano come app native, installabili 
+                            sul desktop e utilizzabili offline. Le PWA combinano il meglio dei due mondi: l'accessibilità 
+                            del web con le prestazioni e l'affidabilità delle applicazioni desktop tradizionali. Per le 
+                            aziende significa aggiornamenti immediati, compatibilità multipiattaforma e un'esperienza utente 
+                            fluida. Il futuro dei gestionali è hybrid: potenti come il desktop, accessibili come il web.
+                        </p>
+                        <span class="text-sm text-gray-500">9 Gennaio 2026</span>
+                    </div>
+                </article>
+
+                <!-- Articolo 3 -->
+                <article class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition">
+                    <div class="h-48 bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                        <svg class="w-20 h-20 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-cyan-600 font-semibold uppercase tracking-wide">Filosofia ldm4app</span>
+                        <h3 class="text-xl font-bold text-navy mt-2 mb-3">Perché la privacy dei dati è la priorità di ldm4app</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            In ldm4app la privacy non è un optional, è il fondamento di ogni progetto. Crediamo che i dati 
+                            aziendali debbano rimanere dove appartengono: nelle mani di chi li possiede. Per questo progettiamo 
+                            soluzioni che privilegiano l'archiviazione locale, la crittografia end-to-end e il controllo totale 
+                            da parte del cliente. Nessun server esterno, nessuna sincronizzazione cloud non richiesta, nessun 
+                            accesso di terze parti. Ogni byte di informazione resta nel tuo perimetro di sicurezza. Questa filosofia 
+                            ci distingue in un mercato dove i dati sono diventati una merce di scambio. Per noi, sono sacri.
+                        </p>
+                        <span class="text-sm text-gray-500">9 Gennaio 2026</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tecnologie -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Tecnologie che Utilizziamo</h2>
+            </div>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-2xl font-bold text-cobalt">C#</span>
+                    </div>
+                    <span class="text-sm text-gray-600">C#</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-purple-600">.NET</span>
+                    </div>
+                    <span class="text-sm text-gray-600">.NET</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-blue-600">SQL</span>
+                    </div>
+                    <span class="text-sm text-gray-600">SQL Server</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-orange-500">JS</span>
+                    </div>
+                    <span class="text-sm text-gray-600">JavaScript</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-blue-500">TS</span>
+                    </div>
+                    <span class="text-sm text-gray-600">TypeScript</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-green-600">DB</span>
+                    </div>
+                    <span class="text-sm text-gray-600">Database</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contatti -->
+    <section id="contatti" class="py-20 bg-gradient-to-br from-navy to-blue-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Inizia il Tuo Progetto</h2>
+                <p class="text-lg text-blue-100 mb-10">
+                    Hai un'idea o un'esigenza gestionale? Contattaci per una consulenza gratuita 
+                    e scopri come possiamo aiutarti.
+                </p>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 md:p-10">
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <input type="text" placeholder="Nome" 
+                                class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50">
+                            <input type="email" placeholder="Email" 
+                                class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        </div>
+                        <input type="text" placeholder="Azienda" 
+                            class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        <textarea rows="4" placeholder="Descrivici brevemente il tuo progetto" 
+                            class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50"></textarea>
+                        <button type="submit" 
+                            class="w-full bg-white text-cobalt px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg">
+                            Invia Richiesta
+                        </button>
+                    </form>
+                </div>
+                <div class="mt-12 space-y-2">
+                    <p class="text-blue-100">
+                        <strong>Email:</strong> info@ldm4app.com
+                    </p>
+                    <p class="text-blue-100">
+                        <strong>Telefono:</strong> +39 XXX XXX XXXX
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">ldm4app</h3>
+                    <p class="text-sm leading-relaxed">
+                        Software gestionali su misura per aziende che vogliono il meglio.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Link Utili</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#servizi" class="hover:text-white transition">Servizi</a></li>
+                        <li><a href="#prodotti" class="hover:text-white transition">Prodotti</a></li>
+                        <li><a href="#filosofia" class="hover:text-white transition">Filosofia</a></li>
+                        <li><a href="#contatti" class="hover:text-white transition">Contatti</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Informazioni Legali</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="privacy-policy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Termini di Servizio</a></li>
+                        <li><a href="cookie-policy.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- AdSense Placeholder - Footer -->
+            <!-- <div class="border-t border-gray-700 pt-8 pb-8">
+                <div class="max-w-4xl mx-auto text-center">
+                    INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE FOOTER
+                </div>
+            </div> -->
+            
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>&copy; 2026 ldm4app. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script per il menu mobile -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Chiudi il menu quando si clicca su un link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
