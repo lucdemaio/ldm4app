@@ -2,17 +2,339 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>ldm4app | SoccerManager Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ldm4app - Soluzioni Gestionali su Misura</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0f172a',
+                        'cobalt': '#2563eb',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
-<body class="bg-slate-900 text-white">
-    <nav class="p-6 flex justify-between">
-        <h1 class="text-2xl font-bold text-emerald-400">ldm4app</h1>
-    </nav>
-    <header class="py-20 text-center">
-        <h2 class="text-5xl font-extrabold mb-4">SoccerManager Pro</h2>
-        <p class="text-xl text-slate-400">Il primo gestionale sportivo 100% offline e Privacy-First.</p>
-        <button class="mt-8 bg-emerald-500 px-8 py-3 rounded-full font-bold">Scarica Ora</button>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold gradient-text">
+                    ldm4app
+                </div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium">
+                    <li><a href="#servizi" class="text-gray-700 hover:text-cobalt transition">Servizi</a></li>
+                    <li><a href="#prodotti" class="text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                    <li><a href="#filosofia" class="text-gray-700 hover:text-cobalt transition">Filosofia</a></li>
+                    <li><a href="#contatti" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Contatti</a></li>
+                </ul>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
+                <li><a href="#servizi" class="block text-gray-700 hover:text-cobalt transition">Servizi</a></li>
+                <li><a href="#prodotti" class="block text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                <li><a href="#filosofia" class="block text-gray-700 hover:text-cobalt transition">Filosofia</a></li>
+                <li><a href="#contatti" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">Contatti</a></li>
+            </ul>
+        </nav>
     </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-white via-blue-50 to-gray-100 py-20 md:py-32">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-navy mb-6 leading-tight">
+                Soluzioni Gestionali su Misura.<br>
+                <span class="gradient-text">Potenti. Semplici. Sicure.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+                Sviluppiamo software gestionali personalizzati che ottimizzano il tuo lavoro quotidiano. 
+                Ogni soluzione è progettata esattamente sulle tue esigenze, con un focus su sicurezza, privacy e prestazioni.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contatti" class="bg-cobalt text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">
+                    Richiedi una Consulenza
+                </a>
+                <a href="#prodotti" class="bg-white text-cobalt px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition border-2 border-cobalt">
+                    Scopri i Prodotti
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- I Nostri Pilastri -->
+    <section id="servizi" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-4">I Nostri Pilastri</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Ogni progetto che sviluppiamo si basa su tre principi fondamentali
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1: Privacy & Sicurezza -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy mb-4">Privacy & Sicurezza</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Software che proteggono i tuoi dati. Soluzioni offline e locali che garantiscono 
+                        il massimo controllo e riservatezza delle informazioni aziendali.
+                    </p>
+                </div>
+
+                <!-- Card 2: Efficienza Operativa -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy mb-4">Efficienza Operativa</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Interfacce pulite e intuitive che riducono drasticamente i tempi di gestione. 
+                        Automazioni intelligenti per lavorare meglio, non di più.
+                    </p>
+                </div>
+
+                <!-- Card 3: Sviluppo Sartoriale -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy mb-4">Sviluppo Sartoriale</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Creato esattamente sulle esigenze del cliente. Nessun compromesso, 
+                        ogni funzionalità è pensata per il tuo flusso di lavoro specifico.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Prodotti -->
+    <section id="prodotti" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-4">I Nostri Prodotti</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Software gestionali specializzati per ogni settore
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Placeholder Product 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                    <div class="w-12 h-12 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg mb-6"></div>
+                    <h3 class="text-xl font-bold text-navy mb-3">SoccerManager Pro</h3>
+                    <p class="text-gray-600 mb-4">
+                        Gestione completa per società sportive. Atleti, presenze, finanze e molto altro.
+                    </p>
+                    <a href="#" class="text-cobalt font-semibold hover:underline">Scopri di più →</a>
+                </div>
+
+                <!-- Placeholder Product 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                    <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg mb-6"></div>
+                    <h3 class="text-xl font-bold text-navy mb-3">Soluzione Custom</h3>
+                    <p class="text-gray-600 mb-4">
+                        Hai un'esigenza specifica? Sviluppiamo la tua soluzione su misura.
+                    </p>
+                    <a href="#contatti" class="text-cobalt font-semibold hover:underline">Contattaci →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filosofia -->
+    <section id="filosofia" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-8">La Nostra Filosofia</h2>
+                <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                    Crediamo che ogni azienda sia unica e meriti strumenti altrettanto unici. 
+                    Non vendiamo soluzioni standard, ma progettiamo software che si adattano perfettamente 
+                    al tuo modo di lavorare.
+                </p>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Privacy, sicurezza e controllo totale dei dati sono al centro di ogni nostro progetto. 
+                    Sviluppiamo soluzioni che durano nel tempo e crescono insieme alla tua azienda.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tecnologie -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Tecnologie che Utilizziamo</h2>
+            </div>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-2xl font-bold text-cobalt">C#</span>
+                    </div>
+                    <span class="text-sm text-gray-600">C#</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-purple-600">.NET</span>
+                    </div>
+                    <span class="text-sm text-gray-600">.NET</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-blue-600">SQL</span>
+                    </div>
+                    <span class="text-sm text-gray-600">SQL Server</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-orange-500">JS</span>
+                    </div>
+                    <span class="text-sm text-gray-600">JavaScript</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-blue-500">TS</span>
+                    </div>
+                    <span class="text-sm text-gray-600">TypeScript</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-green-600">DB</span>
+                    </div>
+                    <span class="text-sm text-gray-600">Database</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contatti -->
+    <section id="contatti" class="py-20 bg-gradient-to-br from-navy to-blue-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Inizia il Tuo Progetto</h2>
+                <p class="text-lg text-blue-100 mb-10">
+                    Hai un'idea o un'esigenza gestionale? Contattaci per una consulenza gratuita 
+                    e scopri come possiamo aiutarti.
+                </p>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 md:p-10">
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <input type="text" placeholder="Nome" 
+                                class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50">
+                            <input type="email" placeholder="Email" 
+                                class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        </div>
+                        <input type="text" placeholder="Azienda" 
+                            class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        <textarea rows="4" placeholder="Descrivici brevemente il tuo progetto" 
+                            class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50"></textarea>
+                        <button type="submit" 
+                            class="w-full bg-white text-cobalt px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg">
+                            Invia Richiesta
+                        </button>
+                    </form>
+                </div>
+                <div class="mt-12 space-y-2">
+                    <p class="text-blue-100">
+                        <strong>Email:</strong> info@ldm4app.com
+                    </p>
+                    <p class="text-blue-100">
+                        <strong>Telefono:</strong> +39 XXX XXX XXXX
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">ldm4app</h3>
+                    <p class="text-sm leading-relaxed">
+                        Software gestionali su misura per aziende che vogliono il meglio.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Link Utili</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#servizi" class="hover:text-white transition">Servizi</a></li>
+                        <li><a href="#prodotti" class="hover:text-white transition">Prodotti</a></li>
+                        <li><a href="#filosofia" class="hover:text-white transition">Filosofia</a></li>
+                        <li><a href="#contatti" class="hover:text-white transition">Contatti</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Informazioni Legali</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Termini di Servizio</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>&copy; 2026 ldm4app. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script per il menu mobile -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Chiudi il menu quando si clicca su un link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
