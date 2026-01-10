@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Come condividere i dati con i soci — LDM Soccer Manager</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0;padding:24px;color:#111}
+    .container{max-width:900px;margin:0 auto}
+    h1{font-size:1.6rem;margin-bottom:0.25rem}
+    p{margin:0.5rem 0}
+    pre{background:#f7f7f7;padding:12px;border-radius:6px;overflow:auto}
+    .card{border:1px solid #e6e6e6;padding:16px;border-radius:8px;margin:12px 0}
+    a.button{display:inline-block;padding:10px 14px;background:#0077cc;color:#fff;border-radius:6px;text-decoration:none}
+    small{color:#666}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Condividere i dati con i soci</h1>
+    <p>Questa guida spiega come pubblicare calendario, convocazioni, risultati e file ai soci (allenatori, giocatori, genitori) usando strumenti semplici e sicuri.</p>
+
+    <div class="card">
+      <h2>1) Metodo consigliato: Google Sheets (veloce e aggiornamenti live)</h2>
+      <p>Il coach mantiene un foglio con eventi/convocazioni. Per condividerlo pubblicalo o usa link con permessi di sola lettura.</p>
+      <p><strong>Come pubblicare:</strong> File → Condividi → Pubblica sul web → scegli il foglio → Pubblica.</p>
+      <p><strong>Snippet iframe da incollare nella pagina del sito:</strong></p>
+      <pre>&lt;iframe src="https://docs.google.com/spreadsheets/d/e/ID_PUBBLICO/pubhtml?widget=true&amp;headers=false" width="100%" height="600" style="border:1px solid #ddd"&gt;&lt;/iframe&gt;</pre>
+      <p>Sostituire <code>ID_PUBBLICO</code> con l'ID fornito da Google dopo la pubblicazione.</p>
+    </div>
+
+    <div class="card">
+      <h2>2) File pesanti: usare MEGA / Google Drive / OneDrive</h2>
+      <p>Per .zip, video o pacchetti &gt;50–100&nbsp;MB: carica su MEGA o Drive e usa il link condivisibile.</p>
+      <p>Esempio di pulsante download da inserire nel sito:</p>
+      <pre>&lt;a class="button" href="https://mega.nz/your-shared-link" target="_blank" rel="noopener"&gt;Scarica file (.zip)&lt;/a&gt;</pre>
+      <small>Non mettere file molto grandi direttamente nel repository GitHub.</small>
+    </div>
+
+    <div class="card">
+      <h2>3) Flussi più strutturati (se necessario)</h2>
+      <p>Se vuoi ruoli, workflow editoriali e controllo degli accessi, valuta Netlify CMS / Strapi o una soluzione con Firebase (Realtime/Firestore).</p>
+      <p>Queste opzioni richiedono configurazione iniziale ma offrono controllo utenti e cronologia modifiche.</p>
+    </div>
+
+    <div class="card">
+      <h2>4) Permessi, privacy e GDPR</h2>
+      <ul>
+        <li>Non pubblicare dati sensibili senza consenso (es. codice fiscale, numeri privati).</li>
+        <li>Usa permessi di sola lettura per i soci, scrittura solo per gli allenatori/designati.</li>
+        <li>Inserisci una pagina Privacy che spiega quali dati raccogli e come vengono usati.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>5) Checklist rapida per l'allenatore</h2>
+      <ol>
+        <li>Aggiorna il Google Sheet ufficiale (data, evento, squadra, note, link file).</li>
+        <li>Se carichi un .zip, caricalo su MEGA/Drive e copia il link.</li>
+        <li>Aggiorna il sito (pulsante Download o contenuto incorporato).</li>
+        <li>Fai un backup periodico (esporta CSV / salva una copia su Drive o MEGA).</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>6) Test e comunicazioni</h2>
+      <p>Prima di inviare il link ai soci, verifica su mobile: apri il sito, prova l'iframe e scarica il file. Poi invia il link ufficiale via WhatsApp o email e spiega dove trovare gli aggiornamenti.</p>
+    </div>
+
+    <div class="card">
+      <h2>Testo breve da mostrare sul sito</h2>
+      <p><em>"Aggiornamenti ufficiali: il coach aggiorna qui il calendario e i documenti. Per visualizzare o scaricare i file clicca sui pulsanti. Per dati personali contattare la segreteria."</em></p>
+    </div>
+
+    <p style="margin-top:18px"><a href="index.html" class="button">Torna alla Home</a></p>
+
+    <hr style="margin:24px 0">
+    <p><small>Guida generata il 10 gennaio 2026 — LDM Soccer Manager</small></p>
+  </div>
+</body>
+</html>
