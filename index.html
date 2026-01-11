@@ -104,6 +104,17 @@
                         <p class="text-xs text-gray-500 mt-2">Download sicuro tramite MEGA. Sostenuto da un unico banner pubblicitario in basso per coprire i costi.</p>
                 </div>
 
+                <!-- LDM Viewer (Versione Genitori) -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-lg mb-6"></div>
+                        <h3 class="text-xl font-bold text-navy mb-3">LDM Viewer <span class="text-sm text-gray-500">(Versione Genitori)</span></h3>
+                        <p class="text-gray-600 mb-2">
+                            App leggera per genitori per visualizzare i dati della squadra e caricare il file JSON fornito dalla società.
+                        </p>
+                        <a href="https://github.com/lucdemaio/ldm4app/blob/main/apk%20ldm%20soccer%20manager.apk" target="_blank" rel="noopener noreferrer" class="text-emerald-600 font-semibold hover:underline">Scarica APK (LDM Viewer) →</a>
+                        <p class="text-xs text-gray-500 mt-2">Versione Android per genitori — WebView-based app che carica il backup JSON.</p>
+                </div>
+
                 <!-- Placeholder Product 2 -->
                 <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
                     <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg mb-6"></div>
@@ -112,6 +123,24 @@
                         Hai un'esigenza specifica? Sviluppiamo la tua soluzione su misura.
                     </p>
                     <a href="#contatti" class="text-cobalt font-semibold hover:underline">Contattaci →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supporto & Trasparenza -->
+    <section id="support" class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-navy">Supporto & Trasparenza</h3>
+                    <a href="/ads.txt" class="text-sm text-gray-500 underline">ads.txt</a>
+                </div>
+
+                <div class="mt-4 text-gray-700">
+                    <p>Per assistenza tecnica su <strong>LDM Soccer Manager Pro</strong> o <strong>LDM Viewer</strong>, scrivi a <a href="mailto:info@ldm4app.com" class="text-cobalt underline">info@ldm4app.com</a>.</p>
+                    <p class="mt-3">Link APK (repository): <a href="https://github.com/lucdemaio/ldm4app/blob/main/apk%20ldm%20soccer%20manager.apk" target="_blank" rel="noopener noreferrer" class="text-emerald-600 underline">Scarica APK su GitHub</a></p>
+                    <p class="mt-3 text-sm text-gray-500">SEO: mantieni meta-description e OpenGraph aggiornati per migliorare la visibilità. Questo widget è coerente con il layout Tailwind del sito.</p>
                 </div>
             </div>
         </div>
@@ -335,6 +364,7 @@
                         <div class="flex flex-col sm:flex-row sm:items-center gap-3">
                             <a id="download-zip" href="https://mega.nz/file/gzBhjApb#RQdPUgtlp-53HNiMXcZjCjGAFEhhKIoa5yace6p9nB0" target="_blank" class="inline-block bg-cobalt text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow">Scarica .zip</a>
                             <a href="install.html" class="inline-block text-sm text-gray-600 hover:underline">Istruzioni di installazione</a>
+                            <a href="https://github.com/lucdemaio/ldm4app/blob/main/apk%20ldm%20soccer%20manager.apk" target="_blank" rel="noopener noreferrer" class="inline-block bg-emerald-500 text-white px-4 py-3 rounded-lg font-semibold hover:bg-emerald-600 transition shadow ml-2">Scarica APK (Genitori)</a>
                         </div>
 
                         <p class="text-xs text-gray-500 mt-4">Download sicuro tramite MEGA. Il software è <strong>100% Gratuito</strong> e sostenuto da un unico banner pubblicitario in basso per coprire i costi. Nota: il file può essere ospitato nella cartella `downloads` o nella root; qui il link punta a MEGA.</p>
@@ -348,8 +378,17 @@
         <div class="container mx-auto px-6">
             <div class="max-w-4xl mx-auto">
                 <div class="border-2 border-cobalt bg-blue-50 p-6 rounded-2xl">
-                    <h2 class="text-2xl font-bold text-navy mb-4"><i class="fa-solid fa-cloud-arrow-up mr-2 text-cobalt"></i>Guida alla Condivisione Cloud</h2>
-                    <p class="text-gray-700 mb-4">Questa sezione spiega in modo semplice come gli amministratori possono rendere i dati accessibili ad atleti e dirigenti usando una cartella condivisa nel cloud.</p>
+                    <h2 class="text-2xl font-bold text-navy mb-4"><i class="fa-solid fa-cloud-arrow-up mr-2 text-cobalt"></i>Guida Rapida — Modalità Condivisione</h2>
+                    <p class="text-gray-700 mb-4">I genitori possono aggiornare i dati nell'app usando uno dei tre metodi seguenti. Scegli il più comodo per la tua società.</p>
+
+                    <ol class="list-decimal list-inside text-gray-700 space-y-3 mb-4">
+                        <li><strong>File Locale:</strong> Scarica il file <code class="bg-gray-100 px-1 rounded">backup.json</code> inviato dalla società e caricalo dall'app tramite l'opzione "Carica file" sul telefono.</li>
+                        <li><strong>URL Diretto:</strong> Fornisci un URL pubblico (es. <em>https://tuosito.it/data.json</em>) che i genitori possono incollare nel campo "Carica da URL" dell'app per aggiornare i dati in un click.</li>
+                        <li><strong>Cloud (Google Drive / Dropbox):</strong> Carica il file sul tuo spazio cloud e condividi il link; nell'app usa l'opzione "Carica cloud" e, se disponibile, premi "Converti link" prima di caricare.</li>
+                    </ol>
+
+                    <h3 class="text-lg font-semibold text-navy mb-2">Guida per la Società (Esportazione)</h3>
+                    <p class="text-gray-700 mb-4">Dal software gestionale: vai su <strong>Backup / Esporta</strong>, esporta i dati in formato <code class="bg-gray-100 px-1 rounded">.json</code>, carica il file sul tuo spazio cloud (Google Drive, Dropbox o OneDrive) e invia il link o il file ai genitori. In alternativa, puoi mettere il file nella cartella <code class="bg-gray-100 px-1 rounded">/downloads</code> del sito e comunicare il link diretto.</p>
 
                     <div class="space-y-4">
                         <div class="flex items-start gap-4">
