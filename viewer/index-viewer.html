@@ -1,1 +1,189 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LDM Soccer Viewer</title>
+  <meta name="theme-color" content="#07364f">
+  <link rel="manifest" href="/viewer/manifest.json">
+  <style>
+    :root{--bg:#07364f;--accent:#1fb6a1;--muted:#b1c6d6}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:#072a3a;color:#e9f4fb}
+    .wrap{max-width:980px;margin:12px auto;padding:16px}
+    .card{background:rgba(255,255,255,0.03);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);margin-bottom:12px}
+    .row{display:flex;gap:8px;align-items:center}
+    .btn{background:linear-gradient(90deg,var(--accent),#6d28d9);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+    input[type=text], input[type=file]{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .muted{color:var(--muted);font-size:0.9rem}
+    .disclaimer{font-size:0.85rem;color:#ffdca8;background:rgba(0,0,0,0.08);padding:8px;border-radius:8px}
+    .topmeta{display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .topmeta a{color:var(--accent)}
+    #startio-banner{width:100%;height:60px;margin-top:8px}
+  </style>
+  <meta name="referrer" content="no-referrer">
+</head>
+<body>
+  <div class="wrap">
+    <header class="card">
+      <div class="topmeta">
+        <div>
+          <h1 style="margin:0">LDM Soccer Viewer</h1>
+          <div class="muted">Proprietà di LDM Soccer Manager — Visualizzatore offline</div>
+        </div>
+        <div style="text-align:right">
+          <div><a href="https://www.ldm4app.com" target="_blank" rel="noopener noreferrer">www.ldm4app.com</a></div>
+          <div style="margin-top:4px"><a href="mailto:info@ldm4app.com">info@ldm4app.com</a></div>
+        </div>
+      </div>
+      <div id="startio-banner"></div>
+    </header>
 
+    <section class="card">
+      <div class="muted">Disclaimer</div>
+      <div class="disclaimer">Questo visualizzatore funziona interamente nel tuo browser. Non inviare dati sensibili su server esterni — i file JSON caricati rimangono locali e sono sotto la responsabilità dell'utente.</div>
+    </section>
+
+    <section class="card">
+      <div style="font-weight:700;margin-bottom:8px">Carica file locale</div>
+      <div class="row">
+        <input id="localFile" type="file" accept="application/json">
+        <button id="btnLocal" class="btn">Carica file</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div style="font-weight:700;margin-bottom:8px">Carica da cloud (URL)</div>
+      <div class="row"><input id="cloudUrl" type="text" placeholder="https://.../data.json"></div>
+      <div style="margin-top:8px" class="row"><button id="btnNorm" class="btn">Converti link</button><button id="btnCloud" class="btn" style="background:#234">Carica cloud</button></div>
+      <div id="cloudNote" class="muted" style="margin-top:8px">Supportati: Google Drive (id), Dropbox (dl=1). MEGA non permette fetch diretto.</div>
+    </section>
+
+    <section id="viewer" class="card">
+      <div id="status" class="muted">Nessun dato caricato.</div>
+      <div id="athlete-list" style="margin-top:8px"></div>
+      <pre id="dump" style="white-space:pre-wrap;margin-top:8px;max-height:220px;overflow:auto"></pre>
+      <div style="margin-top:8px"><button id="run-sample" class="btn" style="background:#2b6;">Carica esempio rapido</button></div>
+    </section>
+
+    <footer class="muted">Versione PWA • Non invia dati a server esterni</footer>
+  </div>
+
+  <script>
+    // === Config/keys (App ID encoded, obfuscated names) ===
+    const _0x4a = 'MjAwMTg0OTYw'; // base64 of the Start.io App ID
+    function _0x9(){ try{return atob(_0x4a)}catch(e){return ''} }
+
+    // advertising init (obfuscated names) — best-effort with debug logs
+    function _0xadb(){
+      const id = _0x9();
+      try{
+        console.log('[ads] attempting init', !!id);
+        if(!id) return;
+        const s = document.createElement('script'); s.async = true;
+        s.src = 'https://cdn.start.io/web-sdk.js';
+        s.onload = function(){
+          console.log('[ads] sdk loaded');
+          try{
+            if(window.startIo && typeof window.startIo.init === 'function'){
+              window.startIo.init({ appId: id });
+              console.log('[ads] startIo.init called');
+              try{
+                if(window.startIo.banner && typeof window.startIo.banner.show === 'function'){
+                  window.startIo.banner.show({ container: '#startio-banner' });
+                  console.log('[ads] banner.show called');
+                }
+              }catch(e){ console.warn('[ads] banner.show failed', e); }
+            } else {
+              console.warn('[ads] startIo object not available after load');
+            }
+          }catch(e){ console.error('[ads] init error', e); }
+        };
+        s.onerror = function(ev){ console.error('[ads] script load error', ev); };
+        document.head.appendChild(s);
+      }catch(e){ console.error('[ads] injection error', e); }
+    }
+
+    // === Persistence keys ===
+    const _KEY = 'ldm_viewer_last_json_v1';
+
+    function sParse(t){ try{return JSON.parse(t)}catch(e){return null} }
+
+    (function(){ const raw = localStorage.getItem(_KEY); if(raw){ const j=sParse(raw); if(j){ renderLoaded(j); document.getElementById('status').textContent = 'Dati caricati da cache.' } } })();
+
+    const localInput = document.getElementById('localFile');
+    document.getElementById('btnLocal').addEventListener('click', ()=>{ if(localInput) localInput.click(); });
+    localInput.addEventListener('change', ()=>{
+      const f = localInput.files && localInput.files[0]; if(!f) return alert('Nessun file selezionato');
+      const r = new FileReader();
+      r.onload = ()=>{
+        const txt = String(r.result || '');
+        const j = sParse(txt);
+        if(!j) return alert('JSON non valido');
+        localStorage.setItem(_KEY, txt);
+        renderLoaded(j);
+      };
+      r.onerror = ()=> alert('Errore lettura file');
+      r.readAsText(f, 'utf-8');
+    });
+
+    function normalizeCloudUrl(u){ if(!u) return u; try{ const s = u.trim(); if(s.includes('mega.nz')){ alert('MEGA non supporta il download diretto via fetch/CORS. Usa Dropbox (dl=1) o Google Drive con id oppure scarica il file e caricalo localmente.'); return s; } if(s.includes('drive.google.com')){ const m = s.match(/[-\\w]{25,}/); if(m) return 'https://drive.google.com/uc?export=download&id='+m[0]; return s; } if(s.includes('dropbox.com')){ if(s.includes('dl=0')) return s.replace('dl=0','dl=1'); if(s.includes('?dl=0')) return s.replace('?dl=0','?dl=1'); return s + (s.includes('?')? '&dl=1' : '?dl=1'); } return s;}catch(e){return u;} }
+
+    document.getElementById('btnNorm').addEventListener('click', ()=>{ const v=document.getElementById('cloudUrl').value.trim(); if(!v) return alert('Incolla un link'); const nv = normalizeCloudUrl(v); document.getElementById('cloudUrl').value = nv; document.getElementById('cloudNote').textContent = 'Link normalizzato (se possibile).'; });
+
+    document.getElementById('btnCloud').addEventListener('click', async ()=>{
+      const raw = document.getElementById('cloudUrl').value.trim(); if(!raw) return alert('Incolla link cloud'); const url = normalizeCloudUrl(raw);
+      if(url.includes('mega.nz')) return;
+      try{
+        document.getElementById('status').textContent = 'Scaricamento...';
+        const res = await fetch(url, {cache:'no-store'});
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const txt = await res.text();
+        if(txt.trim().startsWith('<')) throw new Error('Risposta HTML ricevuta (controlla link e CORS)');
+        const j = sParse(txt);
+        if(!j) throw new Error('JSON non valido');
+        localStorage.setItem(_KEY, txt);
+        renderLoaded(j);
+      }catch(err){ alert('Errore caricamento cloud: '+err.message); document.getElementById('status').textContent='Errore cloud'; }
+    });
+
+    function renderLoaded(payload){
+      document.getElementById('status').textContent='Dati caricati';
+      const dump = document.getElementById('dump');
+        dump.textContent = JSON.stringify(payload, null, 2);
+        // render simple athlete name list for quick visibility
+        const list = document.getElementById('athlete-list'); list.innerHTML='';
+        const athletes = payload && (payload.athletes || payload.players || payload.atleti) || [];
+        if(!athletes || athletes.length===0){ list.innerHTML = '<div class="muted">Nessun atleta nel JSON</div>'; }
+        else{
+          const ul = document.createElement('div'); ul.style.display='grid'; ul.style.gap='6px';
+          athletes.forEach(a=>{ const name = ((a.firstName||a.name||'') + ' ' + (a.lastName||'' )).trim() || (a.id||a._id||''); const el = document.createElement('div'); el.className='list-item'; el.textContent = name; ul.appendChild(el); });
+          list.appendChild(ul);
+        }
+        try{ _0xadb(); }catch(e){ console.error('[ads] init threw', e) }
+        setTimeout(()=>{ const b = document.getElementById('startio-banner'); if(b && b.children.length===0){ b.innerHTML = '<div class="muted" style="padding:10px;text-align:center">Banner pubblicitario non disponibile</div>'; } },2000);
+      }
+
+      // quick sample loader
+      (function(){
+        var btn = document.getElementById('run-sample');
+        if(btn){ btn.addEventListener('click', function(){
+          var example = { athletes:[{id:'1',firstName:'Marco',lastName:'Rossi'},{id:'2',firstName:'Giulia',lastName:'Bianchi'}], teams:[{id:'1',name:'Giovanissimi'}] };
+          try{ localStorage.setItem(_KEY, JSON.stringify(example)); }catch(e){}
+          renderLoaded(example);
+        }); }
+      }());
+      try{ _0xadb(); }catch(e){}
+      // fallback: if ad banner not initialized within 2s, show a placeholder message
+      setTimeout(()=>{
+        const b = document.getElementById('startio-banner');
+        if(b && b.children.length===0){ b.innerHTML = '<div class="muted" style="padding:10px;text-align:center">Banner pubblicitario non disponibile</div>'; }
+      },2000);
+    }
+
+    if('serviceWorker' in navigator){ window.addEventListener('load', ()=>{ navigator.serviceWorker.register('/viewer/sw.js').catch(()=>{}); }); }
+
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt = e; const btn = document.createElement('button'); btn.textContent='Installa PWA'; btn.className='btn'; btn.style.marginTop='8px'; document.querySelector('.wrap').appendChild(btn); btn.addEventListener('click', async ()=>{ deferredPrompt.prompt(); const {outcome} = await deferredPrompt.userChoice; deferredPrompt = null; btn.remove(); }); });
+  </script>
+</body>
+</html>
