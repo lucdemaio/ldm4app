@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="it">
 <head>
   <meta charset="utf-8" />
@@ -107,6 +107,7 @@
     const _KEY = 'ldm_viewer_last_json_v1';
 
     function sParse(t){ try{return JSON.parse(t)}catch(e){return null} }
+      function sParse(t){ try{return JSON.parse(t)}catch(e){ console.error('[viewer] JSON parse error', e); try{ console.debug('[viewer] JSON snippet:', String(t).slice(0,400)); }catch(_){}; return null } }
 
     (function(){ const raw = localStorage.getItem(_KEY); if(raw){ const j=sParse(raw); if(j){ renderLoaded(j); document.getElementById('status').textContent = 'Dati caricati da cache.' } } })();
 
@@ -178,12 +179,76 @@
         const b = document.getElementById('startio-banner');
         if(b && b.children.length===0){ b.innerHTML = '<div class="muted" style="padding:10px;text-align:center">Banner pubblicitario non disponibile</div>'; }
       },2000);
-    }
 
     if('serviceWorker' in navigator){ window.addEventListener('load', ()=>{ navigator.serviceWorker.register('/viewer/sw.js').catch(()=>{}); }); }
 
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt = e; const btn = document.createElement('button'); btn.textContent='Installa PWA'; btn.className='btn'; btn.style.marginTop='8px'; document.querySelector('.wrap').appendChild(btn); btn.addEventListener('click', async ()=>{ deferredPrompt.prompt(); const {outcome} = await deferredPrompt.userChoice; deferredPrompt = null; btn.remove(); }); });
-  </script>
+    </script>
+
+    <!-- Fallback handlers: ensure buttons work even if previous JS failed -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+        function safe(id){ return document.getElementById(id); }
+        // Run sample
+        const runBtn = safe('run-sample');
+        if(runBtn){
+          runBtn.addEventListener('click', function(){
+            try{
+              const example = { athletes:[{id:'1',firstName:'Marco',lastName:'Rossi'},{id:'2',firstName:'Giulia',lastName:'Bianchi'}], teams:[{id:'1',name:'Giovanissimi'}] };
+              try{ localStorage.setItem(typeof _KEY==='string'? _KEY : 'ldm_viewer_last_json_v1', JSON.stringify(example)); }catch(e){}
+              if(typeof renderLoaded==='function') renderLoaded(example); else console.warn('renderLoaded not defined');
+            }catch(e){ console.error('run-sample error', e); }
+          });
+        }
+
+        // Local file
+        const localFile = safe('localFile');
+        const btnLocal = safe('btnLocal');
+        if(btnLocal && localFile){
+          btnLocal.addEventListener('click', ()=> localFile.click());
+          localFile.addEventListener('change', (ev)=>{
+            const f = localFile.files && localFile.files[0];
+            if(!f){ alert('Nessun file selezionato'); return; }
+            const r = new FileReader();
+            r.onload = ()=>{
+              try{
+                const txt = String(r.result || '');
+                let j = null;
+                if(typeof sParse === 'function') j = sParse(txt); else j = JSON.parse(txt);
+                if(!j){ alert('JSON non valido'); return; }
+                try{ localStorage.setItem(typeof _KEY==='string'? _KEY : 'ldm_viewer_last_json_v1', txt); }catch(e){}
+                if(typeof renderLoaded === 'function') renderLoaded(j);
+              }catch(err){ console.error('file parse error', err); alert('Errore parsing JSON: '+(err && err.message)); }
+            };
+            r.onerror = (ev)=>{ console.error('FileReader error', ev); alert('Errore lettura file'); };
+            r.readAsText(f,'utf-8');
+          });
+        }
+
+        // Cloud load
+        const btnCloud = safe('btnCloud');
+        const cloudUrl = safe('cloudUrl');
+        if(btnCloud && cloudUrl){
+          btnCloud.addEventListener('click', async function(){
+            const raw = cloudUrl.value.trim();
+            if(!raw) return alert('Incolla link cloud');
+            const url = (typeof normalizeCloudUrl === 'function')? normalizeCloudUrl(raw) : raw;
+            if(url.includes('mega.nz')){ alert('MEGA non supporta il download diretto via fetch. Scarica il file e caricalo localmente o usa Dropbox/Google Drive.'); return; }
+            try{
+              const res = await fetch(url, {cache:'no-store'});
+              if(!res.ok) throw new Error('HTTP '+res.status);
+              const txt = await res.text();
+              if(txt.trim().startsWith('<')){ alert('Risposta HTML ricevuta (controlla link e CORS)'); return; }
+              const j = (typeof sParse === 'function')? sParse(txt) : JSON.parse(txt);
+              if(!j){ alert('JSON non valido ricevuto dal cloud'); return; }
+              try{ localStorage.setItem(typeof _KEY==='string'? _KEY : 'ldm_viewer_last_json_v1', txt); }catch(e){}
+              if(typeof renderLoaded === 'function') renderLoaded(j);
+            }catch(err){ console.error('cloud load error', err); alert('Errore caricamento cloud: '+(err && err.message)); }
+          });
+        }
+      });
+    </script>
+
 </body>
 </html>
