@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <title>LDM Soccer Manager — Viewer</title>
+    <meta name="description" content="Viewer mobile per LDM Soccer Manager">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <style>
+        :root{ --bg:#07364f; --panel:#0a3f57; --card: rgba(255,255,255,0.035); --glass-border: rgba(255,255,255,0.07); --accent:#1fb6a1; --accent-2:#6d28d9; --muted:#b1c6d6; --danger:#ef4444 }
+        html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#07364f,#0a4b66);color:#e9f4fb}
+        .app{max-width:900px;margin:10px auto;padding:14px}
+        header{display:flex;align-items:center;gap:12px}
+        .brand{font-weight:800;font-size:1.1rem}
+        .banner{font-size:0.78rem;color:var(--muted)}
+        .tabs{display:flex;gap:8px;margin:14px 0}
+        .tab{flex:1;padding:10px;border-radius:12px;text-align:center;cursor:pointer;background:transparent;border:1px solid transparent}
+        .tab.active{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border)}
+        .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;padding:12px;border:1px solid var(--glass-border);margin-bottom:12px}
+        .muted{color:var(--muted)}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:none;cursor:pointer}
+        .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+        .search{width:100%;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+        .list-item{padding:10px;border-radius:10px;margin-bottom:8px;background:transparent}
+        .avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700}
+        .expired{animation:pulseRed 1.6s infinite;box-shadow:0 10px 30px rgba(239,68,68,0.18)}
+        @keyframes pulseRed{0%{transform:translateY(0)}50%{transform:translateY(-3px)}100%{transform:translateY(0)}}
+        .hidden{display:none}
+        /* ensure content doesn't hide behind bottom banner */
+        body{padding-bottom:88px}
+        #startio-banner{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;align-items:center;justify-content:center;height:68px}
+        #startio-banner .inner{max-width:900px;width:100%;padding:10px 14px}
+        .team-accordion{margin-top:8px}
+        .team-header{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
+        .team-children{margin-top:8px;padding:8px}
+        .calendar-item{display:flex;justify-content:space-between;align-items:flex-start;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);margin-bottom:8px}
+        .gcal{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:6px 8px;border-radius:8px;cursor:pointer}
+        .gcal:hover{color:white;border-color:var(--accent)}
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header>
+            <div>
+                <div class="brand">LDM Soccer Manager Viewer</div>
+                <div class="banner">Proprietà di LDM Soccer Manager</div>
+                <div class="muted" style="font-size:0.85rem;margin-top:6px">Creato da <a href="https://www.ldm4app.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">www.ldm4app.com</a> • <a href="mailto:info@ldm4app.com" style="color:var(--muted)">info@ldm4app.com</a></div>
+            </div>
+            <div style="margin-left:auto"><button id="btnLoad" class="btn"><i class="fa-solid fa-cloud-arrow-down"></i> Carica esempio</button></div>
+        </header>
+
+        <div id="fetchStatus" class="card muted">Stato fetch: in attesa</div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="home">Home</div>
+            <div class="tab" data-tab="athlete">Atleta</div>
+            <div class="tab" data-tab="team">Squadra</div>
+            <div class="tab" data-tab="transports">Trasporti</div>
+        </div>
+
+        <div id="panel-home" class="card">
+            <div style="display:flex;gap:10px;align-items:center">
+                <input id="athlete-search" class="search" placeholder="Cerca atleta (es. Marco Rossi)">
+                <button id="search-btn" class="btn">Cerca</button>
+            </div>
+            <div id="recent" style="margin-top:12px"></div>
+            <div class="card" style="margin-top:12px">
+                <div style="font-weight:700;margin-bottom:6px">Sorgente dati cloud</div>
+                <input id="cloud-url" class="search" placeholder="Incolla link Google Drive / Dropbox / MEGA qui">
+                <div style="margin-top:8px;display:flex;gap:8px"><button id="load-cloud-btn" class="btn">Carica cloud</button><button id="normalize-btn" class="btn secondary">Converti link</button></div>
+                <div id="cloud-note" class="muted" style="margin-top:8px">Incolla il link di condivisione e premi "Converti link" prima di Carica.</div>
+            </div>
+        </div>
+
+        <div id="panel-athlete" class="card hidden">
+            <div id="athlete-profile">Seleziona un atleta.</div>
+        </div>
+
+        <div id="panel-team" class="card hidden">
+            <div style="margin-bottom:8px">
+                <select id="team-filter" style="width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)">
+                    <option value="">Tutte le squadre</option>
+                </select>
+            </div>
+            <div id="calendar"></div>
+        </div>
+
+        <div id="panel-transports" class="card hidden">
+            <pre id="transportsList" class="muted">Nessun dato trasporti.</pre>
+        </div>
+
+        <div class="card">
+            <div style="margin-bottom:8px">Carica file locale</div>
+            <input id="local-file" type="file" accept="application/json">
+            <button id="load-local-btn" class="btn" style="margin-left:8px">Carica file</button>
+        </div>
+
+        <div class="card">
+            <div style="margin-bottom:8px">Carica da URL</div>
+            <input id="data-url" class="search" placeholder="https://.../data.json">
+            <div style="margin-top:8px;display:flex;gap:8px"><button id="load-btn" class="btn">Carica URL</button><button id="run-test-btn" class="btn">Carica esempio interno</button></div>
+        </div>
+    </div>
+
+    <!-- bottom sticky banner container -->
+    <div id="startio-banner"><div class="inner">Banner placeholder</div></div>
+
+    <script>
+        const CANDIDATE_PATHS = ['../data/sample-data.json','/data/sample-data.json','data/sample-data.json']
+        let currentData = { athletes: [], teams: [], calendar: [] }
+
+        function setFetchStatus(t){ const el = document.getElementById('fetchStatus'); if(el) el.textContent = 'Stato fetch: ' + t }
+
+        async function tryLoadCandidates(){
+            for(const u of CANDIDATE_PATHS){
+                try{
+                    const res = await fetch(u,{cache:'no-store'});
+                    document.getElementById('fetchStatus').textContent = 'Tentativo: '+u+' → '+res.status;
+                    if(!res.ok) continue;
+                    const txt = await res.text();
+                    if(txt.trim().startsWith('<')){ console.warn('HTML response for',u); continue }
+                    const j = JSON.parse(txt);
+                    loadIntoViewer(j);
+                    return true;
+                }catch(e){ console.warn('err',u,e) }
+            }
+            setFetchStatus('fallito');
+            return false;
+        }
+
+        function loadIntoViewer(j){ currentData = j || {}; if(!currentData.athletes) currentData.athletes=[]; if(!currentData.teams) currentData.teams=[]; if(!currentData.calendar) currentData.calendar=[]; renderRecent(); populateTeamFilter(); renderCalendar(); renderTransports(); setFetchStatus('caricato ('+(currentData.athletes.length||0)+' atleti)') }
+
+        function renderRecent(){ const el=document.getElementById('recent'); el.innerHTML=''; const teams = (currentData.teams||[]).slice(); const athletes = (currentData.athletes||[]).slice(); const byTeam = new Map(); athletes.forEach(a=>{ const id = String(a.teamId||a.team||'')||'_none'; if(!byTeam.has(id)) byTeam.set(id,[]); byTeam.get(id).push(a) }); teams.forEach(t=>{ const id=String(t.id||t.teamId||t.name||''); if(!byTeam.has(id)) byTeam.set(id,[]) }); const acc=document.createElement('div'); acc.className='team-accordion'; (currentData.teams||[]).forEach(t=>{ const id=String(t.id||t.teamId||t.name||''); const name=t.name||t.label||id; const header=document.createElement('div'); header.className='team-header'; header.innerHTML=`<div><strong>${name}</strong><div class=\"muted\">${(byTeam.get(id)||[]).length} atleti</div></div><div><i class=\"fa-solid fa-chevron-down\"></i></div>`; const children=document.createElement('div'); children.className='team-children'; children.style.display='none'; const list = byTeam.get(id)||[]; if(list.length===0){ children.innerHTML='<div class=\"muted\">Nessun atleta</div>' } else { list.forEach(a=>{ const row=document.createElement('div'); row.className='list-item'; row.innerHTML=`<div style=\"display:flex;gap:10px;align-items:center\"><div class=\"avatar\">${initials(a)}</div><div style=\"flex:1\"><strong>${displayName(a)}</strong><div class=\"muted\">${a.role||''}</div></div><div><button class=\"btn\" data-id=\"${escapeAttr(a.id||a._id||'')}\">Apri</button></div></div>`; children.appendChild(row) }) } header.addEventListener('click', ()=>{ const open = children.style.display!=='none'; children.style.display = open? 'none':'block'; header.querySelector('i').classList.toggle('fa-rotate-180', !open); }); acc.appendChild(header); acc.appendChild(children); }); const unassigned = byTeam.get('_none')||[]; if(unassigned.length>0){ const header=document.createElement('div'); header.className='team-header'; header.innerHTML=`<div><strong>Senza squadra</strong><div class=\"muted\">${unassigned.length} atleti</div></div><div><i class=\"fa-solid fa-chevron-down\"></i></div>`; const children=document.createElement('div'); children.className='team-children'; children.style.display='none'; unassigned.forEach(a=>{ const row=document.createElement('div'); row.className='list-item'; row.innerHTML=`<div style=\"display:flex;gap:10px;align-items:center\"><div class=\"avatar\">${initials(a)}</div><div style=\"flex:1\"><strong>${displayName(a)}</strong><div class=\"muted\">${a.role||''}</div></div><div><button class=\"btn\" data-id=\"${escapeAttr(a.id||a._id||'')}\">Apri</button></div></div>`; children.appendChild(row) }); header.addEventListener('click', ()=>{ children.style.display = children.style.display==='none' ? 'block' : 'none'; header.querySelector('i').classList.toggle('fa-rotate-180'); }); acc.appendChild(header); acc.appendChild(children); }
+            el.appendChild(acc);
+            el.addEventListener('click', function(e){
+                try{
+                    const btn = e.target && e.target.closest ? e.target.closest('button[data-id]') : null;
+                    if(btn) openAthleteById(btn.getAttribute('data-id'));
+                }catch(_){ }
+            });
+        }
+
+        function initials(a){ const fn=a.firstName||a.name||''; const ln=a.lastName||''; return ((fn[0]||'')+(ln[0]||'')).toUpperCase() }
+        function displayName(a){ return ((a.firstName||a.name||'')+' '+(a.lastName||'')).trim() }
+        function escapeAttr(s){ return String(s||'').replace(/\"/g,'') }
+
+        function openAthleteById(id){ const a=(currentData.athletes||[]).find(x=>String(x.id||x._id)==String(id)); if(!a){ alert('Atleta non trovato'); return } setActiveTab('athlete'); renderAthleteProfile_v2(a) }
+
+        function renderAthleteProfile(a){ const container=document.getElementById('athlete-profile'); container.innerHTML=''; const med=a.medicalExpiry||a.medical||a.medical_expiry||''; let expired=false; if(med){ const md=new Date(med); if(!isNaN(md)) expired = md < new Date() } const card=document.createElement('div'); card.className='card'; if(expired) card.classList.add('expired'); card.innerHTML=`<div style=\"display:flex;gap:12px;align-items:center\"><div class=\"avatar\">${initials(a)}</div><div style=\"flex:1\"><strong>${displayName(a)}</strong><div class=\"muted\">${a.role||''}</div><div style=\"margin-top:8px\" class=\"muted\">Visita medica: ${med?med:'Non presente'}</div></div></div><div style=\"margin-top:10px\">Note: ${a.notes||''}</div>`; container.appendChild(card); const evs=(currentData.calendar||[]).filter(ev=>String(ev.teamId||ev.team||'')===String(a.teamId||a.team||'')); const evWrap=document.createElement('div'); evWrap.className='card'; evWrap.innerHTML='<div class=\"muted\">I tuoi impegni</div>'; if(evs.length===0) evWrap.innerHTML+='<div class=\"muted\">Nessun evento</div>'; else{ evs.forEach(ev=>{ const d=document.createElement('div'); d.className='list-item'; d.innerHTML=`<strong>${ev.title||ev.type||'Evento'}</strong><div class=\"muted\">${ev.date||ev.datetime||''} ${ev.time||''} • ${ev.location||''}</div>`; evWrap.appendChild(d) }) } container.appendChild(evWrap) }
+
+        // New, more tolerant athlete renderer (keeps the original intact for safety)
+        function renderAthleteProfile_v2(a){
+            const container = document.getElementById('athlete-profile');
+            container.innerHTML = '';
+            const med = a.medicalExpiry || a.medical || a.medical_expiry || '';
+            let expired = false;
+            if (med){ const md = new Date(med); if(!isNaN(md)) expired = md < new Date(); }
+            const card = document.createElement('div'); card.className = 'card'; if(expired) card.classList.add('expired');
+            const birth = a.birthDate || a.birthday || a.dob || '';
+            const created = a.createdAt || a.created || '';
+            const active = (typeof a.active !== 'undefined') ? (a.active ? 'Sì' : 'No') : '';
+            card.innerHTML = `
+                <div style="display:flex;gap:12px;align-items:center">
+                    <div class="avatar">${initials(a)}</div>
+                    <div style="flex:1">
+                        <strong>${displayName(a)}</strong>
+                        <div class="muted">${a.role||''}</div>
+                        <div style="margin-top:6px" class="muted">Nato: ${birth}</div>
+                        <div style="margin-top:6px" class="muted">Attivo: ${active}</div>
+                        <div style="margin-top:6px" class="muted">Visita medica: ${med?med:'Non presente'}</div>
+                    </div>
+                </div>
+                <div style="margin-top:10px">Note: ${a.notes||''}</div>
+                <div style="margin-top:10px" class="muted">Creato: ${created}</div>
+            `;
+            container.appendChild(card);
+            const evs = (currentData.calendar || []).filter(ev => String(ev.teamId || ev.team || '') === String(a.teamId || a.team || ''));
+            const evWrap = document.createElement('div'); evWrap.className = 'card'; evWrap.innerHTML = '<div class="muted">I tuoi impegni</div>';
+            if(evs.length === 0) evWrap.innerHTML += '<div class="muted">Nessun evento</div>';
+            else { evs.forEach(ev => { const d = document.createElement('div'); d.className = 'list-item'; d.innerHTML = `<strong>${ev.title||ev.type||'Evento'}</strong><div class="muted">${ev.date||ev.datetime||''} ${ev.time||''} • ${ev.location||''}</div>`; evWrap.appendChild(d); }) }
+            container.appendChild(evWrap);
+            const pre = document.createElement('pre'); pre.style.marginTop='8px'; pre.style.maxHeight='220px'; pre.style.overflow='auto'; pre.textContent = JSON.stringify(a,null,2); container.appendChild(pre);
+        }
+
+        function populateTeamFilter(){ const sel=document.getElementById('team-filter'); if(!sel) return; const firstOpt=sel.querySelector('option'); sel.innerHTML=''; sel.appendChild(firstOpt); const map=new Map(); (currentData.teams||[]).forEach(t=>{ const id=t.id||t.teamId||t.name; const name=t.name||t.label||id; if(id) map.set(String(id),name) }); (currentData.calendar||[]).forEach(ev=>{ const id=ev.teamId||ev.team||ev.teamName||''; const name=ev.teamName||id; if(id||name) map.set(String(id||name),name) }); map.forEach((name,id)=>{ const opt=document.createElement('option'); opt.value=id; opt.textContent=name; sel.appendChild(opt) }) }
+
+        function renderCalendar(){ const container=document.getElementById('calendar'); container.innerHTML=''; const cal=(currentData.calendar||[]); if(cal.length===0){ container.innerHTML='<div class=\"muted\">Nessun evento</div>'; return } const sel=document.getElementById('team-filter'); const filter=sel?sel.value:''; const items=cal.map(ev=>{ const dt=parseDateTime((ev.date||ev.datetime||'')+' '+(ev.time||'')); return {ev,dt} }).sort((a,b)=>a.dt-b.dt); const filtered=items.filter(x=>{ if(!filter) return true; const id=x.ev.teamId||x.ev.team||x.ev.teamName||''; return String(id)===filter||String(x.ev.teamName||'').includes(filter) }); if(filtered.length===0){ container.innerHTML='<div class=\"muted\">Nessun evento per la squadra selezionata</div>'; return } filtered.forEach(x=>{ container.appendChild(renderCalendarItem(x.ev)) }) }
+
+        function gcalLinkForEvent(ev){ const title = ev.title || ev.type || 'Evento'; const loc = ev.location || ''; const desc = ev.description || ev.notes || ''; const start = parseDateTime((ev.date||ev.datetime||'')+' '+(ev.time||'')); if(isNaN(start) || start.getTime()===0) return null; const end = new Date(start.getTime() + (ev.durationMinutes? ev.durationMinutes*60000 : 90*60000)); function fmt(d){ const yyyy=d.getUTCFullYear(); const mm=String(d.getUTCMonth()+1).padStart(2,'0'); const dd=String(d.getUTCDate()).padStart(2,'0'); const hh=String(d.getUTCHours()).padStart(2,'0'); const min=String(d.getUTCMinutes()).padStart(2,'0'); const ss=String(d.getUTCSeconds()).padStart(2,'0'); return `${yyyy}${mm}${dd}T${hh}${min}${ss}Z`; } const dates = fmt(start)+'/'+fmt(end); const params = new URLSearchParams({ action:'TEMPLATE', text:title, dates:dates, details:desc, location:loc }); return 'https://www.google.com/calendar/render?'+params.toString(); }
+
+        function renderCalendarItem(ev){ const wrap=document.createElement('div'); wrap.className='calendar-item'; const left=document.createElement('div'); left.innerHTML=`<div><strong>${ev.title||ev.type||'Evento'}</strong><div class=\"muted\">${ev.date||ev.datetime||''} ${ev.time||''} • ${ev.location||''}</div></div>`; const right=document.createElement('div'); const showBtn=document.createElement('button'); showBtn.className='btn secondary'; showBtn.textContent='Mostra'; showBtn.addEventListener('click', ()=>{ document.getElementById('team-filter').value = String(ev.teamId||ev.team||ev.teamName||''); renderCalendar(); setActiveTab('team'); }); right.appendChild(showBtn);
+            const gcalUrl = gcalLinkForEvent(ev);
+            if(gcalUrl){ const g=document.createElement('a'); g.className='gcal'; g.textContent='Aggiungi a Google Calendar'; g.href = gcalUrl; g.target='_blank'; g.rel='noopener noreferrer'; g.style.marginLeft='8px'; right.appendChild(g) }
+            wrap.appendChild(left); wrap.appendChild(right); return wrap }
+
+        function renderTransports(){ const el=document.getElementById('transportsList'); const t=currentData.trasporti||currentData.transports||currentData.cars||currentData.transport||[]; el.textContent=JSON.stringify(t,null,2) }
+
+        function parseDateTime(s){ if(!s) return new Date(0); try{ const t=s.toString().trim(); const iso=t.replace(' ','T'); const d=new Date(iso); if(!isNaN(d)) return d; return new Date(0) }catch(e){ return new Date(0) } }
+
+        function setActiveTab(name){ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.getAttribute('data-tab')===name)); document.getElementById('panel-home').classList.toggle('hidden', name!=='home'); document.getElementById('panel-athlete').classList.toggle('hidden', name!=='athlete'); document.getElementById('panel-team').classList.toggle('hidden', name!=='team'); document.getElementById('panel-transports').classList.toggle('hidden', name!=='transports') }
+
+        document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', ()=> setActiveTab(t.getAttribute('data-tab'))))
+        document.getElementById('btnLoad').addEventListener('click', ()=> tryLoadCandidates())
+        document.getElementById('run-test-btn').addEventListener('click', ()=>{ const example={ athletes:[{id:'1',firstName:'Marco',lastName:'Rossi',role:'Portiere',teamId:'1',medicalExpiry:'2026-03-20'}], teams:[{id:'1',name:'Giovanissimi 2010'}], calendar:[{id:'1',type:'training',title:'Allenamento Tecnico',date:'2026-01-10',time:'17:00',teamId:'1',location:'Campo Comunale'}] }; loadIntoViewer(example) })
+        document.getElementById('load-btn').addEventListener('click', async ()=>{ const raw=document.getElementById('data-url').value.trim(); if(!raw) return alert('Inserisci URL'); const url = normalizeCloudUrl(raw); try{ const r = await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); const j = await r.json(); loadIntoViewer(j); }catch(e){ alert('Errore caricamento: '+e.message) } })
+        const localFileInput = document.getElementById('local-file');
+        if(localFileInput){
+            localFileInput.addEventListener('change', ()=>{ const f = localFileInput.files[0]; if(f) readLocalFile(f); });
+        }
+        document.getElementById('load-local-btn').addEventListener('click', ()=>{
+            if(localFileInput){
+                if((localFileInput.files||[]).length===0){ localFileInput.click(); return }
+                const f = localFileInput.files[0]; if(!f) return alert('Seleziona file'); readLocalFile(f)
+            } else {
+                alert('Input file non disponibile');
+            }
+        })
+        document.getElementById('search-btn').addEventListener('click', ()=>{ const q=document.getElementById('athlete-search').value.trim(); if(!q) return alert('Inserisci query'); const a=findAthleteByName(q); if(!a) return alert('Atleta non trovato'); setActiveTab('athlete'); renderAthleteProfile_v2(a) })
+        document.getElementById('team-filter').addEventListener('change', ()=> renderCalendar())
+
+        function normalizeCloudUrl(raw){ if(!raw) return raw; try{ const u = raw.trim(); const gd1 = u.match(/drive.google.com\/file\/d\/([a-zA-Z0-9_-]+)/); if(gd1) return 'https://drive.google.com/uc?export=download&id='+gd1[1]; const gd2 = u.match(/[?&]id=([a-zA-Z0-9_-]+)/); if(u.includes('drive.google.com') && gd2) return 'https://drive.google.com/uc?export=download&id='+gd2[1]; if(u.includes('dropbox.com')){ if(u.includes('dl=0')) return u.replace('dl=0','dl=1'); if(u.includes('?dl=0')) return u.replace('?dl=0','?dl=1'); return u + (u.includes('?')? '&dl=1' : '?dl=1'); } if(u.includes('mega.nz')){ if(u.includes('#')) return u; return u; } return u; }catch(e){ return raw } }
+
+        document.getElementById('normalize-btn').addEventListener('click', ()=>{ const raw=document.getElementById('cloud-url').value.trim(); if(!raw) return alert('Incolla un link prima'); const converted = normalizeCloudUrl(raw); document.getElementById('cloud-url').value = converted; document.getElementById('cloud-note').textContent = 'Link convertito (se possibile). Premi Carica cloud.' })
+        document.getElementById('load-cloud-btn').addEventListener('click', async ()=>{ const raw=document.getElementById('cloud-url').value.trim(); if(!raw) return alert('Incolla link cloud'); const url = normalizeCloudUrl(raw); try{ setFetchStatus('caricamento da cloud...'); const r = await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); const j = await r.json(); loadIntoViewer(j); }catch(e){ alert('Errore caricamento cloud: '+e.message); setFetchStatus('errore cloud') } })
+
+        function readLocalFile(file){ const reader=new FileReader(); reader.onload=()=>{ try{ const j=JSON.parse(reader.result); loadIntoViewer(j) }catch(e){ alert('JSON non valido: '+e.message) } }; reader.onerror=()=>alert('Errore lettura file'); reader.readAsText(file) }
+
+        function findAthleteByName(q){ if(!q) return null; q=q.toLowerCase(); const list=currentData.athletes||[]; return list.find(a=> ((a.firstName||a.name||'')+' '+(a.lastName||'')).toLowerCase().includes(q) ) }
+
+        window.addEventListener('load', ()=>{ setTimeout(()=>{ tryLoadCandidates() },150) })
+
+        // Start.io ad init: debug + graceful fallback (banner inserted into bottom container)
+        (function(){
+            console.log('[ads] init start');
+            function showFallbackBanner(){
+                try{
+                    const el=document.getElementById('startio-banner');
+                    if(!el) return;
+                    el.innerHTML = '<div class="inner" style="border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#012;display:flex;align-items:center;justify-content:center;font-weight:700">Banner LDM — Proprietà di LDM Soccer Manager</div>';
+                }catch(e){ console.error('[ads] fallback error',e) }
+            }
+
+            try{
+                const b64='MjAwMTg0OTYw';
+                function b64d(s){ try{ return atob(s) }catch(e){ console.warn('[ads] b64 decode failed',e); return null } }
+                const appId = b64d(b64);
+                if(!appId){ console.warn('[ads] no appId'); showFallbackBanner(); return; }
+
+                const sdkUrl = 'https://d2cn8up7q2yjbo.cloudfront.net/web-sdk.js';
+                const scr = document.createElement('script');
+                scr.src = sdkUrl; scr.async = true;
+                scr.onload = function(){
+                    console.log('[ads] SDK loaded');
+                    try{
+                        if(window.startIo && typeof window.startIo.init === 'function'){
+                            window.startIo.init({ appId: appId });
+                            console.log('[ads] startIo.init called');
+                            try{
+                                if(window.startIo.banner && typeof window.startIo.banner.show === 'function'){
+                                    window.startIo.banner.show({ container: '#startio-banner .inner' });
+                                    console.log('[ads] banner.show called');
+                                }else{
+                                    console.warn('[ads] banner API missing'); showFallbackBanner();
+                                }
+                            }catch(e){ console.warn('[ads] banner.show failed',e); showFallbackBanner(); }
+                        } else {
+                            console.warn('[ads] startIo not available'); showFallbackBanner();
+                        }
+                    }catch(e){ console.error('[ads] init error',e); showFallbackBanner(); }
+                };
+                scr.onerror = function(){ console.warn('[ads] SDK failed to load'); showFallbackBanner(); };
+                document.head.appendChild(scr);
+            }catch(e){ console.error('[ads] unexpected',e); showFallbackBanner(); }
+        })();
+    </script>
+</body>
+</html>
