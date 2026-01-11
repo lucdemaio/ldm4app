@@ -1,0 +1,9 @@
+{
+  "name": "LDM Soccer Viewer",
+  "short_name": "LDM Viewer",
+  "start_url": "/viewer/index-viewer.html",
+  "display": "standalone",
+  "background_color": "#07364f",
+  "theme_color": "#07364f",
+  "icons": []
+}
