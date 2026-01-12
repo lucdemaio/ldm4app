@@ -1,6 +1,150 @@
 ﻿<!doctype html>
 <html lang="it">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LDM Soccer Manager — Viewer</title>
+  <meta name="description" content="Viewer per backup LDM Soccer Manager - atleti, squadre, eventi">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root{ --bg:#041825; --panel:#06293a; --card:#07364f; --muted:#9fb6c6; --accent:#1fb6a1; --danger:#ef4444; color-scheme: dark }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,var(--bg),#04293a);color:#e6f6fa}
+    .app{max-width:1100px;margin:10px auto;padding:18px}
+    header{display:flex;align-items:center;gap:12px}
+    .brand{font-weight:800;font-size:1.1rem}
+    .muted{color:var(--muted)}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:10px;padding:12px;border:1px solid rgba(255,255,255,0.04);margin-bottom:12px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:14px}
+    .list-item{padding:10px;border-radius:10px;margin-bottom:8px;background:transparent;display:flex;align-items:center;gap:10px}
+    .avatar{width:44px;height:44px;border-radius:8px;background:linear-gradient(90deg,var(--accent),#6d28d9);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:var(--accent);color:#012;border:none;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    input.search, select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    pre.debug{max-height:220px;overflow:auto;background:#032033;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+    .expired{color:var(--danger);font-weight:700}
+    footer{margin-top:12px;text-align:center;color:var(--muted);font-size:0.85rem}
+    @media(max-width:900px){ .grid{grid-template-columns:1fr} .app{padding:12px} }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <div class="brand">LDM Soccer Manager — Viewer</div>
+        <div class="muted" style="font-size:0.85rem;margin-top:6px">Visualizzatore dei backup JSON — persistente offline</div>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+        <button id="btnLoadSample" class="btn secondary">Carica esempio</button>
+        <button id="btnClear" class="btn secondary">Svuota cache</button>
+      </div>
+    </header>
+
+    <div style="height:8px"></div>
+
+    <div class="grid">
+      <div>
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:center;justify-content:space-between">
+            <div><strong>Carica backup JSON</strong><div class="muted" style="font-size:0.9rem">Seleziona file locale o incolla URL</div></div>
+            <div>
+              <input id="file-input" type="file" accept="application/json" style="display:none">
+              <button id="btnChoose" class="btn secondary">Scegli file</button>
+            </div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <input id="url-input" class="search" placeholder="https://.../soccermanager-backup-2026-01-11.json">
+            <button id="btnLoadUrl" class="btn">Carica URL</button>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <label class="muted" style="flex:0 0 110px">Filtro squadra</label>
+            <select id="team-filter" style="flex:1"></select>
+          </div>
+        </div>
+
+        <div id="athletesCard" class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>Atleti</strong>
+            <div class="muted" id="athlete-count">—</div>
+          </div>
+          <div id="athlete-list" style="margin-top:10px"></div>
+        </div>
+
+        <div id="eventsCard" class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>Prossimi eventi</strong>
+            <div class="muted" id="events-count">—</div>
+          </div>
+          <div id="events-list" style="margin-top:10px"></div>
+        </div>
+
+      </div>
+
+      <aside>
+        <div class="card">
+          <strong>Squadre</strong>
+          <div id="teams-list" style="margin-top:10px"></div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <strong>Dati grezzi (debug)</strong>
+          <pre id="raw-json" class="debug">Nessun dato caricato</pre>
+        </div>
+      </aside>
+    </div>
+
+    <footer>Salvato in localStorage come <code>ldm_viewer_last_json_v1</code> — offline pronto</footer>
+  </div>
+
+  <script>
+    const LS_KEY = 'ldm_viewer_last_json_v1';
+    let currentData = { athletes: [], teams: [], events: [] };
+
+    function parseDate(s){ if(!s) return null; const d=new Date(s); if(!isNaN(d)) return d; const t = String(s).trim().replace(' ','T'); const d2=new Date(t); return isNaN(d2) ? null : d2; }
+
+    function saveToLocal(data){ try{ localStorage.setItem(LS_KEY, JSON.stringify(data)); }catch(e){ console.warn('LS save failed',e) } }
+    function loadFromLocal(){ try{ const s = localStorage.getItem(LS_KEY); if(!s) return null; return JSON.parse(s); }catch(e){ return null } }
+
+    function renderAll(){ renderTeams(); renderFilterOptions(); renderAthletes(); renderEvents(); document.getElementById('raw-json').textContent = JSON.stringify(currentData,null,2); }
+
+    function renderTeams(){ const el = document.getElementById('teams-list'); el.innerHTML=''; (currentData.teams||[]).forEach(t=>{ const name = t.name || t.label || t.teamName || ('Team '+(t.id||'')); const div = document.createElement('div'); div.className='muted'; div.style.padding='6px 0'; div.textContent = name; el.appendChild(div); }); }
+
+    function renderFilterOptions(){ const sel = document.getElementById('team-filter'); sel.innerHTML=''; const optAll = document.createElement('option'); optAll.value=''; optAll.textContent='Tutte le squadre'; sel.appendChild(optAll);
+      const map = new Map(); (currentData.teams||[]).forEach(t=>{ const id = t.id||t.teamId||t.name||t.label; const name = t.name||t.label||id; if(id) map.set(String(id), name); }); (currentData.athletes||[]).forEach(a=>{ const id = a.teamId||a.team||''; if(id && !map.has(String(id))) map.set(String(id), String(id)); }); map.forEach((name,id)=>{ const o=document.createElement('option'); o.value = id; o.textContent = name; sel.appendChild(o); });
+      sel.onchange = ()=>{ renderAthletes(); renderEvents(); } }
+
+    function initials(a){ const fn = a.firstName||a.name||''; const ln = a.lastName||''; return ((fn[0]||'')+(ln[0]||'')).toUpperCase(); }
+    function displayName(a){ return ((a.firstName||a.name||'') + ' ' + (a.lastName||'')).trim(); }
+
+    function renderAthletes(){ const container = document.getElementById('athlete-list'); container.innerHTML=''; const filter = document.getElementById('team-filter').value; const list = (currentData.athletes||[]).filter(a=>{ if(!filter) return true; return String(a.teamId||a.team||'')===String(filter); }); document.getElementById('athlete-count').textContent = list.length + ' / ' + (currentData.athletes||[]).length;
+      list.forEach(a=>{ const med = a.medicalExpiry || a.medical || a.medical_expiry || ''; const medDate = parseDate(med); const expired = medDate && (medDate < new Date()); const row = document.createElement('div'); row.className='list-item'; const left = document.createElement('div'); left.className='avatar'; left.textContent = initials(a); const mid = document.createElement('div'); mid.style.flex='1'; mid.innerHTML = `<div><strong>${displayName(a)}</strong> <span class="muted">${a.role||''}</span></div>`; const right = document.createElement('div'); const medText = med ? (medDate ? medDate.toLocaleDateString() : med) : '—'; right.innerHTML = `<div style="text-align:right">${med ? (expired ? '<span class=\"expired\">Scaduta: '+medText+'</span>' : medText) : '<span class=\"muted\">Non presente</span>'}</div>`; row.appendChild(left); row.appendChild(mid); row.appendChild(right); container.appendChild(row); }); }
+
+    function renderEvents(){ const container = document.getElementById('events-list'); container.innerHTML=''; const filter = document.getElementById('team-filter').value; const now = new Date(); const evs = (currentData.events||currentData.calendar||currentData.activities||[]).map(ev=>{ const dt = parseDate(ev.date||ev.datetime||ev.start||ev.eventDate||ev.begin); return Object.assign({}, ev, { _dt: dt || new Date(0) }); }).filter(ev=>{ if(filter && !(String(ev.teamId||ev.team||ev.teamName||'')===String(filter) || String(ev.teamName||'').includes(filter)) ) return false; return ev._dt && ev._dt.getTime() >= (now.getTime() - (1000*60*60*24)); }).sort((a,b)=>a._dt - b._dt);
+      document.getElementById('events-count').textContent = evs.length + '';
+      evs.forEach(ev=>{ const item = document.createElement('div'); item.className='list-item'; const left = document.createElement('div'); left.style.flex='1'; left.innerHTML = `<div><strong>${ev.title||ev.type||ev.name||'Evento'}</strong></div><div class=\"muted\">${ev.location||''}</div>`; const right = document.createElement('div'); const dt = ev._dt && ev._dt instanceof Date && !isNaN(ev._dt) ? ev._dt.toLocaleString() : ''; right.innerHTML = `<div class=\"muted\">${dt}</div><div style=\"margin-top:6px;text-align:right\"><a class=\"btn secondary\" href=\"${gcalLinkForEvent(ev) || '#'}\" target=\"_blank\">Aggiungi a Google Calendar</a></div>`; item.appendChild(left); item.appendChild(right); container.appendChild(item); }); }
+
+    function gcalLinkForEvent(ev){ const title = ev.title || ev.name || ev.type || 'Evento'; const loc = ev.location || ''; const desc = ev.description || ev.notes || ''; const start = ev._dt; if(!start || isNaN(start)) return null; const end = new Date(start.getTime() + (ev.durationMinutes? ev.durationMinutes*60000 : 90*60000)); function fmt(d){ const yyyy=d.getUTCFullYear(); const mm=String(d.getUTCMonth()+1).padStart(2,'0'); const dd=String(d.getUTCDate()).padStart(2,'0'); const hh=String(d.getUTCHours()).padStart(2,'0'); const min=String(d.getUTCMinutes()).padStart(2,'0'); const ss=String(d.getUTCSeconds()).padStart(2,'0'); return `${yyyy}${mm}${dd}T${hh}${min}${ss}Z`; } const dates = fmt(start)+'/'+fmt(end); const params = new URLSearchParams({ action:'TEMPLATE', text:title, dates:dates, details:desc, location:loc }); return 'https://www.google.com/calendar/render?'+params.toString(); }
+
+    // Load flow
+    document.getElementById('btnChoose').addEventListener('click', ()=> document.getElementById('file-input').click());
+    document.getElementById('file-input').addEventListener('change', (ev)=>{ const f = ev.target.files[0]; if(!f) return; const r = new FileReader(); r.onload = ()=>{ try{ const j = JSON.parse(r.result); applyLoaded(j); }catch(e){ alert('JSON non valido: '+e.message) } }; r.onerror = ()=> alert('Errore lettura file'); r.readAsText(f); });
+
+    document.getElementById('btnLoadUrl').addEventListener('click', async ()=>{ const url = document.getElementById('url-input').value.trim(); if(!url) return alert('Inserisci un URL'); try{ const r = await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); const j = await r.json(); applyLoaded(j); }catch(e){ alert('Errore caricamento: '+e.message); } });
+
+    document.getElementById('btnLoadSample').addEventListener('click', async ()=>{ const candidates = ['soccermanager-backup-2026-01-11.json','sample-data.json','data/sample-data.json']; for(const c of candidates){ try{ const r = await fetch(c,{cache:'no-store'}); if(!r.ok) continue; const j = await r.json(); applyLoaded(j); return; }catch(_){} } alert('Nessun file esempio trovato in viewer/'); });
+
+    document.getElementById('btnClear').addEventListener('click', ()=>{ if(confirm('Rimuovere i dati salvati in localStorage?')){ localStorage.removeItem(LS_KEY); location.reload(); } });
+
+    function applyLoaded(j){ currentData = j || {}; if(!currentData.athletes) currentData.athletes = j.athletes || j.players || j.people || []; if(!currentData.teams) currentData.teams = j.teams || j.squad || []; if(!currentData.events) currentData.events = j.events || j.calendar || j.activities || []; saveToLocal(currentData); renderAll(); }
+
+    // on load try local
+    window.addEventListener('load', ()=>{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); } const l = loadFromLocal(); if(l){ currentData = l; renderAll(); } });
+
+  </script>
+</body>
+</html>
+<!doctype html>
+<html lang="it">
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LDM Soccer Viewer</title>
