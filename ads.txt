@@ -1,6 +1,6 @@
 # ads.txt per ldm4app.com
 # Questo file serve per la verifica di Google AdSense
-# Sostituisci "pub-XXXXXXXXXXXXXXXXX" con il tuo ID Publisher AdSense
+# Sostituisci "pub-9144994464681657" con il tuo ID Publisher AdSense
 
 # Google AdSense
-google.com, pub-XXXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+google.com, pub-9144994464681657, DIRECT, f08c47fec0942fa0
