@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LDM Soccer Viewer</title>
   <meta name="theme-color" content="#07364f">
-  <link rel="manifest" href="/viewer/manifest.json">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">
+  <!-- Il manifest viene aggiunto dinamicamente in JS solo in contesti supportati (http/https/localhost) per evitare richieste bloccate su file:// -->
   <style>
     :root{--bg:#07364f;--accent:#1fb6a1;--muted:#b1c6d6;--card-bg:rgba(255,255,255,0.05)}
     body{margin:0;font-family:system-ui,sans-serif;background:#072a3a;color:#e9f4fb}
@@ -24,24 +25,64 @@
     <header class="card">
       <h1>LDM Soccer Viewer</h1>
       <p class="muted">Carica il tuo file backup JSON per visualizzare la squadra.</p>
-      <input type="file" id="uploadJson" accept=".json">
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <input type="file" id="uploadJson" accept=".json" style="flex: 1;">
+        <input type="url" id="urlInput" placeholder="Inserisci URL del file JSON" style="flex: 2; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: var(--card-bg); color: inherit;">
+        <button id="loadUrlBtn" class="btn">Carica da URL</button>
+      </div>
     </header>
 
     <main id="content"></main>
+    <footer id="viewer-footer" style="text-align:center;padding:12px;color:var(--muted);font-size:0.9rem">Creato da <a href="https://www.ldm4app.com" target="_blank" rel="noopener">www.ldm4app.com</a> — <a href="#" id="reset-cache-link" style="color:inherit; text-decoration:underline; margin-left:10px;">Reset cache (dev)</a></footer>
   </div>
 
   <script>
-    // Registrazione Service Worker per PWA
+    // Registrazione Service Worker per PWA (solo su contesto sicuro - http/https/localhost)
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/viewer/sw.js').then(reg => {
-          console.log('SW registrato con successo!', reg.scope);
+      if (location.protocol === 'https:' || location.hostname === 'localhost' || location.protocol === 'http:') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').then(reg => {
+            console.log('SW registrato con successo!', reg.scope);
+          }).catch(err => {
+            console.warn('Registrazione Service Worker fallita:', err);
+          });
         });
-      });
+
+        // Carica dinamicamente il manifest solo se siamo su http(s) o localhost
+        try {
+          const manifestLink = document.createElement('link');
+          manifestLink.rel = 'manifest';
+          manifestLink.href = 'manifest.json';
+          document.head.appendChild(manifestLink);
+        } catch (e) {
+          console.warn('Impossibile aggiungere manifest dinamicamente:', e);
+        }
+
+      } else {
+        console.log('Service Worker non registrato: non sei in un contesto supportato (file://). Usa un server locale per testare PWA features.');
+        console.log('Manifest non caricato a causa della policy CORS su file://. Apri il viewer con http://localhost per abilitare PWA features.');
+      }
     }
 
     const fileInput = document.getElementById('uploadJson');
+    const urlInput = document.getElementById('urlInput');
+    const loadUrlBtn = document.getElementById('loadUrlBtn');
     const contentDiv = document.getElementById('content');
+
+    // Se siamo in file:// avvisa l'utente che alcune funzionalità richiedono un server
+    if (location.protocol === 'file:') {
+      const headerCard = document.querySelector('header.card');
+      if (headerCard) {
+        const note = document.createElement('div');
+        note.style.marginTop = '10px';
+        note.style.padding = '10px';
+        note.style.background = 'rgba(255,255,255,0.02)';
+        note.style.borderRadius = '8px';
+        note.style.fontSize = '0.95rem';
+        note.innerHTML = 'Nota: stai aprendo il file direttamente (file://). Alcune funzionalità come <strong>Service Worker</strong> e il caricamento del <strong>manifest</strong> richiedono un server web. Per testare, apri un server locale nella cartella del viewer (es.: <code>npx http-server -p 8000</code> o <code>python -m http.server 8000</code>) e visita <code>http://localhost:8000/viewer/index-viewer.html</code>.';
+        headerCard.appendChild(note);
+      }
+    }
 
     fileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
@@ -53,32 +94,288 @@
           const data = JSON.parse(e.target.result);
           renderData(data);
         } catch (err) {
-          alert("Errore nel caricamento del file JSON");
+          console.error('Errore caricamento file JSON', err);
+          alert("Errore nel caricamento del file JSON: " + (err && err.message ? err.message : String(err)) + "\nControlla console per dettagli.");
         }
       };
       reader.readAsText(file);
     });
 
+    loadUrlBtn.addEventListener('click', async function() {
+      const url = urlInput.value.trim();
+      if (!url) return alert('Inserisci un URL valido');
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Errore HTTP: ' + response.status);
+        const ct = response.headers.get('content-type') || '';
+        if (ct.includes('text/html')) throw new Error('Risposta HTML ricevuta (controlla link e CORS)');
+        const data = await response.json();
+        renderData(data);
+      } catch (err) {
+        console.error('Errore caricamento da URL', err);
+        alert("Errore nel caricamento dall'URL: " + (err && err.message ? err.message : String(err)) + "\nControlla console per dettagli.");
+      }
+    });
+
     function renderData(data) {
-      let html = `<h2>Atleti (${data.athletes ? data.athletes.length : 0})</h2>`;
-      html += `<div class="athlete-grid">`;
-      
-      if(data.athletes) {
-        data.athletes.forEach(a => {
+      // Crea mappe per associazioni
+      const teamMap = new Map();
+      if (data.teams) {
+        data.teams.forEach(t => teamMap.set(t.id, t.name));
+      }
+
+  const athletes = data.athletes || [];
+
+      let html = '';
+
+      html += `<input type="text" id="searchAthlete" placeholder="Inserisci il nome dell'atleta..." style="margin-bottom: 15px; padding: 10px; width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: var(--card-bg); color: inherit;">`;
+      html += `<div id="athlete-results"></div>`;
+      html += `</div>`;
+
+
+
+
+
+      // Valutazioni: mostra solo se presenti
+      if (data.evaluations && data.evaluations.length > 0) {
+        html += `<div class="card"><h2>Valutazioni (${data.evaluations.length})</h2>`;
+        html += `<div class="athlete-grid">`;
+        data.evaluations.forEach(e => {
+          html += `<div class="athlete-card">${JSON.stringify(e)}</div>`;
+        });
+        html += `</div></div>`;
+      }
+
+      // Impostazioni (mostra solo se diverse dai valori di default)
+      const defaultSettings = { theme: 'light', notifications: true, language: 'it' };
+      const showSettings = data.settings && (
+        data.settings.theme !== defaultSettings.theme ||
+        data.settings.notifications !== defaultSettings.notifications ||
+        data.settings.language !== defaultSettings.language
+      );
+      if (showSettings) {
+        html += `<div class="card"><h2>Impostazioni</h2>`;
+        html += `<p>Tema: ${data.settings.theme}</p>`;
+        html += `<p>Notifiche: ${data.settings.notifications ? 'Sì' : 'No'}</p>`;
+        html += `<p>Lingua: ${data.settings.language}</p>`;
+        html += `</div>`;
+      }
+
+      // Filtri (mostra solo se impostati)
+      const defaultFilters = { athleteSearch: '', selectedTeam: '', selectedRole: '', calendarView: 'all' };
+      const showFilters = data.filters && (
+        data.filters.athleteSearch !== defaultFilters.athleteSearch ||
+        data.filters.selectedTeam !== defaultFilters.selectedTeam ||
+        data.filters.selectedRole !== defaultFilters.selectedRole ||
+        data.filters.calendarView !== defaultFilters.calendarView
+      );
+      if (showFilters) {
+        html += `<div class="card"><h2>Filtri</h2>`;
+        html += `<p>Ricerca Atleta: ${data.filters.athleteSearch || 'Vuoto'}</p>`;
+        html += `<p>Squadra Selezionata: ${data.filters.selectedTeam || 'Nessuna'}</p>`;
+        html += `<p>Ruolo Selezionato: ${data.filters.selectedRole || 'Nessuno'}</p>`;
+        html += `<p>Vista Calendario: ${data.filters.calendarView}</p>`;
+        html += `</div>`;
+      }
+
+      // Stato UI (mostra solo se diverso dai valori di default)
+      const defaultUI = { currentSection: 'calendar', sidebarOpen: true, modalOpen: true };
+      const showUI = data.ui && (
+        data.ui.currentSection !== defaultUI.currentSection ||
+        data.ui.sidebarOpen !== defaultUI.sidebarOpen ||
+        data.ui.modalOpen !== defaultUI.modalOpen
+      );
+      if (showUI) {
+        html += `<div class="card"><h2>Stato UI</h2>`;
+        html += `<p>Sezione Corrente: ${data.ui.currentSection}</p>`;
+        html += `<p>Sidebar Aperta: ${data.ui.sidebarOpen ? 'Sì' : 'No'}</p>`;
+        html += `<p>Modal Aperta: ${data.ui.modalOpen ? 'Sì' : 'No'}</p>`;
+        html += `</div>`;
+      }
+
+      contentDiv.innerHTML = html;
+
+      // Funzione per mostrare risultati atleta
+      function showAthleteResults(query) {
+        const resultsDiv = document.getElementById('athlete-results');
+        if (!query.trim()) {
+          resultsDiv.innerHTML = '';
+          return;
+        }
+
+        const athletes = data.athletes || [];
+        const filteredAthletes = athletes.filter(a => {
+          const fullName = `${a.firstName} ${a.lastName}`.toLowerCase();
+          return fullName.includes(query.toLowerCase());
+        });
+
+        if (filteredAthletes.length === 0) {
+          resultsDiv.innerHTML = '<p>Nessun atleta trovato.</p>';
+          return;
+        }
+
+        let resultsHtml = '';
+        filteredAthletes.forEach(a => {
           const isExpired = new Date(a.medicalExpiry) < new Date();
-          html += `
-            <div class="athlete-card">
-              <strong>${a.firstName} ${a.lastName}</strong><br>
-              <small>Ruolo: ${a.role}</small><br>
-              <small class="${isExpired ? 'status-expired' : ''}">
-                Scadenza Medica: ${a.medicalExpiry}
-              </small>
-            </div>`;
+          const teamName = teamMap.get(a.teamId) || 'Squadra non trovata';
+          const team = data.teams.find(t => t.id === a.teamId);
+          const athleteEvents = (data.calendar || []).filter(e => e.teamId === a.teamId);
+
+          resultsHtml += `
+            <div class="card" style="margin-top: 15px;">
+              <h3>${a.firstName} ${a.lastName}</h3>
+              <p><strong>Ruolo:</strong> ${a.role || 'Non specificato'}</p>
+              <p><strong>Data di nascita:</strong> ${a.birthDate || 'Non disponibile'}</p>
+              <p><strong>Squadra:</strong> ${teamName}</p>
+              <p class="${isExpired ? 'status-expired' : ''}"><strong>Scadenza Medica:</strong> ${a.medicalExpiry || 'Non disponibile'}</p>
+              <p><strong>Note:</strong> ${a.notes || 'Nessuna'}</p>
+              <p><strong>Creato:</strong> ${new Date(a.createdAt).toLocaleString()}</p>
+              <p><button class="btn export-pdf" data-athlete-id="${a.id}">Esporta PDF</button></p>
+
+              ${team ? `
+                <h4>Dettagli Squadra</h4>
+                <p><strong>Nome:</strong> ${team.name}</p>
+                <p><strong>Categoria:</strong> ${team.category || 'Non specificata'}</p>
+                <p><strong>Descrizione:</strong> ${team.description || 'Nessuna'}</p>
+                <p><strong>Creato:</strong> ${new Date(team.createdAt).toLocaleString()}</p>
+              ` : ''}
+
+              ${athleteEvents.length > 0 ? `
+                <h4>Eventi Associati (${athleteEvents.length})</h4>
+                <div class="athlete-grid">
+                  ${athleteEvents.map(e => `
+                    <div class="athlete-card">
+                      <strong>${e.title}</strong><br>
+                      <small>Tipo: ${e.type || 'Non specificato'}</small><br>
+                      <small>Data: ${e.date} ${e.time}</small><br>
+                      <small>Luogo: ${e.location || 'Non specificato'}</small><br>
+                      <small>Descrizione: ${e.description || 'Nessuna'}</small><br>
+                      <small>Creato: ${new Date(e.createdAt).toLocaleString()}</small>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : '<p>Nessun evento associato trovato.</p>'}
+            </div>
+          `;
+        });
+
+        resultsDiv.innerHTML = resultsHtml;
+
+        // Attacca listener per i pulsanti Esporta PDF
+        const exportBtns = resultsDiv.querySelectorAll('.export-pdf');
+        exportBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.athleteId;
+            const athlete = (data.athletes || []).find(x => x.id == id);
+            const team = (data.teams || []).find(t => t.id == athlete.teamId);
+            const athleteEvents = (data.calendar || []).filter(e => e.teamId == athlete.teamId);
+            exportAthleteToPdf(athlete, team, athleteEvents);
+          });
         });
       }
-      
-      html += `</div>`;
-      contentDiv.innerHTML = html;
+
+      // Funzione per esportare la scheda atleta in PDF (apre la finestra di stampa)
+      function exportAthleteToPdf(a, team, events) {
+        try {
+          const eventsHtml = (events || []).map(e => `
+            <div style="margin-bottom:8px;">
+              <div style="font-weight:bold">${e.title}</div>
+              <div>Tipo: ${e.type || 'Non specificato'}</div>
+              <div>Data: ${e.date || ''} ${e.time || ''}</div>
+              <div>Luogo: ${e.location || 'Non specificato'}</div>
+              <div>Descrizione: ${e.description || 'Nessuna'}</div>
+            </div>
+          `).join('');
+
+          const teamHtml = team ? `
+            <h3>Dettagli Squadra</h3>
+            <div><strong>Nome:</strong> ${team.name}</div>
+            <div><strong>Categoria:</strong> ${team.category || 'Non specificata'}</div>
+            <div><strong>Descrizione:</strong> ${team.description || 'Nessuna'}</div>
+          ` : '';
+
+          const docHtml = `
+            <!doctype html>
+            <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Scheda ${a.firstName} ${a.lastName}</title>
+              <style>
+                body{font-family:Arial,Helvetica,sans-serif;color:#072a3a;padding:20px}
+                .card{border:1px solid #ddd;padding:15px;border-radius:8px}
+                h1{margin-top:0}
+                footer{margin-top:20px;text-align:center;color:#666}
+              </style>
+            </head>
+            <body>
+              <div class="card">
+                <h1>${a.firstName} ${a.lastName}</h1>
+                <div><strong>Ruolo:</strong> ${a.role || 'Non specificato'}</div>
+                <div><strong>Data di nascita:</strong> ${a.birthDate || 'Non disponibile'}</div>
+                <div><strong>Squadra:</strong> ${team ? team.name : (a.teamId || 'N/A')}</div>
+                <div><strong>Scadenza Medica:</strong> ${a.medicalExpiry || 'Non disponibile'}</div>
+                <div><strong>Note:</strong> ${a.notes || 'Nessuna'}</div>
+                <div><strong>Creato:</strong> ${new Date(a.createdAt).toLocaleString()}</div>
+
+                ${teamHtml}
+
+                ${eventsHtml ? `<h3>Eventi Associati (${(events||[]).length})</h3>` + eventsHtml : ''}
+
+                <hr>
+                <footer>Creato da www.ldm4app.com</footer>
+              </div>
+              <script>
+                window.onload = function(){ setTimeout(function(){ window.print(); }, 250); };
+              <\/script>
+            </body>
+            </html>
+          `;
+
+          const w = window.open('', '_blank');
+          if (!w) {
+            alert('Popup bloccato: abilita i popup per questo sito o usa il comando di stampa del browser per salvare come PDF.');
+            return;
+          }
+          w.document.write(docHtml);
+          w.document.close();
+        } catch (err) {
+          console.error('Errore esportazione PDF', err);
+          alert('Errore durante l\'esportazione in PDF. Controlla la console per dettagli.');
+        }
+      }
+
+      // Aggiungi event listener per ricerca
+      const searchInput = document.getElementById('searchAthlete');
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          showAthleteResults(searchInput.value);
+        });
+      }
+
+      // Funzione dev per deregistrare service worker e cancellare cache (usala se vedi errori SW)
+      async function resetCacheAndServiceWorkers() {
+        try {
+          if ('serviceWorker' in navigator) {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(r => r.unregister()));
+            console.log('Service workers unregistered');
+          }
+          if ('caches' in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+            console.log('Caches cleared');
+          }
+          alert('Deregistrazione SW e cancellazione cache completata. Ricarica la pagina.');
+          location.reload(true);
+        } catch (err) {
+          console.error('Errore nel reset cache/SW', err);
+          alert('Errore durante il reset. Controlla la console per dettagli.');
+        }
+      }
+
+      const resetLink = document.getElementById('reset-cache-link');
+      if (resetLink) resetLink.addEventListener('click', (e) => { e.preventDefault(); resetCacheAndServiceWorkers(); });
     }
   </script>
 </body>
