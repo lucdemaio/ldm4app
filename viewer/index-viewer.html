@@ -25,11 +25,14 @@
     <header class="card">
       <h1>LDM Soccer Viewer</h1>
       <p class="muted">Carica il tuo file backup JSON per visualizzare la squadra.</p>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <input type="file" id="uploadJson" accept=".json" style="flex: 1;">
-        <input type="url" id="urlInput" placeholder="Inserisci URL del file JSON" style="flex: 2; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: var(--card-bg); color: inherit;">
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <input type="file" id="uploadJson" accept=".json" style="flex: 1; min-width:160px;">
+        <input type="url" id="urlInput" placeholder="Inserisci URL del file JSON" style="flex: 2; min-width:200px; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: var(--card-bg); color: inherit;">
         <button id="loadUrlBtn" class="btn">Carica da URL</button>
+        <input type="url" id="cloudInput" placeholder="Link cloud (es. Drive, Dropbox, Mega...)" style="flex: 2; min-width:200px; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: var(--card-bg); color: inherit;">
+        <button id="loadCloudBtn" class="btn">Carica da Cloud</button>
       </div>
+      <div style="margin-top:8px;font-size:0.9rem;color:var(--muted)">Suggerimento: per Google Drive assicurati che il file sia condiviso a 'Chiunque abbia il link'. Per Mega potresti dover scaricare il file e caricarlo localmente.</div>
     </header>
 
     <main id="content"></main>
@@ -67,7 +70,56 @@
     const fileInput = document.getElementById('uploadJson');
     const urlInput = document.getElementById('urlInput');
     const loadUrlBtn = document.getElementById('loadUrlBtn');
+    const cloudInput = document.getElementById('cloudInput');
+    const loadCloudBtn = document.getElementById('loadCloudBtn');
     const contentDiv = document.getElementById('content');
+
+    // Risolvi link cloud (Drive/Dropbox) in link diretto; ritorna null se non risolvibile automaticamente (es. Mega)
+    function resolveCloudLink(url) {
+      try {
+        const u = new URL(url);
+        const host = u.hostname.toLowerCase();
+        if (host.includes('drive.google.com')) {
+          let id = null;
+          const m = u.pathname.match(/\/file\/d\/([^\/]+)/);
+          if (m) id = m[1];
+          if (!id) id = u.searchParams.get('id');
+          if (id) return 'https://drive.google.com/uc?export=download&id=' + id;
+        }
+        if (host.includes('dropbox.com')) {
+          u.searchParams.set('dl', '1');
+          return u.toString();
+        }
+        if (host.includes('mega.nz')) {
+          return null; // non risolvibile automaticamente via fetch (richiede SDK/decifratura)
+        }
+        return url;
+      } catch (e) {
+        return url;
+      }
+    }
+
+    // Listener per caricamento da link cloud
+    if (loadCloudBtn) loadCloudBtn.addEventListener('click', async function() {
+      const orig = (cloudInput && cloudInput.value || '').trim();
+      if (!orig) return alert('Inserisci un link cloud valido.');
+      const resolved = resolveCloudLink(orig);
+      if (resolved === null) {
+        return alert('Questo tipo di link cloud non può essere recuperato automaticamente (es. MEGA). Scarica il file e caricalo localmente, oppure fornisci un link diretto al file JSON.');
+      }
+
+      try {
+        const response = await fetch(resolved);
+        if (!response.ok) throw new Error('Errore HTTP: ' + response.status);
+        const ct = response.headers.get('content-type') || '';
+        if (ct.includes('text/html')) throw new Error('Risposta HTML ricevuta (controlla che il file sia condiviso pubblicamente e che CORS permetta l\'accesso)');
+        const data = await response.json();
+        renderData(data);
+      } catch (err) {
+        console.error('Errore caricamento da link cloud', err);
+        alert("Errore nel caricamento dal link cloud: " + (err && err.message ? err.message : String(err)) + "\nSe stai usando Google Drive assicurati che il file sia condiviso 'Chiunque abbia il link' e riprova.");
+      }
+    });
 
     // Se siamo in file:// avvisa l'utente che alcune funzionalità richiedono un server
     if (location.protocol === 'file:') {
