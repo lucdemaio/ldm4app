@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LDM Soccer — Prodotti</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+  <style>body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:#f8fafc;color:#0f172a}</style>
+</head>
+<body>
+  <header class="bg-white shadow-sm">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="text-2xl font-bold">ldm4app</div>
+      <nav class="space-x-4">
+        <a href="index.html" class="text-sm text-gray-600 hover:underline">Home</a>
+        <a href="viewer/index-viewer.html" class="text-sm text-gray-600 hover:underline">Viewer</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-6">Prodotti LDM Soccer</h1>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Card: LDM Soccer Manager Pro -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg flex items-center justify-center text-white font-bold">PRO</div>
+          <div>
+            <h2 class="text-xl font-semibold">LDM Soccer Manager Pro</h2>
+            <p class="text-gray-600 mt-2">Software gestionale completo per società sportive: gestione atleti, presenze, finanze, report e molto altro.</p>
+            <div class="mt-4 flex gap-3">
+              <a href="/downloads/ldm-soccer-manager-pro.zip" class="px-4 py-2 bg-cobalt text-white rounded-lg text-sm">Scarica .zip</a>
+              <a href="install.html" class="px-4 py-2 border rounded-lg text-sm">Istruzioni</a>
+            </div>
+            <p class="text-xs text-gray-400 mt-3">Scarica e distribuisci internamente. Link al download fornito tramite MEGA/hosting privato.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: LDM Soccer Manager Viewer -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-gradient-to-br from-emerald-400 to-green-600 rounded-lg flex items-center justify-center text-white font-bold">APP</div>
+          <div>
+            <h2 class="text-xl font-semibold">LDM Soccer Manager Viewer</h2>
+            <p class="text-gray-600 mt-2">App leggera per genitori per visualizzare i dati della squadra. Carica il backup JSON fornito dalla società.</p>
+            <div class="mt-4 flex gap-3">
+              <a href="viewer/index-viewer.html" class="px-4 py-2 bg-emerald-500 text-white rounded-lg text-sm">Apri Viewer</a>
+              <a href="#" class="px-4 py-2 border rounded-lg text-sm">Guida Installazione</a>
+            </div>
+            <p class="text-xs text-gray-400 mt-3">Versione WebView per Android disponibile nella distribuzione. Consigliata per i genitori.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 text-sm text-gray-600">Per domande commerciali o supporto scrivi a <a href="mailto:info@ldm4app.com" class="underline">info@ldm4app.com</a></div>
+  </main>
+
+  <footer class="bg-gray-100 py-8 mt-12">
+    <div class="container mx-auto px-6 text-sm text-gray-600">© 2026 ldm4app</div>
+  </footer>
+</body>
+</html>
