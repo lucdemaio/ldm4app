@@ -57,14 +57,13 @@
         <nav class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <div class="text-2xl font-bold gradient-text">
-                    ldm4app
+                    LDM4APP
                 </div>
                 <ul class="hidden md:flex space-x-8 text-sm font-medium">
-                    <li><a href="#servizi" class="text-gray-700 hover:text-cobalt transition">Servizi</a></li>
                     <li><a href="#prodotti" class="text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                    <li><a href="index-viewer.html" class="text-gray-700 hover:text-cobalt transition">LDM Soccer Viewer</a></li>
+                    <li><a id="download-zip-menu" href="https://mega.nz/file/gzBhjApb#RQdPUgtlp-53HNiMXcZjCjGAFEhhKIoa5yace6p9nB0" target="_blank" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">LDM Soccer Manager Pro</a></li>
                     <li><a href="guides.html" class="text-gray-700 hover:text-cobalt transition">Guide</a></li>
-                    <li><a href="index-viewer.html" class="text-gray-700 hover:text-cobalt transition">LDM Soccer</a></li>
-                    <li><a href="#filosofia" class="text-gray-700 hover:text-cobalt transition">Filosofia</a></li>
                     <li><a href="#contatti" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Contatti</a></li>
                 </ul>
                 <!-- Mobile Menu Button -->
@@ -76,11 +75,10 @@
             </div>
             <!-- Mobile Menu -->
                 <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
-                <li><a href="#servizi" class="block text-gray-700 hover:text-cobalt transition">Servizi</a></li>
                 <li><a href="#prodotti" class="block text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                <li><a href="index-viewer.html" class="block text-gray-700 hover:text-cobalt transition">LDM Soccer Viewer</a></li>
+                <li><a id="download-zip-menu-mobile" href="https://mega.nz/file/gzBhjApb#RQdPUgtlp-53HNiMXcZjCjGAFEhhKIoa5yace6p9nB0" target="_blank" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">LDM Soccer Manager Pro</a></li>
                 <li><a href="guides.html" class="block text-gray-700 hover:text-cobalt transition">Guide</a></li>
-                <li><a href="index-viewer.html" class="block text-gray-700 hover:text-cobalt transition">LDM Soccer</a></li>
-                <li><a href="#filosofia" class="block text-gray-700 hover:text-cobalt transition">Filosofia</a></li>
                 <li><a href="#contatti" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">Contatti</a></li>
             </ul>
         </nav>
@@ -120,14 +118,11 @@
                         <p class="text-xs text-gray-500 mt-2">App per genitori — Web app compatibile con i browser moderni.</p>
                 </div>
 
-                <!-- Placeholder Product 2 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
-                    <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg mb-6"></div>
-                    <h3 class="text-xl font-bold text-navy mb-3">Soluzione Custom</h3>
-                    <p class="text-gray-600 mb-4">
-                        Hai un'esigenza specifica? Sviluppiamo la tua soluzione su misura.
-                    </p>
-                    <a href="#contatti" class="text-cobalt font-semibold hover:underline">Contattaci →</a>
+                <!-- Annuncio novità -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 text-center">
+                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg mb-6 mx-auto"></div>
+                    <h3 class="text-xl font-bold text-navy mb-3">A breve novità in arrivo</h3>
+                    <p class="text-gray-600 mb-4">Stiamo lavorando a qualcosa di nuovo — resta sintonizzato!</p>
                 </div>
             </div>
         </div>
@@ -372,7 +367,7 @@
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-3 gap-8 mb-8">
                 <div>
-                    <h3 class="text-xl font-bold text-white mb-4">ldm4app</h3>
+                    <h3 class="text-xl font-bold text-white mb-4">LDM4APP</h3>
                     <p class="text-sm leading-relaxed">
                         Software gestionali su misura per aziende che vogliono il meglio.
                     </p>
@@ -416,7 +411,7 @@
             
             <div class="border-t border-gray-700 pt-8 text-center text-sm">
                 <div id="visit-counter" class="text-sm text-gray-400 mb-2">Visite totali: <span id="visit-count">—</span></div>
-                <p>&copy; 2026 ldm4app. Tutti i diritti riservati.</p>
+                <p>&copy; 2026 LDM4APP. Tutti i diritti riservati.</p>
             </div>
         </div>
     </footer>
@@ -483,7 +478,7 @@
                 fetch('https://api.countapi.xyz/hit/ldm4app/downloads-' + encodeURIComponent(label)).catch(()=>{});
             }
 
-            ['download-zip','download-zip-product'].forEach(function(id){
+            ['download-zip','download-zip-product','download-zip-menu','download-zip-menu-mobile'].forEach(function(id){
                 const el = document.getElementById(id);
                 if (el) el.addEventListener('click', function(){ trackDownload('LDM Soccer Manager Pro'); });
             });
