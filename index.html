@@ -4,230 +4,558 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ldm4app - Soluzioni Gestionali su Misura</title>
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TLEN93LB2Y"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-TLEN93LB2Y');
-    </script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TLEN93LB2Y"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
+            // Config GA4 (anonymize IP per privacy)
+            gtag('config', 'G-TLEN93LB2Y', { 'anonymize_ip': true });
+        </script>
+    
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p1Cm8X1YvKQJQbZl2Wv6KqfM8Xq0p6K5Ylqv2Qm6Jt0z0Ykz5uQF7FqK1y1Z6b0G1c2l3Q4z5V6Y7X8Y9Z0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        navy: '#0a192f',
-                        cobalt: '#0047ab',
-                        accent: '#64ffda'
+                        'navy': '#0f172a',
+                        'cobalt': '#2563eb',
                     }
                 }
             }
         }
     </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body class="bg-gray-50 text-gray-900">
 
-    <header class="fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-cobalt rounded-lg flex items-center justify-center">
-                    <span class="text-white font-bold text-xl">L</span>
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold gradient-text">
+                    ldm4app
                 </div>
-                <span class="text-2xl font-bold text-navy tracking-tight">ldm4app</span>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium">
+                    <li><a href="#servizi" class="text-gray-700 hover:text-cobalt transition">Servizi</a></li>
+                    <li><a href="#prodotti" class="text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                    <li><a href="#filosofia" class="text-gray-700 hover:text-cobalt transition">Filosofia</a></li>
+                    <li><a href="#contatti" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Contatti</a></li>
+                </ul>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
-            
-            <ul class="hidden md:flex space-x-8 font-medium text-gray-700">
-                <li><a href="#servizi" class="hover:text-cobalt transition-colors">Servizi</a></li>
-                <li><a href="#vision" class="hover:text-cobalt transition-colors">Vision</a></li>
-                <li><a href="#guida-condivisione" class="hover:text-cobalt transition-colors">Guida Cloud</a></li>
-                <li><a href="#contatti" class="bg-cobalt text-white px-6 py-2 rounded-full hover:bg-navy transition-all">Contattaci</a></li>
+            <!-- Mobile Menu -->
+                <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
+                <li><a href="#servizi" class="block text-gray-700 hover:text-cobalt transition">Servizi</a></li>
+                <li><a href="#prodotti" class="block text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                <li><a href="#filosofia" class="block text-gray-700 hover:text-cobalt transition">Filosofia</a></li>
+                <li><a href="#contatti" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">Contatti</a></li>
             </ul>
-
-            <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
         </nav>
-        
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-4 shadow-xl">
-            <a href="#servizi" class="block text-gray-700 hover:text-cobalt font-medium">Servizi</a>
-            <a href="#vision" class="block text-gray-700 hover:text-cobalt font-medium">Vision</a>
-            <a href="#guida-condivisione" class="block text-gray-700 hover:text-cobalt font-medium">Guida Cloud</a>
-            <a href="#contatti" class="block text-cobalt font-bold">Contattaci</a>
-        </div>
     </header>
+    <!-- Sezione Prodotti (spostata in alto) -->
+    <section id="prodotti" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-bold text-navy mb-4">I Nostri Prodotti</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Software gestionali specializzati per ogni settore
+                </p>
+            </div>
 
-    <section class="pt-32 pb-20 bg-gradient-to-b from-blue-50 to-white">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold text-navy mb-6 leading-tight">
-                Software Gestionali <span class="text-cobalt">Su Misura</span> per la tua Impresa
-            </h1>
-            <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
-                Analizziamo i tuoi processi e creiamo strumenti software ottimizzati per semplificare il tuo lavoro quotidiano.
-            </p>
-            <div class="flex flex-col md:flex-row justify-center gap-4">
-                <a href="#contatti" class="bg-cobalt text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-navy transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                    Inizia ora la tua consulenza
-                </a>
-                <a href="#servizi" class="bg-white text-navy border-2 border-gray-200 px-8 py-4 rounded-xl text-lg font-bold hover:border-cobalt transition-all">
-                    Scopri cosa facciamo
-                </a>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Placeholder Product 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                    <div class="w-12 h-12 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg mb-6"></div>
+                        <h3 class="text-xl font-bold text-navy mb-3">LDM Soccer Manager Pro</h3>
+                        <p class="text-gray-600 mb-2">
+                            Gestione completa per società sportive. Atleti, presenze, finanze e molto altro. <strong class="text-cobalt">100% Gratuito</strong>.
+                        </p>
+                        <a id="download-zip-product" href="https://mega.nz/file/gzBhjApb#RQdPUgtlp-53HNiMXcZjCjGAFEhhKIoa5yace6p9nB0" target="_blank" class="text-cobalt font-semibold hover:underline">Scarica .zip →</a>
+                        <a href="#guida-condivisione" class="text-cobalt font-semibold hover:underline ml-4">Guida condivisione</a>
+                        <p class="text-xs text-gray-500 mt-2">Download sicuro tramite MEGA. Sostenuto da un unico banner pubblicitario in basso per coprire i costi.</p>
+                </div>
+
+                <!-- LDM Soccer Manager Viewer (Versione Genitori) -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-lg mb-6"></div>
+                        <h3 class="text-xl font-bold text-navy mb-3">LDM Soccer Manager Viewer <span class="text-sm text-gray-500">(Versione Genitori)</span></h3>
+                        <p class="text-gray-600 mb-2">
+                            App leggera per genitori per visualizzare i dati della squadra e caricare il file JSON fornito dalla società.
+                        </p>
+                        <a href="https://www.ldm4app.com/viewer/index-viewer.html" target="_blank" rel="noopener noreferrer" class="text-emerald-600 font-semibold hover:underline">Apri e Installa App (LDM Soccer Manager Viewer) →</a>
+                        <div class="text-sm text-gray-500 mt-2">Una volta aperta la pagina, seleziona "Aggiungi a schermata Home" dal menu del tuo browser per installare l'app come un programma.</div>
+                        <p class="text-xs text-gray-500 mt-2">Versione Android per genitori — WebView-based app che carica il backup JSON.</p>
+                </div>
+
+                <!-- Placeholder Product 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                    <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg mb-6"></div>
+                    <h3 class="text-xl font-bold text-navy mb-3">Soluzione Custom</h3>
+                    <p class="text-gray-600 mb-4">
+                        Hai un'esigenza specifica? Sviluppiamo la tua soluzione su misura.
+                    </p>
+                    <a href="#contatti" class="text-cobalt font-semibold hover:underline">Contattaci →</a>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Supporto & Trasparenza -->
+    <section id="support" class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-navy">Supporto & Trasparenza</h3>
+                    <a href="/ads.txt" class="text-sm text-gray-500 underline">ads.txt</a>
+                </div>
+
+                <div class="mt-4 text-gray-700">
+                    <p>Per assistenza tecnica su <strong>LDM Soccer Manager Pro</strong> o <strong>LDM Soccer Manager Viewer</strong>, scrivi a <a href="mailto:info@ldm4app.com" class="text-cobalt underline">info@ldm4app.com</a>.</p>
+                    <p class="mt-3">Apri Viewer locale: <a href="viewer/index-viewer.html" target="_blank" rel="noopener noreferrer" class="text-emerald-600 underline">Apri Viewer</a></p>
+                    <p class="mt-3 text-sm text-gray-500">SEO: mantieni meta-description e OpenGraph aggiornati per migliorare la visibilità. Questo widget è coerente con il layout Tailwind del sito.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-white via-blue-50 to-gray-100 py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-navy mb-6 leading-tight">
+                Soluzioni Gestionali su Misura.<br>
+                <span class="gradient-text">Potenti. Semplici. Sicure.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+                Sviluppiamo software gestionali personalizzati che ottimizzano il tuo lavoro quotidiano. 
+                Ogni soluzione è progettata esattamente sulle tue esigenze, con un focus su sicurezza, privacy e prestazioni.
+                <strong class="block mt-4 text-cobalt">100% Gratuito</strong>
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contatti" class="bg-cobalt text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">
+                    Richiedi una Consulenza
+                </a>
+                <a href="#prodotti" class="bg-white text-cobalt px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition border-2 border-cobalt">
+                    Scopri i Prodotti
+                </a>
+            </div>
+            <p class="text-sm text-gray-500 mt-4">Sostenuto da un unico banner pubblicitario in basso per coprire i costi.</p>
+        </div>
+    </section>
+
+    
+    <!-- <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE
+        </div>
+    </div> -->
+
+    <!-- I Nostri Pilastri -->
     <section id="servizi" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-4">I Nostri Servizi</h2>
-                <div class="w-20 h-1 bg-cobalt mx-auto"></div>
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-4">I Nostri Pilastri</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Ogni progetto che sviluppiamo si basa su tre principi fondamentali
+                </p>
             </div>
-            
+
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-8 bg-gray-50 rounded-2xl border border-transparent hover:border-cobalt transition-all hover:shadow-xl group">
-                    <div class="w-14 h-14 bg-blue-100 text-cobalt rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-cobalt group-hover:text-white transition-all">
-                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <!-- Card 1: Privacy & Sicurezza -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-navy mb-3">Analisi dei Processi</h3>
-                    <p class="text-gray-600">Studiamo il tuo flusso di lavoro attuale per individuare inefficienze e margini di miglioramento.</p>
-                </div>
-
-                <div class="p-8 bg-gray-50 rounded-2xl border border-transparent hover:border-cobalt transition-all hover:shadow-xl group">
-                    <div class="w-14 h-14 bg-blue-100 text-cobalt rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-cobalt group-hover:text-white transition-all">
-                        <i class="fa-solid fa-code"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy mb-3">Soluzione Custom</h3>
-                    <p class="text-gray-600">Hai un'esigenza specifica? Sviluppiamo la tua soluzione su misura.</p>
-                </div>
-
-                <div class="p-8 bg-gray-50 rounded-2xl border border-transparent hover:border-cobalt transition-all hover:shadow-xl group">
-                    <div class="w-14 h-14 bg-blue-100 text-cobalt rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-cobalt group-hover:text-white transition-all">
-                        <i class="fa-solid fa-rocket"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy mb-3">Digitalizzazione</h3>
-                    <p class="text-gray-600">Trasformiamo i tuoi registri cartacei o fogli Excel complessi in applicazioni moderne e veloci.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="vision" class="py-20 bg-navy text-white overflow-hidden relative">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/2">
-                    <h2 class="text-3xl md:text-5xl font-bold mb-6">La Nostra Vision</h2>
-                    <p class="text-blue-100 text-lg mb-8 leading-relaxed">
-                        Crediamo che la tecnologia debba essere al servizio delle persone, non un ostacolo. Ogni riga di codice che scriviamo ha l'obiettivo di rendere il tuo business più agile, scalabile e semplice da gestire.
+                    <h3 class="text-2xl font-bold text-navy mb-4">Privacy & Sicurezza</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Software che proteggono i tuoi dati. Soluzioni offline e locali che garantiscono 
+                        il massimo controllo e riservatezza delle informazioni aziendali.
                     </p>
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-check-circle text-accent"></i>
-                            <span>Semplicità d'uso come priorità assoluta</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-check-circle text-accent"></i>
-                            <span>Dati protetti e sempre accessibili</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-check-circle text-accent"></i>
-                            <span>Supporto continuo post-sviluppo</span>
-                        </div>
-                    </div>
                 </div>
-                <div class="md:w-1/2 relative">
-                    <div class="bg-cobalt/20 p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
-                        <pre class="text-accent text-sm md:text-base font-mono">
-<code>while (business.needsImprovement()) {
-  process = analyze(business.workflow);
-  solution = buildCustomSoftware(process);
-  business.optimize(solution);
-}</code></pre>
+
+                <!-- Card 2: Efficienza Operativa -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
                     </div>
+                    <h3 class="text-2xl font-bold text-navy mb-4">Efficienza Operativa</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Interfacce pulite e intuitive che riducono drasticamente i tempi di gestione. 
+                        Automazioni intelligenti per lavorare meglio, non di più.
+                    </p>
+                </div>
+
+                <!-- Card 3: Sviluppo Sartoriale -->
+                <div class="bg-gray-50 p-8 rounded-2xl card-hover border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-cobalt" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy mb-4">Sviluppo Sartoriale</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Creato esattamente sulle esigenze del cliente. Nessun compromesso, 
+                        ogni funzionalità è pensata per il tuo flusso di lavoro specifico.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="guida-condivisione" class="py-20 bg-white">
+    
+    <!-- <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE
+        </div>
+    </div> -->
+
+    
+
+    <!-- Filosofia -->
+    <section id="filosofia" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto border-2 border-cobalt bg-blue-50 p-8 rounded-3xl">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="text-cobalt text-4xl"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                    <h2 class="text-2xl md:text-3xl font-bold text-navy">Consultazione Dati via Cloud</h2>
-                </div>
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-navy mb-8 text-center">La Nostra Filosofia</h2>
                 
-                <div class="space-y-8 text-gray-700">
-                    <div>
-                        <h3 class="text-xl font-bold text-navy mb-4 flex items-center gap-3">
-                            <span class="w-8 h-8 bg-cobalt text-white rounded-full flex items-center justify-center text-sm">1</span>
-                            Condivisione della Cartella
-                        </h3>
-                        <p>Crea una cartella sul tuo PC principale (es. "Dati Gestionali") e caricala sul tuo servizio Cloud preferito (Google Drive, Dropbox, OneDrive o iCloud Desktop).</p>
-                    </div>
+                <div class="space-y-6 text-lg text-gray-600 leading-relaxed">
+                    <p>
+                        Crediamo che ogni azienda sia unica e meriti strumenti altrettanto unici. 
+                        Non vendiamo soluzioni standard, ma progettiamo software che si adattano perfettamente 
+                        al tuo modo di lavorare. Privacy, sicurezza e controllo totale dei dati sono al centro 
+                        di ogni nostro progetto. Sviluppiamo soluzioni che durano nel tempo e crescono insieme 
+                        alla tua azienda.
+                    </p>
+                    
+                    <h3 class="text-2xl font-bold text-navy mt-8 mb-4">I Vantaggi dei Software Gestionali Offline</h3>
+                    
+                    <p>
+                        In un'era dominata dal cloud computing, potrebbe sembrare controcorrente proporre soluzioni 
+                        offline. Tuttavia, i software gestionali che operano localmente offrono vantaggi concreti e 
+                        misurabili, particolarmente rilevanti per le aziende che gestiscono dati sensibili o che 
+                        operano in settori regolamentati.
+                    </p>
+                    
+                    <p>
+                        <strong>Controllo assoluto dei dati:</strong> Con un software gestionale offline, i tuoi dati 
+                        rimangono sempre sul tuo hardware. Non vengono sincronizzati su server esterni, non transitano 
+                        su internet, e soprattutto non sono soggetti alle policy di terze parti che possono cambiare 
+                        nel tempo. Questo significa che hai il controllo completo su chi può accedere alle informazioni, 
+                        quando e come.
+                    </p>
+                    
+                    <p>
+                        <strong>Privacy garantita per normative GDPR:</strong> La conformità al Regolamento Generale 
+                        sulla Protezione dei Dati è molto più semplice quando i dati non lasciano mai la tua 
+                        infrastruttura. Non devi preoccuparti di data breach su server cloud, di trasferimenti 
+                        internazionali di dati o di condivisioni non autorizzate. Ogni dato resta nel tuo perimetro 
+                        di sicurezza, facilitando enormemente la gestione della compliance.
+                    </p>
+                    
+                    <p>
+                        <strong>Prestazioni superiori e affidabilità:</strong> Un software installato localmente non 
+                        dipende dalla connessione internet. Questo significa zero latenza, velocità di risposta 
+                        istantanea e operatività garantita anche in assenza di rete. Per attività critiche come la 
+                        gestione di presenze, fatturazione o inventario, l'affidabilità di un sistema offline è 
+                        insuperabile.
+                    </p>
+                    
+                    <p>
+                        <strong>Personalizzazione profonda:</strong> Le soluzioni cloud sono spesso vincolate a 
+                        funzionalità standard che devono servire migliaia di clienti diversi. Un software gestionale 
+                        sviluppato su misura e installato localmente può essere personalizzato fino al minimo dettaglio, 
+                        integrando esattamente i processi della tua organizzazione senza compromessi. Ogni funzione è 
+                        pensata per te, non per una "media" di utenti.
+                    </p>
+                    
+                    <p>
+                        <strong>Costi prevedibili nel lungo periodo:</strong> Mentre i servizi cloud richiedono canoni 
+                        mensili o annuali che possono aumentare nel tempo, un software offline rappresenta un 
+                        investimento una tantum. Non ci sono costi ricorrenti nascosti, aumenti improvvisi delle 
+                        tariffe o necessità di aggiornare il piano quando l'azienda cresce. Paghi una volta e il 
+                        software è tuo.
+                    </p>
+                    
+                    <h3 class="text-2xl font-bold text-navy mt-8 mb-4">Perché Scegliere ldm4app</h3>
+                    
+                    <p>
+                        La nostra missione è sviluppare strumenti gestionali che migliorano concretamente la vita 
+                        lavorativa di chi li utilizza. Non crediamo nelle soluzioni "taglia unica": ogni settore, 
+                        ogni azienda, ogni team ha esigenze specifiche che meritano risposte specifiche. Per questo 
+                        ogni nostro progetto inizia con un'analisi approfondita delle tue necessità operative.
+                    </p>
+                    
+                    <p>
+                        Progettiamo interfacce intuitive che riducono drasticamente i tempi di formazione del personale. 
+                        Un software ben progettato non dovrebbe richiedere manuali di istruzioni: dovrebbe essere così 
+                        chiaro da risultare ovvio. Questo approccio "user-first" garantisce adozione rapida, riduzione 
+                        degli errori e aumento della produttività dal primo giorno di utilizzo.
+                    </p>
+                    
+                    <p>
+                        Utilizziamo tecnologie moderne e consolidate come C#, .NET, SQL Server e JavaScript per 
+                        garantire solidità, prestazioni eccellenti e manutenibilità nel tempo. I nostri software non 
+                        sono esperimenti tecnologici, ma soluzioni professionali costruite per durare anni. E quando 
+                        la tua azienda cresce o cambiano le esigenze, siamo qui per evolvere il software insieme a te.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <div>
-                        <h3 class="text-xl font-bold text-navy mb-4 flex items-center gap-3">
-                            <span class="w-8 h-8 bg-cobalt text-white rounded-full flex items-center justify-center text-sm">2</span>
-                            Accesso da Remoto
-                        </h3>
-                        <p>Installa l'app del Cloud scelto su altri dispositivi (PC portatili, Tablet o Smartphone). Effettua l'accesso con lo stesso account.</p>
-                    </div>
+    
+    <!-- <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER RETTANGOLARE GRANDE
+        </div>
+    </div> -->
 
-                    <div class="bg-white p-6 rounded-2xl border border-blue-100 shadow-sm">
+    
+
+    <!-- Download Section -->
+    <section id="download" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                  <h2 class="text-3xl md:text-4xl font-bold text-navy mb-4">Scarica LDM Soccer Manager Pro</h2>
+                  <p class="text-gray-600 max-w-2xl mx-auto">Scarica l'app per Windows e installala sul tuo PC. I nostri software sono <strong>100% Gratuiti</strong>. Carica il file .zip nella cartella <strong>/downloads</strong> del sito per rendere disponibile il link.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-200">
+                <div class="md:flex items-center gap-6">
+                    <div class="flex-shrink-0 mb-6 md:mb-0">
+                        <div class="w-32 h-32 bg-gradient-to-br from-cobalt to-blue-700 rounded-xl flex items-center justify-center text-white text-lg font-bold">
+                            EXE
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-navy mb-2">LDM Soccer Manager Pro — Windows (x64)</h3>
+                        <p class="text-gray-600 mb-4">Versione: <strong>1.0.0</strong> — Rilasciato il <strong>10 Gennaio 2026</strong>. Pacchetto autoinstallante (unsigned). Scarica lo ZIP contenente l'app pronta all'uso.</p>
+
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                            <a id="download-zip" href="https://mega.nz/file/gzBhjApb#RQdPUgtlp-53HNiMXcZjCjGAFEhhKIoa5yace6p9nB0" target="_blank" class="inline-block bg-cobalt text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow">Scarica .zip</a>
+                            <a href="install.html" class="inline-block text-sm text-gray-600 hover:underline">Istruzioni di installazione</a>
+                            <a href="viewer/index-viewer.html" target="_blank" rel="noopener noreferrer" class="inline-block bg-emerald-500 text-white px-4 py-3 rounded-lg font-semibold hover:bg-emerald-600 transition shadow ml-2">Apri Viewer (Genitori)</a>
+                        </div>
+
+                        <p class="text-xs text-gray-500 mt-4">Download sicuro tramite MEGA. Il software è <strong>100% Gratuito</strong> e sostenuto da un unico banner pubblicitario in basso per coprire i costi. Nota: il file può essere ospitato nella cartella `downloads` o nella root; qui il link punta a MEGA.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Guida alla Condivisione Cloud -->
+    <section id="guida-condivisione" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="border-2 border-cobalt bg-blue-50 p-6 rounded-2xl">
+                    <h2 class="text-2xl font-bold text-navy mb-4"><i class="fa-solid fa-cloud-arrow-up mr-2 text-cobalt"></i>Guida Rapida — Modalità Condivisione</h2>
+                    <p class="text-gray-700 mb-4">I genitori possono aggiornare i dati nell'app usando uno dei tre metodi seguenti. Scegli il più comodo per la tua società.</p>
+
+                    <ol class="list-decimal list-inside text-gray-700 space-y-3 mb-4">
+                        <li><strong>File Locale:</strong> Scarica il file <code class="bg-gray-100 px-1 rounded">backup.json</code> inviato dalla società e caricalo dall'app tramite l'opzione "Carica file" sul telefono.</li>
+                        <li><strong>URL Diretto:</strong> Fornisci un URL pubblico (es. <em>https://tuosito.it/data.json</em>) che i genitori possono incollare nel campo "Carica da URL" dell'app per aggiornare i dati in un click.</li>
+                        <li><strong>Cloud (Google Drive / Dropbox):</strong> Carica il file sul tuo spazio cloud e condividi il link; nell'app usa l'opzione "Carica cloud" e, se disponibile, premi "Converti link" prima di caricare.</li>
+                    </ol>
+
+                    <h3 class="text-lg font-semibold text-navy mb-2">Guida per la Società (Esportazione)</h3>
+                    <p class="text-gray-700 mb-4">Dal software gestionale: vai su <strong>Backup / Esporta</strong>, esporta i dati in formato <code class="bg-gray-100 px-1 rounded">.json</code>, carica il file sul tuo spazio cloud (Google Drive, Dropbox o OneDrive) e invia il link o il file ai genitori. In alternativa, puoi mettere il file nella cartella <code class="bg-gray-100 px-1 rounded">/downloads</code> del sito e comunicare il link diretto.</p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4">
+                            <div class="text-cobalt text-xl mt-1"><i class="fa-solid fa-file-export"></i></div>
+                            <div>
+                                <h3 class="font-semibold text-navy">Esportazione JSON</h3>
+                                <p class="text-gray-700">Dal software esporta i dati in formato <strong>.json</strong>. Il file contiene le informazioni aggiornate su atleti, eventi e report.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="text-cobalt text-xl mt-1"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                            <div>
+                                <h3 class="font-semibold text-navy">Sincronizzazione Cloud</h3>
+                                <p class="text-gray-700">Salva il file <code>.json</code> nella cartella condivisa del tuo servizio cloud preferito (Dropbox, Google Drive o OneDrive). Usare una cartella condivisa permette agli altri di accedere alla versione più recente.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="text-cobalt text-xl mt-1"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                            <div>
+                                <h3 class="font-semibold text-navy">Accesso da Mobile</h3>
+                                <p class="text-gray-700">Atleti e dirigenti devono installare l'app del provider cloud sul proprio smartphone. Una volta connessi, potranno aprire il file <code>.json</code> o i report generati ogni volta che l'amministratore salva una nuova esportazione.</p>
+                            </div>
+                        </div>
+
                         <div class="flex items-start gap-4">
                             <div class="text-cobalt text-xl mt-1"><i class="fa-solid fa-shield-check"></i></div>
                             <div>
-                                <h3 class="font-bold text-navy">Vantaggio Sicurezza</h3>
-                                <p class="text-sm">I dati sorgente rimangono al sicuro sul PC principale. I collaboratori potranno consultare i report esportati ovunque si trovino, in modalità sola lettura se configurato correttamente.</p>
+                                <h3 class="font-semibold text-navy">Vantaggio</h3>
+                                <p class="text-gray-700">Questo metodo mantiene i dati sorgente sicuri sul PC principale, ma rende le informazioni consultabili ovunque tramite la sincronizzazione cloud: semplice, immediato e controllato dall'amministratore.</p>
                             </div>
                         </div>
                     </div>
+
+                    <p class="text-sm text-gray-600 mt-4">Suggerimento: assicurati che la cartella condivisa abbia permessi di sola lettura per chi consulta i dati, e sola scrittura per gli amministratori.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contatti" class="py-20 bg-navy text-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-5xl font-bold mb-8">Pronto a trasformare il tuo business?</h2>
-            <p class="text-xl text-blue-200 mb-12 max-w-2xl mx-auto">
-                Inviaci un messaggio per una consulenza gratuita. Analizzeremo insieme le tue necessità.
-            </p>
+    <!-- Tecnologie -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Tecnologie che Utilizziamo</h2>
+            </div>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-2xl font-bold text-cobalt">C#</span>
+                    </div>
+                    <span class="text-sm text-gray-600">C#</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-purple-600">.NET</span>
+                    </div>
+                    <span class="text-sm text-gray-600">.NET</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-blue-600">SQL</span>
+                    </div>
+                    <span class="text-sm text-gray-600">SQL Server</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-orange-500">JS</span>
+                    </div>
+                    <span class="text-sm text-gray-600">JavaScript</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-blue-500">TS</span>
+                    </div>
+                    <span class="text-sm text-gray-600">TypeScript</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mb-2">
+                        <span class="text-xl font-bold text-green-600">DB</span>
+                    </div>
+                    <span class="text-sm text-gray-600">Database</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contatti -->
+    <section id="contatti" class="py-20 bg-gradient-to-br from-navy to-blue-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Inizia il Tuo Progetto</h2>
+                <p class="text-lg text-blue-100 mb-10">
+                    Hai un'idea o un'esigenza gestionale? Contattaci per una consulenza gratuita 
+                    e scopri come possiamo aiutarti.
+                </p>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 md:p-10">
+                    <div class="text-blue-100 text-center">
+                        <p>Modulo contatti rimosso su richiesta. Per contatti scrivi a <a href="mailto:info@ldm4app.com" class="underline">info@ldm4app.com</a></p>
+                    </div>
+                </div>
+                <div class="mt-12 space-y-2">
+                    <p class="text-blue-100">
+                        <strong>Email:</strong> info@ldm4app.com
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">ldm4app</h3>
+                    <p class="text-sm leading-relaxed">
+                        Software gestionali su misura per aziende che vogliono il meglio.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Link Utili</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#servizi" class="hover:text-white transition">Servizi</a></li>
+                        <li><a href="#prodotti" class="hover:text-white transition">Prodotti</a></li>
+                        <li><a href="#filosofia" class="hover:text-white transition">Filosofia</a></li>
+                        <li><a href="#contatti" class="hover:text-white transition">Contatti</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Informazioni Legali</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="privacy-policy.html" class="hover:text-white transition">Privacy Policy (raccolta dati statistici anonimi)</a></li>
+                        <li><a href="#contatti" class="hover:text-white transition">Termini di Servizio</a></li>
+                        <li><a href="cookie-policy.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Banner pubblicitario (Adsterra) -->
+            <div class="border-t border-gray-700 pt-6 pb-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div id="adsterra-banner" class="mx-auto mb-4">
+                        <script>
+                          atOptions = {
+                            'key' : '7d63b40c88abcade5af171588ca400a2',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                          };
+                        </script>
+                        <script src="https://www.highperformanceformat.com/7d63b40c88abcade5af171588ca400a2/invoke.js"></script>
+                    </div>
+                </div>
+            </div>
             
-            <form action="https://formspree.io/f/info@ldm4app.com" method="POST" class="max-w-xl mx-auto space-y-4">
-                <input type="text" name="name" placeholder="Nome o Azienda" required class="w-full px-6 py-4 rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-cobalt text-white placeholder-gray-400">
-                <input type="email" name="email" placeholder="Email di contatto" required class="w-full px-6 py-4 rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-cobalt text-white placeholder-gray-400">
-                <textarea name="message" rows="4" placeholder="Parlaci del tuo progetto..." required class="w-full px-6 py-4 rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-cobalt text-white placeholder-gray-400"></textarea>
-                <button type="submit" class="w-full bg-cobalt hover:bg-white hover:text-navy text-white font-bold py-4 rounded-xl transition-all text-lg">
-                    Invia Richiesta
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <footer class="bg-gray-900 text-gray-500 py-12 border-t border-gray-800">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-gray-700 rounded flex items-center justify-center">
-                    <span class="text-white font-bold">L</span>
-                </div>
-                <span class="text-xl font-bold text-white">ldm4app</span>
-            </div>
-            <p>&copy; 2024 ldm4app - P.IVA 03004350730. Tutti i diritti riservati.</p>
-            <div class="flex space-x-6 text-xl">
-                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="mailto:info@ldm4app.com" class="hover:text-white transition-colors"><i class="fa-solid fa-envelope"></i></a>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <div id="visit-counter" class="text-sm text-gray-400 mb-2">Visite totali: <span id="visit-count">—</span></div>
+                <p>&copy; 2026 ldm4app. Tutti i diritti riservati.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Script per il menu mobile -->
     <script>
-        // Gestione Menu Mobile
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -235,12 +563,68 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Chiudi menu al click sui link
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
+        // Chiudi il menu quando si clicca su un link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
         });
     </script>
+    <script>
+        // Contatore visite e tracciamento download
+        document.addEventListener('DOMContentLoaded', function(){
+            const countEl = document.getElementById('visit-count');
+            if (countEl) {
+                fetch('https://api.countapi.xyz/hit/ldm4app/ldm-soccer-manager')
+                    .then(res => res.json())
+                    .then(data => { countEl.innerText = data && data.value ? data.value : '0'; })
+                    .catch(() => { countEl.innerText = '0'; });
+            }
+
+            // Tracciamento download (GA4) e incremento contatore download opzionale
+            function trackDownload(label){
+                try{
+                    if (typeof gtag === 'function'){
+                        gtag('event', 'download', { 'event_category': 'engagement', 'event_label': label });
+                    }
+                }catch(e){/* non bloccare l'azione di download */}
+
+                // incremento download su CountAPI (non obbligatorio)
+                fetch('https://api.countapi.xyz/hit/ldm4app/downloads-' + encodeURIComponent(label)).catch(()=>{});
+            }
+
+            ['download-zip','download-zip-product'].forEach(function(id){
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('click', function(){ trackDownload('LDM Soccer Manager Pro'); });
+            });
+            // Gestione invio form con fetch verso Formspree
+            const contactForm = document.getElementById('contact-form');
+            const contactSubmit = document.getElementById('contact-submit');
+            const contactFeedback = document.getElementById('contact-feedback');
+            if (contactForm){
+                contactForm.addEventListener('submit', function(e){
+                    e.preventDefault();
+                    if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
+                    if (contactSubmit) contactSubmit.disabled = true;
+                    const action = contactForm.getAttribute('action') || contactForm.action;
+                    const fd = new FormData(contactForm);
+                    fetch(action, { method: 'POST', body: fd, mode: 'cors' })
+                        .then(response => {
+                            if (response.ok) {
+                                if (contactFeedback){ contactFeedback.classList.remove('hidden'); }
+                                contactForm.reset();
+                            } else {
+                                return response.text().then(t => { throw new Error(t || 'Errore invio'); });
+                            }
+                        })
+                        .catch(() => {
+                            if (contactFeedback){ contactFeedback.classList.remove('hidden'); contactFeedback.innerText = 'Si è verificato un errore. Riprova più tardi.'; }
+                        })
+                        .finally(()=>{ if (contactSubmit) contactSubmit.disabled = false; });
+                });
+            }
+        });
+        </script>
 </body>
 </html>
