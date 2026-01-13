@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <!-- Matomo tracking: paste Matomo snippet here (before </head>) -->
+    <!-- Monetag: inserted for ad provider verification -->
+    <meta name="monetag" content="7e56433f7a3c9e471d76cb6f538a55c4">
+    <!-- Matomo tracking: paste Matomo snippet here (before </head>) -->
     <!-- Example:
       <script>
         var _paq = window._paq || [];
@@ -75,7 +77,6 @@
                 <ul class="hidden md:flex space-x-8 text-sm font-medium">
                     <li><a href="#prodotti" class="text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
                     <li><a href="index-viewer.html" class="text-gray-700 hover:text-cobalt transition">LDM Soccer Viewer</a></li>
-                    <li><a id="download-zip-menu" href="https://mega.nz/file/N2AzgTrR#b9P9VdTcemqmD-6vC3PxRwNmnMAvL61Rt7W_1PpXqCQ" target="_blank" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">LDM Soccer Manager Pro</a></li>
                     <li><a href="guides.html" class="text-gray-700 hover:text-cobalt transition">Guide</a></li>
                     <li><a href="#contatti" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Contatti</a></li>
                 </ul>
@@ -90,7 +91,6 @@
                 <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
                 <li><a href="#prodotti" class="block text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
                 <li><a href="index-viewer.html" class="block text-gray-700 hover:text-cobalt transition">LDM Soccer Viewer</a></li>
-                <li><a id="download-zip-menu-mobile" href="https://mega.nz/file/N2AzgTrR#b9P9VdTcemqmD-6vC3PxRwNmnMAvL61Rt7W_1PpXqCQ" target="_blank" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">LDM Soccer Manager Pro</a></li>
                 <li><a href="guides.html" class="block text-gray-700 hover:text-cobalt transition">Guide</a></li>
                 <li><a href="#contatti" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">Contatti</a></li>
             </ul>
@@ -104,6 +104,9 @@
                 <p class="text-gray-600 max-w-2xl mx-auto">
                     Software gestionali specializzati per ogni settore
                 </p>
+                <div class="mt-6 inline-block bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 px-4 py-2 rounded">
+                    <strong>In attesa di una nuova versione:</strong> il download per <em>LDM Soccer Manager Pro</em> è temporaneamente sospeso. Per informazioni scrivi a <a href="mailto:info@ldm4app.com" class="underline">info@ldm4app.com</a>.
+                </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -114,8 +117,7 @@
                         <p class="text-gray-600 mb-2">
                             Gestione completa per società sportive. Atleti, presenze, finanze e molto altro. <strong class="text-cobalt">100% Gratuito</strong>.
                         </p>
-                        <a id="download-zip-product" href="https://mega.nz/file/N2AzgTrR#b9P9VdTcemqmD-6vC3PxRwNmnMAvL61Rt7W_1PpXqCQ" target="_blank" class="text-cobalt font-semibold hover:underline">Scarica per Windows (ZIP) →</a>
-                        <a href="share-guide.html" class="text-cobalt font-semibold hover:underline ml-4">Guida: Condivisione</a>
+                        <a href="share-guide.html" class="text-cobalt font-semibold hover:underline">Guida: Condivisione</a>
                         <p class="text-xs text-gray-500 mt-2">Download sicuro tramite MEGA. Sostenuto da un unico banner pubblicitario in basso per coprire i costi.</p>
                 </div>
 
@@ -155,8 +157,15 @@
                 Ogni soluzione è progettata esattamente sulle tue esigenze, con un focus su sicurezza, privacy e prestazioni.
                 <strong class="block mt-4 text-cobalt">100% Gratuito</strong>
             </p>
-            
-            <p class="text-sm text-gray-500 mt-4"><p>Contattaci: <a href="mailto:info@ldm4app.com">info@ldm4app.com</a></p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contatti" class="bg-cobalt text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">
+                    Richiedi una Consulenza
+                </a>
+                <a href="#prodotti" class="bg-white text-cobalt px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition border-2 border-cobalt">
+                    Scopri i Prodotti
+                </a>
+            </div>
+            <p class="text-sm text-gray-500 mt-4">Sostenuto da un unico banner pubblicitario in basso per coprire i costi.</p>
         </div>
     </section>
 
@@ -222,13 +231,26 @@
                     </ul>
                 </div>
             </div>
-            
-                        
+            <!-- Banner pubblicitario (Adsterra) -->
+            <div class="border-t border-gray-700 pt-6 pb-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div id="adsterra-banner" class="mx-auto mb-4">
+                        <script>
+                          atOptions = {
+                            'key' : '7d63b40c88abcade5af171588ca400a2',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                          };
+                        </script>
+                        <script src="https://www.highperformanceformat.com/7d63b40c88abcade5af171588ca400a2/invoke.js"></script>
                     </div>
                 </div>
             </div>
             
-            
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <div id="visit-counter" class="text-sm text-gray-400 mb-2">Visite totali: <span id="visit-count">—</span></div>
                 <p>&copy; 2026 LDM4APP. Tutti i diritti riservati.</p>
             </div>
         </div>
@@ -328,6 +350,5 @@
             }
         });
         </script>
-<div id="sfcdw2rmfffx3hylacqwm2akpw4w6gug4zf"></div><script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=dw2rmfffx3hylacqwm2akpw4w6gug4zf&down=async" async></script><noscript><a href="https://www.freecounterstat.com" title="html hit counter code"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=dw2rmfffx3hylacqwm2akpw4w6gug4zf" border="0" title="html hit counter code" alt="html hit counter code"></a></noscript>
 </body>
 </html>
