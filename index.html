@@ -281,13 +281,17 @@
         </script>
 </body>
   <!-- Contatore visite (OptiStats) inserito in basso a destra -->
-  <div id="optistats-counter-wrapper" style="position:fixed;right:12px;bottom:12px;z-index:9999;background:#f9fafb;padding:6px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.08);">
-    <div id="sfcmqdw535r96rwhl2d8fxyzmer6rb73hay"></div>
+  <div id="optistats-counter-wrapper" style="position:fixed;right:12px;bottom:12px;z-index:9999;background:#2563eb;color:#ffffff;padding:6px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.08);">
+    <div id="sfcmqdw535r96rwhl2d8fxyzmer6rb73hay" style="background:transparent;color:inherit;"></div>
     <script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=mqdw535r96rwhl2d8fxyzmer6rb73hay&down=async" async></script>
     <noscript>
       <a href="https://www.freecounterstat.com" title="free website counter">
-        <img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=mqdw535r96rwhl2d8fxyzmer6rb73hay" border="0" title="free website counter" alt="free website counter" style="background:#f9fafb;" />
+        <img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=mqdw535r96rwhl2d8fxyzmer6rb73hay" border="0" title="free website counter" alt="free website counter" style="background:transparent;border:0;" />
       </a>
     </noscript>
+    <style>
+      /* Forza sfondo trasparente per elementi creati dallo script e mantiene il colore del testo */
+      #optistats-counter-wrapper img, #optistats-counter-wrapper iframe, #optistats-counter-wrapper div { background: transparent !important; color: inherit !important; }
+    </style>
   </div>
 </html>
