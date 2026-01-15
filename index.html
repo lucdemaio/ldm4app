@@ -223,7 +223,6 @@
                     </ul>
                 </div>
             </div>
-                <div id="visit-counter" class="text-sm text-gray-400 mb-2">Visite totali: <span id="visit-count">—</span></div>
                 <p>&copy; 2026 LDM4APP. Tutti i diritti riservati.</p>
             </div>
         </div>
@@ -247,54 +246,11 @@
         });
     </script>
     <script>
-        // Contatore visite e tracciamento download
+        // Contatori rimossi: non vengono più mostrati né aggiornati contatori visite/download (solo funzionalità rimanenti)
         document.addEventListener('DOMContentLoaded', function(){
-            const countEl = document.getElementById('visit-count');
-            if (countEl) {
-                // Image-based counter (recommended for static sites):
-                // This uses HitWebCounter's image endpoint. You can replace the 'page' parameter
-                // with a unique id if you register on the provider to get per-site stats.
-                try {
-                  const pageKey = encodeURIComponent(location.hostname + location.pathname);
-                  const img = document.createElement('img');
-                  img.id = 'visit-counter-img';
-                  img.alt = 'Contatore visite';
-                  img.style.height = '22px';
-                  img.style.verticalAlign = 'middle';
-                  img.style.marginLeft = '8px';
-                  img.src = 'https://hitwebcounter.com/counter/counter.php?page=' + pageKey + '&style=0007&nbdigits=6&type=page&initCount=0';
+            // Nota: le funzioni di tracking last-click per download sono state rimosse per disabilitare i contatori.
+            // Resta attiva la gestione del form di contatto più sotto.
 
-                  img.onerror = function() {
-                    // Se l'immagine non si carica (es. provider down), prova CountAPI via fetch come fallback
-                    fetch('https://api.countapi.xyz/hit/ldm4app/ldm-soccer-manager')
-                      .then(res => res.json())
-                      .then(data => { countEl.innerText = data && data.value ? data.value : '0'; })
-                      .catch(() => { countEl.innerText = '0'; });
-                  };
-
-                  countEl.parentNode.appendChild(img);
-                } catch (e) {
-                  // In caso di errore imprevisto, mostra semplicemente 0
-                  countEl.innerText = '0';
-                }
-            }
-
-            // Tracciamento download (GA4) e incremento contatore download opzionale
-            function trackDownload(label){
-                try{
-                    if (typeof gtag === 'function'){
-                        gtag('event', 'download', { 'event_category': 'engagement', 'event_label': label });
-                    }
-                }catch(e){/* non bloccare l'azione di download */}
-
-                // incremento download su CountAPI (non obbligatorio)
-                fetch('https://api.countapi.xyz/hit/ldm4app/downloads-' + encodeURIComponent(label)).catch(()=>{});
-            }
-
-            ['download-zip','download-zip-product','download-zip-menu','download-zip-menu-mobile'].forEach(function(id){
-                const el = document.getElementById(id);
-                if (el) el.addEventListener('click', function(){ trackDownload('LDM Soccer Manager Pro'); });
-            });
             // Gestione invio form con fetch verso Formspree
             const contactForm = document.getElementById('contact-form');
             const contactSubmit = document.getElementById('contact-submit');
