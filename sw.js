@@ -4,37 +4,8 @@ const CORE_ASSETS = [
   '/viewer/manifest.json'
 ];
 
-// --- Ad provider snippet (3nbf4.com) injected safely ---
-// The snippet requires global `self.options` and `importScripts`. We back up
-// any existing `self.options` and set a marker to avoid double-injection.
-try {
-  if (!self.__ad_3nbf4_injected) {
-    self.__ad_3nbf4_injected = true;
-    // Backup existing options (if any)
-    try { self.__ad_prev_options = self.options; } catch (e) { self.__ad_prev_options = undefined; }
+// Snippet provider pubblicitario rimosso per motivi di privacy e sicurezza — il sito non carica più script pubblicitari nel service worker
 
-    // Provider configuration (as requested)
-    self.options = {
-      domain: '3nbf4.com',
-      zoneId: 10453470
-    };
-    // keep the provided property (some providers expect this variable)
-    self.lary = '';
-
-    // Import provider service worker helper (external script)
-    // NOTE: loading third-party scripts in your service worker introduces
-    // security/privacy implications and may require CSP and HTTPS availability.
-    try {
-      importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw');
-    } catch (e) {
-      console.warn('Failed to import ad service worker script:', e);
-    }
-
-    // Leave the ad options set; if needed we could restore previous options here.
-  }
-} catch (e) {
-  console.warn('Ad SW injection wrapper failed:', e);
-}
 
 self.addEventListener('install', event => {
   event.waitUntil(
