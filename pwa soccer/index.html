@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#1e40af">
+  <title>Soccer PWA — Demo</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./assets/icons/icon-192.svg">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.svg">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Soccer PWA</h1>
+    <button id="install-btn" class="btn hidden">Installa App</button>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Benvenuto in Soccer PWA</h2>
+      <p>Questa è una Progressive Web App di base pronta per essere usata in un sito web.</p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Atleti</h3>
+          <p>Gestisci la rosa, esporta PDF e controlla visite mediche.</p>
+        </div>
+        <div class="card">
+          <h3>Partite</h3>
+          <p>Calendario, MatchDay e logistica trasferte.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Stato Offline</h3>
+      <p id="online-status">Verifica connessione...</p>
+    </section>
+  </main>
+
+  <footer class="app-footer">Creato da <a href="https://www.ldm4app.com" target="_blank" rel="noopener">ldm4app</a></footer>
+
+  <script src="./assets/js/app.js"></script>
+</body>
+</html>
