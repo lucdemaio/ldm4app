@@ -1,0 +1,694 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1e40af">
+    <meta name="description" content="Gestione Società Sportiva Calcistica - Anagrafica atleti, convocazioni e calendario">
+    
+    <title>SoccerManager Pro</title>
+    
+    <!-- Icona PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.svg">
+    
+    <!-- CSS Modulare -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/modern-navbar.css">
+<link rel="stylesheet" href="assets/css/navbar-fixes.css">
+<link rel="stylesheet" href="assets/css/icons-uniform.css">
+
+    <link rel="stylesheet" href="assets/css/modules.css">
+    <link rel="stylesheet" href="assets/css/premium-ui.css">
+    <link rel="stylesheet" href="assets/css/legal-docs.css">
+    <link rel="stylesheet" href="assets/css/meeting-minutes.css">
+    <link rel="stylesheet" href="assets/css/filesystem.css">
+    <link rel="stylesheet" href="assets/css/scouting.css">
+    <link rel="stylesheet" href="assets/css/logistics.css">
+    <link rel="stylesheet" href="assets/css/archive.css">
+    <link rel="stylesheet" href="assets/css/help-center.css">
+    <link rel="stylesheet" href="assets/css/ux-fixes.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/overrides.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Chart.js per grafici -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- jsPDF per report PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.1/jspdf.plugin.autotable.min.js"></script>
+    
+    <!-- html2canvas per export PNG -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    
+    <!-- PDF utilities (shared footer) -->
+    <script src="assets/js/pdf-utils.js"></script>
+</head>
+<body data-theme="light">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="spinner"></div>
+        <p>Caricamento...</p>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+        <div class="navbar-brand">
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <i data-lucide="menu"></i>
+            </button>
+                <button class="nav-btn" onclick="showView('dashboard')" style="background: none; border: none; padding: 0; cursor: pointer; color: #ffffff !important;" style="background: none; border: none; padding: 0; cursor: pointer;">
+                <h1 class="navbar-logo">LDM Soccer Manager</h1>
+            </button>
+        </div>
+
+        <!-- Main Navigation -->
+        <nav class="navbar-main" id="navbar-main">
+            <button class="nav-btn" onclick="showView('dashboard')" style="background: none; border: none; padding: 0; cursor: pointer; color: #ffffff !important;">
+                <i data-lucide="layout-dashboard"></i>
+                <span data-i18n="Dashboard">Dashboard</span>
+            </button>
+
+            <div class="nav-dropdown">
+                <button class="nav-btn dropdown-toggle">
+                    <i data-lucide="users"></i>
+                    <span data-i18n="Atleti">Atleti</span>
+                    <i data-lucide="chevron-down" class="dropdown-icon"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a onclick="showView('athletes')">
+                        <i data-lucide="user-plus"></i>
+                        <span data-i18n="Gestione Atleti">Gestione Atleti</span>
+                    </a>
+                    <a onclick="showView('athletes')">
+                        <i data-lucide="star"></i>
+                        <span data-i18n="Valutazioni">Valutazioni</span>
+                    </a>
+                    <a onclick="AttendanceModule.showAttendance()">
+                        <i data-lucide="clipboard-check"></i>
+                        <span data-i18n="Presenze">Presenze</span>
+                    </a>
+                    <a onclick="scoutingManager.showScoutingDashboard()">
+                        <i data-lucide="target"></i>
+                        <span data-i18n="Scouting">Scouting</span>
+                    </a>
+                </div>
+            </div>
+
+            <button class="nav-btn" onclick="showView('teams')">
+                <i data-lucide="shield"></i>
+                <span data-i18n="Squadre">Squadre</span>
+            </button>
+
+            <div class="nav-dropdown">
+                <button class="nav-btn dropdown-toggle">
+                    <i data-lucide="calendar"></i>
+                    <span data-i18n="Calendario">Calendario</span>
+                    <i data-lucide="chevron-down" class="dropdown-icon"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a onclick="showView('calendar')">
+                        <i data-lucide="calendar-days"></i>
+                        <span data-i18n="Eventi e Partite">Eventi e Partite</span>
+                    </a>
+                    <a onclick="showView('calendar')">
+                        <i data-lucide="trophy"></i>
+                        <span data-i18n="MatchDay (da calendario)">MatchDay (da calendario)</span>
+                    </a>
+                    <a onclick="showView('calendar')">
+                        <i data-lucide="clipboard"></i>
+                        <span data-i18n="Lavagna Tattica (da evento)">Lavagna Tattica (da evento)</span>
+                    </a>
+                    <a onclick="showView('calendar')">
+                        <i data-lucide="bus"></i>
+                        <span data-i18n="Logistica Trasferte">Logistica Trasferte</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-dropdown">
+                <button class="nav-btn dropdown-toggle">
+                    <i data-lucide="receipt"></i>
+                    <span data-i18n="Amministrazione">Amministrazione</span>
+                    <i data-lucide="chevron-down" class="dropdown-icon"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a onclick="FiscalModule.showFiscalDashboard()">
+                        <i data-lucide="file-text"></i>
+                        <span data-i18n="Gestione Fiscale">Gestione Fiscale</span>
+                    </a>
+                    <a onclick="legalDocs.showLegalDocsDashboard()">
+                        <i data-lucide="file-signature"></i>
+                        <span data-i18n="Documenti Legali">Documenti Legali</span>
+                    </a>
+                    <a onclick="meetingMinutes.showMeetingMinutesDashboard()">
+                        <i data-lucide="file-check"></i>
+                        <span data-i18n="Verbali Assemblee">Verbali Assemblee</span>
+                    </a>
+                    <a onclick="showView('athletes')">
+                        <i data-lucide="euro"></i>
+                        <span data-i18n="Pagamenti Atleti">Pagamenti Atleti</span>
+                    </a>
+                    <a onclick="ArchiveModule.showArchiveDashboard()">
+                        <i data-lucide="archive"></i>
+                        <span data-i18n="Archivia Stagione">Archivia Stagione</span>
+                    </a>
+                </div>
+            </div>
+
+            <button class="nav-btn nav-item" data-section="reports">
+                <i data-lucide="bar-chart-2"></i>
+                <span data-i18n="Report">Report</span>
+            </button>
+        </nav>
+
+        <!-- User Actions -->
+        <div class="navbar-actions">
+            <button id="file-system-btn" class="nav-icon-btn" aria-label="File System">
+                <i data-lucide="hard-drive"></i>
+            </button>
+            <script>
+            // Robust File System opener: wait for manager if needed
+            document.querySelectorAll('.nav-icon-btn[aria-label="File System"]').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const tryOpen = async () => {
+                        if (!document.getElementById('app-container')) { alert('Impossibile trovare il contenitore principale.'); return; }
+                        // wait up to ~5 seconds for window.fileSystemManager to be defined
+                        const start = Date.now();
+                        while (typeof window.fileSystemManager === 'undefined' && (Date.now() - start) < 5000) {
+                            await new Promise(r => setTimeout(r, 100));
+                        }
+                        if (!window.fileSystemManager || typeof window.fileSystemManager.showFileSystemDashboard !== 'function') {
+                            // fallback: ask user to reload or open selection directly
+                            if (confirm('File System Manager non è ancora pronto. Vuoi ricaricare la pagina?')) location.reload();
+                            return;
+                        }
+                        try {
+                            window.fileSystemManager.showFileSystemDashboard();
+                        } catch (err) { alert('Errore apertura File System: ' + (err && err.message ? err.message : err)); }
+                        if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') setTimeout(() => lucide.createIcons(), 100);
+                    };
+                    tryOpen();
+                });
+            });
+            </script>
+            <script>
+            // Fix: re-inizializza icone Lucide dopo click File System
+            document.querySelectorAll('.nav-icon-btn[aria-label="File System"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+                        setTimeout(() => lucide.createIcons(), 100);
+                    }
+                });
+            });
+            </script>
+            <button class="nav-icon-btn" id="sidebar-toggle" aria-label="Impostazioni" data-action="settings">
+                <i data-lucide="settings"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sidebar Amministratore -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2 data-i18n="Pannello Admin">Pannello Admin</h2>
+            <button id="sidebar-close" class="sidebar-close" aria-label="Chiudi">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link" onclick="HelpCenterModule.show()">
+                <i data-lucide="life-buoy"></i>
+                <span data-i18n="Centro Assistenza">Centro Assistenza</span>
+            </a>
+            <a href="#" class="sidebar-link" onclick="OnboardingModule.show()">
+                <i data-lucide="play-circle"></i>
+                <span data-i18n="Rivedi Tutorial">Rivedi Tutorial</span>
+            </a>
+            <a href="#" class="sidebar-link" data-action="export-data">
+                <i data-lucide="download"></i>
+                <span data-i18n="Esporta Dati">Esporta Dati</span>
+            </a>
+            <a href="#" class="sidebar-link" data-action="import-data">
+                <i data-lucide="upload"></i>
+                <span data-i18n="Importa Dati">Importa Dati</span>
+            </a>
+            <a href="#" class="sidebar-link" data-action="settings">
+                <i data-lucide="settings"></i>
+                <span data-i18n="Impostazioni">Impostazioni</span>
+            </a>
+            <a href="#" class="sidebar-link" data-action="backup">
+                <i data-lucide="hard-drive"></i>
+                <span data-i18n="Backup Cloud">Backup Cloud</span>
+            </a>
+        </nav>
+        
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-brand">
+                <p class="sidebar-footer-logo">ldm4app</p>
+                <p class="sidebar-footer-tagline" data-i18n="Professional Soccer Management">Professional Soccer Management</p>
+                <p class="sidebar-footer-credit">Creato da <a href="https://www.ldm4app.com" target="_blank">www.ldm4app.com</a></p>
+            </div>
+            <a href="#" class="sidebar-footer-link" data-action="show-info">
+                <i data-lucide="info"></i>
+                <span data-i18n="Info & Supporto">Info & Supporto</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Overlay per Sidebar -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Main Container -->
+    <main id="app-container" class="app-container" style="padding-bottom: 120px;">
+        
+        <!-- Sezione Dashboard -->
+        <section id="dashboard-section" class="app-section active">
+            <div class="section-header">
+                <h2 data-i18n="Dashboard">Dashboard</h2>
+                <button class="btn-icon" data-action="refresh">
+                    <i data-lucide="refresh-cw"></i>
+                </button>
+            </div>
+
+            <!-- Card Riepilogo -->
+            <div class="dashboard-grid">
+
+                <div class="card card-stat">
+                    <div class="card-icon bg-blue">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="total-athletes">0</h3>
+                        <p>Totale Atleti</p>
+                    </div>
+                </div>
+
+                <div class="card card-stat">
+                    <div class="card-icon bg-teal">
+                        <i data-lucide="user-check"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="active-athletes">0</h3>
+                        <p>Atleti Attivi</p>
+                    </div>
+                </div>
+
+                <div class="card card-stat">
+                    <div class="card-icon bg-orange">
+                        <i data-lucide="alert-triangle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="expiring-medicals">0</h3>
+                        <p data-i18n="Statistiche">Statistiche</p>
+                    </div>
+                </div>
+
+                <div class="card card-stat">
+                    <div class="card-icon bg-purple">
+                        <i data-lucide="calendar"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="upcoming-matches">0</h3>
+                        <p data-i18n="Impostazioni">Impostazioni</p>
+                    </div>
+                </div>
+
+                <!-- Card Finanze -->
+
+                <!-- Card Entrate Fiscali -->
+                <div class="card card-stat">
+                    <div class="card-icon bg-green">
+                        <i data-lucide="arrow-down-circle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="fiscal-ledger-income">€ 0</h3>
+                        <p>Entrate</p>
+                    </div>
+                </div>
+
+                <!-- Card Uscite Fiscali -->
+                <div class="card card-stat">
+                    <div class="card-icon bg-red">
+                        <i data-lucide="arrow-up-circle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="fiscal-ledger-expense">€ 0</h3>
+                        <p>Uscite</p>
+                    </div>
+                </div>
+
+                <!-- Riepilogo Finanze Personali/Quote -->
+                <div class="card card-stat">
+                    <div class="card-icon bg-indigo">
+                        <i data-lucide="dollar-sign"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="total-collected">€ 0</h3>
+                        <p>Totale Incassato</p>
+                    </div>
+                </div>
+
+                <div class="card card-stat">
+                    <div class="card-icon bg-yellow">
+                        <i data-lucide="credit-card"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="total-credit">€ 0</h3>
+                        <p>Totale Crediti</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Scadenze Visite Mediche -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        <i data-lucide="activity"></i>
+                        Scadenze Visite Mediche
+                    </h3>
+                </div>
+                <div id="medical-expiry-list" class="list-container">
+                    <!-- Popolato dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Grafici Dashboard -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <i data-lucide="pie-chart"></i>
+                            Distribuzione Ruoli
+                        </h3>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <canvas id="role-distribution-chart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <i data-lucide="bar-chart-3"></i>
+                            Atleti per Squadra
+                        </h3>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <canvas id="team-distribution-chart" style="max-height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prossime Partite -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        <i data-lucide="trophy"></i>
+                        Prossime Partite
+                    </h3>
+                </div>
+                <div id="upcoming-matches-list" class="list-container">
+                    <!-- Popolato dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card" style="margin-top: 1.5rem; padding: 1.5rem;">
+                <h3 style="margin-bottom: 1rem;">
+                    <i data-lucide="zap"></i> Azioni Rapide
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <button class="btn btn-primary" onclick="ReportsModule.generateGlobalReport()">
+                        <i data-lucide="file-text"></i> Report Globale PDF
+                    </button>
+                    <button class="btn btn-secondary" onclick="showView('athletes'); setTimeout(() => AthletesModule.showAthleteForm(), 100)">
+                        <i data-lucide="user-plus"></i> Aggiungi Atleta
+                    </button>
+                    <button class="btn btn-secondary" onclick="showView('teams'); setTimeout(() => TeamsModule.showTeamForm(), 100)">
+                        <i data-lucide="shield-plus"></i> Crea Squadra
+                    </button>
+                    <button class="btn btn-secondary" onclick="showView('calendar'); setTimeout(() => CalendarModule.showEventForm(), 100)">
+                        <i data-lucide="calendar-plus"></i> Nuovo Evento
+                    </button>
+                    <button class="btn btn-success" id="save-all-btn">
+                        <i data-lucide="save"></i> Salva Tutto
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Anagrafica Atleti -->
+        <section id="athletes-section" class="app-section">
+            <div class="section-header">
+                <h2>Anagrafica Atleti</h2>
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                    <button id="add-athlete-btn" class="btn btn-primary">
+                        <i data-lucide="plus"></i>
+                        Aggiungi
+                    </button>
+                    <button id="export-athletes-pdf-btn" class="btn btn-secondary" title="Esporta PDF Atleti">
+                        <i data-lucide="file-text"></i>
+                        Esporta PDF Atleti
+                    </button>
+                    <button id="sort-athletes-alpha-btn" class="btn btn-secondary" title="Ordine alfabetico">
+                        <i data-lucide="sort-asc"></i>
+                        Ordine alfabetico
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtri -->
+            <div class="filters-bar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="athlete-search" placeholder="Cerca atleta...">
+                </div>
+                <select id="filter-team" class="filter-select">
+                    <option value="">Tutte le Squadre</option>
+                </select>
+                <select id="filter-role" class="filter-select">
+                    <option value="">Tutti i Ruoli</option>
+                    <option value="Portiere">Portiere</option>
+                    <option value="Difensore">Difensore</option>
+                    <option value="Centrocampista">Centrocampista</option>
+                    <option value="Attaccante">Attaccante</option>
+                </select>
+            </div>
+
+            <!-- Lista Atleti -->
+            <div id="athletes-list" class="athletes-grid">
+                <!-- Popolato dinamicamente -->
+            </div>
+        </section>
+
+        <!-- Sezione Gestione Squadre -->
+        <section id="teams-section" class="app-section">
+            <div class="section-header">
+                <h2>Gestione Squadre</h2>
+                <button id="add-team-btn" class="btn btn-primary">
+                    <i data-lucide="plus"></i>
+                    Nuova Squadra
+                </button>
+            </div>
+
+            <div id="teams-list" class="teams-container">
+                <!-- Popolato dinamicamente -->
+            </div>
+        </section>
+
+        <!-- Sezione Calendario -->
+        <section id="calendar-section" class="app-section">
+            <div class="section-header">
+                <h2>Calendario</h2>
+                <button id="add-event-btn" class="btn btn-primary">
+                    <i data-lucide="plus"></i>
+                    Aggiungi Evento
+                </button>
+            </div>
+
+            <!-- Filtro Visualizzazione -->
+            <div class="calendar-filters">
+                <button class="btn-tab active" data-view="all">Tutti</button>
+                <button class="btn-tab" data-view="training">Allenamenti</button>
+                <button class="btn-tab" data-view="match">Partite</button>
+            </div>
+
+            <div id="calendar-events" class="calendar-container">
+                <!-- Popolato dinamicamente -->
+            </div>
+        </section>
+
+        <!-- Sezione Help Center -->
+        <section id="help-center-view" class="app-section">
+            <!-- Contenuto popolato da help-center.js -->
+        </section>
+
+        <!-- Sezione Scouting (mancante, necessaria per JS) -->
+        <section id="scouting-section" class="app-section">
+            <div id="scouting-section-content"></div>
+        </section>
+
+        <!-- Sezione Reports -->
+        <section id="reports-section" class="app-section">
+            <div class="section-header">
+                <h2 data-i18n="Report">Report</h2>
+            </div>
+            <div id="reports-list" class="reports-container">
+                <!-- Popolato dinamicamente dal modulo ReportsModule -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-section="dashboard">
+            <i data-lucide="home"></i>
+            <span data-i18n="Dashboard">Dashboard</span>
+        </button>
+        <button class="nav-item" data-section="athletes">
+            <i data-lucide="users"></i>
+            <span data-i18n="Atleti">Atleti</span>
+        </button>
+        <button class="nav-item" data-section="teams">
+            <i data-lucide="shield"></i>
+            <span data-i18n="Squadre">Squadre</span>
+        </button>
+        <button class="nav-item" data-section="calendar">
+            <i data-lucide="calendar-days"></i>
+            <span data-i18n="Calendario">Calendario</span>
+        </button>
+    </nav>
+
+    <!-- Modal Generico -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Titolo Modal</h3>
+                <button class="modal-close" aria-label="Chiudi">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="modal-body">
+                <!-- Contenuto dinamico -->
+            </div>
+        </div>
+    </div>
+
+        <!-- Gestione Squadra/Atleti (locale, privacy-first) -->
+        <section id="local-team-manager" class="app-section" style="margin:2em auto; max-width:600px; background:#fff; border-radius:10px; box-shadow:0 2px 8px #0001; padding:2em;">
+            <h2>Gestione Squadra Locale</h2>
+            <div id="team-form">
+                <h3>Crea Squadra</h3>
+                <input type="text" id="clubName" placeholder="Nome Società" required style="margin-bottom:8px;width:100%"><br>
+                <input type="text" id="season" placeholder="Stagione (es: 2025/2026)" required style="margin-bottom:8px;width:100%"><br>
+                <input type="text" id="category" placeholder="Categoria (es: Allievi)" required style="margin-bottom:8px;width:100%"><br>
+                <button id="saveTeamBtn" class="btn btn-success" style="margin-bottom:1em;">Salva Squadra</button>
+            </div>
+            <div id="player-form" style="margin-top:2em;">
+                <h3>Aggiungi Atleta</h3>
+                <input type="text" id="playerName" placeholder="Nome" required style="margin-bottom:8px;width:100%"><br>
+                <input type="text" id="playerRole" placeholder="Ruolo" required style="margin-bottom:8px;width:100%"><br>
+                <input type="number" id="playerNumber" placeholder="Numero" required style="margin-bottom:8px;width:100%"><br>
+                <input type="text" id="playerNotes" placeholder="Note" style="margin-bottom:8px;width:100%"><br>
+                <button id="addPlayerBtn" class="btn btn-primary">Aggiungi Atleta</button>
+            </div>
+            <div style="margin-top:2em;">
+                <h3>Rosa Squadra</h3>
+                <table id="playersTable" border="1" cellpadding="5" style="width:100%;border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th>Nome</th><th>Ruolo</th><th>Numero</th><th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <button id="exportTeamBtn" class="btn btn-secondary" style="margin-top:2em;">Esporta Database Squadra</button>
+        </section>
+
+        <!-- Script gestione locale squadra/atleti -->
+        <script src="assets/js/team-manager.js"></script>
+        <!-- Script salvataggio/caricamento locale e feedback -->
+        <script src="assets/js/local-team-data.js"></script>
+        <script>
+        // Tasto "Salva Tutto" dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('save-all-btn');
+            if (btn) btn.addEventListener('click', function() {
+                if (typeof salvaSquadra === 'function') salvaSquadra();
+                if (typeof salvaAtleti === 'function') salvaAtleti();
+                if (typeof salvaNote === 'function') salvaNote();
+                if (typeof salvaEventi === 'function') salvaEventi();
+                if (typeof salvaImpostazioni === 'function') salvaImpostazioni();
+                if (typeof salvaCollaboratori === 'function') salvaCollaboratori();
+                if (typeof salvaRicevute === 'function') salvaRicevute();
+                if (typeof showToast === 'function') showToast();
+            });
+        });
+        </script>
+
+<!-- Scripts Modulari -->
+    <script src="assets/js/utils.js" defer></script>
+    <script src="assets/js/state-manager.js" defer></script>
+    <script src="assets/js/storage.js" defer></script>
+    <script src="assets/js/athletes.js" defer></script>
+    <script src="assets/js/teams.js" defer></script>
+    <script src="assets/js/logistics.js" defer></script>
+    <script src="assets/js/dashboard.js" defer></script>
+    <script src="assets/js/evaluations.js" defer></script>
+    <script src="assets/js/reports.js" defer></script>
+    <script src="assets/js/finances.js" defer></script>
+    <script src="assets/js/matchday.js" defer></script>
+    <script src="assets/js/attendance.js" defer></script>
+    <script src="assets/js/tactics.js" defer></script>
+    <script src="assets/js/fiscal-manager.js" defer></script>
+    <script src="assets/js/legal-docs.js" defer></script>
+    <script src="assets/js/meeting-minutes.js" defer></script>
+    <script src="assets/js/filesystem-manager.js" defer></script>
+    <script src="assets/js/scouting.js" defer></script>
+    <script src="assets/js/archive.js" defer></script>
+    <script src="assets/js/onboarding.js" defer></script>
+    <script src="assets/js/help-center.js" defer></script>
+    <script src="assets/js/tooltips.js" defer></script>
+    <script src="assets/js/theme.js" defer></script>
+    <script src="assets/js/info.js" defer></script>
+    <script src="assets/js/ads.js" defer></script>
+    <script src="assets/js/modern-navbar.js" defer></script>
+    <script src="assets/js/navbar-fixes.js" defer></script>
+    <script src="assets/js/calendar.js" defer></script>
+    <script src="assets/js/ui.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+
+    <!-- Inizializzazione App: deve essere l'ULTIMO script -->
+    <script>
+        // Avvia l'applicazione quando il DOM è pronto
+        window.addEventListener('DOMContentLoaded', function() {
+            if (typeof initApp === 'function') {
+                initApp();
+            } else {
+                console.error('initApp non è definita al DOMContentLoaded');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
