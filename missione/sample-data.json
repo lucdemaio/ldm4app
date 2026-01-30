@@ -1,0 +1,7 @@
+{
+  "volunteers": [{"name":"Anna Rossi","role":"Coordinatrice","contact":"anna@example.org"}],
+  "projects": [{"title":"Pozzo per villaggio X","location":"Villaggio X","summary":"Costruzione pozzo per accesso all'acqua potabile"}],
+  "donors": [{"name":"Parrocchia S. Marco","amount":500.00,"contact":"segreteria@parrocchiasmarco.it"}],
+  "events": [{"title":"Missione estiva 2026","date":"2026-07-15","location":"Villaggio X"}],
+  "inventory": [{"name":"Kit Medico","qty":10,"notes":"Per clinica mobile"}]
+}

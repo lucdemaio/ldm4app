@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0b6b4f">
+    <link rel="icon" href="icons/icon.svg">
+    <meta name="description" content="Gestione Missione Cattolica - volontari, progetti, donatori, eventi, logistica e report">
+    <title>Missione Manager</title>
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Stili base (usa il foglio locale per personalizzazioni) -->
+    <link rel="stylesheet" href="assets/css/mission.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.1/jspdf.plugin.autotable.min.js"></script>
+    <!-- html2canvas per esportazioni immagini -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- QR & Scanner -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+<body data-theme="mission">
+    <div id="debug-banner" style="position:fixed;top:80px;right:16px;background:#fff;padding:6px 10px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:1200;font-size:0.9rem;color:#0b1220">Debug: inizializzazione in attesa...</div>
+    <header class="top-navbar">
+        <div class="navbar-brand">
+            <button class="nav-btn" onclick="showView('dashboard')" style="background:none;border:none;padding:0;cursor:pointer;">
+                <h1 class="navbar-logo">Missione Manager</h1>
+            </button>
+        </div>
+
+        <nav class="navbar-main" id="navbar-main" role="navigation" aria-label="Main navigation">
+            <button id="dashboard-btn" class="nav-btn" title="Dashboard" aria-label="Dashboard" onclick="showView('dashboard')"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
+            <div class="nav-dropdown">
+                <button class="nav-btn dropdown-toggle" title="Volontari" aria-label="Volontari" aria-expanded="false" data-section="volunteers"><i data-lucide="users"></i><span>Volontari</span></button>
+                <div class="dropdown-menu">
+                    <a onclick="showView('volunteers')"><i data-lucide="user-plus"></i>Gestione Volontari</a>
+                    <a onclick="VolunteersModule.showTraining()"><i data-lucide="book-open"></i>Formazione</a>
+                    <a onclick="VolunteersModule.showAvailability()"><i data-lucide="calendar-check"></i>Disponibilità</a>
+                </div>
+            </div>
+            <button class="nav-btn" title="Progetti" aria-label="Progetti" onclick="showView('projects')"><i data-lucide="globe"></i><span>Progetti</span></button>
+            <button class="nav-btn" title="Donatori" aria-label="Donatori" onclick="showView('donors')"><i data-lucide="heart"></i><span>Donatori</span></button>
+            <div class="nav-dropdown">
+                <button class="nav-btn dropdown-toggle" title="Calendario" aria-label="Calendario" aria-expanded="false" data-section="calendar"><i data-lucide="calendar"></i><span>Calendario</span></button>
+                <div class="dropdown-menu">
+                    <a onclick="showView('calendar')"><i data-lucide="calendar-days"></i>Eventi & Missioni</a>
+                    <a onclick="showView('calendar')"><i data-lucide="bus"></i>Trasferte</a>
+                </div>
+            </div>
+            <div class="nav-dropdown">
+                <button class="nav-btn dropdown-toggle" title="Funzioni Religiose" aria-label="Funzioni Religiose" aria-expanded="false" data-section="sacraments"><i data-lucide="church"></i><span>Funzioni Religiose</span></button>
+                <div class="dropdown-menu">
+                    <a onclick="showView('sacraments'); SacramentsModule.showSub('baptisms')"><i data-lucide="droplet"></i>Battesimi</a>
+                    <a onclick="showView('sacraments'); SacramentsModule.showSub('marriages')"><i data-lucide="heart"></i>Matrimoni</a>
+                    <a onclick="showView('sacraments'); SacramentsModule.showSub('funerals')"><i data-lucide="file-minus"></i>Esequie</a>
+                    <a onclick="showView('sacraments'); SacramentsModule.showSub('celebrations')"><i data-lucide="star"></i>Altre Celebrazioni</a>
+                </div>
+            </div>
+            <button class="nav-btn" title="Logistica" aria-label="Logistica" onclick="showView('logistics')"><i data-lucide="truck"></i><span>Logistica</span></button>
+            <button id="reports-btn" class="nav-btn" title="Report" aria-label="Report" onclick="showView('reports')"><i data-lucide="file-text"></i><span>Report</span></button>
+        </nav>
+
+        <!-- Barra laterale azioni dati -->
+        <div id="data-actions-bar" class="data-actions-bar">
+            <button id="save-all-btn" class="btn btn-secondary" data-action="export-data" title="Esporta tutti i dati"><i data-lucide="download"></i><span style="margin-left:0.5rem;">Salva tutto</span></button>
+            <button id="backup-btn" class="btn btn-outline" title="Backup locale"><i data-lucide="cloud-lightning"></i><span style="margin-left:0.5rem;">Backup</span></button>
+            <button id="sidebar-toggle" class="nav-icon-btn" title="Impostazioni"><i data-lucide="settings"></i></button>
+        </div>
+    </header>
+    <!-- Sidebar hidden: UI simplified to top navbar only -->
+    <aside id="sidebar" class="sidebar" aria-hidden="true" style="display:none">
+        <!-- sidebar intentionally hidden; functionality moved to topbar -->
+    </aside>
+
+
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <main id="app-container" class="app-container">
+        <section id="dashboard-section" class="app-section active">
+            <!-- Mission Viewer: News & Monitoraggio -->
+            <section id="viewer-section" class="app-section">
+                <div class="section-header dashboard-header-bento">
+                    <h2>Mission Viewer</h2>
+                </div>
+                        <div id="viewer-bento-grid" class="bento-dashboard-grid"></div>
+                        <div id="viewer-feed" class="viewer-feed"></div>
+                    </section>
+            <div class="section-header dashboard-header-bento">
+                <h2>Dashboard</h2>
+                <button class="btn-icon" data-action="refresh" title="Aggiorna"><i data-lucide="refresh-cw"></i></button>
+            </div>
+
+            <!-- Statistiche principali: Bento Grid -->
+            <div class="dashboard-grid bento-dashboard-grid">
+                <div class="bento-card card-stat">
+                    <div class="bento-icon bg-blue"><i data-lucide="users"></i></div>
+                    <div class="bento-content"><h3 id="total-volunteers">0</h3><p>Volontari</p></div>
+                </div>
+                <div class="bento-card card-stat">
+                    <div class="bento-icon bg-green"><i data-lucide="globe"></i></div>
+                    <div class="bento-content"><h3 id="active-projects">0</h3><p>Progetti Attivi</p></div>
+                </div>
+                <div class="bento-card card-stat">
+                    <div class="bento-icon bg-success"><i data-lucide="heart"></i></div>
+                    <div class="bento-content"><h3 id="funds-raised">€ 0</h3><p>Donazioni Ricevute</p></div>
+                </div>
+                <div class="bento-card card-stat">
+                    <div class="bento-icon bg-orange"><i data-lucide="calendar"></i></div>
+                    <div class="bento-content"><h3 id="upcoming-missions">0</h3><p>Missioni Prossime</p></div>
+                </div>
+                <div class="bento-card card-stat">
+                    <div class="bento-icon bg-purple"><i data-lucide="package"></i></div>
+                    <div class="bento-content"><h3 id="inventory-count">0</h3><p>Risorse Inventario</p></div>
+                </div>
+            </div>
+
+            <!-- Progetti in evidenza -->
+            <div class="bento-card" style="margin-top:2.5rem;">
+                <div class="bento-header"><h3><i data-lucide="activity"></i> Progetti in Evidenza</h3></div>
+                <div id="featured-projects" class="list-container"></div>
+            </div>
+
+            <!-- Grafici -->
+            <div class="dashboard-grid bento-dashboard-charts" style="margin-top:2.5rem;">
+                <div class="bento-card">
+                    <div class="bento-header"><h3><i data-lucide="pie-chart"></i> Distribuzione Spese</h3></div>
+                    <div style="padding:1.2rem 0 0.5rem 0;"><canvas id="expenses-chart" style="max-height:300px;"></canvas></div>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-header"><h3><i data-lucide="bar-chart-3"></i> Donazioni per Campagna</h3></div>
+                    <div style="padding:1.2rem 0 0.5rem 0;"><canvas id="donation-chart" style="max-height:300px;"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="volunteers-section" class="app-section">
+            <div class="section-header"><h2 data-i18n="Volunteers">Volontari</h2><div class="toolbar"><button id="add-volunteer-btn" class="btn btn-primary"><i data-lucide="plus"></i><span data-i18n="Add">Aggiungi</span></button><button id="export-volunteers-btn" class="btn btn-outline"><i data-lucide="download"></i><span style="margin-left:0.4rem">Esporta PDF</span></button></div></div>
+            <div class="filters-bar"><input type="text" id="vol-search" placeholder="Cerca volontario..."></div>
+            <div id="volunteers-list" class="list-container"></div>
+        </section>
+
+        <section id="projects-section" class="app-section">
+            <div class="section-header"><h2 data-i18n="Projects">Progetti</h2><div class="toolbar"><button id="add-project-btn" class="btn btn-primary"><i data-lucide="plus"></i><span data-i18n="NewProject">Nuovo Progetto</span></button><button id="add-adoption-btn" class="btn btn-outline"><i data-lucide="heart"></i><span style="margin-left:0.4rem;">Nuova Adozione</span></button><button id="export-projects-btn" class="btn btn-outline"><i data-lucide="download"></i><span style="margin-left:0.4rem;">Esporta PDF</span></button></div></div>
+            <div id="projects-list" class="list-container"></div>
+            <div class="section-header" style="margin-top:1rem"><h3>Adozioni a Distanza</h3><div style="display:flex;gap:0.5rem;align-items:center"><button id="export-adoptions-btn" class="btn btn-outline"><i data-lucide="download"></i><span style="margin-left:0.4rem;">Esporta Adozioni</span></button></div></div>
+            <div id="adoptions-list" class="list-container"></div>
+        </section>
+
+        <section id="sacraments-section" class="app-section">
+            <div class="sacraments-tabs" style="display:flex;gap:1rem;margin-bottom:1.5rem;">
+                <button class="btn btn-outline" id="tab-baptisms">Battesimi</button>
+                <button class="btn btn-outline" id="tab-marriages">Matrimoni</button>
+                <button class="btn btn-outline" id="tab-funerals">Esequie</button>
+                <button class="btn btn-outline" id="tab-celebrations">Celebrazioni</button>
+                <button class="btn btn-outline" id="tab-catechesi">Catechesi</button>
+                <button class="btn btn-outline" id="tab-intentions">Intenzioni Messe</button>
+            </div>
+            <div id="sacraments-modules-container">
+                <!-- Qui verrà caricato dinamicamente il modulo selezionato -->
+            </div>
+        </section>
+
+        <section id="donors-section" class="app-section">
+            <div class="section-header"><h2 data-i18n="Donors">Donatori</h2><div class="toolbar"><button id="add-donor-btn" class="btn btn-primary"><i data-lucide="plus"></i><span data-i18n="AddDonor">Aggiungi Donatore</span></button><button id="export-donors-btn" class="btn btn-outline"><i data-lucide="download"></i><span style="margin-left:0.4rem;">Esporta PDF</span></button></div></div>
+            <div id="donors-list" class="list-container"></div>
+        </section>
+
+        <section id="calendar-section" class="app-section">
+            <div class="section-header"><h2 data-i18n="CalendarEvents">Calendario Eventi</h2><div class="toolbar">
+                <button id="add-event-btn" class="btn btn-primary"><i data-lucide="plus"></i><span data-i18n="AddEvent">Aggiungi Evento</span></button>
+                <button id="add-trip-btn" class="btn btn-primary" style="display:none;"><i data-lucide="bus"></i><span>Aggiungi Trasferta</span></button>
+                <button id="export-events-btn" class="btn btn-outline"><i data-lucide="download"></i><span style="margin-left:0.4rem;">Esporta PDF</span></button>
+            </div></div>
+            <div id="calendar-events" class="calendar-container"></div>
+        </section>
+
+        <section id="logistics-section" class="app-section"><div class="section-header"><h2>Logistica & Inventario</h2><div class="toolbar"><button id="add-inventory-btn" class="btn btn-primary"><i data-lucide="plus"></i><span style="margin-left:0.5rem;">Nuova Risorsa</span></button><button id="add-shipment-btn" class="btn btn-outline"><i data-lucide="box"></i><span style="margin-left:0.5rem;">Nuova Spedizione</span></button><button id="export-inventory-btn" class="btn btn-outline"><i data-lucide="download"></i><span style="margin-left:0.5rem;">Esporta Inventario</span></button><button id="export-shipments-btn" class="btn btn-outline"><i data-lucide="download"></i><span style="margin-left:0.5rem;">Esporta Spedizioni</span></button></div></div><div id="logistics-list" class="list-container"></div>
+            <div class="section-header" style="margin-top:1rem"><h3>Spedizioni Container</h3></div>
+            <div id="shipments-list" class="list-container"></div>
+        </section>
+
+        <section id="reports-section" class="app-section"><div class="section-header"><h2>Report & Documenti</h2><div class="toolbar"><button data-action="refresh" class="btn btn-outline"><i data-lucide="refresh-cw"></i><span style="margin-left:0.4rem;">Riepilogo</span></button><button id="export-all-pdf-btn" class="btn btn-outline"><i data-lucide="download"></i><span style="margin-left:0.4rem;">Esporta Tutto (PDF)</span></button><button id="financial-report-btn" class="btn btn-primary" data-role="admin" style="display:inline-flex;align-items:center;gap:0.5rem;"><i data-lucide="file-text"></i><span>Rendiconto Finanziario</span></button></div></div><div id="reports-list" class="list-container"></div></section>
+    </main>
+
+    <nav class="bottom-nav"><button class="nav-item active" data-section="dashboard"><i data-lucide="home"></i><span data-i18n="Dashboard">Dashboard</span></button><button class="nav-item" data-section="volunteers"><i data-lucide="users"></i><span data-i18n="Volunteers">Volontari</span></button><button class="nav-item" data-section="projects"><i data-lucide="globe"></i><span data-i18n="Projects">Progetti</span></button><button class="nav-item" data-section="donors"><i data-lucide="heart"></i><span data-i18n="Donors">Donatori</span></button></nav>
+
+    <div id="modal" class="modal"><div class="modal-content"><div class="modal-header"><h3 id="modal-title">Titolo</h3><button class="modal-close" aria-label="Chiudi"><i data-lucide="x"></i></button></div><div id="modal-body" class="modal-body"></div></div></div>
+
+    <!-- Inline sample data fallback (used when fetch from file:// fails) -->
+    <script id="sample-data" type="application/json">{
+  "volunteers": [{"name":"Anna Rossi","role":"Coordinatrice","contact":"anna@example.org"}],
+  "projects": [{"title":"Pozzo per villaggio X","location":"Villaggio X","summary":"Costruzione pozzo per accesso all'acqua potabile"}],
+  "donors": [{"name":"Parrocchia S. Marco","amount":500.00,"contact":"segreteria@parrocchiasmarco.it"}],
+  "events": [{"title":"Missione estiva 2026","date":"2026-07-15","location":"Villaggio X"}],
+  "inventory": [{"name":"Kit Medico","qty":10,"notes":"Per clinica mobile"}]
+}</script>
+
+    <!-- Script dei moduli -->
+
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sacraments.js"></script>
+    <script src="assets/js/viewer.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/volunteers.js"></script>
+    <script src="assets/js/projects.js"></script>
+    <script src="assets/js/donors.js"></script>
+    <script src="assets/js/calendar.js"></script>
+    <script src="assets/js/logistics.js"></script>
+    <script src="assets/js/inventory.js"></script>
+    <script src="assets/js/payments.js"></script>
+    <script src="assets/js/sync.js"></script>
+    <script src="assets/js/reports.js"></script>
+    <script src="assets/js/startup-checks.js"></script>
+
+    <script>
+        // Service Worker registration for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('ServiceWorker registered with scope:', reg.scope))
+                .catch(err => console.error('ServiceWorker registration failed:', err));
+        }
+
+        // initApp original bootstrap (kept intact)
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initApp); else initApp();
+    </script>
+</body>
+</html>
