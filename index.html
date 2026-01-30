@@ -1,256 +1,321 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mission Manager — Gestione Fornitori & Inventario</title>
+    
+    <!-- Matomo tracking: paste Matomo snippet here (before </head>) -->
+    <!-- Example:
+      <script>
+        var _paq = window._paq || [];
+        _paq.push(['trackPageView']); _paq.push(['enableLinkTracking']);
+        (function(){ var u="https://YOUR-MATOMO-SERVER/"; _paq.push(['setTrackerUrl', u+'matomo.php']); _paq.push(['setSiteId', 'MATOMO_SITE_ID']); var d=document,g=d.createElement('script'),s=d.getElementsByTagName('script')[0]; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s); })();
+      </script>
+    -->
 
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0ea5a0">
-  <link rel="icon" href="favicon.svg">
+    <!-- Umami tracking placeholder: replace with your Umami snippet (server URL and Website ID)
+      Example:
+        <script async defer data-website-id="YOUR_WEBSITE_ID" src="https://analytics.example.com/umami.js"></script>
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ldm4app - Soluzioni Gestionali su Misura</title>
+     
+     
+    
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p1Cm8X1YvKQJQbZl2Wv6KqfM8Xq0p6K5Ylqv2Qm6Jt0z0Ykz5uQF7FqK1y1Z6b0G1c2l3Q4z5V6Y7X8Y9Z0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0f172a',
+                        'cobalt': '#2563eb',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
-<body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">Gestione <span class="accent">attività</span></div>
-      <nav>
-        <a class="active" data-section="dashboard" onclick="showSection('dashboard')">Dashboard</a>
-        <a data-section="inventory" onclick="showSection('inventory')">Inventario</a>
-        <a data-section="suppliers" onclick="showSection('suppliers')">Fornitori</a>
-        <a data-section="purchases" onclick="showSection('purchases')">Acquisti</a>
-        <a data-section="menu" onclick="showSection('menu')">Menu</a>
-        <a data-section="invoices" onclick="showSection('invoices')">Fatture</a>
-        <a data-section="sales" onclick="showSection('sales')">Ordini clienti</a>
-        <a data-section="drinks" onclick="showSection('drinks')">Bevande, Caffè, Dolci</a>
-        <a data-section="settings" onclick="showSection('settings')">Impostazioni</a>
-      </nav>
-      <footer>v2.0 • Procurement</footer>
-      <div style="position:absolute;left:18px;bottom:10px;font-size:13px;color:#94a3b8;">Creato da <a href="https://www.ldm4app.com" target="_blank" style="color:#94a3b8;text-decoration:underline;">www.ldm4app.com</a></div>
-    </aside>
+<body class="bg-gray-50 text-gray-900">
 
-    <main class="main">
-      <header class="topbar">
-        <div class="search"><i data-lucide="search"></i> <input id="globalSearch" placeholder="Cerca..."/></div>
-        <div class="top-actions">
-          <input id="fileInput" type="file" accept="application/json" style="display:none">
-          <button id="loadBtn" class="btn">Carica dati</button>
-          <button id="saveBtn" class="btn ghost">Salva dati</button>
-          <button id="importExamplesBtn" class="btn">Importa esempi</button>
-          <button id="downloadExamplesBtn" class="btn">Scarica esempi</button>
-          <button id="helpBtn" class="btn ghost">Guida</button>
-          <div class="avatar">PM</div>
-        </div>
-      </header>
-
-      <!-- DASHBOARD -->
-      <section class="dashboard" id="section-dashboard">
-        <h1>Dashboard</h1>
-        <div class="bento">
-          <div class="card">
-            <div class="card-title">Valore Inventario</div>
-            <div class="card-value" id="inventoryValue">€ 0.00</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Fornitori</div>
-            <div class="card-value" id="suppliersCount">—</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Ordini aperti</div>
-            <div class="card-value" id="purchasesOpen">—</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Incasso</div>
-            <div class="card-value" id="salesRevenue">€ 0.00</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- INVENTARIO -->
-      <section class="panel-section" id="section-inventory" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between"><h2>Inventario</h2><button class="btn ghost" onclick="showSection('dashboard')">Annulla</button></div>
-        <div class="panel panel-inventory-form" style="margin-bottom:18px;">
-          <h3>Aggiungi/Modifica prodotto</h3>
-          <label>SKU <input id="skuInput"></label>
-          <label>Nome <input id="nameInput"></label>
-          <label>Prezzo unitario <input id="costInput" type="number" step="0.01"></label>
-          <label>Quantità <input id="qtyInput" type="number" min="0"></label>
-          <div class="panel-actions"><button id="addStockBtn" class="btn primary">Salva prodotto</button></div>
-        </div>
-        <div class="panel panel-inventory-list">
-          <h3>Lista prodotti</h3>
-          <label>Cerca prodotto <input id="inventorySearch" placeholder="SKU o nome"></label>
-          <div style="margin-top:8px; display:flex; gap:8px; align-items:center;">
-            <button id="loadInventoryBtn" class="btn ghost small">Carica prodotti</button>
-            <button id="generateShoppingListBtn" class="btn primary small">Genera lista spesa</button>
-          </div>
-          <table class="table"><thead><tr><th>SKU</th><th>Nome</th><th>Cost</th><th>Unit</th><th>Qty</th><th>Min</th><th>Target</th><th></th></tr></thead><tbody id="inventoryTable"></tbody></table>
-        </div>
-      </section>
-
-      <!-- FORNITORI -->
-      <section class="panel-section" id="section-suppliers" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between"><h2>Fornitori</h2><button class="btn ghost" onclick="showSection('dashboard')">Annulla</button></div>
-        <div class="panel-grid">
-          <div class="panel">
-            <h3>Nuovo fornitore</h3>
-            <label>Nome <input id="supplierName"></label>
-            <label>Contatto <input id="supplierContact"></label>
-            <div class="panel-actions"><button id="addSupplierBtn" class="btn primary">Aggiungi</button></div>
-          </div>
-          <div class="panel">
-            <h3>Lista fornitori</h3>
-            <label>Cerca fornitore <input id="supplierSearch" placeholder="Nome o contatto"></label>
-            <ul id="suppliersList" class="orders-list"></ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- ACQUISTI -->
-      <section class="panel-section" id="section-purchases" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between"><h2>Acquisti (PO)</h2><button class="btn ghost" onclick="showSection('dashboard')">Annulla</button></div>
-        <div class="panel-grid">
-          <div class="panel">
-            <h3>Nuovo ordine fornitore</h3>
-            <label>Fornitore <select id="poSupplier"></select></label>
-            <label>Articolo (SKU) <select id="poSku"></select></label>
-            <label>Quantità <input id="poQty" type="number" min="1" value="1"></label>
-            <div class="panel-actions"><button id="addPoBtn" class="btn primary">Aggiungi riga</button><button id="createPoBtn" class="btn">Crea PO</button></div>
-            <div id="poLines" style="margin-top:12px">
-              <table class="table"><thead><tr><th>SKU</th><th>Qty</th><th>Unit Cost</th><th></th></tr></thead><tbody id="poLinesTable"></tbody></table>
-              <div style="margin-top:8px"><button id="resetPoBtn" class="btn ghost">Reset PO</button></div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <h3>Ordini aperti</h3>
-            <ul id="purchasesList" class="orders-list"></ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- MENU -->
-      <section class="panel-section" id="section-menu" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between"><h2>Menu</h2><button class="btn ghost" onclick="showSection('dashboard')">Annulla</button></div>
-        <div class="panel-grid">
-          <div class="panel">
-            <h3>Nuovo piatto</h3>
-            <div class="helper-text">Per aggiungere gli ingredienti: clicca <strong>"Aggiungi ingrediente"</strong>, seleziona lo <strong>SKU</strong> e imposta la quantità usata per una porzione. Se l'ingrediente non esiste in inventario, usa <strong>Nuovo ingrediente</strong> per crearlo al volo.</div>
-            <label>Nome <input id="menuName"></label>
-            <label>Prezzo <input id="menuPrice" type="number" step="0.01"></label>
-            <div id="menuIngredients"></div>
-            <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-              <button id="addMenuIngredientBtn" class="btn" title="Aggiungi riga ingrediente (SKU + qty)">Aggiungi ingrediente</button>
-              <button id="addMenuItemBtn" class="btn primary">Salva piatto</button>
-            </div>
-          </div>
-          <div class="panel">
-            <h3>Menu disponibile</h3>
-            <ul id="menuList" class="orders-list"></ul>
-            <div style="margin-top:12px;display:flex;gap:8px"><button id="generateShoppingListBtn" class="btn">Genera lista della spesa</button><button id="loadMenuBtn" class="btn ghost small">Carica menu</button><button id="addSampleMenuBtn" class="btn ghost">Aggiungi esempi</button></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- DRINKS / BEVANDE, CAFFÈ, DOLCI -->
-      <section class="panel-section" id="section-drinks" style="display:none;padding:12px 0;">
-        <div style="display:flex;align-items:center;justify-content:space-between"><h2>Bevande, Caffè, Dolci</h2><button class="btn ghost" onclick="showSection('dashboard')">Annulla</button></div>
-        <div class="panel-grid" style="margin-top:0;">
-          <div class="panel">
-            <h3>Aggiungi/Modifica bevanda o dolce</h3>
-            <label>Nome <input id="drinkName"></label>
-            <label>Prezzo <input id="drinkPrice" type="number" step="0.01"></label>
-            <label>Unità <input id="drinkUnit"></label>
-            <label>SKU <input id="drinkSku"></label>
-            <div class="panel-actions">
-              <button id="addDrinkBtn" class="btn primary">Salva</button>
-              <button id="clearDrinkFormBtn" class="btn ghost">Annulla</button>
-              <button id="saveDrinksBtn" class="btn ghost">Salva dati</button>
-              <button id="loadDrinksBtn" class="btn ghost small">Carica bevande</button>
-              <button id="loadDessertsBtn" class="btn ghost small">Carica dolci</button>
-              <button id="loadDrinksFileBtn" class="btn ghost small">Carica dati</button>
-            </div>
-            <h3 style="margin-top:18px">Registra ordine</h3>
-            <label>Prodotto <select id="drinksItem"></select></label>
-            <label>Unità <span id="drinksUnit" class="badge">—</span></label>
-            <label>Quantità <input id="drinksQty" type="number" min="0.01" step="0.01" value="1"></label>
-            <div class="panel-actions"><button id="createDrinkSaleBtn" class="btn primary">Registra ordine</button></div>
-            <div style="margin-top:10px"><strong>Avvisi mancanze:</strong><ul id="drinksShortagesList" class="orders-list"></ul></div>
-          </div>
-          <div class="panel">
-            <h3>Ordini recenti</h3>
-            <ul id="drinksSalesList" class="orders-list"></ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- FATTURE -->
-      <section class="panel-section" id="section-invoices" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between"><h2>Fatture</h2><button class="btn ghost" onclick="showSection('dashboard')">Annulla</button></div>
-        <div class="panel-grid">
-          <div class="panel">
-            <h3>Lista Fatture</h3>
-            <ul id="invoicesList" class="orders-list"></ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- SALES / ORDINI CLIENTI -->
-            <!-- IMPOSTAZIONI -->
-            <section class="panel-section" id="section-settings" style="display:none">
-              <div style="display:flex;align-items:center;justify-content:space-between"><h2>Impostazioni</h2><button class="btn ghost" onclick="showSection('dashboard')">Annulla</button></div>
-              <div class="panel-grid">
-                <div class="panel">
-                  <h3>Gestione dati</h3>
-                  <button id="clearAllDataBtn" class="btn danger">Cancella tutti i dati</button>
-                  <div class="helper-text">Cancella tutto il contenuto locale (magazzino, menu, ordini, fornitori, ecc). L'operazione è irreversibile.</div>
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold gradient-text">
+                    LDM4APP
                 </div>
-              </div>
-            </section>
-      <section class="panel-section" id="section-sales" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between"><h2>Ordini clienti</h2><button class="btn ghost" onclick="showSection('dashboard')">Annulla</button></div>
-        <div class="panel-grid">
-          <div class="panel">
-            <h3>Registra ordine</h3>
-            <label>Prodotto (Menu / Prodotti) <select id="salesItem"></select></label>
-            <label>Unità <span id="salesUnit" class="badge">—</span></label>
-            <label>Quantità <input id="salesQty" type="number" min="0.01" step="0.01" value="1"></label>
-            <div class="panel-actions"><button id="createSaleBtn" class="btn primary">Registra ordine</button></div>
-            <div style="margin-top:10px"><strong>Avvisi mancanze:</strong><ul id="shortagesList" class="orders-list"></ul></div>
-          </div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium">
+                    <li><a href="#prodotti" class="text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                    <li><a id="open-mission-menu" href="https://www.ldm4app.com/missione/index.html" class="text-emerald-700 hover:text-emerald-800 font-semibold transition" target="_blank" rel="noopener noreferrer">Apri Mission App</a></li>
+                    <li><a id="open-soccer-menu" href="https://www.ldm4app.com/soccer/soccer-app.html" class="text-cobalt hover:text-blue-700 font-semibold transition" target="_blank" rel="noopener noreferrer">Apri LDM Soccer Manager Pro</a></li>
+                    <li><a href="#contatti" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Contatti</a></li>
+                </ul>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+                <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
+                <li><a href="#prodotti" class="block text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
+                <li><a id="open-mission-menu-mobile" href="https://www.ldm4app.com/missione/index.html" class="block text-emerald-700 hover:text-emerald-800 transition" target="_blank" rel="noopener noreferrer">Apri Mission App</a></li>
+                <li><a id="open-soccer-menu-mobile" href="https://www.ldm4app.com/soccer/soccer-app.html" class="block text-cobalt hover:text-blue-700 transition" target="_blank" rel="noopener noreferrer">Apri LDM Soccer Manager Pro</a></li>
+                <li><a href="#contatti" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Sezione Prodotti (spostata in alto) -->
+    <section id="prodotti" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-bold text-navy mb-4">I Nostri Prodotti</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Software gestionali specializzati per ogni settore
+                </p>
+                <div class="mt-6 inline-block bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 px-4 py-2 rounded">
+                    <strong>Novità:</strong> I programmi non saranno più scaricabili. D'ora in poi si possono usare direttamente dal sito come Progressive Web App (PWA). Apri le app: <a href="https://www.ldm4app.com/soccer/soccer-app.html" class="underline font-semibold" target="_blank" rel="noopener noreferrer">LDM Soccer Manager Pro</a> — <a href="https://www.ldm4app.com/missione/index.html" class="underline font-semibold" target="_blank" rel="noopener noreferrer">Missione</a>
+                </div>
+                <p class="mt-4 text-sm text-gray-700 underline font-semibold">Nota sulla privacy: le applicazioni lavorano completamente in locale nel tuo browser e non inviano né memorizzano alcun dato sul sito ldm4app. I dati restano sul dispositivo, pertanto non ci sono problemi di privacy.</p>
 
-          <div class="panel">
-            <h3>Ordini recenti</h3>
-            <ul id="salesList" class="orders-list"></ul>
-          </div>
+                <!-- Products grid: Soccer and Mission side-by-side -->
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Soccer Card -->
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                        <div class="w-10 h-10 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg mb-4"></div>
+                        <h3 class="text-lg md:text-xl font-bold text-navy mb-2">LDM Soccer Manager Pro</h3>
+                        <p class="text-sm text-gray-600 mb-4">Gestione completa per società sportive. Atleti, presenze, finanze e molto altro. <strong class="text-cobalt">Usabile direttamente come PWA</strong>.</p>
+                        <div class="mt-3">
+                            <a id="open-soccer-product" href="https://www.ldm4app.com/soccer/soccer-app.html" target="_blank" rel="noopener noreferrer" class="bg-cobalt text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition inline-block">Apri LDM Soccer Manager Pro</a>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-3">Apri l'app nel tuo browser e scegli "Aggiungi alla schermata Home" per installarla come PWA.</p>
+                    </div>
+
+                    <!-- Mission Card -->
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
+                        <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-lg mb-4"></div>
+                        <h3 class="text-lg md:text-xl font-bold text-navy mb-2">Mission App</h3>
+                        <p class="text-sm text-gray-600 mb-4">Programma per la gestione missioni e attività. Usalo direttamente dal sito come Progressive Web App (PWA).</p>
+                        <div class="mt-3">
+                            <a id="open-mission-product" href="https://www.ldm4app.com/missione/index.html" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition inline-block">Apri Mission App</a>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-3">Apri l'app nel tuo browser e scegli "Aggiungi alla schermata Home" per installarla come PWA.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 text-center">
+                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg mb-6 mx-auto"></div>
+                    <h3 class="text-xl font-bold text-navy mb-3">A breve novità in arrivo</h3>
+                    <p class="text-gray-600 mb-4">Stiamo lavorando a qualcosa di nuovo — resta sintonizzato!</p>
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-    </main>
-  </div>
+    <!-- Supporto & Trasparenza section removed as requested -->
 
-  <div id="toast" class="toast hidden">Salvataggio riuscito</div>
-  <div id="modal" class="modal hidden"></div>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-white via-blue-50 to-gray-100 py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-navy mb-6 leading-tight">
+                Soluzioni Gestionali su Misura.<br>
+                <span class="gradient-text">Potenti. Semplici. Sicure.</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+                Sviluppiamo software gestionali personalizzati che ottimizzano il tuo lavoro quotidiano. 
+                Ogni soluzione è progettata esattamente sulle tue esigenze, con un focus su sicurezza, privacy e prestazioni.
+                <strong class="block mt-4 text-cobalt">100% Gratuito</strong>
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contatti" class="bg-cobalt text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">
+                    Richiedi una Consulenza
+                </a>
+                <a href="#prodotti" class="bg-white text-cobalt px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition border-2 border-cobalt">
+                    Scopri i Prodotti
+                </a>
+            </div>
+            <p class="text-sm text-gray-500 mt-4">Sito privo di pubblicità.</p>
+        </div>
+    </section>
 
-  <button id="saveAllFloatingBtn" class="btn primary floating" title="Salva tutto">Salva tutto</button>
-  <!-- JSZip + FileSaver for packaging sample files into ZIP for download -->
-  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
-  <script src="app.js"></script>
-  <script>
-    // Register a basic service worker for offline support (non-intrusive)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js').then(function(reg) {
-          console.log('Service Worker registered:', reg);
-        }).catch(function(err) {
-          console.warn('Service Worker registration failed:', err);
+    
+    <!-- <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE
+        </div>
+    </div> -->
+
+
+
+    
+    <!-- <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE
+        </div>
+    </div> -->
+
+    
+
+
+
+    
+
+
+    
+
+
+
+
+
+    <!-- Contact Section -->
+    <section id="contatti" class="py-12 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-2xl font-bold text-navy mb-4">Contatti</h2>
+                <p class="text-gray-600">Per informazioni generali e supporto scrivi a <a href="mailto:info@ldm4app.com" class="text-cobalt font-semibold">info@ldm4app.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">LDM4APP</h3>
+                    <p class="text-sm leading-relaxed">
+                        Software gestionali su misura per aziende che vogliono il meglio.
+                    </p>
+                    <p class="text-sm mt-3">Email: <a href="mailto:info@ldm4app.com" class="text-emerald-300 hover:text-white">info@ldm4app.com</a></p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Link Utili</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#servizi" class="hover:text-white transition">Servizi</a></li>
+                        <li><a href="#prodotti" class="hover:text-white transition">Prodotti</a></li>
+                        <li><a href="#filosofia" class="hover:text-white transition">Filosofia</a></li>
+                        <li><a href="#contatti" class="hover:text-white transition">Contatti</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Informazioni Legali</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="privacy-policy.html" class="hover:text-white transition">Privacy Policy (raccolta dati statistici anonimi)</a></li>
+                        <li><a href="#contatti" class="hover:text-white transition">Termini di Servizio</a></li>
+                        <li><a href="cookie-policy.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+                <p>&copy; 2026 LDM4APP. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script per il menu mobile -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
-      });
-    }
-  </script>
+
+        // Chiudi il menu quando si clicca su un link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+    <script>
+        // Contatori rimossi: non vengono più mostrati né aggiornati contatori visite/download (solo funzionalità rimanenti)
+        document.addEventListener('DOMContentLoaded', function(){
+            // Nota: le funzioni di tracking last-click per download sono state rimosse per disabilitare i contatori.
+            // Resta attiva la gestione del form di contatto più sotto.
+
+            // Gestione invio form con fetch verso Formspree
+            const contactForm = document.getElementById('contact-form');
+            const contactSubmit = document.getElementById('contact-submit');
+            const contactFeedback = document.getElementById('contact-feedback');
+            if (contactForm){
+                contactForm.addEventListener('submit', function(e){
+                    e.preventDefault();
+                    if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
+                    if (contactSubmit) contactSubmit.disabled = true;
+                    const action = contactForm.getAttribute('action') || contactForm.action;
+                    const fd = new FormData(contactForm);
+                    fetch(action, { method: 'POST', body: fd, mode: 'cors' })
+                        .then(response => {
+                            if (response.ok) {
+                                if (contactFeedback){ contactFeedback.classList.remove('hidden'); }
+                                contactForm.reset();
+                            } else {
+                                return response.text().then(t => { throw new Error(t || 'Errore invio'); });
+                            }
+                        })
+                        .catch(() => {
+                            if (contactFeedback){ contactFeedback.classList.remove('hidden'); contactFeedback.innerText = 'Si è verificato un errore. Riprova più tardi.'; }
+                        })
+                        .finally(()=>{ if (contactSubmit) contactSubmit.disabled = false; });
+                });
+            }
+        });
+        </script>
 </body>
+  <!-- Contatore visite (CountAPI) inserito in basso a destra - versione leggera e privacy-friendly -->
+  <div id="countapi-counter-wrapper" class="countapi-wrapper" role="status" aria-label="Contatore visite" title="Contatore visite">
+    <div class="countapi-inner">
+      <svg class="countapi-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.2"/></svg>
+      <span class="countapi-label">Visite</span>
+      <div id="countapi-value" class="countapi-count" style="display:inline-block;min-width:36px;text-align:right">—</div>
+    </div>
+    <script>
+      (function(){
+        // Incrementa e recupera il contatore da CountAPI (https://countapi.xyz)
+        const el = document.getElementById('countapi-value');
+        if (!el) return;
+        fetch('https://api.countapi.xyz/hit/ldm4app/visits')
+          .then(res => res.json())
+          .then(data => { if (data && typeof data.value !== 'undefined') el.textContent = data.value; })
+          .catch(()=>{ el.textContent = '—'; });
+      })();
+    </script>
+    <noscript>
+      <div style="font-size:0.9rem;opacity:0.9">Visite (JS disabilitato)</div>
+    </noscript>
+    <style>
+      /* Stili integrati per contatore CountAPI */
+      .countapi-wrapper{position:fixed;right:18px;bottom:18px;z-index:9999;background:linear-gradient(135deg,#2563eb,#1e40af);color:#fff;padding:8px 12px;border-radius:999px;box-shadow:0 8px 20px rgba(2,6,23,0.35);font-family:Inter,system-ui,Arial,sans-serif;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px}
+      .countapi-inner{display:inline-flex;align-items:center;gap:8px}
+      .countapi-icon{opacity:0.95}
+      .countapi-label{font-weight:600;opacity:0.95}
+      .countapi-count{font-variant-numeric:tabular-nums}
+      .countapi-wrapper:hover{transform:translateY(-3px);transition:transform .15s ease}
+      @media (max-width:480px){.countapi-wrapper{right:12px;bottom:12px;padding:6px 8px;font-size:0.78rem}.countapi-label{display:none}}
+    </style>
+  </div>
 </html>
