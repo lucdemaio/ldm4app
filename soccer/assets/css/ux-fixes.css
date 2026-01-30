@@ -1,0 +1,342 @@
+/**
+ * UX-FIXES.CSS
+ * Fix UI/UX per migliorare usabilità, accessibilità e user experience
+ * Risolve problemi di contrasto, touch areas, hover states, scrolling
+ */
+
+/* ========== GARANTIRE SCROLLING FLUIDO ========== */
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Fix per evitare che header copra contenuti durante scroll */
+.app-container,
+.app-section {
+    scroll-margin-top: calc(var(--header-height) + 20px);
+}
+
+/* ========== FIX Z-INDEX LAYERS ========== */
+/* Garantire che nessun elemento copra il menu dropdown */
+.dropdown-menu {
+    pointer-events: none;
+}
+
+.dropdown-menu.active,
+.nav-dropdown:hover .dropdown-menu {
+    pointer-events: auto;
+}
+
+/* Fix overlay per modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: calc(var(--z-modal) - 1);
+    transition: opacity var(--transition-base);
+}
+
+/* ========== FIX CONTRASTO TESTO ========== */
+/* Garantire contrasto minimo 4.5:1 per WCAG AA */
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-success {
+    /* Testo sempre bianco su sfondi scuri */
+    color: var(--text-on-primary) !important;
+}
+
+.btn-outline {
+    /* Testo scuro su sfondo chiaro */
+    color: var(--text-on-light);
+}
+
+.btn-outline:hover {
+    /* Testo bianco quando sfondo diventa scuro */
+    color: var(--text-on-primary) !important;
+}
+
+/* Badge con contrasto garantito */
+.badge {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.badge-success {
+    background-color: var(--color-success);
+    color: var(--text-on-accent);
+}
+
+.badge-warning {
+    background-color: var(--color-warning);
+    color: #000000;  /* Nero su giallo/arancio */
+}
+
+.badge-danger {
+    background-color: var(--color-danger);
+    color: var(--text-on-primary);
+}
+
+/* ========== TOUCH AREA MINIME (44px WCAG) ========== */
+/* Garantire area clic minima per tutti gli elementi interattivi */
+button,
+a.btn,
+.clickable {
+    min-height: var(--min-touch-size);
+    min-width: var(--min-touch-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fix per elementi piccoli - aggiungere padding invisibile */
+.btn-icon,
+.nav-icon-btn,
+.modal-close,
+.sidebar-close {
+    position: relative;
+}
+
+.btn-icon::after,
+.nav-icon-btn::after,
+.modal-close::after,
+.sidebar-close::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: var(--min-touch-size);
+    min-height: var(--min-touch-size);
+    z-index: -1;
+}
+
+/* ========== HOVER STATES CHIARI ========== */
+/* Tutti gli elementi interattivi devono avere feedback visivo */
+button:not(:disabled),
+a,
+.clickable,
+[onclick],
+[role="button"] {
+    cursor: pointer;
+    user-select: none;
+}
+
+button:not(:disabled):hover,
+a:hover,
+.clickable:hover,
+[onclick]:hover,
+[role="button"]:hover {
+    opacity: 0.9;
+}
+
+/* Active state per feedback tattile */
+button:not(:disabled):active,
+a:active,
+.clickable:active,
+[onclick]:active,
+[role="button"]:active {
+    transform: scale(0.98);
+}
+
+/* ========== FIX MODAL ========== */
+/* Modal sempre centrato anche su schermi piccoli */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-modal);
+    padding: var(--spacing-4);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal content con scroll interno */
+.modal-content {
+    position: relative;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    background: var(--color-white);
+    z-index: 10;
+}
+
+.modal-footer {
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    background: var(--color-white);
+    border-top: 1px solid var(--color-border);
+    padding: var(--spacing-4);
+    z-index: 10;
+}
+
+/* ========== FIX BOTTOM NAV CHE COPRE CONTENUTI ========== */
+/* Aggiungere padding-bottom al container per evitare che bottom nav copra liste */
+@media (max-width: 768px) {
+    .app-container {
+        padding-bottom: calc(var(--bottom-nav-height) + var(--spacing-8)) !important;
+    }
+
+    /* Liste e grids con padding extra */
+    .athletes-grid,
+    .calendar-container,
+    .list-container {
+        padding-bottom: var(--spacing-6);
+    }
+
+    /* Ultimo elemento delle liste con margin extra */
+    .list-item:last-child,
+    .athlete-card:last-child,
+    .calendar-event:last-child {
+        margin-bottom: var(--spacing-8);
+    }
+}
+
+/* ========== FIX FONT-SIZE MINIMO ========== */
+/* Garantire leggibilità minima 14px */
+small,
+.small-text {
+    font-size: var(--font-size-sm) !important;  /* 14px minimo */
+}
+
+/* ========== FOCUS VISIBLE (ACCESSIBILITÀ TASTIERA) ========== */
+/* Focus ring visibile solo per navigazione da tastiera */
+*:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ========== PREVENZIONE SCROLL ORIZZONTALE ========== */
+.app-container,
+.modal-content,
+.sidebar {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* ========== FIX SCROLLBAR SU MOBILE ========== */
+/* Nascondere scrollbar su mobile mantenendo funzionalità */
+@media (max-width: 768px) {
+    .modal-body,
+    .sidebar-nav {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-gray-400) transparent;
+    }
+
+    .modal-body::-webkit-scrollbar,
+    .sidebar-nav::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .modal-body::-webkit-scrollbar-track,
+    .sidebar-nav::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb,
+    .sidebar-nav::-webkit-scrollbar-thumb {
+        background: var(--color-gray-400);
+        border-radius: var(--radius-full);
+    }
+}
+
+/* ========== FIX DROPDOWN CHE ESCE DALLO SCHERMO ========== */
+@media (max-width: 768px) {
+    .dropdown-menu {
+        left: auto;
+        right: 0;
+        max-width: calc(100vw - var(--spacing-8));
+    }
+
+    /* Centrare dropdown se c'è spazio */
+    .nav-dropdown:first-child .dropdown-menu {
+        left: 0;
+        right: auto;
+    }
+}
+
+/* ========== ANIMAZIONI RIDOTTE PER ACCESSIBILITÀ ========== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========== FIX LOADING SPINNER CONTRASTO ========== */
+.loading-screen {
+    z-index: var(--z-loading);
+}
+
+.spinner {
+    border-color: rgba(255, 255, 255, 0.2);
+    border-top-color: var(--color-white);
+}
+
+/* ========== HELPERS PER SVILUPPATORI ========== */
+/* Evidenziare elementi con problemi di accessibilità (dev mode) */
+[data-debug="true"] button:not([aria-label]):not([title]),
+[data-debug="true"] a:not([aria-label]):not([title]):not(:has(img[alt])) {
+    outline: 2px dashed red !important;
+}
+
+/* ========== FIX PRINT ========== */
+@media print {
+    .top-navbar,
+    .bottom-nav,
+    .sidebar,
+    .modal {
+        display: none !important;
+    }
+
+    .app-container {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* ========== FIX HIGH CONTRAST MODE ========== */
+@media (prefers-contrast: high) {
+    * {
+        border-width: 2px;
+    }
+
+    .btn,
+    .card,
+    input,
+    textarea,
+    select {
+        border-width: 3px !important;
+    }
+}
