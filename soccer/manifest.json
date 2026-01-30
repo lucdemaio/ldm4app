@@ -1,22 +1,21 @@
 {
-  "name": "SoccerManager Pro - Gestione Società Sportiva",
-  "short_name": "SoccerManager",
-  "description": "Applicazione professionale per la gestione di società sportive calcistiche",
-  "start_url": "/soccer-app.html",
+  "name": "Soccer PWA Demo",
+  "short_name": "SoccerPWA",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#1e40af",
+  "background_color": "#ffffff",
   "theme_color": "#1e40af",
-  "orientation": "portrait-primary",
+  "description": "PWA demo per gestione societa' calcistica",
   "icons": [
     {
-      "src": "assets/icons/icon-192.svg",
+      "src": "./assets/icons/icon-192.svg",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "./assets/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
     }
-  ],
-  "categories": ["sports", "productivity", "utilities"],
-  "lang": "it-IT",
-  "dir": "ltr",
-  "prefer_related_applications": false
+  ]
 }
