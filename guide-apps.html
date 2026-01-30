@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Guida alle App — ldm4app</title>
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+  <style>body{font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#f8fafc;color:#0f172a;padding:24px}</style>
+</head>
+<body>
+  <div class="container mx-auto max-w-3xl">
+    <a href="index.html" class="inline-block text-sm text-cobalt hover:underline mb-4">← Torna alla Home</a>
+    <header class="mt-6 mb-6">
+      <h1 class="text-2xl font-bold text-navy">Funzionalità di LDM Soccer Manager Pro e Mission App</h1>
+      <p class="text-gray-600 mt-2">Questa guida spiega le funzioni principali di entrambe le applicazioni e cosa intendiamo per <strong>privacy sicura</strong>.</p>
+    </header>
+
+    <main class="space-y-6">
+      <section class="bg-white p-6 rounded-lg border border-gray-200">
+        <h2 class="text-xl font-semibold mb-2">LDM Soccer Manager Pro</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+          <li>Gestione anagrafiche giocatori e staff.</li>
+          <li>Calendario allenamenti e partite con presenze.</li>
+          <li>Gestione pagamenti e bilancio della società.</li>
+          <li>Esportazione/importazione dati in formato JSON per backup manuale.</li>
+          <li>Interfaccia offline-friendly e possibilità di installare l'app come PWA.</li>
+        </ul>
+      </section>
+
+      <section class="bg-white p-6 rounded-lg border border-gray-200">
+        <h2 class="text-xl font-semibold mb-2">Mission App</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+          <li>Pianificazione attività e missioni.</li>
+          <li>Assegnazione compiti e monitoraggio stato avanzamento.</li>
+          <li>Reportistica locale e generazione di esportazioni.</li>
+          <li>Funziona come PWA per uso su mobile e desktop.</li>
+        </ul>
+      </section>
+
+      <section class="bg-white p-6 rounded-lg border border-gray-200">
+        <h2 class="text-xl font-semibold mb-2">Privacy sicura — cosa significa</h2>
+        <p class="text-gray-700">Le nostre applicazioni sono progettate per funzionare completamente in locale nel tuo browser. In pratica:</p>
+        <ul class="list-disc pl-5 text-gray-700">
+          <li>I dati vengono salvati solamente sul tuo dispositivo (ad es. <em>localStorage</em> o <em>IndexedDB</em>), non vengono inviati automaticamente al sito ldm4app o a nostri server.</li>
+          <li>Le uniche eccezioni sono azioni esplicite dell'utente, come esportare un backup o scegliere di sincronizzare dati con un servizio esterno (operazioni che vengono mostrate chiaramente).</li>
+          <li>L'app può funzionare offline dopo il primo caricamento: tutti i dati restano sul dispositivo.</li>
+          <li>Non usiamo tracker che raccolgono dati personali dalle app; eventuali statistiche del sito sono aggregate e anonime (vedi Privacy Policy).</li>
+        </ul>
+        <p class="text-sm text-gray-600 mt-3">Se desideri rimuovere completamente ogni contatto con servizi esterni, evita di usare le funzioni di condivisione/esportazione online; l'app continuerà comunque a funzionare in locale.</p>
+      </section>
+
+      <div class="flex gap-4">
+        <a href="index.html" class="bg-cobalt text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Torna alla Home</a>
+        <a href="guides.html" class="bg-white text-cobalt px-6 py-3 rounded-lg font-semibold border-2 border-cobalt hover:bg-gray-50 transition">Altro (Guide)</a>
+      </div>
+
+    </main>
+
+    <footer class="mt-8 text-sm text-gray-500">Guida aggiornata il 30 Gennaio 2026 — ldm4app</footer>
+  </div>
+</body>
+</html>
