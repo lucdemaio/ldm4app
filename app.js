@@ -294,13 +294,13 @@ async function pingServer() {
     // failed
   }
   isServerAvailable = false;
-  showServerBanner();
+  // server banner intentionally disabled
   uiLog('server unreachable');
   return false;
 }
 
-function showServerBanner(){ const b = document.getElementById('serverBanner'); if(b) b.classList.remove('hidden'); }
-function hideServerBanner(){ const b = document.getElementById('serverBanner'); if(b) b.classList.add('hidden'); }
+function showServerBanner(){ /* server banner disabled */ }
+function hideServerBanner(){ /* server banner disabled */ }
 
 // exportDBFallback disabilitato: non più download automatico JSON
 function exportDBFallback(){ showToast('Dati NON scaricati. I dati sono salvati solo in locale.', true); uiLog('export fallback DISABLED'); }
@@ -1165,9 +1165,8 @@ function attachButtons(){
   // Attach legacy and robust handlers
   try{ attachButtons(); }catch(e){ console.error('[UI] attachButtons threw', e); }
   try{ attachButtonsRobust(); }catch(e){ console.error('[UI] attachButtonsRobust threw', e); }
-  // Bind server banner controls
-  const reconnectBtn = document.getElementById('reconnectBtn'); if(reconnectBtn) reconnectBtn.addEventListener('click', async ()=>{ uiLog('manual reconnect'); const ok = await pingServer(); if(ok){ fetchData(); showToast('Riconnesso'); } else showToast('Server ancora irraggiungibile', true); });
-  const exportBtn = document.getElementById('exportBackupBtn'); if(exportBtn) exportBtn.addEventListener('click', ()=>{ showToast('Export disabilitato. I dati sono salvati solo in locale.', true); });
+  // Bind server banner controls (disabled)
+  // reconnect/export handlers removed to prevent banner display
 
   // --- BOOTSTRAP DATI ---
   let hadLocal = false;
