@@ -1,4 +1,3 @@
-/* Full original mission.css content - start */
 .app-container {
     padding-right: 110px !important; /* spazio per la barra dati a destra */
 }
@@ -346,6 +345,59 @@ body{
     justify-content: center;
     gap: 0.5rem;
 }
+.btn:hover, button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+    background: var(--accent-900) !important;
+    box-shadow: 0 4px 24px rgba(6,78,59,0.16) !important;
+    transform: translateY(-1px) scale(1.03);
+}
+/* Pulsante secondario */
+.btn-secondary {
+    background: var(--muted-2) !important;
+    color: var(--accent) !important;
+    box-shadow: 0 2px 10px rgba(6,78,59,0.06) !important;
+}
+.btn-secondary:hover {
+    background: #fff !important;
+    color: var(--accent-900) !important;
+    box-shadow: 0 4px 18px rgba(6,78,59,0.10) !important;
+}
+/* Pulsante pericolo */
+.btn-danger {
+    background: var(--danger) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 12px rgba(239,68,68,0.10) !important;
+}
+.btn-danger:hover {
+    background: #b91c1c !important;
+    box-shadow: 0 4px 24px rgba(239,68,68,0.16) !important;
+}
+/* Micro-interazioni focus */
+.btn:focus, button:focus {
+    outline: 2.5px solid var(--accent-light) !important;
+    outline-offset: 2px;
+}
+
+/* Spaziatura e white space */
+.section-header, .toolbar, .dashboard-grid, .app-container {
+    margin-bottom: 2.2rem !important;
+}
+.section-header {
+    padding-bottom: 0.5rem !important;
+}
+.toolbar {
+    padding-bottom: 1.2rem !important;
+}
+/* Nascondi la bottom-nav e la modale fissa */
+/* Nascondi la bottom-nav */
+.bottom-nav { display: none; }
+/* Modal: di default nascosta, visibile con .open */
+.modal { display: none; }
+.modal.open { display: flex; }
+/* Mostra solo la sezione attiva */
+.app-section { display: none; }
+.app-section.active { display: block; }
+/* Dashboard grid responsive */
+.dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.2rem;
@@ -479,8 +531,7 @@ body{margin:0;background:var(--bg);color:#0b1220}
 .badge.success{background:rgba(16,185,129,0.12);color:var(--success)}
 .badge.info{background:rgba(30,144,169,0.12);color:#1e90a9}
 .badge.warning{background:rgba(249,115,22,0.08);color:#f97316}
-.badge.danger{background:rgba(239,68,68,0.08);color:var(--danger)
-}
+.badge.danger{background:rgba(239,68,68,0.08);color:var(--danger)}
 
 /* Bottom nav */
 .bottom-nav{display:none}
@@ -500,15 +551,6 @@ body{margin:0;background:var(--bg);color:#0b1220}
 .form-field input,.form-field textarea,.form-field select{width:100%;padding:0.6rem;border:1px solid #e6e6e6;border-radius:8px;background:transparent}
 .form-actions{display:flex;justify-content:flex-end;gap:0.5rem;padding:0.75rem 1rem;border-top:1px solid #f1f5f4;background:transparent}
 @media (max-width:640px){.modal{padding:0.5rem}.modal-content{border-radius:8px}}
-
-/* Toast notifications */
-.toast{position:fixed;right:16px;bottom:24px;padding:10px 14px;border-radius:8px;color:#fff;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,0.16);opacity:0;transform:translateY(8px);transition:opacity .18s,transform .18s;z-index:3000}
-.toast.show{opacity:1;transform:translateY(0)}
-.toast.info{background:#0b6b4f}
-.toast.success{background:#10b981}
-.toast.error{background:#ef4444}
-.toast.warning{background:#f59e0b}
-
 
 /* Sections visibility: keep content hidden until section active */
 /* Mostra solo la sezione attiva */

@@ -39,7 +39,7 @@ const InventoryModule = (function(){
             <div class="form-actions"><button id="cancel-s-btn" class="btn btn-secondary">Annulla</button><button id="save-s-btn" class="btn btn-primary">${defaults.index!=null?'Aggiorna':'Salva'}</button></div>
         `;
         const modal = document.getElementById('modal'); if (!modal) return; modal.classList.add('open'); const first = modal.querySelector('input,textarea,select'); if (first && typeof first.focus === 'function') first.focus();
-        const escHandler = (e)=>{ if (e.key === 'Escape') { modal.classList.remove('open'); document.removeEventListener('keydown', escHandler); } };
+        const escHandler = (e)=>{ if (e.key === 'Escape') { modal.classList.remove('open'); document.removeEventListener('keydown', escHandler); } }; 
         document.addEventListener('keydown', escHandler);
         document.getElementById('cancel-s-btn').onclick = ()=>{ modal.classList.remove('open'); document.removeEventListener('keydown', escHandler); };
         document.getElementById('save-s-btn').onclick = ()=>{

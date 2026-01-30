@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Analizzatore Ordini CAD + Stock Excel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 20px; background-color: #f8f9fa; }
+        .container { max-width: 1400px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        
+        .toolbar { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; flex-wrap: wrap; align-items: center; }
+        
+        button, .btn-label { padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; color: white; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-pdf { background-color: #e74c3c; }
+        .btn-excel { background-color: #27ae60; }
+        .btn-save { background-color: #2ecc71; }
+        .btn-load { background-color: #3498db; }
+        .btn-print { background-color: #f39c12; }
+        .btn-clear { background-color: #95a5a6; }
+        button:hover { opacity: 0.85; }
+
+        select { padding: 10px; border-radius: 6px; background: #ecf0f1; border: 1px solid #bdc3c7; cursor: pointer; }
+
+        input[type="file"] { display: none; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background-color: #2c3e50; color: white; padding: 12px; text-align: left; position: sticky; top: 0; cursor: pointer; user-select: none; }
+        th:hover { background-color: #34495e; }
+        th::after { content: " ↕"; font-size: 10px; }
+        td { padding: 10px; border-bottom: 1px solid #eee; font-size: 13px; }
+        tr:hover { background-color: #f1f4f6; cursor: pointer; }
+
+        .row-yellow { background-color: #fff9c4 !important; }
+        .row-green { background-color: #c8e6c9 !important; }
+        .row-red { background-color: #ffcdd2 !important; }
+
+        #status { font-weight: bold; color: #e74c3c; margin-left: auto; }
+        
+        #picker { display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 8px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; }
+        .dot { width: 25px; height: 25px; border-radius: 50%; display: inline-block; margin: 4px; cursor: pointer; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="toolbar">
+        <label class="btn-label btn-pdf" for="pdfInput">📄 Carica PDF CAD</label>
+        <input type="file" id="pdfInput" accept=".pdf" onchange="processaPdf(event)">
+        
+        <label class="btn-label btn-excel" for="excelInput">📊 Carica Excel Stock</label>
+        <input type="file" id="excelInput" accept=".xlsx,.xls" onchange="caricaExcel(event)">
+        
+        <select id="sogliaSelect" onchange="applicaSoglia()">
+            <option value="0">Soglia: 0</option>
+            <option value="5">Soglia: 5</option>
+            <option value="10" selected>Soglia: 10</option>
+            <option value="20">Soglia: 20</option>
+            <option value="50">Soglia: 50</option>
+            <option value="100">Soglia: 100</option>
+        </select>
+        
+        <button class="btn-save" onclick="salvaProgetto()">💾 Salva Progetto</button>
+        <label class="btn-label btn-load" for="jsonInput">📂 Carica Progetto</label>
+        <input type="file" id="jsonInput" accept=".json" onchange="caricaProgetto(event)">
+        
+        <button class="btn-print" onclick="esportaPerStampa()">🖨️ Stampa / Esporta</button>
+        
+        <button class="btn-clear" onclick="svuotaTabella()">🗑️ Svuota</button>
+        
+        <div id="status">In attesa di file...</div>
+    </div>
+
+    <table id="targetTable">
+        <thead id="tableHead">
+            <tr>
+                <th onclick="ordinaTabella(0)">Corr.</th>
+                <th onclick="ordinaTabella(1)">Articolo</th>
+                <th onclick="ordinaTabella(2)">Descrizione</th>
+                <th onclick="ordinaTabella(3)">Data</th>
+                <th onclick="ordinaTabella(4)">Totale</th>
+                <!-- Stock e Differenza aggiunte dinamicamente -->
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<div id="picker">
+    <div class="dot" style="background:white" onclick="coloraRiga('')"></div>
+    <div class="dot" style="background:#fff9c4" onclick="coloraRiga('row-yellow')"></div>
+    <div class="dot" style="background:#c8e6c9" onclick="coloraRiga('row-green')"></div>
+    <div class="dot" style="background:#ffcdd2" onclick="coloraRiga('row-red')"></div>
+</div>
+
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    let rigaSelezionata = null;
+    let datiCompleti = [];
+    let datiAttuali = [];
+    let sortDirection = [1, 1, 1, 1, 1];
+    let stockMap = {};
+    let hasStockColumn = false;
+    let soglia = 10;
+
+    // === CARICA EXCEL STOCK ===
+    function caricaExcel(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        document.getElementById('status').innerText = "Lettura Excel Stock in corso...";
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const json = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+            stockMap = {};
+            for (let i = 1; i < json.length; i++) {
+                let codice = String(json[i][0] || '').trim();
+                let quantita = parseInt(json[i][1]) || 0;
+                if (codice) {
+                    const fullCodice = 'ESS ' + codice;
+                    stockMap[fullCodice] = quantita;
+                }
+            }
+
+            if (!hasStockColumn) {
+                const head = document.getElementById('tableHead').querySelector('tr');
+                const thStock = document.createElement('th');
+                thStock.innerText = 'Stock';
+                thStock.onclick = () => ordinaTabella(5);
+                head.appendChild(thStock);
+
+                const thDiff = document.createElement('th');
+                thDiff.innerText = 'Differenza';
+                thDiff.onclick = () => ordinaTabella(6);
+                head.appendChild(thDiff);
+
+                hasStockColumn = true;
+                sortDirection.push(1, 1);
+            }
+
+            // Aggiorna stock in dati esistenti e ricarica tabella
+            aggiornaStockNellaTabella();
+
+            document.getElementById('status').innerText = `Caricato stock da Excel (${Object.keys(stockMap).length} articoli)`;
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    // === PROCESSA PDF ===
+    async function processaPdf(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        document.getElementById('status').innerText = "Analisi PDF in corso...";
+        const reader = new FileReader();
+        
+        reader.onload = async function() {
+            const typedarray = new Uint8Array(this.result);
+            const pdf = await pdfjsLib.getDocument(typedarray).promise;
+            datiCompleti = [];
+
+            let currentCorr = '';
+            let currentArt = '';
+            let currentDesc = '';
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                const items = content.items;
+
+                const viewport = page.getViewport({ scale: 1.0 });
+                items.forEach(item => {
+                    item.y = viewport.height - item.transform[5] - (item.height || 0);
+                    item.x = item.transform[4];
+                });
+
+                items.sort((a, b) => b.y - a.y || a.x - b.x);
+
+                let rows = [];
+                let currentRow = [];
+                let lastY = items[0]?.y || 0;
+
+                items.forEach(item => {
+                    if (item.str.trim() === '') return;
+                    if (Math.abs(item.y - lastY) < 6) {
+                        currentRow.push({ str: item.str.trim(), x: item.x });
+                    } else {
+                        if (currentRow.length > 0) {
+                            currentRow.sort((a, b) => a.x - b.x);
+                            rows.push(currentRow.map(c => c.str));
+                        }
+                        currentRow = [{ str: item.str.trim(), x: item.x }];
+                        lastY = item.y;
+                    }
+                });
+                if (currentRow.length > 0) {
+                    currentRow.sort((a, b) => a.x - b.x);
+                    rows.push(currentRow.map(c => c.str));
+                }
+
+                for (let row of rows) {
+                    const joined = row.join(' ');
+                    if (joined.includes('ORB2B') || joined.includes('Corr.') || joined.includes('Eseguito il')) continue;
+
+                    if (row[0].match(/^\d+$/)) {
+                        currentCorr = row[0];
+                        currentArt = row.find(p => p.includes('ESS')) || '';
+                        const artIndex = row.indexOf(currentArt);
+                        currentDesc = artIndex >= 0 ? row.slice(artIndex + 1).join(' ').split(/\s+\d+\s+[NY]\s+/)[0].trim() : '';
+                    }
+
+                    const datePart = row.find(p => p.match(/^\d{2}\/\d{2}\/\d{4}$/));
+                    if (!datePart) continue;
+
+                    let tot = 0;
+                    for (let j = row.length - 1; j >= 0; j--) {
+                        if (row[j].match(/^\d+$/)) {
+                            tot = parseInt(row[j]);
+                            break;
+                        }
+                    }
+
+                    if (tot > 0 && currentArt.includes('ESS')) {
+                        datiCompleti.push({
+                            corr: currentCorr,
+                            art: currentArt,
+                            desc: currentDesc || 'N/D',
+                            data: datePart,
+                            tot: tot,
+                            stock: stockMap[currentArt] || 0
+                        });
+                    }
+                }
+            }
+
+            applicaSoglia();
+            document.getElementById('status').innerText = `Trovate ${datiAttuali.length} righe con Totale > ${soglia}`;
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function aggiornaStockNellaTabella() {
+        datiCompleti.forEach(item => {
+            item.stock = stockMap[item.art] || 0;
+        });
+        applicaSoglia(); // Ricarica la tabella con i nuovi valori stock
+    }
+
+    function applicaSoglia() {
+        soglia = parseInt(document.getElementById('sogliaSelect').value);
+        datiAttuali = datiCompleti.filter(item => item.tot > soglia);
+        datiAttuali.sort((a, b) => b.tot - a.tot);
+        popolaTabella(datiAttuali);
+    }
+
+    function popolaTabella(articoli) {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = "";
+        articoli.forEach(item => {
+            const tr = document.createElement('tr');
+            if (item.color) tr.className = item.color;
+            tr.onclick = (e) => mostraPicker(e, tr);
+            const differenza = (item.stock || 0) - item.tot;
+            let stockCell = hasStockColumn ? `<td style="font-weight:bold;color:#27ae60">${item.stock || 0}</td><td style="font-weight:bold${differenza < 0 ? ';color:red' : ''}">${differenza}</td>` : '';
+            tr.innerHTML = `
+                <td>${item.corr}</td>
+                <td>${item.art}</td>
+                <td>${item.desc}</td>
+                <td>${item.data}</td>
+                <td style="font-weight:bold">${item.tot}</td>
+                ${stockCell}
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function ordinaTabella(colonnaIndex) {
+        sortDirection[colonnaIndex] *= -1;
+        datiAttuali.sort((a, b) => {
+            let valA, valB;
+            switch(colonnaIndex) {
+                case 0: valA = parseInt(a.corr) || 0; valB = parseInt(b.corr) || 0; break;
+                case 1: valA = a.art; valB = b.art; break;
+                case 2: valA = a.desc.toLowerCase(); valB = b.desc.toLowerCase(); break;
+                case 3: valA = a.data; valB = b.data; break;
+                case 4: valA = a.tot; valB = b.tot; break;
+                case 5: valA = a.stock || 0; valB = b.stock || 0; break;
+                case 6: valA = (a.stock || 0) - a.tot; valB = (b.stock || 0) - b.tot; break;
+            }
+            if (valA < valB) return -sortDirection[colonnaIndex];
+            if (valA > valB) return sortDirection[colonnaIndex];
+            return 0;
+        });
+        popolaTabella(datiAttuali);
+    }
+
+    function esportaPerStampa() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('l', 'mm', 'a4');
+        doc.text("Previsione Ordinato + Stock", 14, 15);
+        
+        const head = [['Corr.', 'Codice', 'Descrizione', 'Data', 'Totale']];
+        if (hasStockColumn) head[0].push('Stock', 'Differenza');
+        const data = datiAttuali.map(item => [
+            item.corr, item.art, item.desc, item.data, item.tot, item.stock || 0, (item.stock || 0) - item.tot
+        ]);
+
+        doc.autoTable({
+            head: head,
+            body: data,
+            startY: 20,
+            theme: 'grid',
+            styles: { fontSize: 8 },
+            columnStyles: { 2: { cellWidth: 80 } }
+        });
+        doc.save("ordine_con_stock.pdf");
+    }
+
+    function salvaProgetto() {
+        const rows = datiAttuali.map(item => ({
+            corr: item.corr, art: item.art, desc: item.desc, data: item.data, tot: item.tot, stock: item.stock || 0, color: item.color || ""
+        }));
+        const blob = new Blob([JSON.stringify(rows, null, 2)], {type: "application/json"});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = "progetto_con_stock.json";
+        a.click();
+    }
+
+    function caricaProgetto(event) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            datiCompleti = JSON.parse(e.target.result);
+            datiCompleti.forEach(item => {
+                item.tot = parseInt(item.tot);
+                item.stock = parseInt(item.stock) || 0;
+            });
+            if (datiCompleti.some(i => i.stock > 0) && !hasStockColumn) {
+                const head = document.getElementById('tableHead').querySelector('tr');
+                const thStock = document.createElement('th');
+                thStock.innerText = 'Stock';
+                thStock.onclick = () => ordinaTabella(5);
+                head.appendChild(thStock);
+
+                const thDiff = document.createElement('th');
+                thDiff.innerText = 'Differenza';
+                thDiff.onclick = () => ordinaTabella(6);
+                head.appendChild(thDiff);
+
+                hasStockColumn = true;
+                sortDirection.push(1, 1);
+            }
+            applicaSoglia();
+            document.getElementById('status').innerText = `Caricate ${datiAttuali.length} righe`;
+        };
+        reader.readAsText(event.target.files[0]);
+    }
+
+    function mostraPicker(e, tr) {
+        rigaSelezionata = tr;
+        const index = Array.from(tr.parentNode.children).indexOf(tr);
+        if (datiAttuali[index]) datiAttuali[index].color = tr.className;
+        const p = document.getElementById('picker');
+        p.style.display = 'block';
+        p.style.left = e.pageX + 'px';
+        p.style.top = e.pageY + 'px';
+        e.stopPropagation();
+    }
+
+    function coloraRiga(cls) {
+        if (rigaSelezionata) {
+            rigaSelezionata.className = cls;
+            const index = Array.from(rigaSelezionata.parentNode.children).indexOf(rigaSelezionata);
+            if (datiAttuali[index]) datiAttuali[index].color = cls;
+        }
+        document.getElementById('picker').style.display = 'none';
+    }
+
+    function svuotaTabella() {
+        if (confirm("Vuoi svuotare tutto?")) {
+            document.getElementById('tableBody').innerHTML = "";
+            datiCompleti = [];
+            datiAttuali = [];
+            document.getElementById('status').innerText = "Tabella vuota";
+        }
+    }
+
+    window.onclick = () => document.getElementById('picker').style.display = 'none';
+</script>
+
+</body>
+</html>

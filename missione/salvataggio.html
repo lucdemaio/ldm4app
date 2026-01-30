@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Salvataggio Dati - Missione Manager</title>
+    <link rel="stylesheet" href="assets/css/mission.css">
+</head>
+<body>
+    <header class="top-navbar">
+        <div class="navbar-brand">
+            <a href="mission-app.html" class="nav-btn"><h1 class="navbar-logo">Missione Manager</h1></a>
+        </div>
+        <nav class="navbar-main">
+            <a href="mission-app.html" class="nav-btn">Home</a>
+            <a href="salvataggio.html" class="nav-btn active">Salvataggio</a>
+        </nav>
+    </header>
+    <main class="app-container">
+        <section class="app-section active">
+            <div class="section-header"><h2>Salvataggio Dati</h2></div>
+            <div class="card">
+                <h3>Scarica i dati dei singoli moduli</h3>
+                <button class="btn btn-outline" onclick="downloadModule('volunteers')">Salva Volontari (JSON)</button>
+                <button class="btn btn-outline" onclick="downloadModule('projects')">Salva Progetti (JSON)</button>
+                <button class="btn btn-outline" onclick="downloadModule('donors')">Salva Donatori (JSON)</button>
+                <button class="btn btn-outline" onclick="downloadModule('events')">Salva Eventi (JSON)</button>
+                <button class="btn btn-outline" onclick="downloadModule('inventory')">Salva Inventario (JSON)</button>
+                <button class="btn btn-outline" onclick="downloadModule('sacraments')">Salva Sacramenti (JSON)</button>
+            </div>
+            <div class="card" style="margin-top:1.5rem;">
+                <h3>Scarica tutti i dati</h3>
+                <button class="btn btn-primary" onclick="downloadAll()">Salva Tutto (JSON)</button>
+            </div>
+        </section>
+    </main>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/salvataggio.js"></script>
+</body>
+</html>

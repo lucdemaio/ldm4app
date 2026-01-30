@@ -1,34 +1,45 @@
-# PWA Missione — Deploy rapido
+# Missione Manager
 
-Questa cartella contiene una Progressive Web App completa basata su `mission-app.html` del progetto originale. Puoi caricare tutto il contenuto di `c:\Users\lucde\Desktop\pwa missione` su un sito web per avere l'app funzionante via `index.html`.
+Applicazione web leggera per la gestione di una missione cattolica: volontari, progetti, donatori, calendario, logistica e reportistica.
 
-Cosa è stato incluso ✅
-- `index.html` — entrypoint PWA (derivato da `mission-app.html`)
-- `manifest.json` — manifest PWA
-- `sw.js` — service worker con caching offline
-- `offline.html` — pagina offline
-- `assets/` — CSS e tutti gli script JS necessari
-- `sample-data.json`, `missione-tutti-i-dati.json`, `mission-export.json` — dati di esempio
-- `icons/icon.svg` — icona app
+Installazione: aprire `mission-app.html` in un browser moderno. I dati vengono salvati in `localStorage` per semplicità.
 
-Istruzioni rapide (locale)
-1. Avvia un server locale per testare la PWA (necessario per service worker e fetch):
-   - Python: `python -m http.server 8000` (da dentro la cartella `pwa missione`)
-   - Oppure usa un server statico a tua scelta.
-2. Apri `http://localhost:8000` nel browser.
-3. Controlla in DevTools > Application: manifest e service worker registrati.
+Credenziali demo: `admin` / `admin` (ruolo: admin), `coord` / `coord` (ruolo: coordinator). Usa il pulsante "Login" in alto per accedere.
 
-Istruzioni per pubblicazione
-- Carica l'intera cartella `pwa missione` sul tuo hosting (HTTPS raccomandato per installabilità).
-- Assicurati che `index.html` sia raggiungibile come root (es. https://tuo-dominio/).
+Funzionalità incluse (skeleton):
+- Dashboard con statistiche e grafici (Chart.js)
+- Gestione Volontari (aggiungi, lista)
+- Gestione Progetti (aggiungi, lista)
+- Donatori e registrazione donazioni
+- Calendario eventi semplici
+- Report PDF veloce (jsPDF)
 
-Note tecniche
-- La sincronizzazione cloud è un mock (`SyncModule`) — richiede un endpoint reale per funzionare.
-- I backup/esportazioni generano file JSON/PDF scaricabili in locale.
-- Le funzionalità che richiedono servizi esterni (es. Google Drive, PayPal) sono solo scheletri o aprono la pagina esterna.
+Questa è una base da estendere: ora include un MVP per autenticazione/ruoli, sincronizzazione cloud (mock), gestione pagamenti/donazioni (simulata), gestione inventario/logistica e supporto multilingua (IT/EN). Per produzione sono necessari: backend sicuro, gestione chiavi per pagamenti, webhook e autenticazione centralizzata.
 
-Se vuoi, posso: 
-- Impacchettare la cartella in un .zip pronto per upload ✅
-- Aggiungere un singolo comando `deploy` (FTP, rsync, GitHub Pages) ✨
+Feature aggiunte in questo aggiornamento:
+- Autenticazione e ruoli (admin/coordinator/volunteer) con visibilità controllata per azioni sensibili.
+- Sincronizzazione (push/pull mock), esportazione/importazione JSON per backup.
+- Pagamenti: form per registrare donazioni e link a sandbox PayPal (simulazione).
+- Logistica/Inventario: gestione articoli e quantità con semplici comandi +1/-1.
+- Internazionalizzazione: supporto IT/EN via selettore lingua (data-i18n).
 
-Fammi sapere quale di questi preferisci! (Breve e diretto)
+Per test rapido: apri `mission-app.html`, accedi con `admin/admin` o `coord/coord` e esplora le nuove voci nel pannello laterale.
+
+---
+
+## Avviare un server locale (evitare errori CORS)
+Quando apri il file direttamente con `file://` alcuni browser bloccano le richieste (CORS), causando errori come "Failed to load resource" per `sample-data.json` o `manifest.json`.
+Per lavorare correttamente in sviluppo avvia un server locale nella cartella del progetto. Di seguito alcune opzioni semplici:
+
+- Python 3 (consigliato, già presente su molti sistemi):
+  - Apri PowerShell nella cartella del progetto e lancia:
+    - `python -m http.server 8000` oppure su Windows: `py -m http.server 8000`
+  - Apri poi nel browser: `http://localhost:8000/mission-app.html`
+
+- Node (se hai Node.js):
+  - Usa `npx` (senza installare globalmente): `npx http-server -p 8000` oppure `npx serve -p 8000`
+  - Apri `http://localhost:8000/mission-app.html`
+
+- VS Code: installa l'estensione **Live Server** e clicca con il tasto destro su `mission-app.html` → **Open with Live Server**.
+
+Nota: dopo aver avviato il server locale, i file statici verranno serviti via `http` e gli errori CORS scompariranno. Se preferisci posso aggiungere un piccolo script `start-server` (Node) o una sezione nel README con screenshot dei passaggi. 

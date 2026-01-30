@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mission Program Viewer</title>
+  <meta name="theme-color" content="#0b6b4f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">
+  <style>
+    :root{
+      --bg:#f6f8fa;
+      --accent:#10b981;
+      --accent-light:#6ee7b7;
+      --muted:#6b7280;
+      --card-bg:#fff;
+      --shadow:0 6px 32px rgba(16,185,129,0.10);
+      --radius:22px;
+    }
+    body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#0b6b4f;}
+    .wrap{max-width:950px;margin:auto;padding:24px 8px;}
+    .viewer-header{display:flex;align-items:center;gap:1.2rem;margin-bottom:2.2rem;background:linear-gradient(90deg,#10b981 0%,#6ee7b7 100%);border-radius:var(--radius);padding:1.5rem 2rem;box-shadow:0 2px 24px rgba(16,185,129,0.13);}
+    .viewer-logo{width:64px;height:64px;border-radius:18px;background:#fff;display:flex;align-items:center;justify-content:center;color:#10b981;font-size:2.5rem;font-weight:800;box-shadow:0 2px 12px rgba(16,185,129,0.10);}
+    .viewer-title{font-size:2.3rem;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(16,185,129,0.13);letter-spacing:0.5px;}
+    .bento-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.6rem;margin-bottom:2.5rem;}
+    .bento-card{background:var(--card-bg);padding:1.3rem 1.2rem 1.1rem 1.2rem;border-radius:var(--radius);box-shadow:var(--shadow);transition:box-shadow .18s,transform .18s;cursor:pointer;position:relative;overflow:hidden;min-height:120px;}
+    .bento-card:hover{box-shadow:0 12px 36px rgba(16,185,129,0.18);transform:translateY(-7px) scale(1.035);}
+    .bento-card h3{margin-top:0;margin-bottom:0.5em;font-size:1.25em;color:var(--accent);}
+    .bento-card p{margin:0.2em 0 0.5em 0;}
+    .status-expired{color:#ef4444;font-weight:bold}
+    .btn{background:var(--accent);border:none;color:#fff;padding:10px 22px;border-radius:10px;cursor:pointer;font-weight:bold;font-size:1.08em;box-shadow:0 2px 8px rgba(16,185,129,0.08);transition:background .15s;}
+    .btn:hover{background:#059669;}
+    input[type=file],input[type=url],input[type=text]{margin:10px 0;display:block;width:100%;max-width:420px;padding:10px;border-radius:10px;border:1px solid #d1fae5;background:#f0fdf4;color:#065f46;font-size:1.08em;}
+    h2{border-bottom:1.5px solid var(--accent);padding-bottom:7px;margin-bottom:1.1em;}
+    .muted{color:var(--muted)}
+    .card{background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2em 1.3em;margin-bottom:1.5rem;}
+    .card h2{color:var(--accent);margin-top:0;}
+    .card ul{padding-left:1.2em;}
+    .card li{margin-bottom:0.4em;}
+    @media (max-width:700px){.wrap{padding:10px;}.viewer-header{flex-direction:column;align-items:flex-start;padding:1.2rem 1rem;}.viewer-logo{width:48px;height:48px;font-size:1.5rem;}.viewer-title{font-size:1.3rem;}}
+    @media (max-width:600px){.bento-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="viewer-header">
+      <div class="viewer-logo">MV</div>
+      <div class="viewer-title">Mission Program Viewer</div>
+    </header>
+    <div class="card" style="margin-bottom:2.2rem;">
+      <p class="muted" style="font-size:1.13em;margin-bottom:0.7em;">Carica il file JSON del programma missione per visualizzare progetti, eventi, volontari e impatti.</p>
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <div style="position:relative;display:flex;align-items:center;">
+          <input type="file" id="uploadJson" accept=".json" style="opacity:0;position:absolute;left:0;top:0;width:100%;height:100%;cursor:pointer;z-index:2;">
+          <button id="chooseFileBtn" type="button" class="btn" style="z-index:1;position:relative;">Scegli file</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:0;flex:1;">
+          <input type="url" id="urlInput" placeholder="Inserisci URL del file JSON" style="flex:1 1 0;max-width:340px;border-top-right-radius:0;border-bottom-right-radius:0;">
+          <button id="loadUrlBtn" class="btn" style="border-top-left-radius:0;border-bottom-left-radius:0;margin-left:-1px;">Carica da URL</button>
+        </div>
+      </div>
+    </div>
+    <main id="content"></main>
+    <footer id="viewer-footer" style="text-align:center;padding:12px;color:var(--muted);font-size:0.98rem">Creato per il programma missione — <a href="#" id="reset-cache-link" style="color:inherit; text-decoration:underline; margin-left:10px;">Reset cache (dev)</a></footer>
+  </div>
+  <script>
+        // Pulsante "Scegli file" stile custom
+        document.addEventListener('DOMContentLoaded', function() {
+          var chooseBtn = document.getElementById('chooseFileBtn');
+          var fileInput = document.getElementById('uploadJson');
+          if (chooseBtn && fileInput) {
+            chooseBtn.addEventListener('click', function() { fileInput.click(); });
+            fileInput.addEventListener('change', function() {
+              if (fileInput.files && fileInput.files.length > 0) {
+                chooseBtn.textContent = 'File selezionato';
+              } else {
+                chooseBtn.textContent = 'Scegli file';
+              }
+            });
+          }
+        });
+    // Service Worker e manifest dinamico (come index-viewer)
+    if ('serviceWorker' in navigator) {
+      if (location.protocol === 'https:' || location.hostname === 'localhost' || location.protocol === 'http:') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').then(reg => {
+            console.log('SW registrato con successo!', reg.scope);
+          }).catch(err => {
+            console.warn('Registrazione Service Worker fallita:', err);
+          });
+        });
+        try {
+          const manifestLink = document.createElement('link');
+          manifestLink.rel = 'manifest';
+          manifestLink.href = 'manifest.json';
+          document.head.appendChild(manifestLink);
+        } catch (e) {
+          console.warn('Impossibile aggiungere manifest dinamicamente:', e);
+        }
+      } else {
+        console.log('Service Worker non registrato: non sei in un contesto supportato (file://).');
+        console.log('Manifest non caricato a causa della policy CORS su file://.');
+      }
+    }
+    const fileInput = document.getElementById('uploadJson');
+    const urlInput = document.getElementById('urlInput');
+    const loadUrlBtn = document.getElementById('loadUrlBtn');
+    const cloudInput = document.getElementById('cloudInput');
+    const loadCloudBtn = document.getElementById('loadCloudBtn');
+    const contentDiv = document.getElementById('content');
+    function resolveCloudLink(url) {
+      try {
+        const u = new URL(url);
+        const host = u.hostname.toLowerCase();
+        if (host.includes('drive.google.com')) {
+          let id = null;
+          const m = u.pathname.match(/\/file\/d\/([^\/]+)/);
+          if (m) id = m[1];
+          if (!id) id = u.searchParams.get('id');
+          if (id) return 'https://drive.google.com/uc?export=download&id=' + id;
+        }
+        if (host.includes('dropbox.com')) {
+          u.searchParams.set('dl', '1');
+          return u.toString();
+        }
+        if (host.includes('mega.nz')) {
+          return null;
+        }
+        return url;
+      } catch (e) { return url; }
+    }
+    if (loadCloudBtn) loadCloudBtn.addEventListener('click', async function() {
+      const orig = (cloudInput && cloudInput.value || '').trim();
+      if (!orig) return alert('Inserisci un link cloud valido.');
+      const resolved = resolveCloudLink(orig);
+      if (resolved === null) {
+        return alert('Questo tipo di link cloud non può essere recuperato automaticamente (es. MEGA). Scarica il file e caricalo localmente, oppure fornisci un link diretto al file JSON.');
+      }
+      try {
+        const response = await fetch(resolved);
+        if (!response.ok) throw new Error('Errore HTTP: ' + response.status);
+        const ct = response.headers.get('content-type') || '';
+        if (ct.includes('text/html')) throw new Error('Risposta HTML ricevuta (controlla che il file sia condiviso pubblicamente e che CORS permetta l\'accesso)');
+        const data = await response.json();
+        renderData(data);
+      } catch (err) {
+        console.error('Errore caricamento da link cloud', err);
+        alert("Errore nel caricamento dal link cloud: " + (err && err.message ? err.message : String(err)) + "\nSe stai usando Google Drive assicurati che il file sia condiviso 'Chiunque abbia il link' e riprova.");
+      }
+    });
+    if (location.protocol === 'file:') {
+      const headerCard = document.querySelector('header.card');
+      if (headerCard) {
+        const note = document.createElement('div');
+        note.style.marginTop = '10px';
+        note.style.padding = '10px';
+        note.style.background = 'rgba(11,107,79,0.04)';
+        note.style.borderRadius = '8px';
+        note.style.fontSize = '0.95rem';
+        note.innerHTML = 'Nota: stai aprendo il file direttamente (file://). Alcune funzionalità come <strong>Service Worker</strong> e il caricamento del <strong>manifest</strong> richiedono un server web.';
+        headerCard.appendChild(note);
+      }
+    }
+    fileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          renderData(data);
+        } catch (err) {
+          console.error('Errore caricamento file JSON', err);
+          alert("Errore nel caricamento del file JSON: " + (err && err.message ? err.message : String(err)) + "\nControlla console per dettagli.");
+        }
+      };
+      reader.readAsText(file);
+    });
+    loadUrlBtn.addEventListener('click', async function() {
+      const url = urlInput.value.trim();
+      if (!url) return alert('Inserisci un URL valido');
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Errore HTTP: ' + response.status);
+        const ct = response.headers.get('content-type') || '';
+        if (ct.includes('text/html')) throw new Error('Risposta HTML ricevuta (controlla link e CORS)');
+        const data = await response.json();
+        renderData(data);
+      } catch (err) {
+        console.error('Errore caricamento da URL', err);
+        alert("Errore nel caricamento dall'URL: " + (err && err.message ? err.message : String(err)) + "\nControlla console per dettagli.");
+      }
+    });
+    function renderData(data) {
+      let html = '';
+      html += `<input type="text" id="searchMission" placeholder="Cerca progetto, evento o volontario..." style="margin-bottom: 15px; padding: 10px; width: 100%; border-radius: 8px; border: 1px solid rgba(11,107,79,0.12); background: var(--card-bg); color: inherit;">`;
+      html += `<div id="mission-results"></div>`;
+      // Impatti missionari
+      if (data.impacts && data.impacts.length > 0) {
+        html += `<div class="card"><h2>Impatto Missionario (${data.impacts.length})</h2><ul>`;
+        data.impacts.forEach(i => {
+          html += `<li><strong>${i.title}</strong>: ${i.value} <span class="muted">${i.unit||''}</span></li>`;
+        });
+        html += `</ul></div>`;
+      }
+      // Impostazioni (se presenti)
+      if (data.settings) {
+        html += `<div class="card"><h2>Impostazioni</h2>`;
+        Object.entries(data.settings).forEach(([k,v])=>{
+          html += `<p>${k}: ${v}</p>`;
+        });
+        html += `</div>`;
+      }
+      // Info credits e contatti
+      html += `<div class="card"><h2>Info &amp; Contatti</h2><p>Programma creato da <a href='https://www.ldm4app.com' target='_blank' rel='noopener'>www.ldm4app.com</a></p><p>Per informazioni o supporto: <a href='mailto:info@ldm4app.com'>info@ldm4app.com</a></p></div>`;
+      contentDiv.innerHTML = html;
+      function getProjectName(p) {
+        return p.name || p.title || 'Progetto senza nome';
+      }
+      function getProjectDescription(p) {
+        return p.description || p.summary || '';
+      }
+      function getProjectManager(p) {
+        return p.manager || p.responsible || '';
+      }
+      function getProjectStatus(p) {
+        return p.status || '';
+      }
+      function getProjectId(p, idx) {
+        return p.id || p._id || idx;
+      }
+      function getVolunteerName(v) {
+        if (v.firstName && v.lastName) return v.firstName + ' ' + v.lastName;
+        return v.name || 'Volontario';
+      }
+      function getVolunteerEmail(v) {
+        return v.email || v.contact || '';
+      }
+      function getVolunteerPhone(v) {
+        return v.phone || '';
+      }
+      function getVolunteerId(v, idx) {
+        return v.id || v._id || idx;
+      }
+      function getEventTitle(e) {
+        return e.title || e.name || 'Evento';
+      }
+      function getEventDescription(e) {
+        return e.description || '';
+      }
+      function getEventDate(e) {
+        return e.date || '';
+      }
+      function getEventTime(e) {
+        return e.time || '';
+      }
+      function getEventLocation(e) {
+        return e.location || '';
+      }
+      function getEventId(e, idx) {
+        return e.id || e._id || idx;
+      }
+      function showMissionResults(query) {
+        const resultsDiv = document.getElementById('mission-results');
+        if (!query.trim()) { resultsDiv.innerHTML = ''; return; }
+        // Cerca tra progetti, eventi, volontari
+        const projects = (data.projects||[]).filter(p=>getProjectName(p).toLowerCase().includes(query.toLowerCase()));
+        const events = (data.events||[]).filter(e=>getEventTitle(e).toLowerCase().includes(query.toLowerCase()));
+        const volunteers = (data.volunteers||[]).filter(v=>getVolunteerName(v).toLowerCase().includes(query.toLowerCase()));
+        let resultsHtml = '';
+        if (projects.length) {
+          resultsHtml += `<div class="card"><h2>Progetti (${projects.length})</h2><div class="bento-grid">`;
+          projects.forEach((p,idx)=>{
+            resultsHtml += `<div class="bento-card"><h3>${getProjectName(p)}</h3><p>${getProjectDescription(p)}</p><p><strong>Responsabile:</strong> ${getProjectManager(p)||'N/A'}</p><p><strong>Stato:</strong> ${getProjectStatus(p)||'N/A'}</p><p><button class="btn export-pdf" data-type="project" data-id="${getProjectId(p,idx)}">Esporta PDF</button></p></div>`;
+          });
+          resultsHtml += `</div></div>`;
+        }
+        if (events.length) {
+          resultsHtml += `<div class="card"><h2>Eventi (${events.length})</h2><div class="bento-grid">`;
+          events.forEach((ev,idx)=>{
+            resultsHtml += `<div class="bento-card"><h3>${getEventTitle(ev)}</h3><p>${getEventDescription(ev)}</p><p><strong>Data:</strong> ${getEventDate(ev)} ${getEventTime(ev)}</p><p><strong>Luogo:</strong> ${getEventLocation(ev)}</p><p><button class="btn export-pdf" data-type="event" data-id="${getEventId(ev,idx)}">Esporta PDF</button></p></div>`;
+          });
+          resultsHtml += `</div></div>`;
+        }
+        if (volunteers.length) {
+          resultsHtml += `<div class="card"><h2>Volontari (${volunteers.length})</h2><div class="bento-grid">`;
+          volunteers.forEach((v,idx)=>{
+            resultsHtml += `<div class="bento-card"><h3>${getVolunteerName(v)}</h3><p><strong>Ruolo:</strong> ${v.role||''}</p><p><strong>Email:</strong> ${getVolunteerEmail(v)||''}</p><p><strong>Telefono:</strong> ${getVolunteerPhone(v)||''}</p><p><button class="btn export-pdf" data-type="volunteer" data-id="${getVolunteerId(v,idx)}">Esporta PDF</button></p></div>`;
+          });
+          resultsHtml += `</div></div>`;
+        }
+        if (!resultsHtml) resultsHtml = '<p>Nessun risultato trovato.</p>';
+        resultsDiv.innerHTML = resultsHtml;
+        // Listener esporta PDF
+        const exportBtns = resultsDiv.querySelectorAll('.export-pdf');
+        exportBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const type = btn.dataset.type;
+            const id = btn.dataset.id;
+            if (type==='project') exportProjectToPdf((data.projects||[]).find((x,idx)=>getProjectId(x,idx)==id));
+            if (type==='event') exportEventToPdf((data.events||[]).find((x,idx)=>getEventId(x,idx)==id));
+            if (type==='volunteer') exportVolunteerToPdf((data.volunteers||[]).find((x,idx)=>getVolunteerId(x,idx)==id));
+          });
+        });
+      }
+      const searchInput = document.getElementById('searchMission');
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          showMissionResults(searchInput.value);
+        });
+      }
+      // PDF EXPORT
+      function exportProjectToPdf(p) {
+        if (!p) return;
+        const name = p.name || p.title || 'Progetto senza nome';
+        const description = p.description || p.summary || '';
+        const manager = p.manager || p.responsible || '';
+        const status = p.status || '';
+        const createdAt = p.createdAt ? new Date(p.createdAt).toLocaleString() : '';
+        const docHtml = `<!doctype html><html><head><meta charset="utf-8"><title>Progetto ${name}</title><style>body{font-family:Arial,sans-serif;color:#0b6b4f;padding:20px}.card{border:1px solid #ddd;padding:15px;border-radius:8px}h1{margin-top:0}footer{margin-top:20px;text-align:center;color:#666}</style></head><body><div class="card"><h1>${name}</h1><div><strong>Descrizione:</strong> ${description}</div><div><strong>Responsabile:</strong> ${manager}</div><div><strong>Stato:</strong> ${status}</div><div><strong>Creato:</strong> ${createdAt}</div><hr><footer>Creato da www.ldm4app.com</footer></div><script>window.onload=function(){setTimeout(function(){window.print();},250);};<\/script></body></html>`;
+        const w = window.open('', '_blank');
+        if (!w) { alert('Popup bloccato: abilita i popup per questo sito.'); return; }
+        w.document.write(docHtml); w.document.close();
+      }
+      function exportEventToPdf(ev) {
+        if (!ev) return;
+        const title = ev.title || ev.name || 'Evento';
+        const description = ev.description || '';
+        const date = ev.date || '';
+        const time = ev.time || '';
+        const location = ev.location || '';
+        const createdAt = ev.createdAt ? new Date(ev.createdAt).toLocaleString() : '';
+        const docHtml = `<!doctype html><html><head><meta charset="utf-8"><title>Evento ${title}</title><style>body{font-family:Arial,sans-serif;color:#0b6b4f;padding:20px}.card{border:1px solid #ddd;padding:15px;border-radius:8px}h1{margin-top:0}footer{margin-top:20px;text-align:center;color:#666}</style></head><body><div class="card"><h1>${title}</h1><div><strong>Descrizione:</strong> ${description}</div><div><strong>Data:</strong> ${date} ${time}</div><div><strong>Luogo:</strong> ${location}</div><div><strong>Creato:</strong> ${createdAt}</div><hr><footer>Creato da www.ldm4app.com</footer></div><script>window.onload=function(){setTimeout(function(){window.print();},250);};<\/script></body></html>`;
+        const w = window.open('', '_blank');
+        if (!w) { alert('Popup bloccato: abilita i popup per questo sito.'); return; }
+        w.document.write(docHtml); w.document.close();
+      }
+      function exportVolunteerToPdf(v) {
+        if (!v) return;
+        const name = (v.firstName && v.lastName) ? v.firstName + ' ' + v.lastName : (v.name || 'Volontario');
+        const role = v.role || '';
+        const email = v.email || v.contact || '';
+        const phone = v.phone || '';
+        const createdAt = v.createdAt ? new Date(v.createdAt).toLocaleString() : '';
+        const docHtml = `<!doctype html><html><head><meta charset="utf-8"><title>Volontario ${name}</title><style>body{font-family:Arial,sans-serif;color:#0b6b4f;padding:20px}.card{border:1px solid #ddd;padding:15px;border-radius:8px}h1{margin-top:0}footer{margin-top:20px;text-align:center;color:#666}</style></head><body><div class="card"><h1>${name}</h1><div><strong>Ruolo:</strong> ${role}</div><div><strong>Email:</strong> ${email}</div><div><strong>Telefono:</strong> ${phone}</div><div><strong>Creato:</strong> ${createdAt}</div><hr><footer>Creato da www.ldm4app.com</footer></div><script>window.onload=function(){setTimeout(function(){window.print();},250);};<\/script></body></html>`;
+        const w = window.open('', '_blank');
+        if (!w) { alert('Popup bloccato: abilita i popup per questo sito.'); return; }
+        w.document.write(docHtml); w.document.close();
+      }
+      // Reset cache/SW
+      async function resetCacheAndServiceWorkers() {
+        try {
+          if ('serviceWorker' in navigator) {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(r => r.unregister()));
+            console.log('Service workers unregistered');
+          }
+          if ('caches' in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+            console.log('Caches cleared');
+          }
+          alert('Deregistrazione SW e cancellazione cache completata. Ricarica la pagina.');
+          location.reload(true);
+        } catch (err) {
+          console.error('Errore nel reset cache/SW', err);
+          alert('Errore durante il reset. Controlla la console per dettagli.');
+        }
+      }
+      const resetLink = document.getElementById('reset-cache-link');
+      if (resetLink) resetLink.addEventListener('click', (e) => { e.preventDefault(); resetCacheAndServiceWorkers(); });
+    }
+  </script>
+</body>
+</html>

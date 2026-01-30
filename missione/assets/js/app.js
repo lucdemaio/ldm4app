@@ -239,33 +239,9 @@ function initApp() {
 
     // seed sample data from sample-data.json once (se non già inizializzato)
     if (!Storage.load('initialized')) {
-        // Try loading local sample-data.json (works when served via HTTP/HTTPS)
-        fetch('sample-data.json').then(r => r.json()).then(d => {
-            try{
-                if (d.volunteers) Storage.save('volunteers', d.volunteers);
-                if (d.projects) Storage.save('projects', d.projects);
-                if (d.donors) Storage.save('donors', d.donors);
-                if (d.events) Storage.save('events', d.events);
-                if (d.inventory) Storage.save('inventory', d.inventory);
-                Storage.save('initialized', true);
-                console.log('Sample data seeded from sample-data.json');
-            }catch(e){ console.warn('Failed to seed sample data', e); }
-        }).catch(err => {
-            console.warn('Could not fetch sample-data.json (using embedded data if available):', err);
-            // fallback to inline #sample-data script when file fetch not available (file:// or CORS)
-            try{
-                const el = document.getElementById('sample-data'); if (el) {
-                    const d = JSON.parse(el.textContent);
-                    if (d.volunteers) Storage.save('volunteers', d.volunteers);
-                    if (d.projects) Storage.save('projects', d.projects);
-                    if (d.donors) Storage.save('donors', d.donors);
-                    if (d.events) Storage.save('events', d.events);
-                    if (d.inventory) Storage.save('inventory', d.inventory);
-                    Storage.save('initialized', true);
-                    console.log('Sample data seeded from embedded #sample-data');
-                }
-            }catch(e){ console.warn('No embedded sample data found', e); }
-        });
+        // NON caricare più dati demo automaticamente dopo la cancellazione totale
+        // Se vuoi ripristinare i dati demo, aggiungi manualmente la chiave 'initialized' o un pulsante apposito
+        // (blocco vuoto intenzionale)
     }
 
     showView('dashboard');
