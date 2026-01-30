@@ -1,0 +1,19 @@
+{
+  "suppliers": [
+    { "id": 1001, "name": "EuroFood S.r.l.", "contact": "info@eurofood.it" },
+    { "id": 1002, "name": "Beverage Italia", "contact": "sales@bev-italia.com" }
+  ],
+  "inventory": [
+    { "sku": "PZ-MARG", "name": "Farina per Pizza (25kg)", "unit_cost": 18.5, "qty": 10, "unit": "pcs" },
+    { "sku": "COCA-33", "name": "Coca Cola 33cl (scatola 24)", "unit_cost": 12.0, "qty": 6, "unit": "pcs" },
+    { "sku": "SP-001", "name": "Spaghetti 1kg", "unit_cost": 1.2, "qty": 50, "unit": "pcs" },
+    { "sku": "FAR-001", "name": "Farina sfusa", "unit_cost": 0.8, "qty": 120, "unit": "kg" }
+  ],
+  "purchases": [
+    { "id": 5001, "supplierId": 1001, "supplierName": "EuroFood S.r.l.", "lines": [ { "sku": "PZ-MARG", "qty": 5, "unit_cost": 18.5 } ], "status": "ordered", "createdAt": "2026-01-15T10:12:00Z" }
+  ],
+  "invoices": [
+    { "id": 9001, "purchaseId": 5001, "supplierId": 1001, "supplierName": "EuroFood S.r.l.", "lines": [ { "sku": "PZ-MARG", "qty": 5 } ], "subtotal": 92.5, "tax": 0, "total": 92.5, "paid": false }
+  ],
+  "settings": { "currency": "EUR" }
+}

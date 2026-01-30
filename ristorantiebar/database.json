@@ -1,0 +1,14 @@
+{
+  "suppliers": [],
+  "inventory": [],
+  "purchases": [],
+  "invoices": [],
+  "sales": [],
+  "menu": [],
+  "drinks": [],
+  "drinksSales": [],
+  "drinksShortages": [],
+  "settings": {
+    "currency": "EUR"
+  }
+}

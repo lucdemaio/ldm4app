@@ -1,0 +1,7 @@
+[
+  { "id": 4001, "name": "Tiramisù", "price": 4.5, "unit": "porz", "sku": "DES001" },
+  { "id": 4002, "name": "Panna Cotta", "price": 4.0, "unit": "porz", "sku": "DES002" },
+  { "id": 4003, "name": "Cheesecake al Limone", "price": 4.5, "unit": "porz", "sku": "DES003" },
+  { "id": 4004, "name": "Torta della Nonna", "price": 4.0, "unit": "porz", "sku": "DES004" },
+  { "id": 4005, "name": "Gelato 2 gusti", "price": 3.5, "unit": "porz", "sku": "DES005" }
+]

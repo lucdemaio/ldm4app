@@ -1,0 +1,6 @@
+id,name,price,unit,sku,notes
+e001,Tiramisu,4.5,pcs,DOL-TIR,Classic
+e002,Panna Cotta,3.8,pcs,DOL-PAN,With berry sauce
+e003,Cannoli Siciliani,3.2,pcs,DOL-CAN,Pastry shell with ricotta
+e004,Crostata alla frutta,3.5,pcs,DOL-CRO,Seasonal fruit
+e005,Sorbetto al limone,2.8,pcs,DOL-SOR,Refreshing

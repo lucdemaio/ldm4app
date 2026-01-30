@@ -1,0 +1,34 @@
+[
+  {
+    "id": "RCP-001",
+    "name": "Spaghetti alle Vongole",
+    "description": "Classico primo piatto di mare con vongole, aglio, olio e prezzemolo.",
+    "ingredients": [
+      { "sku": "SP-001", "qty": 0.1, "unit": "kg" },
+      { "sku": "VON-001", "qty": 0.25, "unit": "kg" },
+      { "sku": "AGL-001", "qty": 5, "unit": "g" },
+      { "sku": "OLI-001", "qty": 0.02, "unit": "l" },
+      { "sku": "PRE-001", "qty": 5, "unit": "g" }
+    ],
+    "steps": [
+      "Mettere a bollire l'acqua per gli spaghetti.",
+      "Saltare l'aglio in olio, aggiungere le vongole e sfumare con vino bianco.",
+      "Cuocere gli spaghetti al dente e mantecare nella padella con le vongole.",
+      "Servire con prezzemolo tritato."]
+  },
+  {
+    "id": "RCP-002",
+    "name": "Pollo al Forno con Patate",
+    "description": "Secondo tradizionale: pollo arrosto con patate aromatizzate.",
+    "ingredients": [
+      { "sku": "POL-001", "qty": 1, "unit": "kg" },
+      { "sku": "PAT-001", "qty": 0.5, "unit": "kg" },
+      { "sku": "OLI-001", "qty": 0.03, "unit": "l" },
+      { "sku": "SALE-001", "qty": 5, "unit": "g" }
+    ],
+    "steps": [
+      "Marinare il pollo con olio, sale e rosmarino.",
+      "Disporre pollo e patate in teglia e cuocere a 200°C per 45-60 minuti.",
+      "Servire caldo." ]
+  }
+]

@@ -1,0 +1,9 @@
+id,name,category,price,components
+m001,Spaghetti al Pomodoro,Primi,8.5,"SP-001:0.18,POM-001:0.20"
+m002,Risotto ai Funghi,Primi,10.0,"RISO-001:0.3,FNG-001:0.1,MOZZ-001:0.05"
+m003,Tagliata di Manzo,Secondi,18.0,"MAN-001:0.35,PAT-001:0.15"
+m004,Insalata mista,Contorni,6.0,"INS-001:0.12"
+m005,Pollo arrosto,Secondi,12.0,"POL-001:0.4,PAT-001:0.2"
+m006,Gnocchi al Pesto,Primi,9.0,"GNC-001:0.25,PST-001:0.05"
+m007,Filetto di Salmone,Secondi,16.0,"SAL-001:0.25,INS-001:0.1"
+m008,Bruschette,Antipasti,5.0,"BREAD-001:0.09,POM-001:0.05"

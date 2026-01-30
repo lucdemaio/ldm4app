@@ -1,0 +1,148 @@
+/* Shopping list modal override */
+.shopping-list-modal{background:#fff;color:#222;padding:24px 20px;border-radius:12px;min-width:340px;max-width:96vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);}
+.shopping-list-modal h2{margin-top:0;color:#059669;}
+.shopping-list-modal ul{margin:0 0 12px 0;padding-left:18px;}
+.shopping-list-modal .modal-actions{margin-top:18px;display:flex;gap:10px;justify-content:flex-end;}
+:root{
+  --bg: #0f1724; /* near-slate */
+  --card: rgba(255,255,255,0.06);
+  --glass: rgba(255,255,255,0.06);
+  --glass-2: rgba(255,255,255,0.03);
+  --accent: #059669; /* emerald */
+  --muted: #94a3b8;
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  font-synthesis: none;
+}
+
+*{box-sizing:border-box}
+html,body,#app{height:100%}
+body{
+  margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #071025 0%, #0f1724 60%);
+  color:#e6eef8; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+
+.app{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{
+  width:260px;padding:28px 20px;display:flex;flex-direction:column;gap:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(8px);
+  border-right: 1px solid rgba(255,255,255,0.03);
+}
+.brand{font-weight:700;font-size:18px;letter-spacing:0.4px}
+.brand .accent{color:var(--accent)}
+.sidebar nav{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.sidebar nav a{padding:10px;border-radius:8px;color:var(--muted);cursor:pointer}
+.sidebar nav a.active{background:linear-gradient(180deg, rgba(5,150,105,0.12), rgba(5,150,105,0.06));color:#e6eef8}
+.sidebar footer{margin-top:auto;color:var(--muted);font-size:13px}
+
+/* Main */
+.main{flex:1;padding:20px;display:flex;flex-direction:column;gap:18px}
+.topbar{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-radius:12px;background:var(--glass);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow)}
+.topbar .search{color:var(--muted)}
+.top-actions{display:flex;gap:10px;align-items:center}
+.btn{padding:8px 12px;border-radius:8px;border:0;background:transparent;color:inherit;cursor:pointer}
+.btn.primary{background:linear-gradient(90deg,var(--accent),#10b981);color:#012;box-shadow:0 6px 18px rgba(16,185,129,0.12)}
+.btn.ghost{border:1px solid rgba(255,255,255,0.04)}
+.avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(180deg,#0f1724,#0b1220);display:flex;align-items:center;justify-content:center;font-weight:700}
+
+.dashboard h1{margin:6px 0 12px 0}
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid var(--glass-border);backdrop-filter:blur(8px);box-shadow:var(--glass-shadow);display:flex;flex-direction:column;justify-content:space-between}
+.card-title{color:var(--muted);font-size:13px}
+.card-value{font-size:28px;font-weight:700;margin-top:6px}
+.card-action{display:flex;justify-content:flex-end}
+
+.panels{display:grid;grid-template-columns:1fr 380px;gap:16px;margin-top:18px}
+.panel{padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);} 
+
+/* Tavoli grid */
+.tables-panel .table-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:12px}
+.table{padding:14px;border-radius:10px;text-align:center;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+.table .t-num{font-weight:700}
+.table .t-info{font-size:13px;color:var(--muted);margin-top:6px}
+.table.busy{background:linear-gradient(180deg, rgba(5,150,105,0.12), rgba(5,150,105,0.06));border:1px solid rgba(5,150,105,0.16)}
+.tables-panel h2{margin-bottom:6px}
+.history-panel h2{margin-top:16px;margin-bottom:6px}
+.order-panel label{display:block;margin-bottom:10px;color:var(--muted)}
+.order-panel input{width:100%;padding:10px;border-radius:8px;border:0;background:var(--glass-2);color:inherit}
+.panel-actions{display:flex;gap:8px;margin-top:12px}
+.orders-list{list-style:none;margin:0;padding:0;max-height:360px;overflow:auto}
+.orders-list li{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);margin-bottom:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+.o-head{font-weight:700}
+.o-items{font-size:13px;color:var(--muted);margin-top:6px}
+.muted{color:var(--muted)}
+
+.toast{position:fixed;right:20px;bottom:20px;padding:12px 16px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#10b981);color:#001;box-shadow:0 10px 30px rgba(2,6,23,0.6);transition:all .25s}
+.toast.err{background:linear-gradient(90deg,#ef4444,#f97316);color:#fff}
+.toast.hidden{opacity:0;transform:translateY(8px);pointer-events:none}
+
+/* Banner shown when page is opened via file:// */
+.file-banner{position:fixed;left:16px;right:16px;top:16px;padding:12px;border-radius:10px;background:linear-gradient(90deg,#f59e0b,#f97316);color:#001;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,0.5);display:flex;justify-content:space-between;align-items:center}
+.file-banner code{background:rgba(0,0,0,0.12);padding:2px 6px;border-radius:6px;font-weight:700;color:#fff;margin-left:6px}
+.btn.small{padding:6px 8px;font-size:13px}
+
+/* topbar search */
+.topbar .search input{background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,0.04);padding:6px 8px;color:inherit;width:220px}
+
+/* modal */
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;border:1px solid var(--glass-border);z-index:10000;width:520px;box-shadow:var(--glass-shadow);max-height:86vh;overflow:auto}
+
+/* Ensure inner white modals (shopping-list-modal, help) are scrollable as well */
+.shopping-list-modal{max-height:78vh;overflow:auto}
+.modal.hidden{display:none}
+.modal .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+.modal .muted{color:var(--muted)}
+
+/* debug log */
+
+
+.server-banner{position:fixed;left:16px;right:16px;top:16px;padding:12px;border-radius:10px;background:linear-gradient(90deg,#ef4444,#f97316);color:#001;z-index:10001;box-shadow:0 10px 30px rgba(0,0,0,0.5);display:flex;justify-content:space-between;align-items:center}
+.server-banner.hidden{display:none}
+.server-banner code{background:rgba(0,0,0,0.12);padding:2px 6px;border-radius:6px;font-weight:700;color:#fff;margin-left:6px}
+
+/* Floating save-all button */
+.floating{position:fixed;right:18px;bottom:20px;z-index:10002;padding:10px 12px;border-radius:10px;font-weight:700}
+.floating.small{padding:6px 8px;border-radius:8px}
+
+.menu-ingredient-row{display:flex;gap:8px;align-items:center;margin-top:8px}
+.menu-ingredient-row select,.menu-ingredient-row input{flex:1;padding:6px;border-radius:6px;border:1px solid rgba(0,0,0,0.06)}
+.menu-ingredient-row .small{flex:0 0 100px}
+
+.helper-text{font-size:13px;color:#cbd5e1;margin-top:6px} 
+
+.new-ingredient{margin-top:8px;display:flex;gap:8px;align-items:center}
+.new-ingredient input, .new-ingredient select{padding:6px;border-radius:6px;border:1px solid rgba(0,0,0,0.06)}
+.new-ingredient.hidden{display:none} 
+
+/* small utility */
+.btn.ghost.small{padding:6px 8px}
+
+/* Responsive */
+@media (max-width:980px){
+  .sidebar{display:none}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .panels{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .bento{grid-template-columns:1fr}
+}
+
+/* Procurement additions */
+.panel-section{padding:12px 0}
+.panel-grid{display:grid;grid-template-columns:1fr 420px;gap:16px}
+.panel-grid.panel-inventory{display:block;margin-top:0}
+
+/* Inventory stacked layout */
+.panel-inventory-form { width:100%; max-width:600px; margin-left:auto; margin-right:auto; }
+.panel-inventory-list { width:100%; overflow-x:auto; }
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left}
+
+/* Small utilities */
+.badge{background:rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;font-weight:700}
+.low{background:linear-gradient(90deg,#ef4444,#f97316);color:#fff;padding:4px 8px;border-radius:6px}
+.shortage{color:#fecaca;background:rgba(255,0,0,0.06);padding:8px;border-radius:8px;margin-bottom:6px}

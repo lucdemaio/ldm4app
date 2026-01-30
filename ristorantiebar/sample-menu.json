@@ -1,0 +1,24 @@
+{
+  "menu": [
+    {
+      "name": "Pizza Margherita",
+      "price": 8.5,
+      "lines": [
+        { "sku": "FARINA", "qty": 0.25, "unit": "kg" },
+        { "sku": "POM", "qty": 0.15, "unit": "kg" },
+        { "sku": "MOZZ", "qty": 1, "unit": "pcs" },
+        { "sku": "BAS", "qty": 0.01, "unit": "pcs" },
+        { "sku": "OLIO", "qty": 0.02, "unit": "pcs" }
+      ]
+    },
+    {
+      "name": "Bruschetta",
+      "price": 4.0,
+      "lines": [
+        { "sku": "POM", "qty": 0.05, "unit": "kg" },
+        { "sku": "OLIO", "qty": 0.01, "unit": "pcs" },
+        { "sku": "BAS", "qty": 0.005, "unit": "pcs" }
+      ]
+    }
+  ]
+}

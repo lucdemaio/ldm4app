@@ -1,0 +1,9 @@
+{
+  "inventory": [
+    { "sku": "FARINA", "name": "Farina", "unit": "kg", "qty": 10, "unit_cost": 1.2, "min_qty": 5, "reorder_to": 20 },
+    { "sku": "POM", "name": "Pomodoro", "unit": "kg", "qty": 8, "unit_cost": 1.5, "min_qty": 3, "reorder_to": 10 },
+    { "sku": "MOZZ", "name": "Mozzarella", "unit": "pcs", "qty": 30, "unit_cost": 0.8, "min_qty": 10, "reorder_to": 50 },
+    { "sku": "BAS", "name": "Basilico", "unit": "pcs", "qty": 50, "unit_cost": 0.05, "min_qty": 10, "reorder_to": 100 },
+    { "sku": "OLIO", "name": "Olio d'Oliva", "unit": "pcs", "qty": 20, "unit_cost": 3.0, "min_qty": 5, "reorder_to": 30 }
+  ]
+}

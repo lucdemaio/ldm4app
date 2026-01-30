@@ -1,0 +1,7 @@
+[
+  { "id": 1001, "name": "EuroFood S.r.l.", "contact": "info@eurofood.it" },
+  { "id": 1002, "name": "Beverage Italia", "contact": "sales@bev-italia.com" },
+  { "id": 1003, "name": "Latticini & Co", "contact": "ordini@latticini.it" },
+  { "id": 1004, "name": "Frutta e Verdura SRL", "contact": "frutta@fv.it" },
+  { "id": 1005, "name": "Carni Select", "contact": "carni@select.it" }
+]

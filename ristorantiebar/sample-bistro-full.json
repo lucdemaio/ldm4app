@@ -1,0 +1,19 @@
+{
+  "suppliers": [
+    { "id": 3001, "name": "Bistro Food Co.", "contact": "orders@bistrofood.it" }
+  ],
+  "inventory": [
+    { "sku": "FAR-001", "name": "Farina 00", "unit_cost": 0.8, "qty": 50, "unit": "kg", "min_qty": 10, "reorder_to": 50 },
+    { "sku": "MOZZ-001", "name": "Mozzarella kg", "unit_cost": 1.0, "qty": 40, "unit": "kg", "min_qty": 10, "reorder_to": 40 },
+    { "sku": "POM-001", "name": "Passata 1kg", "unit_cost": 0.9, "qty": 35, "unit": "kg", "min_qty": 5, "reorder_to": 30 }
+  ],
+  "menu": [
+    { "id": 6001, "name": "Pizza Margherita", "price": 8.5, "lines": [ { "sku": "FAR-001", "qty": 0.25 }, { "sku": "MOZZ-001", "qty": 0.12 }, { "sku": "POM-001", "qty": 0.15 } ] },
+    { "id": 6002, "name": "Tagliatelle al Ragù", "price": 11.0, "lines": [ { "sku": "SP-001", "qty": 0.12 }, { "sku": "RAG-001", "qty": 0.15 } ] }
+  ],
+  "drinks": [
+    { "id": 401, "name": "Vino Rosso Calice", "price": 3.2, "unit": "calice", "sku": "BEV032" },
+    { "id": 402, "name": "Acqua Naturale", "price": 1.0, "unit": "bottiglia", "sku": "BEV001" }
+  ],
+  "settings": { "currency": "EUR" }
+}

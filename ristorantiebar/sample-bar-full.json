@@ -1,0 +1,20 @@
+{
+  "suppliers": [
+    { "id": 2001, "name": "Bar Supplies SRL", "contact": "sales@barsupplies.it" }
+  ],
+  "inventory": [
+    { "sku": "BEV001", "name": "Acqua Naturale 50cl", "unit_cost": 0.5, "qty": 120, "unit": "pcs", "min_qty": 20, "reorder_to": 100 },
+    { "sku": "BEV003", "name": "Coca Cola 33cl", "unit_cost": 1.0, "qty": 60, "unit": "pcs", "min_qty": 10, "reorder_to": 60 },
+    { "sku": "BEV028", "name": "Birra Chiara 33cl", "unit_cost": 1.8, "qty": 80, "unit": "pcs", "min_qty": 10, "reorder_to": 60 }
+  ],
+  "menu": [
+    { "id": 5001, "name": "Panino Club", "price": 6.5, "lines": [ { "sku": "BREAD-001", "qty": 0.15 }, { "sku": "HAM-001", "qty": 0.05 } ] },
+    { "id": 5002, "name": "Tagliere Salumi", "price": 9.5, "lines": [ { "sku": "SAL-001", "qty": 0.08 } ] }
+  ],
+  "drinks": [
+    { "id": 301, "name": "Caffè Espresso", "price": 1.1, "unit": "tazzina", "sku": "BEV022" },
+    { "id": 302, "name": "Cappuccino", "price": 1.9, "unit": "tazza", "sku": "BEV025" },
+    { "id": 303, "name": "Spritz", "price": 4.5, "unit": "bicchiere", "sku": "BEV036" }
+  ],
+  "settings": { "currency": "EUR" }
+}

@@ -1,0 +1,16 @@
+id,name,price,unit,sku,category
+d001,Espresso,1.0,pcs,COF-ESP,Caffetteria
+d002,Cappuccino,1.7,pcs,COF-CAP,Caffetteria
+d003,Americano,1.2,pcs,COF-AME,Caffetteria
+d004,Macchiato,1.3,pcs,COF-MAC,Caffetteria
+d005,Latte,1.5,pcs,COF-LAT,Caffetteria
+d006,Gin Tonic,6.5,pcs,GIN-001,Cocktail
+d007,Vodka Martini,7.0,pcs,VOD-001,Cocktail
+d008,Mojito,6.0,pcs,RUM-MOJ,Cocktail
+d009,Negroni,7.0,pcs,GNR-NEG,Cocktail
+d010,Prosecco Glass,4.5,pcs,PRO-GLA,Vini
+d011,Chianti Glass,4.0,pcs,CHI-GLA,Vini
+d012,Acqua Naturale,1.0,pcs,WTR-NAT,Bevande
+d013,Acqua Frizzante,1.0,pcs,WTR-SPA,Bevande
+d014,Red Bull,2.0,pcs,RED-001,Bevande
+d015,Birra 33cl,3.0,pcs,BIR-033,Bevande

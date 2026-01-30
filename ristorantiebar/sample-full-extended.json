@@ -1,0 +1,34 @@
+{
+  "suppliers": [
+    { "id": 1001, "name": "EuroFood S.r.l.", "contact": "info@eurofood.it" },
+    { "id": 1002, "name": "Beverage Italia", "contact": "sales@bev-italia.com" },
+    { "id": 1003, "name": "Latticini & Co", "contact": "ordini@latticini.it" },
+    { "id": 1004, "name": "Frutta e Verdura SRL", "contact": "frutta@fv.it" }
+  ],
+  "inventory": [
+    { "sku": "SP-001", "name": "Spaghetti 1kg", "unit_cost": 1.2, "qty": 80, "unit": "kg", "min_qty": 10, "reorder_to": 50 },
+    { "sku": "POM-001", "name": "Passata di Pomodoro 1kg", "unit_cost": 0.9, "qty": 40, "unit": "kg", "min_qty": 10, "reorder_to": 40 },
+    { "sku": "FAR-001", "name": "Farina 00", "unit_cost": 0.8, "qty": 100, "unit": "kg", "min_qty": 20, "reorder_to": 100 },
+    { "sku": "VON-001", "name": "Vongole 1kg", "unit_cost": 7.5, "qty": 15, "unit": "kg", "min_qty": 5, "reorder_to": 20 },
+    { "sku": "POL-001", "name": "Pollo intero (kg)", "unit_cost": 4.0, "qty": 30, "unit": "kg", "min_qty": 5, "reorder_to": 20 },
+    { "sku": "PAT-001", "name": "Patate (kg)", "unit_cost": 0.6, "qty": 60, "unit": "kg", "min_qty": 10, "reorder_to": 50 }
+  ],
+  "menu": [
+    { "id": 2001, "name": "Spaghetti alle Vongole", "price": 12.5, "lines": [ { "sku": "SP-001", "qty": 0.1 }, { "sku": "VON-001", "qty": 0.25 } ] },
+    { "id": 2004, "name": "Pollo al Forno", "price": 13.0, "lines": [ { "sku": "POL-001", "qty": 0.25 }, { "sku": "PAT-001", "qty": 0.2 } ] },
+    { "id": 2012, "name": "Lasagne della Casa", "price": 11.0, "lines": [ { "sku": "FAR-001", "qty": 0.18 }, { "sku": "CHEE-001", "qty": 0.05 } ] },
+    { "id": 2016, "name": "Risotto ai Frutti di Mare", "price": 14.0, "lines": [ { "sku": "RISO-001", "qty": 0.18 }, { "sku": "VON-001", "qty": 0.2 } ] },
+    { "id": 2014, "name": "Hamburger Classico", "price": 10.0, "lines": [ { "sku": "MAN-001", "qty": 0.18 }, { "sku": "BREAD-001", "qty": 0.2 } ] }
+  ],
+  "drinks": [
+    { "id": 3001, "name": "Acqua Naturale 50cl", "price": 1.50, "unit": "bottiglia", "sku": "BEV001" },
+    { "id": 3003, "name": "Coca Cola 33cl", "price": 2.50, "unit": "lattina", "sku": "BEV003" },
+    { "id": 3015, "name": "Birra Artigianale 33cl", "price": 5.00, "unit": "bottiglia", "sku": "BEV030" },
+    { "id": 3016, "name": "Vino Bianco Calice", "price": 3.00, "unit": "calice", "sku": "BEV031" }
+  ],
+  "drinksSales": [],
+  "drinksShortages": [],
+  "purchases": [],
+  "invoices": [],
+  "settings": { "currency": "EUR" }
+}

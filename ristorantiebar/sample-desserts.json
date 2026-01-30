@@ -1,0 +1,12 @@
+[
+  {"id":101,"name":"Tiramisù","price":4.5,"unit":"porzione","sku":"DOL001"},
+  {"id":102,"name":"Panna Cotta","price":4.0,"unit":"porzione","sku":"DOL002"},
+  {"id":103,"name":"Torta della Nonna","price":4.5,"unit":"porzione","sku":"DOL003"},
+  {"id":104,"name":"Cheesecake ai Frutti di Bosco","price":5.0,"unit":"porzione","sku":"DOL004"},
+  {"id":105,"name":"Profiteroles","price":5.0,"unit":"porzione","sku":"DOL005"},
+  {"id":106,"name":"Torta al Cioccolato","price":4.5,"unit":"porzione","sku":"DOL006"},
+  {"id":107,"name":"Crostata di Marmellata","price":4.0,"unit":"porzione","sku":"DOL007"},
+  {"id":108,"name":"Gelato Artigianale","price":3.5,"unit":"coppetta","sku":"DOL008"},
+  {"id":109,"name":"Zuppa Inglese","price":4.5,"unit":"porzione","sku":"DOL009"},
+  {"id":110,"name":"Babà al Rum","price":4.5,"unit":"porzione","sku":"DOL010"}
+]

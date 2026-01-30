@@ -1,0 +1,19 @@
+{
+  "suppliers": [
+    { "id": 4001, "name": "Ristorante Supplies Srl", "contact": "ordini@ristosupplies.it" }
+  ],
+  "inventory": [
+    { "sku": "FAR-001", "name": "Farina 00", "unit_cost": 0.8, "qty": 100, "unit": "kg", "min_qty": 20, "reorder_to": 100 },
+    { "sku": "MOZZ-001", "name": "Mozzarella kg", "unit_cost": 1.0, "qty": 80, "unit": "kg", "min_qty": 20, "reorder_to": 80 },
+    { "sku": "POM-001", "name": "Passata 1kg", "unit_cost": 0.9, "qty": 60, "unit": "kg", "min_qty": 10, "reorder_to": 50 }
+  ],
+  "menu": [
+    { "id": 7001, "name": "Ravioli burro e salvia", "price": 11.5, "lines": [ { "sku": "RISO-001", "qty": 0.12 } ] },
+    { "id": 7002, "name": "Branzino al forno", "price": 18.0, "lines": [ { "sku": "BRZ-001", "qty": 0.3 } ] }
+  ],
+  "drinks": [
+    { "id": 501, "name": "Vino Bianco Calice", "price": 3.2, "unit": "calice", "sku": "BEV031" },
+    { "id": 502, "name": "Acqua Naturale 75cl", "price": 1.8, "unit": "bottiglia", "sku": "BEV001" }
+  ],
+  "settings": { "currency": "EUR" }
+}

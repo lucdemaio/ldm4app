@@ -1,0 +1,22 @@
+[
+  { "id": 3001, "name": "Acqua Naturale 50cl", "price": 1.50, "unit": "bottiglia", "sku": "BEV001" },
+  { "id": 3002, "name": "Acqua Frizzante 50cl", "price": 1.50, "unit": "bottiglia", "sku": "BEV002" },
+  { "id": 3003, "name": "Coca Cola 33cl", "price": 2.50, "unit": "lattina", "sku": "BEV003" },
+  { "id": 3004, "name": "Fanta 33cl", "price": 2.50, "unit": "lattina", "sku": "BEV004" },
+  { "id": 3005, "name": "Sprite 33cl", "price": 2.50, "unit": "lattina", "sku": "BEV005" },
+  { "id": 3006, "name": "Estathé Limone", "price": 2.50, "unit": "bottiglia", "sku": "BEV020" },
+  { "id": 3007, "name": "Red Bull 250ml", "price": 3.50, "unit": "lattina", "sku": "BEV019" },
+  { "id": 3008, "name": "Caffè Espresso", "price": 1.20, "unit": "tazzina", "sku": "BEV022" },
+  { "id": 3009, "name": "Espresso Doppio", "price": 1.80, "unit": "tazzina", "sku": "BEV023" },
+  { "id": 3010, "name": "Cappuccino", "price": 1.80, "unit": "tazza", "sku": "BEV025" },
+  { "id": 3011, "name": "Latte Macchiato", "price": 2.00, "unit": "bicchiere", "sku": "BEV026" },
+  { "id": 3012, "name": "Cioccolata Calda", "price": 2.50, "unit": "tazza", "sku": "BEV027" },
+  { "id": 3013, "name": "Birra Chiara 33cl", "price": 4.00, "unit": "bottiglia", "sku": "BEV028" },
+  { "id": 3014, "name": "Birra Rossa 33cl", "price": 4.50, "unit": "bottiglia", "sku": "BEV029" },
+  { "id": 3015, "name": "Birra Artigianale 33cl", "price": 5.00, "unit": "bottiglia", "sku": "BEV030" },
+  { "id": 3016, "name": "Vino Bianco Calice", "price": 3.00, "unit": "calice", "sku": "BEV031" },
+  { "id": 3017, "name": "Vino Rosso Calice", "price": 3.00, "unit": "calice", "sku": "BEV032" },
+  { "id": 3018, "name": "Prosecco (calice)", "price": 4.00, "unit": "calice", "sku": "BEV035" },
+  { "id": 3019, "name": "Spritz Aperol", "price": 5.00, "unit": "bicchiere", "sku": "BEV036" },
+  { "id": 3020, "name": "Gin Tonic", "price": 7.00, "unit": "bicchiere", "sku": "BEV040" }
+]

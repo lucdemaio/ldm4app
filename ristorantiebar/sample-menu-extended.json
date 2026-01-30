@@ -1,0 +1,22 @@
+[
+  { "id": 2001, "name": "Spaghetti alle Vongole", "category": "Primi", "price": 12.5, "lines": [ { "sku": "SP-001", "qty": 0.1 }, { "sku": "VON-001", "qty": 0.25 } ] },
+  { "id": 2002, "name": "Risotto ai Funghi", "category": "Primi", "price": 11.5, "lines": [ { "sku": "RISO-001", "qty": 0.18 }, { "sku": "FNG-001", "qty": 0.08 } ] },
+  { "id": 2003, "name": "Tagliata di Manzo", "category": "Secondi", "price": 16.0, "lines": [ { "sku": "MAN-001", "qty": 0.25 } ] },
+  { "id": 2004, "name": "Pollo al Forno", "category": "Secondi", "price": 13.0, "lines": [ { "sku": "POL-001", "qty": 0.25 }, { "sku": "PAT-001", "qty": 0.2 } ] },
+  { "id": 2005, "name": "Contorno di Patate", "category": "Contorni", "price": 4.0, "lines": [ { "sku": "PAT-001", "qty": 0.25 } ] },
+  { "id": 2006, "name": "Insalata Mista", "category": "Contorni", "price": 4.5, "lines": [ { "sku": "INS-001", "qty": 0.12 } ] },
+  { "id": 2007, "name": "Pasta al Pomodoro", "category": "Primi", "price": 9.0, "lines": [ { "sku": "SP-001", "qty": 0.1 }, { "sku": "POM-001", "qty": 0.08 } ] },
+  { "id": 2008, "name": "Gnocchi al Pesto", "category": "Primi", "price": 10.0, "lines": [ { "sku": "GNC-001", "qty": 0.15 }, { "sku": "PST-001", "qty": 0.03 } ] },
+  { "id": 2009, "name": "Filetto di Salmone", "category": "Secondi", "price": 17.5, "lines": [ { "sku": "SAL-001", "qty": 0.18 } ] },
+  { "id": 2010, "name": "Zuppa del Giorno", "category": "Primi", "price": 7.5, "lines": [ { "sku": "ZUP-001", "qty": 0.35 } ] },
+  { "id": 2011, "name": "Penne all'Arrabbiata", "category": "Primi", "price": 9.5, "lines": [ { "sku": "SP-001", "qty": 0.09 }, { "sku": "POM-001", "qty": 0.07 } ] },
+  { "id": 2012, "name": "Lasagne della Casa", "category": "Primi", "price": 11.0, "lines": [ { "sku": "FAR-001", "qty": 0.18 }, { "sku": "CHEE-001", "qty": 0.05 } ] },
+  { "id": 2013, "name": "Calamari Fritti", "category": "Secondi", "price": 12.0, "lines": [ { "sku": "CAL-001", "qty": 0.25 } ] },
+  { "id": 2014, "name": "Hamburger Classico", "category": "Secondi", "price": 10.0, "lines": [ { "sku": "MAN-001", "qty": 0.18 }, { "sku": "BREAD-001", "qty": 0.2 } ] },
+  { "id": 2015, "name": "Club Sandwich", "category": "Secondi", "price": 8.5, "lines": [ { "sku": "BREAD-001", "qty": 0.18 }, { "sku": "HAM-001", "qty": 0.06 } ] },
+  { "id": 2016, "name": "Risotto ai Frutti di Mare", "category": "Primi", "price": 14.0, "lines": [ { "sku": "RISO-001", "qty": 0.18 }, { "sku": "VON-001", "qty": 0.2 } ] },
+  { "id": 2017, "name": "Grigliata Mista", "category": "Secondi", "price": 19.0, "lines": [ { "sku": "MAN-001", "qty": 0.3 }, { "sku": "POL-001", "qty": 0.2 } ] },
+  { "id": 2018, "name": "Pasticcio di Verdure", "category": "Contorni", "price": 5.0, "lines": [ { "sku": "ZUP-001", "qty": 0.2 } ] },
+  { "id": 2019, "name": "Tortino al Cioccolato", "category": "Dolci", "price": 5.0, "lines": [ { "sku": "CHOC-001", "qty": 0.05 }, { "sku": "EGG-001", "qty": 1 } ] },
+  { "id": 2020, "name": "Insalata di Mare", "category": "Contorni", "price": 7.0, "lines": [ { "sku": "VON-001", "qty": 0.15 } ] }
+]

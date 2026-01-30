@@ -1,0 +1,31 @@
+sku,name,unit_cost,qty,unit,min_qty,reorder_to
+SP-001,Spaghetti 1kg,1.2,120,kg,20,100
+POM-001,Passata di Pomodoro 1kg,0.9,100,kg,20,80
+FAR-001,Farina 00,0.8,200,kg,40,200
+VON-001,Vongole 1kg,7.5,25,kg,5,30
+POL-001,Pollo intero (kg),4.0,60,kg,10,50
+PAT-001,Patate (kg),0.6,200,kg,40,200
+MAN-001,Manzo (kg),9.0,40,kg,10,60
+RISO-001,Riso Carnaroli (kg),2.2,50,kg,10,40
+FNG-001,Funghi misti (kg),6.0,30,kg,5,30
+INS-001,Insalata mista (kg),1.5,60,kg,10,40
+GNC-001,Gnocchi freschi (kg),3.0,30,kg,6,30
+PST-001,Pesto (kg),5.0,20,kg,4,20
+SAL-001,Salmone (kg),12.0,20,kg,6,30
+ZUP-001,Misto verdure per zuppa (kg),1.0,80,kg,10,80
+MOZZ-001,Mozzarella (kg),1.0,120,kg,20,100
+BREAD-001,Pane per panini (pz),0.15,300,pcs,50,200
+CHEE-001,Formaggio stagionato (kg),6.5,20,kg,5,25
+HAM-001,Prosciutto cotto (kg),4.2,40,kg,8,40
+EGG-001,Uova (cartone 30),3.5,60,pcs,10,50
+OLI-001,Olio d'Oliva (l),6.0,40,l,8,40
+SUG-001,Zucchero (kg),0.8,30,kg,5,30
+SALT-001,Sale (kg),0.4,50,kg,10,40
+PEP-001,Pepe (kg),8.0,6,kg,2,10
+HERB-001,Rosmarino fresco (busta),0.5,60,pcs,10,40
+VOD-001,Vodka (bottiglia),8.0,30,pcs,5,30
+GIN-001,Gin (bottiglia),10.0,30,pcs,5,30
+RED-001,Red Bull (lattina),0.9,120,pcs,20,100
+COF-001,Caffè in grani (kg),10.0,25,kg,5,30
+MILK-001,Latte UHT (l),0.9,80,l,10,80
+CHOC-001,Cioccolato in polvere (kg),4.5,20,kg,5,20
