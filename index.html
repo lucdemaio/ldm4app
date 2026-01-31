@@ -110,30 +110,51 @@
                 </div>
                 <p class="mt-4 text-sm text-gray-700 underline font-semibold">Nota sulla privacy: le applicazioni lavorano completamente in locale nel tuo browser e non inviano né memorizzano alcun dato sul sito ldm4app. I dati restano sul dispositivo, pertanto non ci sono problemi di privacy.</p>
 
-                <!-- Products grid: Soccer and Mission side-by-side -->
-                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <!-- Soccer Card -->
-                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
-                        <div class="w-10 h-10 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg mb-4"></div>
-                        <h3 class="text-lg md:text-xl font-bold text-navy mb-2">LDM Soccer Manager Pro</h3>
-                        <p class="text-sm text-gray-600 mb-4">Gestione completa per società sportive. Atleti, presenze, finanze e molto altro. <strong class="text-cobalt">Usabile direttamente come PWA</strong>.</p>
-                        <div class="mt-3">
-                            <a id="open-soccer-product" href="https://www.ldm4app.com/soccer/soccer-app.html" target="_blank" rel="noopener noreferrer" class="bg-cobalt text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition inline-block">Apri LDM Soccer Manager Pro</a>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-3">Apri l'app nel tuo browser e scegli "Aggiungi alla schermata Home" per installarla come PWA.</p>
-                    </div>
+                                <!-- Products grid: Soccer, Ristoranti e Bar, Mission in orizzontale -->
+                                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                                        <!-- Soccer Card -->
+                                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 flex flex-col">
+                                                <div class="w-10 h-10 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg mb-4"></div>
+                                                <h3 class="text-lg md:text-xl font-bold text-navy mb-2">LDM Soccer Manager Pro</h3>
+                                                <p class="text-sm text-gray-600 mb-4">Gestione completa per società sportive. Atleti, presenze, finanze e molto altro. <strong class="text-cobalt">Usabile direttamente come PWA</strong>.</p>
+                                                <div class="mt-3">
+                                                        <a id="open-soccer-product" href="https://www.ldm4app.com/soccer/soccer-app.html" target="_blank" rel="noopener noreferrer" class="bg-cobalt text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition inline-block">Apri LDM Soccer Manager Pro</a>
+                                                </div>
+                                                <p class="text-xs text-gray-500 mt-3">Apri l'app nel tuo browser e scegli "Aggiungi alla schermata Home" per installarla come PWA.</p>
+                                        </div>
 
-                    <!-- Mission Card -->
-                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200">
-                        <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-lg mb-4"></div>
-                        <h3 class="text-lg md:text-xl font-bold text-navy mb-2">Mission App</h3>
-                        <p class="text-sm text-gray-600 mb-4">Programma per la gestione missioni e attività. Usalo direttamente dal sito come Progressive Web App (PWA).</p>
-                        <div class="mt-3">
-                            <a id="open-mission-product" href="https://www.ldm4app.com/missione/index.html" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition inline-block">Apri Mission App</a>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-3">Apri l'app nel tuo browser e scegli "Aggiungi alla schermata Home" per installarla come PWA.</p>
-                    </div>
-                </div>
+                                        <!-- Ristoranti e Bar Manager Card -->
+                                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 flex flex-col">
+                                            <div class="flex space-x-3 mb-4">
+                                                <i data-lucide="package" class="w-7 h-7 text-yellow-500"></i>
+                                                <i data-lucide="truck" class="w-7 h-7 text-yellow-500"></i>
+                                                <i data-lucide="shopping-cart" class="w-7 h-7 text-yellow-500"></i>
+                                                <i data-lucide="utensils" class="w-7 h-7 text-yellow-500"></i>
+                                            </div>
+                                            <h3 class="text-lg md:text-xl font-bold text-navy mb-2">Mission Manager — Procurement & Food Service</h3>
+                                            <p class="text-sm text-gray-600 mb-4">
+                                                Una soluzione professionale per la gestione di inventario, fornitori e ordini d'acquisto. Include funzionalità avanzate per il calcolo dei costi dei piatti (food cost), gestione SKU, e monitoraggio delle vendite con avvisi automatici sulle mancanze di magazzino.
+                                            </p>
+                                            <div class="mt-3">
+                                                <a href="https://www.ldm4app.com/ristorantiebar/index.html" target="_blank" rel="noopener noreferrer" class="bg-yellow-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition inline-block">
+                                                    Vai all'App
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Mission Card -->
+                                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 flex flex-col">
+                                                <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-lg mb-4"></div>
+                                                <h3 class="text-lg md:text-xl font-bold text-navy mb-2">Mission App</h3>
+                                                <p class="text-sm text-gray-600 mb-4">Programma per la gestione missioni e attività. Usalo direttamente dal sito come Progressive Web App (PWA).</p>
+                                                <div class="mt-3">
+                                                        <a id="open-mission-product" href="https://www.ldm4app.com/missione/index.html" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition inline-block">Apri Mission App</a>
+                                                </div>
+                                                <p class="text-xs text-gray-500 mt-3">Apri l'app nel tuo browser e scegli "Aggiungi alla schermata Home" per installarla come PWA.</p>
+                                        </div>
+                                </div>
+                                <script src="https://unpkg.com/lucide@latest"></script>
+                                <script>lucide.createIcons();</script>
                 <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 text-center">
                     <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg mb-6 mx-auto"></div>
                     <h3 class="text-xl font-bold text-navy mb-3">A breve novità in arrivo</h3>
