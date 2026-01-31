@@ -110,8 +110,8 @@
                 </div>
                 <p class="mt-4 text-sm text-gray-700 underline font-semibold">Nota sulla privacy: le applicazioni lavorano completamente in locale nel tuo browser e non inviano né memorizzano alcun dato sul sito ldm4app. I dati restano sul dispositivo, pertanto non ci sono problemi di privacy.</p>
 
-                                <!-- Products grid: Soccer, Ristoranti e Bar, Mission in orizzontale -->
-                                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                                <!-- Products grid: una card per riga -->
+                                <div class="grid grid-cols-1 gap-8 max-w-2xl mx-auto">
                                         <!-- Soccer Card -->
                                         <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 flex flex-col">
                                                 <div class="w-10 h-10 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg mb-4"></div>
@@ -135,11 +135,38 @@
                                             <p class="text-sm text-gray-600 mb-4">
                                                 Una soluzione professionale per la gestione di inventario, fornitori e ordini d'acquisto. Include funzionalità avanzate per il calcolo dei costi dei piatti (food cost), gestione SKU, e monitoraggio delle vendite con avvisi automatici sulle mancanze di magazzino.
                                             </p>
-                                            <div class="mt-3">
-                                                <a href="https://www.ldm4app.com/ristorantiebar/index.html" target="_blank" rel="noopener noreferrer" class="bg-yellow-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition inline-block">
-                                                    Vai all'App
-                                                </a>
-                                            </div>
+                                                                                        <div class="mt-3 flex flex-col gap-2">
+                                                                                                <a href="https://www.ldm4app.com/ristorantiebar/index.html" target="_blank" rel="noopener noreferrer" class="bg-yellow-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition inline-block">
+                                                                                                        Vai all'App
+                                                                                                </a>
+                                                                                                <button onclick="document.getElementById('menu-download-modal').style.display='block'" class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center justify-center"><i data-lucide="download" class="w-5 h-5 mr-2"></i>Scarica menù ed esempi</button>
+                                                                                        </div>
+
+<!-- Modal download menù -->
+<div id="menu-download-modal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.35);align-items:center;justify-content:center;">
+    <div style="background:#fff;padding:2rem 1.5rem;border-radius:18px;max-width:95vw;width:420px;box-shadow:0 8px 32px rgba(0,0,0,0.18);margin:40px auto;position:relative;">
+        <button onclick="document.getElementById('menu-download-modal').style.display='none'" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.5rem;color:#888;cursor:pointer;" aria-label="Chiudi">&times;</button>
+        <h4 class="text-lg md:text-xl font-bold text-navy mb-4 flex items-center"><i data-lucide="download" class="w-6 h-6 mr-2 text-yellow-500"></i>Scarica menù ed esempi</h4>
+        <div class="grid grid-cols-1 gap-2">
+            <a href="https://www.ldm4app.com/ristorantiebar/menu.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>menu.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-bar-full.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-bar-full.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-bistro-full.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-bistro-full.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-data.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-data.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-database.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-database.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-desserts-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-desserts-extended.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-desserts.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-desserts.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-drinks-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-drinks-extended.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-drinks.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-drinks.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-full-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-full-extended.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-inventory-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-inventory-extended.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-inventory.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-inventory.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-menu-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-menu-extended.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-recipes.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-recipes.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-ristorante-full.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-ristorante-full.json</a>
+            <a href="https://www.ldm4app.com/ristorantiebar/sample-suppliers-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-suppliers-extended.json</a>
+        </div>
+    </div>
+</div>
                                         </div>
 
                                         <!-- Mission Card -->
