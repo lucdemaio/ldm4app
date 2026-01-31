@@ -409,8 +409,8 @@ function exportDBFallback(){ showToast('Dati NON scaricati. I dati sono salvati 
 
 /* ---------- Utils ---------- */
 function showToast(msg, err = false) {
-  // Suppress connectivity/server related messages to avoid top-page alerts
-  if (typeof msg === 'string' && /server|server non raggiung|connessione.*(assente|fallita)|server ancora irraggiungibile/i.test(msg)) return;
+  // Mostra solo errori utente o dati, mai errori di connessione/server
+  if (typeof msg === 'string' && /server|server non raggiung|connessione.*(assente|fallita)|server ancora irraggiungibile|impossibile caricare libreria zip|dati non scaricati|salvataggio fallito|sincronizzazione fallita|export fallback/i.test(msg)) return;
   const t = document.getElementById('toast');
   if (!t) { console.log((err? 'ERROR: ': '') + msg); return; }
   t.textContent = msg; t.classList.remove('hidden'); t.classList.toggle('err', !!err);
