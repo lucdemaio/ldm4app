@@ -225,6 +225,108 @@ function attachDrinksPanelEvents() {
 // Inizializzazione eventi per la sezione drinks
 attachDrinksPanelEvents();
 
+// --- Sample files disponibili ---
+const SAMPLE_FILES = {
+  inventory: [
+    'sample-inventory.json',
+    'sample-inventory-extended.json',
+    'sample-bar-full.json',
+    'sample-bistro-full.json',
+    'sample-ristorante-full.json',
+    'sample-full-extended.json',
+    'sample-database.json',
+    'sample-data.json'
+  ],
+  menu: [
+    'sample-menu.json',
+    'sample-menu-extended.json',
+    'sample-bar-full.json',
+    'sample-bistro-full.json',
+    'sample-ristorante-full.json',
+    'sample-full-extended.json',
+    'sample-database.json',
+    'sample-data.json'
+  ],
+  drinks: [
+    'sample-drinks.json',
+    'sample-drinks-extended.json',
+    'sample-desserts.json',
+    'sample-desserts-extended.json',
+    'sample-bar-full.json',
+    'sample-bistro-full.json',
+    'sample-ristorante-full.json',
+    'sample-full-extended.json',
+    'sample-database.json',
+    'sample-data.json'
+  ]
+};
+
+function populateSampleSelects() {
+  const invSel = document.getElementById('inventorySampleSelect');
+  if (invSel) {
+    invSel.innerHTML = '<option value="">Carica esempio...</option>' + SAMPLE_FILES.inventory.map(f => `<option value="${f}">${f}</option>`).join('');
+    invSel.onchange = async function() {
+      if (!this.value) return;
+      await importSampleFile('inventory', this.value);
+      this.value = '';
+    };
+  }
+  const menuSel = document.getElementById('menuSampleSelect');
+  if (menuSel) {
+    menuSel.innerHTML = '<option value="">Carica esempio...</option>' + SAMPLE_FILES.menu.map(f => `<option value="${f}">${f}</option>`).join('');
+    menuSel.onchange = async function() {
+      if (!this.value) return;
+      await importSampleFile('menu', this.value);
+      this.value = '';
+    };
+  }
+  const drinksSel = document.getElementById('drinksSampleSelect');
+  if (drinksSel) {
+    drinksSel.innerHTML = '<option value="">Carica esempio...</option>' + SAMPLE_FILES.drinks.map(f => `<option value="${f}">${f}</option>`).join('');
+    drinksSel.onchange = async function() {
+      if (!this.value) return;
+      await importSampleFile('drinks', this.value);
+      this.value = '';
+    };
+  }
+}
+
+async function importSampleFile(target, file) {
+  try {
+    const res = await fetch(file);
+    if (!res.ok) return showToast('File non trovato', true);
+    const data = await res.json();
+    if (target === 'inventory') {
+      if (Array.isArray(data)) DB.inventory = data;
+      else if (data.inventory) DB.inventory = data.inventory;
+      else return showToast('Formato file non valido', true);
+      await saveToLocalStorage();
+      renderInventory();
+      showToast('Inventario di esempio caricato');
+    } else if (target === 'menu') {
+      if (Array.isArray(data)) DB.menu = data;
+      else if (data.menu) DB.menu = data.menu;
+      else return showToast('Formato file non valido', true);
+      await saveToLocalStorage();
+      renderMenu();
+      showToast('Menu di esempio caricato');
+    } else if (target === 'drinks') {
+      if (Array.isArray(data)) DB.drinks = data;
+      else if (data.drinks) DB.drinks = data.drinks;
+      else return showToast('Formato file non valido', true);
+      ensureDrinksInInventory();
+      await saveToLocalStorage();
+      renderDrinksSelect();
+      renderInventory();
+      showToast('Bevande/dolci di esempio caricati');
+    }
+  } catch (e) {
+    showToast('Errore caricamento esempio', true);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', populateSampleSelects);
+
 // Chiamare queste funzioni quando si mostra la sezione drinks
 function showDrinksSection() {
   renderDrinksSelect();
@@ -294,45 +396,31 @@ async function pingServer() {
     // failed
   }
   isServerAvailable = false;
-  showServerBanner();
+  // server banner intentionally disabled
   uiLog('server unreachable');
   return false;
 }
 
-function showServerBanner(){ const b = document.getElementById('serverBanner'); if(b) b.classList.remove('hidden'); }
-function hideServerBanner(){ const b = document.getElementById('serverBanner'); if(b) b.classList.add('hidden'); }
+function showServerBanner(){ /* server banner disabled */ }
+function hideServerBanner(){ /* server banner disabled */ }
 
 // exportDBFallback disabilitato: non più download automatico JSON
-function exportDBFallback(){ showToast('Server non raggiungibile: dati NON scaricati. I dati sono salvati solo in locale.', true); uiLog('export fallback DISABLED'); }
+function exportDBFallback(){ showToast('Dati NON scaricati. I dati sono salvati solo in locale.', true); uiLog('export fallback DISABLED'); }
 
 /* ---------- Utils ---------- */
 function showToast(msg, err = false) {
+  // Suppress connectivity/server related messages to avoid top-page alerts
+  if (typeof msg === 'string' && /server|server non raggiung|connessione.*(assente|fallita)|server ancora irraggiungibile/i.test(msg)) return;
   const t = document.getElementById('toast');
   if (!t) { console.log((err? 'ERROR: ': '') + msg); return; }
   t.textContent = msg; t.classList.remove('hidden'); t.classList.toggle('err', !!err);
   setTimeout(() => t.classList.add('hidden'), 2500);
 }
 
-function showFileProtocolBanner() {
-  if (document.getElementById('fileBanner')) return;
-  const banner = document.createElement('div');
-  banner.id = 'fileBanner';
-  banner.className = 'file-banner';
-  banner.innerHTML = `<div><strong>Stai aprendo l'app via <code>file://</code></strong><div style="margin-top:6px">Le chiamate API non funzionano da file://. Avvia il server con <code>node server.js</code> e apri <a href="http://localhost:3000">http://localhost:3000</a>.</div></div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <button id="useLocalBtn" class="btn primary small">Usa http://localhost:3000</button>
-      <button id="hideFileBanner" class="btn ghost small">Nascondi</button>
-    </div>`;
-  document.body.appendChild(banner);
-  const useBtn = banner.querySelector('#useLocalBtn');
-  const hideBtn = banner.querySelector('#hideFileBanner');
-  if (useBtn) useBtn.addEventListener('click', () => { API = 'http://localhost:3000/api/data'; banner.remove(); fetchData(); });
-  if (hideBtn) hideBtn.addEventListener('click', () => banner.remove());
-}
+
 
 async function fetchData() {
   if (location && location.protocol === 'file:' && !API.startsWith('http')) {
-    showFileProtocolBanner();
     return;
   }
 
@@ -374,8 +462,8 @@ async function fetchData() {
     console.error('[UI] fetchData error', err);
     uiLog('fetchData error: '+(err.message||err));
     isServerAvailable = false;
-    showServerBanner();
-    showToast('Errore caricamento (server non raggiungibile)', true);
+    showServerBanner(); // banner disabled
+    // Toast suppressed for connectivity errors to avoid top-page alert
   }
 }
 
@@ -402,7 +490,7 @@ async function saveDataImpl() {
     isServerAvailable = false;
     showServerBanner();
     uiLog('save failed: saving local fallback');
-    try{ await saveToLocalStorage(); showToast('Salvataggio locale effettuato (server non raggiungibile)'); }catch(e){ uiLog('local save also failed: '+(e.message||e)); showToast('Salvataggio locale fallito', true); }
+    try{ await saveToLocalStorage(); showToast('Salvataggio locale effettuato'); }catch(e){ uiLog('local save also failed: '+(e.message||e)); showToast('Salvataggio locale fallito', true); }
   }
 }
 
@@ -1017,7 +1105,7 @@ async function saveToLocalStorage(){ try{ const clone = JSON.parse(JSON.stringif
 
 // Attempt to sync local changes to server
 async function syncLocalToServer(){ const payloadStr = localStorage.getItem('gestionale_local_db'); if(!payloadStr) return showToast('Nessuna modifica locale da sincronizzare', true);
-  const ok = await pingServer(); if(!ok) return showToast('Server non raggiungibile, riprova dopo', true);
+  const ok = await pingServer(); if(!ok) return showToast('Connessione assente, riprova dopo', true);
   try{ const stored = JSON.parse(payloadStr); const payload = stored && stored.db ? stored.db : stored; DB = Object.assign({}, DB, payload); await saveData(); // saveData will remove local marker on success
     localStorage.removeItem('gestionale_local_db'); DB._local_unsynced = false; showToast('Sincronizzazione completata'); uiLog('local sync complete'); renderAll(); }catch(e){ console.error('syncLocalToServer failed', e); showToast('Sincronizzazione fallita', true); } }
 
@@ -1158,16 +1246,15 @@ function attachButtons(){
       }
       // Se il server non è raggiungibile, cancella comunque i dati locali
       localStorage.removeItem('gestionale_local_db');
-      showToast('Dati locali cancellati. Server non raggiungibile, dati remoti non modificati.');
+      showToast('Dati locali cancellati. I dati remoti non sono stati modificati.');
       setTimeout(()=>location.reload(), 1200);
     });
   console.log('[UI] script loaded - init start — version ' + (window.APP_VERSION || 'dev'));
   // Attach legacy and robust handlers
   try{ attachButtons(); }catch(e){ console.error('[UI] attachButtons threw', e); }
   try{ attachButtonsRobust(); }catch(e){ console.error('[UI] attachButtonsRobust threw', e); }
-  // Bind server banner controls
-  const reconnectBtn = document.getElementById('reconnectBtn'); if(reconnectBtn) reconnectBtn.addEventListener('click', async ()=>{ uiLog('manual reconnect'); const ok = await pingServer(); if(ok){ fetchData(); showToast('Riconnesso'); } else showToast('Server ancora irraggiungibile', true); });
-  const exportBtn = document.getElementById('exportBackupBtn'); if(exportBtn) exportBtn.addEventListener('click', ()=>{ showToast('Export disabilitato. I dati sono salvati solo in locale.', true); });
+  // Bind server banner controls (disabled)
+  // reconnect/export handlers removed to prevent banner display
 
   // --- BOOTSTRAP DATI ---
   let hadLocal = false;
@@ -1185,7 +1272,6 @@ function attachButtons(){
     uiLog('bootstrap: dati locali caricati, nessun fetch dal server');
     // opzionale: puoi proporre la sync
   } else if (location && location.protocol==='file:') {
-    showFileProtocolBanner();
     isServerAvailable = false;
   } else {
     if(window.lucide && typeof window.lucide.createIcons === 'function') try{ window.lucide.createIcons(); } catch(e){}
@@ -1439,7 +1525,7 @@ function attachButtonsRobust(){
     win.document.write('<h3>7) Salvataggio e backup</h3>');
     win.document.write('<ul><li>Carica dati: importa file JSON.</li><li>Salva dati: invia i cambi al server o salva in locale se il server non risponde.</li><li>Cancella tutti i dati: operazione irreversibile.</li></ul>');
     win.document.write('<h3>8) Problemi comuni</h3>');
-    win.document.write('<ul><li>Server non raggiungibile: avvia il server con node server.js o npm start.</li><li>Articoli mancanti: verifica SKU e salvataggio.</li></ul>');
+    win.document.write('<ul><li>Connessione al server assente — verifica lo stato del server se necessario.</li><li>Articoli mancanti: verifica SKU e salvataggio.</li></ul>');
     win.document.write('<div class="footer">Creato da <a href="https://www.ldm4app.com" style="color:#888;text-decoration:underline;">www.ldm4app.com</a></div>');
     win.document.write('</body></html>');
     win.document.close();
@@ -1604,7 +1690,7 @@ function attachLegacyButtons() {
 // Init
 (function init() {
   attachLegacyButtons();
-  if (location && location.protocol === 'file:') showFileProtocolBanner();
+  // if (location && location.protocol === 'file:') showFileProtocolBanner();
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     try { window.lucide.createIcons(); } catch (e) { console.warn('Lucide icons init failed', e); }
   }

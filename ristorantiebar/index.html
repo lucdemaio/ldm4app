@@ -85,6 +85,7 @@
           <label>Cerca prodotto <input id="inventorySearch" placeholder="SKU o nome"></label>
           <div style="margin-top:8px; display:flex; gap:8px; align-items:center;">
             <button id="loadInventoryBtn" class="btn ghost small">Carica prodotti</button>
+            <select id="inventorySampleSelect" class="btn ghost small" style="min-width:180px"></select>
             <button id="generateShoppingListBtn" class="btn primary small">Genera lista spesa</button>
           </div>
           <table class="table"><thead><tr><th>SKU</th><th>Nome</th><th>Cost</th><th>Unit</th><th>Qty</th><th>Min</th><th>Target</th><th></th></tr></thead><tbody id="inventoryTable"></tbody></table>
@@ -150,7 +151,12 @@
           <div class="panel">
             <h3>Menu disponibile</h3>
             <ul id="menuList" class="orders-list"></ul>
-            <div style="margin-top:12px;display:flex;gap:8px"><button id="generateShoppingListBtn" class="btn">Genera lista della spesa</button><button id="loadMenuBtn" class="btn ghost small">Carica menu</button><button id="addSampleMenuBtn" class="btn ghost">Aggiungi esempi</button></div>
+            <div style="margin-top:12px;display:flex;gap:8px">
+              <button id="generateShoppingListBtn" class="btn">Genera lista della spesa</button>
+              <button id="loadMenuBtn" class="btn ghost small">Carica menu</button>
+              <select id="menuSampleSelect" class="btn ghost small" style="min-width:180px"></select>
+              <button id="addSampleMenuBtn" class="btn ghost">Aggiungi esempi</button>
+            </div>
           </div>
         </div>
       </section>
@@ -172,6 +178,7 @@
               <button id="loadDrinksBtn" class="btn ghost small">Carica bevande</button>
               <button id="loadDessertsBtn" class="btn ghost small">Carica dolci</button>
               <button id="loadDrinksFileBtn" class="btn ghost small">Carica dati</button>
+              <select id="drinksSampleSelect" class="btn ghost small" style="min-width:180px"></select>
             </div>
             <h3 style="margin-top:18px">Registra ordine</h3>
             <label>Prodotto <select id="drinksItem"></select></label>
