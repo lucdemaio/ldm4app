@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="384" xmlns="http://www.w3.org/2000/svg">
+  <!-- Trunk -->
+  <rect x="115" y="280" width="26" height="104" fill="#5a3b1f"/>
+  
+  <!-- Tree layers (bottom to top) -->
+  <polygon points="128,280 60,340 196,340" fill="#2b5b2d"/>
+  <polygon points="128,260 70,310 186,310" fill="#2d6230"/>
+  <polygon points="128,240 80,280 176,280" fill="#2f6933"/>
+  <polygon points="128,220 90,250 166,250" fill="#327036"/>
+  <polygon points="128,200 100,220 156,220" fill="#347739"/>
+  <polygon points="128,180 108,195 148,195" fill="#377e3c"/>
+  
+  <!-- Snow on branches -->
+  <polygon points="128,280 70,330 186,330" fill="#FFFFFF" opacity="0.7"/>
+  <polygon points="128,260 80,300 176,300" fill="#FFFFFF" opacity="0.6"/>
+  <polygon points="128,240 90,270 166,270" fill="#FFFFFF" opacity="0.5"/>
+  <polygon points="128,220 100,240 156,240" fill="#FFFFFF" opacity="0.4"/>
+  
+  <!-- Highlights -->
+  <circle cx="128" cy="200" r="3" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="140" cy="230" r="2" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="116" cy="260" r="2.5" fill="#FFFFFF" opacity="0.85"/>
+</svg>

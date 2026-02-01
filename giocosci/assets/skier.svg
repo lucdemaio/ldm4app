@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="8" fill="#1e90ff" />
+  <!-- casco -->
+  <circle cx="24" cy="18" r="6" fill="#ffd700" />
+  <!-- corpo -->
+  <rect x="20" y="26" width="8" height="18" fill="#0d47a1" />
+  <!-- sci -->
+  <rect x="6" y="46" width="52" height="6" rx="3" fill="#8b4513" />
+</svg>
