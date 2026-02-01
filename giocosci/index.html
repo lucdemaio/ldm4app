@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="Professional Alpine Skiing Simulator with World Cup Championship mode. Experience realistic ski racing with multiple disciplines." />
+  <meta name="keywords" content="ski racing, alpine skiing, world cup, simulator, sports game, PWA" />
+  <meta name="author" content="Alpine Ski Racing 2026" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Ski Racing 2026" />
+  <meta name="theme-color" content="#1e3a8a" />
+  <meta name="msapplication-TileColor" content="#1e3a8a" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  
+  <title>⛷️ Alpine Ski Racing 2026 - World Championship Simulator</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/icon-152.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/icon-192.png" />
+  
+  <!-- Font moderno e stylesheet -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => {
+            console.log('[PWA] Service Worker registrato:', reg.scope);
+            
+            // Verifica aggiornamenti ogni 30 secondi se l'app è aperta
+            setInterval(() => reg.update(), 30000);
+            
+            // Notifica se c'è un nuovo service worker in attesa
+            reg.addEventListener('updatefound', () => {
+              const newWorker = reg.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.log('[PWA] Nuovo contenuto disponibile. Ricarica per aggiornare.');
+                  // Opzionale: mostra notifica all'utente
+                  if (confirm('Nuova versione disponibile! Ricaricare?')) {
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    window.location.reload();
+                  }
+                }
+              });
+            });
+          })
+          .catch(err => console.error('[PWA] Service Worker registrazione fallita:', err));
+        
+        // Ascolta quando il nuovo SW prende il controllo
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          window.location.reload();
+        });
+      });
+    }
+    
+    // Mostra banner installazione PWA
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      console.log('[PWA] App può essere installata');
+      
+      // Mostra pulsante installazione (se implementato nella UI)
+      const installBtn = document.getElementById('installPWA');
+      if (installBtn) {
+        installBtn.style.display = 'block';
+        installBtn.addEventListener('click', async () => {
+          installBtn.style.display = 'none';
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log('[PWA] Scelta utente:', outcome);
+          deferredPrompt = null;
+        });
+      }
+    });
+    
+    // Log quando l'app è installata
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] App installata con successo!');
+      deferredPrompt = null;
+    });
+  </script>
+
+  <!-- Quick check: verify Three.js module can be loaded and show an inline error if not -->
+  <script>
+    (async () => {
+      try {
+        await import('./node_modules/three/build/three.module.js');
+      } catch (e) {
+        const o = document.getElementById('raceOverlay');
+        if (o) o.innerHTML = '<div class="level-badge">Impossibile caricare Three.js come modulo. Controlla la connessione o la console (es. CORS, 404, o blocchi da estensioni).</div>';
+        console.error('Errore caricamento Three.js module:', e);
+      }
+    })();
+  </script>
+  <!-- <script src="diagnostics.js"></script> -->
+  <script defer src="graphics-2d.js"></script>
+  <script type="module" src="game3d.js"></script>
+  <script defer src="championship.js"></script>
+  <script defer src="championship-ui.js"></script>
+  <script defer src="graphics-engine.js"></script>
+  <script defer src="graphics-controls.js"></script>
+</head>
+<body class="app">
+
+  <!-- MENU (Glassmorphism Ultra Modern) -->
+  <aside id="menu" class="glass-menu" role="dialog" aria-label="Menu iniziale - Scegli disciplina">
+    <header class="menu-header">
+      <h1 class="title">🏔️ World Cup 2026</h1>
+      <p class="subtitle">Professional Alpine Skiing Simulator</p>
+    </header>
+
+    <section id="discipline-select" class="discipline-select" role="radiogroup" aria-labelledby="discipline-label">
+      <h2 id="discipline-label">Disciplina</h2>
+
+      <button class="discipline-btn" data-discipline="slalom" aria-checked="false" role="radio">
+        <strong>Slalom</strong>
+        <small>Stretto • Precisione</small>
+      </button>
+
+      <button class="discipline-btn" data-discipline="gigante" aria-checked="false" role="radio">
+        <strong>Gigante</strong>
+        <small>Medio • Curve larghe</small>
+      </button>
+
+      <button class="discipline-btn" data-discipline="discesa" aria-checked="false" role="radio">
+        <strong>Discesa Libera</strong>
+        <small>Veloce • Curve ampie</small>
+      </button>
+    </section>
+
+    <section class="menu-controls">
+      <label for="difficulty">Difficoltà</label>
+      <select id="difficulty">
+        <option value="easy">Facile</option>
+        <option value="normal" selected>Normale</option>
+        <option value="hard">Difficile</option>
+      </select>
+
+      <button id="startRace" class="btn primary" aria-label="Avvia gara">Avvia Gara 3D</button>
+
+      <div class="menu-footer">
+        <button id="championshipBtn" class="btn primary championship-btn">🏆 Campionato del Mondo</button>
+        <button id="viewSeason" class="btn ghost">Classifica Stagione</button>
+      </div>
+    </section>
+  </aside>
+
+  <!-- AREA DI GIOCO 3D -->
+  <main class="game-area" role="main">
+    <!-- HUD (Heads-Up Display) -->
+    <div id="hud" class="hud">
+      <div id="timer" class="timer" aria-live="polite">0:00.00</div>
+      <div id="gateCounter" class="gate-counter">Porta: 0 / 30</div>
+      <div id="speed" class="speed">Vel: 0 km/h</div>
+    </div>
+
+    <!-- Container WebGL (Three.js) -->
+    <div class="canvas-wrap" id="threeWrap" aria-label="Area di gioco 3D">
+      <canvas id="threeCanvas" tabindex="0"></canvas>
+      <div id="raceOverlay" class="race-overlay" aria-hidden="true"></div>
+      
+      <!-- Graphics Controls Panel -->
+      <div id="graphicsPanel" class="graphics-panel" hidden>
+        <button id="toggleGraphicsPanel" class="btn ghost graphics-toggle">🎨 Grafica</button>
+        <div class="graphics-content">
+          <h4>Condizioni Grafiche</h4>
+          
+          <div class="graphics-control">
+            <label>Illuminazione</label>
+            <select id="lightingPreset">
+              <option value="sunrise">Alba</option>
+              <option value="morning">Mattino</option>
+              <option value="midday" selected>Mezzogiorno</option>
+              <option value="afternoon">Pomeriggio</option>
+              <option value="sunset">Tramonto</option>
+              <option value="night">Notte</option>
+              <option value="cloudy">Nuvoloso</option>
+              <option value="snowing">Nevicata</option>
+            </select>
+          </div>
+          
+          <div class="graphics-control">
+            <label>Tipo Neve</label>
+            <select id="snowType">
+              <option value="fresh" selected>Fresca</option>
+              <option value="packed">Battuta</option>
+              <option value="icy">Ghiacciata</option>
+              <option value="wet">Bagnata</option>
+            </select>
+          </div>
+          
+          <div class="graphics-control">
+            <label>Montagne</label>
+            <select id="mountainPreset">
+              <option value="alpine" selected>Alpi</option>
+              <option value="dolomites">Dolomiti</option>
+              <option value="pyrenees">Pirenei</option>
+              <option value="scandinavian">Scandinavia</option>
+            </select>
+          </div>
+          
+          <div class="graphics-control">
+            <label>
+              <input type="checkbox" id="snowParticles">
+              Particelle Neve
+            </label>
+          </div>
+          
+          <button id="applyGraphics" class="btn primary">Applica</button>
+        </div>
+      </div>
+
+      <!-- Server warning: visible when opening via file:// (CORS blocks textures) -->
+      <div id="server-warning" class="server-warning" role="alert" aria-live="assertive" hidden>
+        <div class="server-msg"><strong>Attenzione:</strong> Stai aprendo il progetto con <code>file://</code>. Le texture (cielo, alberi, neve) vengono bloccate dalle politiche CORS. Avvia un server HTTP locale nella cartella del progetto (es. <code>py -m http.server 8000</code>) e ricarica la pagina.</div>
+        <div class="server-actions">
+          <button id="showStartInstructions" class="btn">Mostra istruzioni</button>
+          <button id="openLocalhost" class="btn">Apri localhost</button>
+          <button id="checkServerBtn" class="btn">Prova server</button>
+          <a id="openReadme" class="btn ghost" href="README.md">Apri README</a>
+        </div>
+        <div id="server-status" class="server-status" aria-hidden="true"></div>
+      </div>
+
+      <!-- WebGL / Renderer warning: appears when the browser cannot create a WebGL context -->
+      <div id="webgl-warning" class="webgl-warning" role="alert" aria-live="assertive" hidden>
+        <div class="webgl-msg"><strong>Impossibile creare un contesto WebGL.</strong> Il tuo browser o i driver grafici potrebbero causare il problema. Prova ad aggiornare i driver o apri <code>chrome://gpu</code> (o <code>edge://gpu</code>) per diagnosticare.</div>
+        <div class="webgl-actions">
+          <button id="openGpuBtn" class="btn">Apri chrome://gpu</button>
+          <button id="tryWebglBtn" class="btn">Riprova WebGL</button>
+          <button id="use2dBtn" class="btn">Usa fallback 2D</button>
+          <button id="copyDiagBtn" class="btn ghost">Copia diagnostica</button>
+        </div>
+        <div id="webgl-details" class="webgl-details" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <!-- Piccola legenda / controlli -->
+    <div class="controls-hint">Usa frecce o A/D per sterzare • Premere <strong>Avvia Gara</strong> per iniziare</div>
+  </main>
+
+  <!-- PANNELLO STAGIONE -->
+  <aside id="seasonPanel" class="season-panel" aria-label="Stagione e classifiche">
+    <h3>Classifica Stagione</h3>
+    <table id="leaderboard" class="leaderboard" aria-live="polite">
+      <thead>
+        <tr><th>Pos</th><th>Atleta</th><th>Punti</th><th>Gare</th></tr>
+      </thead>
+      <tbody>
+        <!-- Riempito dinamicamente dal JS -->
+      </tbody>
+    </table>
+
+    <div class="recent-results">
+      <h4>Ultima Gara</h4>
+      <div id="lastResult">—</div>
+    </div>
+  </aside>
+
+  <!-- PANNELLO CAMPIONATO -->
+  <aside id="championshipPanel" class="championship-panel glass-menu" hidden aria-label="Campionato del Mondo">
+    <button id="closeChampionship" class="close-btn" aria-label="Chiudi">✕</button>
+    
+    <!-- Schermata Start Campionato -->
+    <div id="championshipStart" class="championship-start">
+      <header class="championship-header">
+        <h2 class="championship-title">🏆 Campionato del Mondo 2026</h2>
+        <p class="championship-subtitle">10 tappe epiche • Classifica generale • Gloria eterna</p>
+      </header>
+      
+      <div class="player-setup">
+        <label for="playerName">Il tuo nome</label>
+        <input type="text" id="playerName" placeholder="Inserisci nome sciatore" maxlength="20" value="Sciatore Pro">
+      </div>
+      
+      <button id="startChampionshipBtn" class="btn primary large">🚀 Inizia Campionato</button>
+      <button id="continueChampionshipBtn" class="btn ghost" hidden>📋 Continua Campionato</button>
+      <button id="resetChampionshipBtn" class="btn ghost" hidden>🔄 Nuovo Campionato</button>
+    </div>
+    
+    <!-- Calendario Gare -->
+    <div id="championshipCalendar" class="championship-calendar" hidden>
+      <button id="backToChampionshipStart" class="btn ghost back-btn" style="margin-bottom: 20px;">← Indietro</button>
+      
+      <header class="championship-header">
+        <h2 class="championship-title">Calendario Mondiale</h2>
+        <div class="championship-progress">
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-text">
+            <span id="progressRaces">0/10</span> gare completate
+          </div>
+        </div>
+      </header>
+      
+      <div id="racesList" class="races-list">
+        <!-- Popolato dinamicamente -->
+      </div>
+      
+      <div class="calendar-actions">
+        <button id="viewStandingsBtn" class="btn ghost">📊 Classifiche</button>
+        <button id="viewStatsBtn" class="btn ghost">📈 Statistiche</button>
+      </div>
+    </div>
+    
+    <!-- Dettaglio Gara -->
+    <div id="raceDetail" class="race-detail" hidden>
+      <button id="backToCalendar" class="btn ghost back-btn">← Calendario</button>
+      
+      <div id="raceInfo" class="race-info">
+        <!-- Popolato dinamicamente -->
+      </div>
+      
+      <button id="startRaceFromChampionship" class="btn primary large">🏁 Inizia Gara</button>
+    </div>
+  </aside>
+
+  <!-- MODAL CLASSIFICHE -->
+  <div id="standingsModal" class="modal-backdrop" hidden>
+    <div class="modal championship-modal" role="dialog" aria-modal="true">
+      <header class="modal-header">
+        <h3>🏆 Classifiche Campionato</h3>
+        <button id="closeStandings" class="close-btn">✕</button>
+      </header>
+      <div class="modal-body">
+        <div class="standings-tabs">
+          <button class="tab-btn active" data-tab="general">Generale</button>
+          <button class="tab-btn" data-tab="slalom">Slalom</button>
+          <button class="tab-btn" data-tab="gigante">Gigante</button>
+          <button class="tab-btn" data-tab="discesa">Discesa</button>
+        </div>
+        
+        <div id="standingsContent" class="standings-content">
+          <!-- Popolato dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL STATISTICHE -->
+  <div id="statsModal" class="modal-backdrop" hidden>
+    <div class="modal championship-modal" role="dialog" aria-modal="true">
+      <header class="modal-header">
+        <h3>📈 Statistiche Personali</h3>
+        <button id="closeStats" class="close-btn">✕</button>
+      </header>
+      <div class="modal-body">
+        <div id="statsContent" class="stats-content">
+          <!-- Popolato dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RISULTATO GARA -->
+  <div id="raceResultModal" class="modal-backdrop" hidden>
+    <div class="modal championship-modal" role="dialog" aria-modal="true">
+      <header class="modal-header">
+        <h3>🏁 Risultato Gara</h3>
+      </header>
+      <div class="modal-body">
+        <div id="raceResultContent" class="race-result-content">
+          <!-- Popolato dinamicamente -->
+        </div>
+        <div class="modal-actions">
+          <button id="nextRaceBtn" class="btn primary">Prossima Gara →</button>
+          <button id="viewFullStandingsBtn" class="btn ghost">Vedi Classifiche</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Server Modal: istruzioni rapide e controllo locale -->
+  <div id="serverModal" class="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="serverModalTitle">
+      <header>
+        <h3 id="serverModalTitle">Avvia server locale</h3>
+      </header>
+      <div class="modal-body">
+        <p>Per caricare texture e risorse locali, avvia un server HTTP nella cartella del progetto. Comando consigliato:</p>
+        <pre id="serverCmd">py -m http.server 8000</pre>
+        <div class="modal-actions">
+          <button id="copyCmdBtn" class="btn">Copia comando</button>
+          <button id="openLocalhostFromModal" class="btn">Apri http://localhost:8000</button>
+          <button id="modalClose" class="btn ghost">Chiudi</button>
+        </div>
+        <div id="modal-check-result" class="server-status" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

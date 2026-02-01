@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Graphics 2D</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #000; }
+        canvas { display: block; margin: 0 auto; border: 2px solid #fff; }
+    </style>
+</head>
+<body>
+    <canvas id="testCanvas" width="800" height="600"></canvas>
+    <script src="graphics-2d.js"></script>
+    <script>
+        console.log('Test iniziato');
+        console.log('Graphics2D disponibile?', typeof window.Graphics2D);
+        
+        if (window.Graphics2D) {
+            console.log('Graphics2D trovato, inizio rendering...');
+            
+            const canvas = document.getElementById('testCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Stato di test
+            const gameState = {
+                skierX: 0,
+                skierVX: 0,
+                skierZ: 100,
+                gates: [
+                    { z: 90, centerX: -5, gap: 10, passed: false, color: 'red' },
+                    { z: 70, centerX: 5, gap: 10, passed: false, color: 'blue' }
+                ],
+                speed: 10
+            };
+            
+            // Rendering continuo
+            function animate() {
+                Graphics2D.updateSnowParticles(0.016);
+                Graphics2D.render(ctx, canvas.width, canvas.height, gameState);
+                gameState.skierZ += 0.5;
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        } else {
+            console.error('Graphics2D NON trovato!');
+            document.body.innerHTML += '<h1 style="color: red;">ERROR: Graphics2D not loaded</h1>';
+        }
+    </script>
+</body>
+</html>
