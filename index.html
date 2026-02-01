@@ -1,297 +1,553 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-TWZ6YZH6JT');
     </script>
 
-    <!-- Matomo tracking: paste Matomo snippet here (before </head>) -->
-    <!-- Example:
-      <script>
-        var _paq = window._paq || [];
-        _paq.push(['trackPageView']); _paq.push(['enableLinkTracking']);
-        (function(){ var u="https://YOUR-MATOMO-SERVER/"; _paq.push(['setTrackerUrl', u+'matomo.php']); _paq.push(['setSiteId', 'MATOMO_SITE_ID']); var d=document,g=d.createElement('script'),s=d.getElementsByTagName('script')[0]; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s); })();
-      </script>
-    -->
-
-    <!-- Umami tracking placeholder: replace with your Umami snippet (server URL and Website ID)
-      Example:
-        <script async defer data-website-id="YOUR_WEBSITE_ID" src="https://analytics.example.com/umami.js"></script>
-    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ldm4app - Soluzioni Gestionali su Misura</title>
-     
-     
-    
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p1Cm8X1YvKQJQbZl2Wv6KqfM8Xq0p6K5Ylqv2Qm6Jt0z0Ykz5uQF7FqK1y1Z6b0G1c2l3Q4z5V6Y7X8Y9Z0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'navy': '#0f172a',
-                        'cobalt': '#2563eb',
+                        'navy': '#0a0e27',
+                        'cobalt': '#0066ff',
+                        'accent': '#00d4ff',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(0, 102, 255, 0.3)' },
+                            '50%': { boxShadow: '0 0 40px rgba(0, 102, 255, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
         }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
         .gradient-text {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 50%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            background-size: 200% 200%;
+            animation: gradient-shift 5s ease infinite;
         }
-        .card-hover {
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.4);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 102, 255, 0.3);
+        }
+        
+        .nav-glass {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            position: relative;
+            overflow: hidden;
             transition: all 0.3s ease;
         }
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 102, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(0, 102, 255, 0.15), transparent 60%),
+                        radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.15), transparent 60%);
+        }
+        
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: #0066ff;
+            top: 10%;
+            left: 10%;
+        }
+        
+        .orb-2 {
+            width: 250px;
+            height: 250px;
+            background: #8b5cf6;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: #00d4ff;
+            top: 50%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+        
+        .icon-glow {
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.6));
+        }
+        
+        .section-dark {
+            background: linear-gradient(180deg, #0a0e27 0%, #151a35 100%);
+        }
+        
+        .badge {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #00d4ff;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 212, 255, 0.2));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-orb {
+                filter: blur(60px);
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body>
 
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                <div class="text-2xl font-bold gradient-text">
+                <div class="text-3xl font-bold gradient-text">
                     LDM4APP
                 </div>
-                <ul class="hidden md:flex space-x-8 text-sm font-medium">
-                    <li><a href="#prodotti" class="text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
-                    <li><a id="open-mission-menu" href="https://www.ldm4app.com/missione/index.html" class="text-emerald-700 hover:text-emerald-800 font-semibold transition" target="_blank" rel="noopener noreferrer">Apri Mission App</a></li>
-                    <li><a id="open-soccer-menu" href="https://www.ldm4app.com/soccer/soccer-app.html" class="text-cobalt hover:text-blue-700 font-semibold transition" target="_blank" rel="noopener noreferrer">Apri LDM Soccer Manager Pro</a></li>
-                    <li><a href="#contatti" class="bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Contatti</a></li>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <li><a href="#prodotti" class="text-gray-300 hover:text-accent transition">Prodotti</a></li>
+                    <li><a href="https://www.ldm4app.com/missione/index.html" class="text-emerald-400 hover:text-emerald-300 font-semibold transition" target="_blank" rel="noopener noreferrer">Mission App</a></li>
+                    <li><a href="https://www.ldm4app.com/soccer/soccer-app.html" class="text-cobalt hover:text-accent font-semibold transition" target="_blank" rel="noopener noreferrer">LDM Soccer</a></li>
+                    <li><a href="#contatti" class="btn-primary text-white px-6 py-2 rounded-full font-semibold">Contatti</a></li>
                 </ul>
                 <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </div>
             <!-- Mobile Menu -->
-                <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
-                <li><a href="#prodotti" class="block text-gray-700 hover:text-cobalt transition">Prodotti</a></li>
-                <li><a id="open-mission-menu-mobile" href="https://www.ldm4app.com/missione/index.html" class="block text-emerald-700 hover:text-emerald-800 transition" target="_blank" rel="noopener noreferrer">Apri Mission App</a></li>
-                <li><a id="open-soccer-menu-mobile" href="https://www.ldm4app.com/soccer/soccer-app.html" class="block text-cobalt hover:text-blue-700 transition" target="_blank" rel="noopener noreferrer">Apri LDM Soccer Manager Pro</a></li>
-                <li><a href="#contatti" class="block bg-cobalt text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-center">Contatti</a></li>
+            <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
+                <li><a href="#prodotti" class="block text-gray-300 hover:text-accent transition">Prodotti</a></li>
+                <li><a href="https://www.ldm4app.com/missione/index.html" class="block text-emerald-400 hover:text-emerald-300 transition" target="_blank" rel="noopener noreferrer">Mission App</a></li>
+                <li><a href="https://www.ldm4app.com/soccer/soccer-app.html" class="block text-cobalt hover:text-accent transition" target="_blank" rel="noopener noreferrer">LDM Soccer</a></li>
+                <li><a href="#contatti" class="block btn-primary text-white px-6 py-3 rounded-full text-center">Contatti</a></li>
             </ul>
         </nav>
     </header>
-    <!-- Sezione Prodotti (spostata in alto) -->
-    <section id="prodotti" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-6xl font-bold text-navy mb-4">I Nostri Prodotti</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">
-                    Software gestionali specializzati per ogni settore
-                </p>
-                <div class="mt-6 inline-block bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 px-4 py-2 rounded">
-                    <strong>Novità:</strong> I programmi non saranno più scaricabili. D'ora in poi si possono usare direttamente dal sito come Progressive Web App (PWA). Apri le app: <a href="https://www.ldm4app.com/soccer/soccer-app.html" class="underline font-semibold" target="_blank" rel="noopener noreferrer">LDM Soccer Manager Pro</a> — <a href="https://www.ldm4app.com/missione/index.html" class="underline font-semibold" target="_blank" rel="noopener noreferrer">Missione</a>
-                </div>
-                <p class="mt-4 text-sm text-gray-700 underline font-semibold">Nota sulla privacy: le applicazioni lavorano completamente in locale nel tuo browser e non inviano né memorizzano alcun dato sul sito ldm4app. I dati restano sul dispositivo, pertanto non ci sono problemi di privacy.</p>
-
-                                <!-- Products grid: una card per riga -->
-                                <div class="grid grid-cols-1 gap-8 max-w-2xl mx-auto">
-                                        <!-- Soccer Card -->
-                                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 flex flex-col">
-                                                <div class="w-10 h-10 bg-gradient-to-br from-cobalt to-blue-700 rounded-lg mb-4"></div>
-                                                <h3 class="text-lg md:text-xl font-bold text-navy mb-2">LDM Soccer Manager Pro</h3>
-                                                <p class="text-sm text-gray-600 mb-4">Gestione completa per società sportive. Atleti, presenze, finanze e molto altro. <strong class="text-cobalt">Usabile direttamente come PWA</strong>.</p>
-                                                <div class="mt-3">
-                                                        <a id="open-soccer-product" href="https://www.ldm4app.com/soccer/soccer-app.html" target="_blank" rel="noopener noreferrer" class="bg-cobalt text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition inline-block">Apri LDM Soccer Manager Pro</a>
-                                                </div>
-                                                <p class="text-xs text-gray-500 mt-3">Apri l'app nel tuo browser e scegli "Aggiungi alla schermata Home" per installarla come PWA.</p>
-                                        </div>
-
-                                        <!-- Ristoranti e Bar Manager Card -->
-                                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 flex flex-col">
-                                            <div class="flex space-x-3 mb-4">
-                                                <i data-lucide="package" class="w-7 h-7 text-yellow-500"></i>
-                                                <i data-lucide="truck" class="w-7 h-7 text-yellow-500"></i>
-                                                <i data-lucide="shopping-cart" class="w-7 h-7 text-yellow-500"></i>
-                                                <i data-lucide="utensils" class="w-7 h-7 text-yellow-500"></i>
-                                            </div>
-                                            <h3 class="text-lg md:text-xl font-bold text-navy mb-2">Mission Manager — Procurement & Food Service</h3>
-                                            <p class="text-sm text-gray-600 mb-4">
-                                                Una soluzione professionale per la gestione di inventario, fornitori e ordini d'acquisto. Include funzionalità avanzate per il calcolo dei costi dei piatti (food cost), gestione SKU, e monitoraggio delle vendite con avvisi automatici sulle mancanze di magazzino.
-                                            </p>
-                                                                                        <div class="mt-3 flex flex-col gap-2">
-                                                                                                <a href="https://www.ldm4app.com/ristorantiebar/index.html" target="_blank" rel="noopener noreferrer" class="bg-yellow-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition inline-block">
-                                                                                                        Vai all'App
-                                                                                                </a>
-                                                                                                <button onclick="document.getElementById('menu-download-modal').style.display='block'" class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center justify-center"><i data-lucide="download" class="w-5 h-5 mr-2"></i>Scarica menù ed esempi</button>
-                                                                                        </div>
-
-<!-- Modal download menù -->
-<div id="menu-download-modal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.35);align-items:center;justify-content:center;">
-    <div style="background:#fff;padding:2rem 1.5rem;border-radius:18px;max-width:95vw;width:420px;box-shadow:0 8px 32px rgba(0,0,0,0.18);margin:40px auto;position:relative;">
-        <button onclick="document.getElementById('menu-download-modal').style.display='none'" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.5rem;color:#888;cursor:pointer;" aria-label="Chiudi">&times;</button>
-        <h4 class="text-lg md:text-xl font-bold text-navy mb-4 flex items-center"><i data-lucide="download" class="w-6 h-6 mr-2 text-yellow-500"></i>Scarica menù ed esempi</h4>
-        <div class="grid grid-cols-1 gap-2">
-            <a href="https://www.ldm4app.com/ristorantiebar/menu.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>menu.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-bar-full.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-bar-full.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-bistro-full.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-bistro-full.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-data.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-data.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-database.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-database.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-desserts-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-desserts-extended.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-desserts.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-desserts.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-drinks-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-drinks-extended.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-drinks.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-drinks.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-full-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-full-extended.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-inventory-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-inventory-extended.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-inventory.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-inventory.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-menu-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-menu-extended.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-recipes.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-recipes.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-ristorante-full.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-ristorante-full.json</a>
-            <a href="https://www.ldm4app.com/ristorantiebar/sample-suppliers-extended.json" download class="bg-yellow-50 border border-yellow-300 text-yellow-800 px-4 py-2 rounded-lg font-medium hover:bg-yellow-100 transition flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i>sample-suppliers-extended.json</a>
-        </div>
-    </div>
-</div>
-                                        </div>
-
-                                        <!-- Mission Card -->
-                                        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 flex flex-col">
-                                                <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-lg mb-4"></div>
-                                                <h3 class="text-lg md:text-xl font-bold text-navy mb-2">Mission App</h3>
-                                                <p class="text-sm text-gray-600 mb-4">Programma per la gestione missioni e attività. Usalo direttamente dal sito come Progressive Web App (PWA).</p>
-                                                <div class="mt-3">
-                                                        <a id="open-mission-product" href="https://www.ldm4app.com/missione/index.html" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition inline-block">Apri Mission App</a>
-                                                </div>
-                                                <p class="text-xs text-gray-500 mt-3">Apri l'app nel tuo browser e scegli "Aggiungi alla schermata Home" per installarla come PWA.</p>
-                                        </div>
-                                </div>
-                                <script src="https://unpkg.com/lucide@latest"></script>
-                                <script>lucide.createIcons();</script>
-                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-200 text-center">
-                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg mb-6 mx-auto"></div>
-                    <h3 class="text-xl font-bold text-navy mb-3">A breve novità in arrivo</h3>
-                    <p class="text-gray-600 mb-4">Stiamo lavorando a qualcosa di nuovo — resta sintonizzato!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Supporto & Trasparenza section removed as requested -->
 
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-white via-blue-50 to-gray-100 py-20 md:py-32">
-            <div class="container mx-auto px-6 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-navy mb-6 leading-tight">
-                Soluzioni Gestionali su Misura.<br>
-                <span class="gradient-text">Potenti. Semplici. Sicure.</span>
-            </h1>
-            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
-                Sviluppiamo software gestionali personalizzati che ottimizzano il tuo lavoro quotidiano. 
-                Ogni soluzione è progettata esattamente sulle tue esigenze, con un focus su sicurezza, privacy e prestazioni.
-                <strong class="block mt-4 text-cobalt">100% Gratuito</strong>
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#contatti" class="bg-cobalt text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">
-                    Richiedi una Consulenza
-                </a>
-                <a href="#prodotti" class="bg-white text-cobalt px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition border-2 border-cobalt">
-                    Scopri i Prodotti
-                </a>
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 hero-gradient">
+        <!-- Floating Orbs -->
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="animate-slide-up">
+                <span class="badge mb-6">Innovazione 2026</span>
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+                    Soluzioni Gestionali<br>
+                    <span class="gradient-text">del Futuro</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+                    Software potenti, intuitivi e sicuri che trasformano il tuo lavoro.<br>
+                    Progettati per le tue esigenze. <strong class="text-accent">100% Gratuiti</strong>
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                    <a href="#contatti" class="btn-primary text-white px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition shadow-2xl">
+                        Richiedi Consulenza
+                    </a>
+                    <a href="#prodotti" class="btn-secondary text-white px-10 py-4 rounded-full font-bold text-lg">
+                        Scopri i Prodotti
+                    </a>
+                </div>
+                <p class="text-sm text-gray-400">🚫 Nessuna pubblicità • 🔒 Privacy garantita</p>
             </div>
-            <p class="text-sm text-gray-500 mt-4">Sito privo di pubblicità.</p>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
         </div>
     </section>
 
-    
-    <!-- <div class="container mx-auto px-6 py-8">
-        <div class="max-w-4xl mx-auto text-center">
-            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE
+    <!-- Products Section -->
+    <section id="prodotti" class="py-24 section-dark relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-20 animate-fade-in">
+                <h2 class="text-5xl md:text-6xl font-bold text-white mb-6">I Nostri Prodotti</h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Software specializzati per ogni settore
+                </p>
+                
+                <!-- Info PWA -->
+                <div class="mt-8 inline-block glass-card px-6 py-4 max-w-4xl">
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">✨</span>
+                        <div class="text-left">
+                            <strong class="text-yellow-400">Novità:</strong> 
+                            <span class="text-gray-200">Tutti i programmi ora utilizzabili come Progressive Web App (PWA). Nessun download necessario!</span>
+                            <br>
+                            <span class="text-sm text-gray-400 mt-2 block">
+                                🔒 <strong>Privacy:</strong> Tutti i dati rimangono sul tuo dispositivo, nessun invio ai nostri server
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                
+                <!-- LDM Soccer Manager Pro -->
+                <div class="glass-card p-8 animate-slide-up">
+                    <div class="feature-icon mb-6 icon-glow">
+                        <i class="fas fa-futbol text-cobalt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">LDM Soccer Manager Pro</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Gestione completa per società sportive. Atleti, presenze, finanze e molto altro. 
+                        <strong class="text-cobalt">Usabile come PWA</strong>.
+                    </p>
+                    <a href="https://www.ldm4app.com/soccer/soccer-app.html" target="_blank" rel="noopener noreferrer" 
+                       class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                        Apri Soccer Manager 🚀
+                    </a>
+                    <p class="text-xs text-gray-400 mt-4">
+                        💡 Apri nel browser e aggiungi alla schermata Home
+                    </p>
+                </div>
+
+                <!-- Mission Manager -->
+                <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="feature-icon mb-6 icon-glow">
+                        <i class="fas fa-utensils text-yellow-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Mission Manager</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Gestione professionale di inventario, fornitori e ordini. Calcolo food cost, SKU e monitoraggio vendite con alert automatici.
+                    </p>
+                    <div class="space-y-3">
+                        <a href="https://www.ldm4app.com/ristorantiebar/index.html" target="_blank" rel="noopener noreferrer" 
+                           class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                            Vai all'App 🍽️
+                        </a>
+                        <button onclick="document.getElementById('menu-download-modal').style.display='flex'" 
+                                class="btn-secondary text-white px-6 py-3 rounded-full font-medium w-full flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i> Scarica Esempi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mission App -->
+                <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="feature-icon mb-6 icon-glow">
+                        <i class="fas fa-tasks text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Mission App</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Gestione missioni e attività avanzata. Usala direttamente come Progressive Web App (PWA).
+                    </p>
+                    <a href="https://www.ldm4app.com/missione/index.html" target="_blank" rel="noopener noreferrer" 
+                       class="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center hover:from-emerald-600 hover:to-green-700 transition">
+                        Apri Mission App ✅
+                    </a>
+                    <p class="text-xs text-gray-400 mt-4">
+                        💡 Installabile come app nativa sul tuo dispositivo
+                    </p>
+                </div>
+
+                <!-- Coming Soon -->
+                <div class="glass-card p-8 animate-slide-up md:col-span-2 lg:col-span-3" style="animation-delay: 0.3s;">
+                    <div class="text-center">
+                        <div class="feature-icon mb-6 icon-glow mx-auto">
+                            <i class="fas fa-rocket text-yellow-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Prossimamente</h3>
+                        <p class="text-gray-300 max-w-2xl mx-auto">
+                            Stiamo sviluppando nuove soluzioni rivoluzionarie. Resta connesso per scoprirle!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div> -->
-
-
-
-    
-    <!-- <div class="container mx-auto px-6 py-8">
-        <div class="max-w-4xl mx-auto text-center">
-            INSERISCI QUI IL CODICE GOOGLE ADSENSE - BANNER ORIZZONTALE
-        </div>
-    </div> -->
-
-    
-
-
-
-    
-
-
-    
-
-
-
-
+    </section>
 
     <!-- Contact Section -->
-    <section id="contatti" class="py-12 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="text-2xl font-bold text-navy mb-4">Contatti</h2>
-                <p class="text-gray-600">Per informazioni generali e supporto scrivi a <a href="mailto:info@ldm4app.com" class="text-cobalt font-semibold">info@ldm4app.com</a></p>
+    <section id="contatti" class="py-24 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto">
+                <div class="glass-card p-12 text-center">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Contattaci</h2>
+                    <p class="text-xl text-gray-300 mb-8">
+                        Hai domande? Vuoi una consulenza personalizzata?
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                        <div class="flex items-center gap-3">
+                            <div class="feature-icon">
+                                <i class="fas fa-envelope text-accent"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm text-gray-400">Email</p>
+                                <a href="mailto:info@ldm4app.com" class="text-xl font-bold text-accent hover:text-white transition">
+                                    info@ldm4app.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-navy text-gray-300 py-12">
+    <footer class="bg-black bg-opacity-50 backdrop-blur-lg border-t border-gray-800 py-12">
         <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
+            <div class="grid md:grid-cols-3 gap-12 mb-10">
                 <div>
-                    <h3 class="text-xl font-bold text-white mb-4">LDM4APP</h3>
-                    <p class="text-sm leading-relaxed">
+                    <h3 class="text-2xl font-bold gradient-text mb-4">LDM4APP</h3>
+                    <p class="text-gray-400 leading-relaxed mb-4">
                         Software gestionali su misura per aziende che vogliono il meglio.
                     </p>
-                    <p class="text-sm mt-3">Email: <a href="mailto:info@ldm4app.com" class="text-emerald-300 hover:text-white">info@ldm4app.com</a></p>
+                    <p class="text-sm text-gray-400">
+                        Email: <a href="mailto:info@ldm4app.com" class="text-accent hover:text-white transition">info@ldm4app.com</a>
+                    </p>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-white mb-4">Link Utili</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#servizi" class="hover:text-white transition">Servizi</a></li>
-                        <li><a href="#prodotti" class="hover:text-white transition">Prodotti</a></li>
-                        <li><a href="#filosofia" class="hover:text-white transition">Filosofia</a></li>
-                        <li><a href="#contatti" class="hover:text-white transition">Contatti</a></li>
+                    <h4 class="font-semibold text-white mb-4 text-lg">Link Utili</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#prodotti" class="hover:text-accent transition">Prodotti</a></li>
+                        <li><a href="#contatti" class="hover:text-accent transition">Contatti</a></li>
+                        <li><a href="guides.html" class="hover:text-accent transition">Guide</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-white mb-4">Informazioni Legali</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="privacy-policy.html" class="hover:text-white transition">Privacy Policy (raccolta dati statistici anonimi)</a></li>
-                        <li><a href="#contatti" class="hover:text-white transition">Termini di Servizio</a></li>
-                        <li><a href="cookie-policy.html" class="hover:text-white transition">Cookie Policy</a></li>
+                    <h4 class="font-semibold text-white mb-4 text-lg">Informazioni Legali</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="privacy-policy.html" class="hover:text-accent transition">Privacy Policy</a></li>
+                        <li><a href="cookie-policy.html" class="hover:text-accent transition">Cookie Policy</a></li>
                     </ul>
                 </div>
             </div>
-                <p>&copy; 2026 LDM4APP. Tutti i diritti riservati.</p>
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-400 text-sm">&copy; 2026 LDM4APP. Tutti i diritti riservati.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Script per il menu mobile -->
+    <!-- Modal Download Menu -->
+    <div id="menu-download-modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); align-items:center; justify-content:center; backdrop-filter: blur(10px);">
+        <div class="glass-card p-8 max-w-lg w-11/12 max-h-[80vh] overflow-y-auto">
+            <button onclick="document.getElementById('menu-download-modal').style.display='none'" 
+                    class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl" aria-label="Chiudi">&times;</button>
+            <h4 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <i class="fas fa-download mr-3 text-yellow-400"></i>
+                Scarica Menù ed Esempi
+            </h4>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="https://www.ldm4app.com/ristorantiebar/menu.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>menu.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-bar-full.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-bar-full.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-bistro-full.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-bistro-full.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-data.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-data.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-database.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-database.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-desserts-extended.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-desserts-extended.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-desserts.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-desserts.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-drinks-extended.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-drinks-extended.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-drinks.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-drinks.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-full-extended.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-full-extended.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-inventory-extended.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-inventory-extended.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-inventory.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-inventory.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-menu-extended.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-menu-extended.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-recipes.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-recipes.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-ristorante-full.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-ristorante-full.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+                <a href="https://www.ldm4app.com/ristorantiebar/sample-suppliers-extended.json" download class="btn-secondary text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-opacity-30">
+                    <span><i class="fas fa-file-code mr-2"></i>sample-suppliers-extended.json</span>
+                    <i class="fas fa-download"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visit Counter (CountAPI) -->
+    <div id="countapi-counter-wrapper" class="fixed right-6 bottom-6 z-50 glass-card px-4 py-3 flex items-center gap-3">
+        <svg class="w-5 h-5 text-accent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span class="text-sm font-semibold text-gray-300">Visite</span>
+        <div id="countapi-value" class="text-lg font-bold text-white min-w-[40px] text-right">—</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
+        // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -299,81 +555,49 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Chiudi il menu quando si clicca su un link
+        // Close menu on link click
         const mobileLinks = mobileMenu.querySelectorAll('a');
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
         });
-    </script>
-    <script>
-        // Contatori rimossi: non vengono più mostrati né aggiornati contatori visite/download (solo funzionalità rimanenti)
-        document.addEventListener('DOMContentLoaded', function(){
-            // Nota: le funzioni di tracking last-click per download sono state rimosse per disabilitare i contatori.
-            // Resta attiva la gestione del form di contatto più sotto.
 
-            // Gestione invio form con fetch verso Formspree
-            const contactForm = document.getElementById('contact-form');
-            const contactSubmit = document.getElementById('contact-submit');
-            const contactFeedback = document.getElementById('contact-feedback');
-            if (contactForm){
-                contactForm.addEventListener('submit', function(e){
-                    e.preventDefault();
-                    if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
-                    if (contactSubmit) contactSubmit.disabled = true;
-                    const action = contactForm.getAttribute('action') || contactForm.action;
-                    const fd = new FormData(contactForm);
-                    fetch(action, { method: 'POST', body: fd, mode: 'cors' })
-                        .then(response => {
-                            if (response.ok) {
-                                if (contactFeedback){ contactFeedback.classList.remove('hidden'); }
-                                contactForm.reset();
-                            } else {
-                                return response.text().then(t => { throw new Error(t || 'Errore invio'); });
-                            }
-                        })
-                        .catch(() => {
-                            if (contactFeedback){ contactFeedback.classList.remove('hidden'); contactFeedback.innerText = 'Si è verificato un errore. Riprova più tardi.'; }
-                        })
-                        .finally(()=>{ if (contactSubmit) contactSubmit.disabled = false; });
-                });
-            }
+        // CountAPI - Visit Counter
+        (function(){
+            const el = document.getElementById('countapi-value');
+            if (!el) return;
+            fetch('https://api.countapi.xyz/hit/ldm4app/visits')
+                .then(res => res.json())
+                .then(data => { 
+                    if (data && typeof data.value !== 'undefined') {
+                        el.textContent = data.value.toLocaleString('it-IT');
+                    }
+                })
+                .catch(() => { el.textContent = '—'; });
+        })();
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-slide-up, .animate-fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
         });
-        </script>
-</body>
-  <!-- Contatore visite (CountAPI) inserito in basso a destra - versione leggera e privacy-friendly -->
-  <div id="countapi-counter-wrapper" class="countapi-wrapper" role="status" aria-label="Contatore visite" title="Contatore visite">
-    <div class="countapi-inner">
-      <svg class="countapi-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.2"/></svg>
-      <span class="countapi-label">Visite</span>
-      <div id="countapi-value" class="countapi-count" style="display:inline-block;min-width:36px;text-align:right">—</div>
-    </div>
-    <script>
-      (function(){
-        // Incrementa e recupera il contatore da CountAPI (https://countapi.xyz)
-        const el = document.getElementById('countapi-value');
-        if (!el) return;
-        fetch('https://api.countapi.xyz/hit/ldm4app/visits')
-          .then(res => res.json())
-          .then(data => { if (data && typeof data.value !== 'undefined') el.textContent = data.value; })
-          .catch(()=>{ el.textContent = '—'; });
-      })();
     </script>
-    <noscript>
-      <div style="font-size:0.9rem;opacity:0.9">Visite (JS disabilitato)</div>
-    </noscript>
-    <style>
-      /* Stili integrati per contatore CountAPI */
-      .countapi-wrapper{position:fixed;right:18px;bottom:18px;z-index:9999;background:linear-gradient(135deg,#2563eb,#1e40af);color:#fff;padding:8px 12px;border-radius:999px;box-shadow:0 8px 20px rgba(2,6,23,0.35);font-family:Inter,system-ui,Arial,sans-serif;font-size:0.85rem;display:inline-flex;align-items:center;gap:8px}
-      .countapi-inner{display:inline-flex;align-items:center;gap:8px}
-      .countapi-icon{opacity:0.95}
-      .countapi-label{font-weight:600;opacity:0.95}
-      .countapi-count{font-variant-numeric:tabular-nums}
-      .countapi-wrapper:hover{transform:translateY(-3px);transition:transform .15s ease}
-      @media (max-width:480px){.countapi-wrapper{right:12px;bottom:12px;padding:6px 8px;font-size:0.78rem}.countapi-label{display:none}}
-    </style>
-  </div>
+</body>
 </html>
