@@ -8,7 +8,8 @@
   RewriteRule ^ - [L]
 
   # Tutte le altre richieste vanno a index.html, tranne le cartelle statiche
-  RewriteRule ^((?!_framework|css|js|favicon|service-worker|manifest|sample-data).)*$ index.html [L]
+  RewriteCond %{REQUEST_URI} !^/(_framework|css|js|favicon|service-worker|manifest|sample-data)/
+  RewriteRule ^ index.html [L]
 </IfModule>
 
 # Imposta i tipi MIME corretti per Blazor
