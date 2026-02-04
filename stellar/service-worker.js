@@ -1,4 +1,4 @@
-const CACHE_NAME = 'stellar-shell-v1';
+const CACHE_NAME = 'stellar-shell-v2';
 const SHELL_ASSETS = [
   './',
   './index.html',
@@ -30,7 +30,7 @@ self.addEventListener('activate', (evt) => {
 self.addEventListener('fetch', (evt) => {
   const url = new URL(evt.request.url);
   // runtime caching for dieselpunk images
-  if (url.pathname.startsWith('/assets/levels/dieselpunk_examples/')) {
+  if (url.pathname.indexOf('/assets/levels/dieselpunk_examples/') !== -1) {
     evt.respondWith(
       caches.open('diesel-images').then(cache =>
         cache.match(evt.request).then(resp => resp || fetch(evt.request).then(f => { cache.put(evt.request, f.clone()); return f; }))
