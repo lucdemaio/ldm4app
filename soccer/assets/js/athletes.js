@@ -415,7 +415,7 @@ const AthletesModule = {
                         let imgW = maxImageWidth;
                         let imgH = maxImageHeight;
                         // Aggiungi immagine in alto a destra
-                        doc.addImage(photoData, 'JPEG', pageWidth - margin - imgW, 40, imgW, imgH);
+                        doc.addImage(photoData, Utils.getImageFormat(photoData), pageWidth - margin - imgW, 40, imgW, imgH);
                     }
                 } catch (imgErr) {
                     console.warn('Impossibile aggiungere foto atleta al PDF', imgErr);
@@ -454,7 +454,7 @@ const AthletesModule = {
                         const idY = doc.internal.pageSize.height - margin - maxImageHeight - 30;
                         doc.setFontSize(10);
                         doc.text('Documento (immagine):', margin, idY - 12);
-                        doc.addImage(idDoc, 'JPEG', margin, idY, maxImageWidth, maxImageHeight);
+                        doc.addImage(idDoc, Utils.getImageFormat(idDoc), margin, idY, maxImageWidth, maxImageHeight);
                     }
                 } catch (docImgErr) {
                     console.warn('Impossibile aggiungere documento immagine atleta al PDF', docImgErr);

@@ -116,13 +116,17 @@ const LogisticsModule = {
                             <i data-lucide="plus" data-html2canvas-ignore="true"></i>
                             Aggiungi Veicolo
                         </button>
-                        <button class="btn btn-secondary btn-azione" data-html2canvas-ignore="true" onclick="LogisticsModule.autoAssignAthletes()">
+                                <button class="btn btn-secondary btn-azione" data-html2canvas-ignore="true" onclick="LogisticsModule.autoAssignAthletes()">
                             <i data-lucide="shuffle" data-html2canvas-ignore="true"></i>
                             Assegnazione Automatica
                         </button>
                         <button class="btn btn-secondary btn-azione" data-html2canvas-ignore="true" onclick="LogisticsModule.exportLogisticsPDF()">
                             <i data-lucide="file-text" data-html2canvas-ignore="true"></i>
                             Esporta PDF
+                        </button>
+                        <button class="btn btn-primary btn-azione" data-html2canvas-ignore="true" onclick="LogisticsModule.generateLogisticsPoster()">
+                            <i data-lucide="image" data-html2canvas-ignore="true"></i>
+                            Crea Locandina Logistica
                         </button>
                 </div>
 
@@ -148,6 +152,43 @@ const LogisticsModule = {
             lucide.createIcons();
         }, 50);
     },
+
+    async generateLogisticsPoster() {
+        try {
+            const event = this.currentEventId ? appState.getCalendarEvents().find(e => e.id === this.currentEventId) : null;
+            if (!event) { UI.showToast('Evento non trovato', 'error'); return; }
+
+            const team = event.teamId ? appState.getTeam(event.teamId) : null;
+            const date = new Date(event.date);
+            const dateText = `${date.toLocaleDateString('it-IT', { weekday:'short', day:'numeric', month:'short', year:'numeric' })}${event.time ? ' • ' + event.time : ''}`;
+
+            // Summary lines: vehicles and assigned counts
+            const vehicles = event.logistics && event.logistics.vehicles ? event.logistics.vehicles : [];
+            const assignments = event.logistics && event.logistics.assignments ? event.logistics.assignments : {};
+            const lines = [];
+            lines.push(`${vehicles.length} veicolo${vehicles.length!==1 ? 'i' : ''}`);
+            const assignedCount = Object.keys(assignments).length;
+            lines.push(`${assignedCount} atleta${assignedCount!==1?'i':''} assegnat${assignedCount!==1?'i':'o'}`);
+
+            // detail per veicolo (first 3)
+            vehicles.slice(0,3).forEach(v => lines.push(`${v.name} (${v.seats} posti)`));
+
+            await Utils.generateSocialPoster({
+                title: event.title || 'Trasferta',
+                subtitle: team ? team.name : 'Logistica Trasferta',
+                dateText,
+                location: event.location || '',
+                lines,
+                footerText: 'Creato da: www.ldm4app',
+                qrUrl: 'https://www.ldm4app.com',
+                filename: `locandina_logistica_${(event.title||'trasferta').replace(/\s+/g,'_')}_${new Date().toISOString().split('T')[0]}.png`,
+                size: 1080
+            });
+        } catch (err) {
+            console.error('generateLogisticsPoster failed', err);
+            UI.showToast('Errore generazione locandina logistica', 'danger');
+        }
+    }
 
     /**
      * Renderizza lista veicoli

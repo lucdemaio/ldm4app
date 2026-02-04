@@ -438,6 +438,165 @@ const Utils = (() => {
     return svg;
   }
 
+  /**
+   * Detect image format from a data URL and return format token for jsPDF (e.g. 'PNG'|'JPEG'|'WEBP')
+   */
+  function getImageFormat(dataUrl) {
+    try {
+      if (typeof dataUrl !== 'string') return 'JPEG';
+      const head = dataUrl.split(';')[0].toLowerCase();
+      if (head.includes('image/png')) return 'PNG';
+      if (head.includes('image/webp')) return 'WEBP';
+      if (head.includes('image/svg+xml')) return 'SVG';
+      if (head.includes('image/jpeg') || head.includes('image/jpg')) return 'JPEG';
+      return 'JPEG';
+    } catch (e) {
+      return 'JPEG';
+    }
+  }
+
+  /**
+   * Genera una locandina condivisibile (PNG) usando html2canvas
+   * options: {title, subtitle, dateText, location, lines[], footerText, qrUrl, filename, size}
+   */
+  async function generateSocialPoster(options = {}) {
+    const size = options.size || 1080; // square
+    const title = options.title || '';
+    const subtitle = options.subtitle || '';
+    const dateText = options.dateText || '';
+    const location = options.location || '';
+    const lines = options.lines || []; // array of strings
+    const footerText = options.footerText || 'Creato da: www.ldm4app';
+    const qrUrl = options.qrUrl || 'https://www.ldm4app.com';
+    const filename = options.filename || `locandina_${(title||'event').replace(/\s+/g,'_')}_${new Date().toISOString().split('T')[0]}.png`;
+
+    // Build poster DOM
+    const container = document.createElement('div');
+    container.className = 'social-poster-temp';
+    container.style.width = size + 'px';
+    container.style.height = size + 'px';
+    container.style.boxSizing = 'border-box';
+    container.style.padding = '48px';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.justifyContent = 'space-between';
+    container.style.background = options.background || 'linear-gradient(135deg,#1e40af 0%,#3b82f6 100%)';
+    container.style.color = options.color || '#ffffff';
+    container.style.fontFamily = options.fontFamily || 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial';
+    container.style.borderRadius = '12px';
+    container.style.overflow = 'hidden';
+
+    // Top: title area
+    const top = document.createElement('div');
+    top.style.flex = '0 0 auto';
+
+    const titleEl = document.createElement('h1');
+    titleEl.textContent = title;
+    titleEl.style.margin = '0';
+    titleEl.style.fontSize = Math.floor(size * 0.08) + 'px';
+    titleEl.style.fontWeight = '700';
+
+    const subtitleEl = document.createElement('h2');
+    subtitleEl.textContent = subtitle;
+    subtitleEl.style.margin = '8px 0 0 0';
+    subtitleEl.style.fontSize = Math.floor(size * 0.045) + 'px';
+    subtitleEl.style.fontWeight = '500';
+    subtitleEl.style.opacity = '0.95';
+
+    top.appendChild(titleEl);
+    if (subtitle) top.appendChild(subtitleEl);
+
+    // Middle: details
+    const mid = document.createElement('div');
+    mid.style.flex = '1 1 auto';
+    mid.style.display = 'flex';
+    mid.style.flexDirection = 'column';
+    mid.style.justifyContent = 'center';
+    mid.style.alignItems = 'flex-start';
+
+    if (dateText) {
+      const d = document.createElement('div');
+      d.textContent = dateText;
+      d.style.fontSize = Math.floor(size * 0.05) + 'px';
+      d.style.marginTop = '12px';
+      d.style.fontWeight = '600';
+      mid.appendChild(d);
+    }
+    if (location) {
+      const l = document.createElement('div');
+      l.textContent = location;
+      l.style.fontSize = Math.floor(size * 0.04) + 'px';
+      l.style.marginTop = '6px';
+      l.style.opacity = '0.95';
+      mid.appendChild(l);
+    }
+
+    lines.forEach(line => {
+      const p = document.createElement('div');
+      p.textContent = line;
+      p.style.marginTop = '8px';
+      p.style.fontSize = Math.floor(size * 0.035) + 'px';
+      p.style.opacity = '0.95';
+      mid.appendChild(p);
+    });
+
+    // Bottom: footer + QR
+    const bottom = document.createElement('div');
+    bottom.style.flex = '0 0 auto';
+    bottom.style.display = 'flex';
+    bottom.style.justifyContent = 'space-between';
+    bottom.style.alignItems = 'center';
+
+    const footer = document.createElement('div');
+    footer.style.fontSize = Math.floor(size * 0.035) + 'px';
+    footer.style.opacity = '0.95';
+    footer.textContent = footerText;
+
+    const qr = document.createElement('img');
+    const qrSize = Math.max(80, Math.floor(size * 0.12));
+    // Use Google Chart API for QR (simple and no deps)
+    qr.src = `https://chart.googleapis.com/chart?cht=qr&chs=${qrSize}x${qrSize}&chld=L|1&chl=${encodeURIComponent(qrUrl)}`;
+    qr.style.width = qrSize + 'px';
+    qr.style.height = qrSize + 'px';
+    qr.style.borderRadius = '8px';
+    qr.alt = 'QR';
+
+    bottom.appendChild(footer);
+    bottom.appendChild(qr);
+
+    container.appendChild(top);
+    container.appendChild(mid);
+    container.appendChild(bottom);
+
+    // Position offscreen but visible for html2canvas
+    container.style.position = 'fixed';
+    container.style.left = '-10000px';
+    container.style.top = '0';
+    container.style.zIndex = '99999';
+
+    document.body.appendChild(container);
+
+    try {
+      if (typeof UI !== 'undefined' && typeof UI.showToast === 'function') UI.showToast('Generazione locandina...', 'info');
+      const canvas = await html2canvas(container, { scale: 2, useCORS: true, backgroundColor: null });
+      const dataUrl = canvas.toDataURL('image/png');
+      // trigger download
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      if (typeof UI !== 'undefined' && typeof UI.showToast === 'function') UI.showToast('Locandina generata', 'success');
+    } catch (err) {
+      console.error('generateSocialPoster failed', err);
+      if (typeof UI !== 'undefined' && typeof UI.showToast === 'function') UI.showToast('Errore generazione locandina', 'danger');
+    } finally {
+      // cleanup
+      try { container.remove(); } catch (e) { /* ignore */ }
+    }
+  }
+
   // Esposizione pubblica
   return {
     hapticFeedback,
@@ -460,7 +619,9 @@ const Utils = (() => {
     initLucideIcons,
     showToast,
     addHtml2canvasIgnore,
-    generateJerseySVG
+    generateJerseySVG,
+    getImageFormat,
+    generateSocialPoster
   };
 })();
 

@@ -59,7 +59,10 @@ const FiscalModule = (() => {
 
     // Notifica il resto dell'app che i dati fiscali sono cambiati
     try {
-      if (window.appState && typeof window.appState.notify === 'function') {
+      if (typeof appState !== 'undefined' && typeof appState.notify === 'function') {
+        appState.notify('fiscal:updated');
+      } else if (window.appState && typeof window.appState.notify === 'function') {
+        // backward compatibility in case some code attaches appState to window
         window.appState.notify('fiscal:updated');
       }
     } catch (e) { /* ignore */ }

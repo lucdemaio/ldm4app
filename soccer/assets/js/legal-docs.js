@@ -662,7 +662,7 @@ class LegalDocManager {
             
             // Signature
             const signatureData = this.signaturePad.toDataURL();
-            doc.addImage(signatureData, 'PNG', 20, 230, 80, 30);
+            doc.addImage(signatureData, Utils.getImageFormat(signatureData), 20, 230, 80, 30);
             
             doc.setFontSize(8);
             doc.text('Firma Genitore/Tutore Legale', 20, 265);

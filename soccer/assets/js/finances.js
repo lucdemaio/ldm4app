@@ -290,7 +290,7 @@ const FinancesModule = (() => {
    * Calcola statistiche finanziarie globali
    */
   function calculateFinancialStats() {
-    const athletes = appState.state.athletes || [];
+    const athletes = (typeof appState !== 'undefined' && typeof appState.getAthletes === 'function') ? appState.getAthletes() : (appState && appState.state && appState.state.athletes ? appState.state.athletes : []);
     
     let totalExpected = 0;
     let totalCollected = 0;

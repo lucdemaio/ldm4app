@@ -60,6 +60,9 @@ const CalendarModule = {
                         <button class="btn btn-secondary" onclick="MatchDayModule.showFormationModal('${event.teamId}')">
                             <i data-lucide="users"></i> Distinta
                         </button>
+                        <button class="btn btn-primary" data-html2canvas-ignore="true" onclick="CalendarModule.generatePoster('${eventId}')">
+                            <i data-lucide="image"></i> Crea Locandina
+                        </button>
                     ` : ''}
                     <button class="btn btn-primary" onclick="CalendarModule.showEventForm('${eventId}')">
                         <i data-lucide="edit"></i> Modifica
@@ -90,8 +93,54 @@ const CalendarModule = {
                     CalendarModule.openLogistics(eventId);
                 });
             });
+
+            // Bind crea locandina
+            document.querySelectorAll('[onclick^="CalendarModule.generatePoster"]').forEach(btn => {
+                if (btn._posterBound) return;
+                btn._posterBound = true;
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    try {
+                        const onclick = btn.getAttribute('onclick');
+                        const match = onclick && onclick.match(/CalendarModule\.generatePoster\('([^']+)'\)/);
+                        const eid = match ? match[1] : null;
+                        if (eid) CalendarModule.generatePoster(eid);
+                    } catch (err) { console.warn('generatePoster bind failed', err); }
+                });
+            });
         }, 100);
+
+        // Generate poster for an event (social/shareable image)
     },
+
+    async generatePoster(eventId) {
+        try {
+            const ev = appState.getCalendarEvents().find(e => e.id === eventId);
+            if (!ev) { UI.showToast('Evento non trovato', 'error'); return; }
+            const team = ev.teamId ? appState.getTeam(ev.teamId) : null;
+            const date = new Date(ev.date);
+            const dateText = `${date.toLocaleDateString('it-IT', { weekday:'short', day:'numeric', month:'short' })}${ev.time ? ' • ' + ev.time : ''}`;
+
+            const lines = [];
+            if (team) lines.push(team.name);
+            if (ev.location) lines.push(ev.location);
+
+            await Utils.generateSocialPoster({
+                title: ev.title || (ev.type === 'match' ? 'Partita' : 'Evento'),
+                subtitle: ev.type === 'match' ? 'Partita' : 'Evento',
+                dateText,
+                location: ev.location || '',
+                lines,
+                footerText: 'Creato da: www.ldm4app',
+                qrUrl: 'https://www.ldm4app.com',
+                filename: `locandina_${(ev.title||'evento').replace(/\s+/g,'_')}_${new Date().toISOString().split('T')[0]}.png`,
+                size: 1080
+            });
+        } catch (err) {
+            console.error('generatePoster failed', err);
+            UI.showToast('Errore generazione locandina', 'danger');
+        },
+
 
     getFilteredEvents() {
         let events = appState.getCalendarEvents();
