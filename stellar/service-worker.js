@@ -1,13 +1,13 @@
 const CACHE_NAME = 'stellar-shell-v1';
 const SHELL_ASSETS = [
-  '/',
-  '/index.html',
-  '/offline.html',
-  '/style.css',
-  '/main.js',
-  '/manifest.webmanifest',
-  '/assets/icons/icon-192.svg',
-  '/assets/icons/icon-512.svg'
+  './',
+  './index.html',
+  './offline.html',
+  './style.css',
+  './main.js',
+  './manifest.webmanifest',
+  './assets/icons/icon-192.svg',
+  './assets/icons/icon-512.svg'
 ];
 
 self.addEventListener('install', (evt) => {
@@ -41,6 +41,6 @@ self.addEventListener('fetch', (evt) => {
 
   // fallback to cache-first
   evt.respondWith(
-    caches.match(evt.request).then(cached => cached || fetch(evt.request).catch(()=>caches.match('/offline.html')))
+    caches.match(evt.request).then(cached => cached || fetch(evt.request).catch(()=>caches.match('./offline.html')))
   );
 });
