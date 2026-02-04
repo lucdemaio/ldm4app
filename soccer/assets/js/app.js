@@ -53,6 +53,8 @@ class SoccerManagerApp {
             } catch (err) {
                 console.error(err.message);
                 alert('Errore: CalendarModule non disponibile. Ricarica la pagina o contatta il supporto.');
+                // Esegui diagnostica automatica se disponibile per facilitare il debug
+                try { if (typeof DiagnosticsModule !== 'undefined' && typeof DiagnosticsModule.runFullCheck === 'function') { setTimeout(() => DiagnosticsModule.runFullCheck(), 800); } } catch(e) { /* ignore */ }
             }
             EvaluationsModule.init();
             ReportsModule.init();
