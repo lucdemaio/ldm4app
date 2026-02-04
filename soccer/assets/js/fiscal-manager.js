@@ -1,3 +1,37 @@
+  /**
+   * Aggiunge una ricevuta fiscale automatica per pagamento atleta (se non già presente)
+   */
+  function addAthletePaymentReceipt(athlete, payment) {
+    if (!athlete || !payment || !payment.amount || !athlete.firstName) return;
+    // Usa id combinato atleta+data+importo per evitare duplicati
+    const receiptId = `athletefee-${athlete.id}-${payment.date}-${payment.amount}`;
+    if (receipts.some(r => r.id === receiptId)) return; // già presente
+    const year = new Date(payment.date).getFullYear();
+    const nextNumber = getNextReceiptNumber();
+    const receiptData = {
+      id: receiptId,
+      number: nextNumber,
+      year,
+      date: payment.date,
+      payerName: `${athlete.firstName} ${athlete.lastName}`,
+      fiscalCode: athlete.fiscalCode || '',
+      amount: payment.amount,
+      description: 'Quota associativa annuale',
+      notes: payment.note || '',
+      createdAt: new Date().toISOString()
+    };
+    receipts.push(receiptData);
+    // Aggiungi anche a prima nota
+    addToLedger({
+      type: 'income',
+      category: 'Quota atleta',
+      amount: payment.amount,
+      description: `Quota atleta ${athlete.firstName} ${athlete.lastName}`,
+      date: payment.date,
+      reference: receiptId
+    });
+    saveData();
+  }
 /**
  * FISCAL-MANAGER.JS
  * Modulo Gestione Fiscale - Ricevute, Collaboratori, Prima Nota
@@ -197,6 +231,7 @@ const FiscalModule = (() => {
                     <td>${formatDate(receipt.date)}</td>
                     <td>${receipt.payerName}</td>
                     <td>${receipt.description}</td>
+                  addAthletePaymentReceipt,
                     <td><strong>€ ${receipt.amount.toFixed(2)}</strong></td>
                     <td class="text-success">€ ${(receipt.amount * DEDUCTION_RATE).toFixed(2)}</td>
                     <td>

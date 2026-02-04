@@ -245,7 +245,16 @@ const FinancesModule = (() => {
     appState.updateAthlete(athleteId, athlete);
     UI.closeModal();
     UI.showToast('Pagamenti salvati con successo', 'success');
-    
+
+    // --- AGGIUNGI RICEVUTA FISCALE AUTOMATICA PER OGNI NUOVO PAGAMENTO ---
+    try {
+      if (typeof FiscalModule !== 'undefined' && typeof FiscalModule.addAthletePaymentReceipt === 'function') {
+        payments.forEach(p => {
+          FiscalModule.addAthletePaymentReceipt(athlete, p);
+        });
+      }
+    } catch (e) { console.warn('Errore aggiunta ricevuta fiscale automatica', e); }
+
     // Aggiorna stats dashboard
     updateFinancialStats();
   }
