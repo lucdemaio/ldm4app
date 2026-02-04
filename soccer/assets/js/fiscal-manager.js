@@ -21,15 +21,19 @@
       createdAt: new Date().toISOString()
     };
     receipts.push(receiptData);
-    // Aggiungi anche a prima nota
-    addToLedger({
-      type: 'income',
-      category: 'Quota atleta',
-      amount: payment.amount,
-      description: `Quota atleta ${athlete.firstName} ${athlete.lastName}`,
-      date: payment.date,
-      reference: receiptId
-    });
+    // Aggiungi anche a prima nota, con id univoco
+    const ledgerId = `athletefee-ledger-${athlete.id}-${payment.date}-${payment.amount}`;
+    if (!ledger.some(l => l.id === ledgerId)) {
+      addToLedger({
+        id: ledgerId,
+        type: 'income',
+        category: 'Quota atleta',
+        amount: payment.amount,
+        description: `Quota atleta ${athlete.firstName} ${athlete.lastName}`,
+        date: payment.date,
+        reference: receiptId
+      });
+    }
     saveData();
   }
 /**
