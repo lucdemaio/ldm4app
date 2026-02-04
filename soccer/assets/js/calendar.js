@@ -109,10 +109,9 @@ const CalendarModule = {
                 });
             });
         }, 100);
-
-        // Generate poster for an event (social/shareable image)
     },
 
+    // Generate poster for an event (social/shareable image)
     async generatePoster(eventId) {
         try {
             const ev = appState.getCalendarEvents().find(e => e.id === eventId);
