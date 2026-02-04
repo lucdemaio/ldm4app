@@ -1211,7 +1211,7 @@ const FiscalModule = (() => {
 
   function addToLedger(data) {
     ledger.push({
-      id: Utils.generateId('ledger-'),
+      id: data.id || Utils.generateId('ledger-'),
       ...data,
       createdAt: new Date().toISOString()
     });
