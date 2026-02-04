@@ -188,7 +188,7 @@ const LogisticsModule = {
             console.error('generateLogisticsPoster failed', err);
             UI.showToast('Errore generazione locandina logistica', 'danger');
         }
-    }
+    },
 
     /**
      * Renderizza lista veicoli
