@@ -139,7 +139,8 @@ const CalendarModule = {
         } catch (err) {
             console.error('generatePoster failed', err);
             UI.showToast('Errore generazione locandina', 'danger');
-        },
+        }
+    },
     getFilteredEvents() {
         let events = appState.getCalendarEvents();
         const filters = appState.getFilters();
