@@ -388,7 +388,11 @@ const AthletesModule = {
             }
 
             UI.showToast('Generazione PDF in corso...', 'info');
-            const { jsPDF } = window.jspdf;
+            const jsPDF = window.jsPDF || (window.jspdf && window.jspdf.jsPDF);
+            if (!jsPDF) {
+                UI.showToast('jsPDF non caricato', 'danger');
+                throw new Error('jsPDF non disponibile');
+            }
             const doc = new jsPDF({ unit: 'pt', format: 'a4' });
             const pageWidth = doc.internal.pageSize.width;
             const margin = 40;
