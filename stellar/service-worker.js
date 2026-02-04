@@ -8,7 +8,8 @@ const SHELL_ASSETS = [
   './manifest.webmanifest',
   './assets/icons/icon-192.svg',
   './assets/icons/icon-512.svg',
-  './favicon.ico'
+  './favicon.ico',
+  './assets/music.ogg'
 ];
 
 self.addEventListener('install', (evt) => {
