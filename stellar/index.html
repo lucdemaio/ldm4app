@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stellar ldm4app</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="manifest" href="./manifest.webmanifest">
     <meta name="theme-color" content="#001f3f">
 </head>
 <body>
@@ -63,10 +63,10 @@
     </div>
 
     <script src="main.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js').then(() => console.log('Service Worker registered')).catch(e => console.warn('SW registration failed', e));
-      }
-    </script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./service-worker.js', { scope: './' }).then(() => console.log('Service Worker registered')).catch(e => console.warn('SW registration failed', e));
+            }
+        </script>
 </body>
 </html>
