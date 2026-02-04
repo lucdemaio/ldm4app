@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <rect width="32" height="32" fill="#000" />
+  <!-- Bulbous armored cruiser -->
+  <ellipse cx="16" cy="17" rx="12" ry="6" fill="#566152" stroke="#161615" stroke-width="0.18" />
+  <!-- Central dome and viewport -->
+  <ellipse cx="16" cy="12" rx="3.4" ry="2.1" fill="#394345" />
+  <circle cx="16" cy="12.4" r="0.9" fill="#9dc9d9" />
+  <!-- Side detail pipes -->
+  <rect x="4" y="16.6" width="6" height="0.6" fill="#6d4a33" transform="skewX(-6)" opacity="0.95" />
+  <rect x="22" y="16.6" width="6" height="0.6" fill="#6d4a33" transform="skewX(6)" opacity="0.95" />
+  <!-- Rivets and scuffs -->
+  <g fill="#222">
+    <circle cx="8" cy="18" r="0.45" />
+    <circle cx="24" cy="18" r="0.45" />
+  </g>
+  <path d="M12 19c1-0.2 2.2-0.5 3.8-0.6" stroke="#7b4327" stroke-width="0.8" stroke-linecap="round" fill="none" />
+</svg>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar ldm4app</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#001f3f">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>⚡ STELLAR LDM4APP ⚡</h1>
+            <div class="top-stats">
+                <div id="score">0</div>
+                <div id="level">LV 1</div>
+                <div id="lives">♥♥♥</div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="game-card">
+                <canvas id="gameCanvas" width="480" height="640" aria-label="Stellar ldm4app game canvas"></canvas>
+                <div id="overlay" class="overlay hidden"></div>
+            </div>
+
+            <aside class="sidebar">
+                <section class="panel">
+                    <h2>🏆 Leaderboard</h2>
+                    <ol id="leaderboard"></ol>
+                </section>
+                
+                <section class="panel">
+                    <h2>📊 Live Stats</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item"><div class="label">Combo</div><div class="value" id="combo">0x</div></div>
+                        <div class="stat-item"><div class="label">Streak</div><div class="value" id="streak">0</div></div>
+                        <div class="stat-item"><div class="label">Accuracy</div><div class="value" id="accuracy">0%</div></div>
+                        <div class="stat-item"><div class="label">Powerups</div><div class="value" id="powerups">0</div></div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <h2>🎮 Controls</h2>
+                    <p>← → <strong>Move</strong> • <strong>Space</strong> Shoot<br><strong>R</strong> Restart • <strong>P</strong> Pause • <strong>F</strong> Fullscreen</p>
+                    <div style="display:flex;gap:8px;flex-direction:column;">
+                        <button id="saveGameBtn" style="margin-top:10px;padding:8px 18px;font-weight:700;font-family:'Orbitron',sans-serif;background:#00e5ff;color:#001f3f;border-radius:8px;border:none;cursor:pointer;">Salva tutto</button>
+                        <button id="toggleDieselBtn" style="margin-top:6px;padding:8px 18px;font-weight:700;font-family:'Orbitron',sans-serif;background:#6b6b6b;color:#fff;border-radius:8px;border:none;cursor:pointer;">Theme: Dieselpunk OFF</button>
+                    </div>
+                </section>
+
+                <section class="panel powerup-hint">
+                    <h2>💎 Powerups</h2>
+                    <p><strong style="color:#0ff">🛡️ Shield</strong> Protection<br><strong style="color:#f80">⚡ Rapid</strong> Fast fire<br><strong style="color:#0f0">✦ Multi</strong> Triple shot</p>
+                </section>
+            </aside>
+        </main>
+
+        <footer class="footer">
+            <small>Ultra-Modern Stellar ldm4app Edition</small>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js').then(() => console.log('Service Worker registered')).catch(e => console.warn('SW registration failed', e));
+      }
+    </script>
+</body>
+</html>
