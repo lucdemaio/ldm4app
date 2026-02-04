@@ -249,11 +249,16 @@ const FinancesModule = (() => {
     // --- AGGIUNGI RICEVUTA FISCALE AUTOMATICA PER OGNI NUOVO PAGAMENTO ---
     try {
       if (typeof FiscalModule !== 'undefined' && typeof FiscalModule.addAthletePaymentReceipt === 'function') {
+        const updatedAthlete = appState.getAthlete(athleteId);
+        console.log('[FINANCES] Creazione ricevute fiscali per', payments.length, 'pagamenti');
         payments.forEach(p => {
-          FiscalModule.addAthletePaymentReceipt(athlete, p);
+          console.log('[FINANCES] Pagamento:', p.amount, '€ del', p.date);
+          FiscalModule.addAthletePaymentReceipt(updatedAthlete, p);
         });
+      } else {
+        console.warn('[FINANCES] FiscalModule.addAthletePaymentReceipt non disponibile');
       }
-    } catch (e) { console.warn('Errore aggiunta ricevuta fiscale automatica', e); }
+    } catch (e) { console.error('[FINANCES] Errore aggiunta ricevuta fiscale automatica', e); }
 
     // Aggiorna stats dashboard
     updateFinancialStats();

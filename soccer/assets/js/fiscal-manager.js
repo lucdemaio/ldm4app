@@ -2,10 +2,17 @@
    * Aggiunge una ricevuta fiscale automatica per pagamento atleta (se non già presente)
    */
   function addAthletePaymentReceipt(athlete, payment) {
-    if (!athlete || !payment || !payment.amount || !athlete.firstName) return;
+    console.log('[FISCAL] addAthletePaymentReceipt chiamata con:', { athlete: athlete?.firstName, payment: payment?.amount });
+    if (!athlete || !payment || !payment.amount || !athlete.firstName) {
+      console.warn('[FISCAL] Dati mancanti per ricevuta atleta:', { athlete, payment });
+      return;
+    }
     // Usa id combinato atleta+data+importo per evitare duplicati
     const receiptId = `athletefee-${athlete.id}-${payment.date}-${payment.amount}`;
-    if (receipts.some(r => r.id === receiptId)) return; // già presente
+    if (receipts.some(r => r.id === receiptId)) {
+      console.log('[FISCAL] Ricevuta già presente:', receiptId);
+      return; // già presente
+    }
     const year = new Date(payment.date).getFullYear();
     const nextNumber = getNextReceiptNumber();
     const receiptData = {
@@ -21,6 +28,7 @@
       createdAt: new Date().toISOString()
     };
     receipts.push(receiptData);
+    console.log('[FISCAL] Ricevuta creata:', receiptData);
     // Aggiungi anche a prima nota, con id univoco
     const ledgerId = `athletefee-ledger-${athlete.id}-${payment.date}-${payment.amount}`;
     if (!ledger.some(l => l.id === ledgerId)) {
@@ -33,8 +41,12 @@
         date: payment.date,
         reference: receiptId
       });
+      console.log('[FISCAL] Voce prima nota creata:', ledgerId);
+    } else {
+      console.log('[FISCAL] Voce prima nota già presente:', ledgerId);
     }
     saveData();
+    console.log('[FISCAL] Dati salvati, ricevuta e prima nota aggiornate');
   }
 /**
  * FISCAL-MANAGER.JS
