@@ -67,9 +67,14 @@ const DashboardModule = {
                 const currentYear = new Date().getFullYear();
                 const r = FiscalModule.getReceiptsSummary(currentYear);
                 const l = FiscalModule.getLedgerSummary(currentYear);
-                // Totale ricevute (legacy card)
+                // Totale ricevute + quote atleti
                 const totalCollectedEl = document.getElementById('total-collected');
-                if (totalCollectedEl) totalCollectedEl.textContent = `€ ${r.totalAmount.toFixed(2)}`;
+                let totalAthleteFees = 0;
+                if (typeof FinancesModule !== 'undefined') {
+                    const stats = FinancesModule.calculateFinancialStats();
+                    totalAthleteFees = stats.totalCollected || 0;
+                }
+                if (totalCollectedEl) totalCollectedEl.textContent = `€ ${(r.totalAmount + totalAthleteFees).toFixed(2)}`;
                 // Entrate fiscali
                 const incomeEl = document.getElementById('fiscal-ledger-income');
                 if (incomeEl) incomeEl.textContent = `€ ${l.income.toFixed(2)}`;
