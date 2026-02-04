@@ -128,17 +128,38 @@ function playLevelUp() {
 }
 
 // Background music loader: prova a caricare 'assets/music.ogg', altrimenti fallback procedurale
+async function fileExists(url){
+    try{ const r = await fetch(url, { method: 'HEAD' }); return r.ok; }catch(e){ return false; }
+}
 function startBackgroundMusic() {
-    // se audio file è presente, prova a riprodurlo (loop)
-    try {
-        bgAudio = new Audio('assets/music.ogg');
-        bgAudio.loop = true;
-        bgAudio.volume = 0.45;
-        bgAudio.play().catch(()=>{
-            // se fallisce, avvia procedurale
-            startProceduralMusic();
-        });
-    } catch(e){ startProceduralMusic(); }
+    const musicUrl = 'assets/music.ogg';
+    // controlla che il file esista prima di provare a caricarlo
+    fileExists(musicUrl).then(exists => {
+        if (!exists) {
+            // non avviare la procedurale immediatamente per evitare messaggi di autoplay; avvia alla prima interazione
+            const startOnGesture = () => { startProceduralMusic(); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
+            document.addEventListener('pointerdown', startOnGesture, { once: true });
+            document.addEventListener('keydown', startOnGesture, { once: true });
+            return;
+        }
+        try {
+            bgAudio = new Audio(musicUrl);
+            bgAudio.loop = true;
+            bgAudio.volume = 0.45;
+            // non chiamare play() immediatamente: aspetta la prima interazione utente
+            const tryPlay = () => {
+                bgAudio.play().catch(() => startProceduralMusic());
+                document.removeEventListener('pointerdown', tryPlay);
+                document.removeEventListener('keydown', tryPlay);
+            };
+            document.addEventListener('pointerdown', tryPlay, { once: true });
+            document.addEventListener('keydown', tryPlay, { once: true });
+        } catch(e){
+            const startOnGesture = () => { startProceduralMusic(); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
+            document.addEventListener('pointerdown', startOnGesture, { once: true });
+            document.addEventListener('keydown', startOnGesture, { once: true });
+        }
+    });
 }
 function startProceduralMusic(){
     ensureAudio();
