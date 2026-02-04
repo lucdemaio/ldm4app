@@ -130,7 +130,7 @@ const CalendarModule = {
                 dateText,
                 location: ev.location || '',
                 lines,
-                footerText: 'Creato da: www.ldm4app',
+                footerText: 'Creato da: www.ldm4app.com',
                 qrUrl: 'https://www.ldm4app.com',
                 filename: `locandina_${(ev.title||'evento').replace(/\s+/g,'_')}_${new Date().toISOString().split('T')[0]}.png`,
                 size: 1080
