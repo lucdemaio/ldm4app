@@ -230,4 +230,9 @@ canvas{
     canvas { max-height: calc(100vh - 90px) !important; }
 }
 
+/* Music controls style */
+.music-controls button#toggleMusicBtn { background:#00e5ff;color:#001f3f;border-radius:8px;border:none;padding:8px 12px;font-weight:700 }
+.music-controls select#musicThemeSelect { min-width:110px }
+.music-controls label { margin-left:4px; margin-right:6px }
+
 

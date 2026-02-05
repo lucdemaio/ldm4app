@@ -169,7 +169,7 @@ function startBackgroundMusic() {
     fileExists(musicUrl).then(exists => {
         if (!exists) {
             // non avviare la procedurale immediatamente per evitare messaggi di autoplay; avvia alla prima interazione
-            const startOnGesture = () => { startProceduralMusic(); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
+            const startOnGesture = () => { if (musicEnabled) startProceduralMusic(currentMusicTheme); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
             document.addEventListener('pointerdown', startOnGesture, { once: true });
             document.addEventListener('keydown', startOnGesture, { once: true });
             return;
@@ -180,39 +180,96 @@ function startBackgroundMusic() {
             bgAudio.volume = 0.45;
             // non chiamare play() immediatamente: aspetta la prima interazione utente
             const tryPlay = () => {
-                bgAudio.play().catch(() => startProceduralMusic());
+                if (!musicEnabled) return;
+                bgAudio.play().catch(() => startProceduralMusic(currentMusicTheme));
                 document.removeEventListener('pointerdown', tryPlay);
                 document.removeEventListener('keydown', tryPlay);
             };
             document.addEventListener('pointerdown', tryPlay, { once: true });
             document.addEventListener('keydown', tryPlay, { once: true });
         } catch(e){
-            const startOnGesture = () => { startProceduralMusic(); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
+            const startOnGesture = () => { if (musicEnabled) startProceduralMusic(currentMusicTheme); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
             document.addEventListener('pointerdown', startOnGesture, { once: true });
             document.addEventListener('keydown', startOnGesture, { once: true });
         }
     });
 }
-function startProceduralMusic(){
+// Procedural music with multiple themes (ambient, space, drone, arp)
+let currentMusicTheme = localStorage.getItem('stellar_music_theme') || 'ambient';
+let musicEnabled = localStorage.getItem('stellar_music_enabled') !== 'false';
+
+function startProceduralMusic(theme){
+    if (!musicEnabled) return;
     ensureAudio();
-    if (bgProcedural) return;
+    if (bgProcedural) { clearInterval(bgProcedural); bgProcedural = null; }
     const master = audioCtx.createGain(); master.gain.value = 0.05; master.connect(audioCtx.destination);
-    function playNote(freq, dur){
-        const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-        o.type = 'sine'; o.frequency.value = freq; g.gain.value = 0.001;
-        o.connect(g); g.connect(master);
-        o.start();
-        g.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 0.02);
-        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-        o.stop(audioCtx.currentTime + dur + 0.02);
+
+    function playNote(freq, dur, type='sine', vol = 0.001){
+        try {
+            const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+            o.type = type; o.frequency.value = freq; g.gain.value = vol;
+            o.connect(g); g.connect(master);
+            o.start();
+            g.gain.exponentialRampToValueAtTime(vol * 80, audioCtx.currentTime + 0.02);
+            g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+            o.stop(audioCtx.currentTime + dur + 0.02);
+        } catch(e) { /* ignore */ }
     }
-    bgProcedural = setInterval(()=>{
-        // chord progression simple
-        const root = 220 + (level-1)*8;
-        playNote(root, 0.18);
-        playNote(root*1.5, 0.14);
-    }, 400);
+
+    currentMusicTheme = theme || currentMusicTheme || 'ambient';
+    localStorage.setItem('stellar_music_theme', currentMusicTheme);
+
+    if (theme === 'space') {
+        bgProcedural = setInterval(()=>{
+            const root = 180 + (level-1)*6;
+            playNote(root, 0.28, 'sine', 0.0008);
+            playNote(root*1.333, 0.18, 'sawtooth', 0.0006);
+            playNote(root*1.5, 0.12, 'triangle', 0.0005);
+            // occasional higher melody
+            if (Math.random() < 0.3) playNote(root*2.0 + Math.random()*40, 0.12, 'sine', 0.0009);
+        }, 420);
+    } else if (theme === 'drone') {
+        // long evolving pads
+        const root = 110 + (level-1)*4;
+        playNote(root, 2.4, 'sine', 0.0006);
+        bgProcedural = setInterval(()=>{
+            playNote(root * (Math.random() > 0.5 ? 1 : 1.5), 1.8, 'sine', 0.0006);
+        }, 800);
+    } else if (theme === 'arp') {
+        bgProcedural = setInterval(()=>{
+            const base = 200 + (level-1)*5;
+            const notes = [0,3,7,10];
+            for (let i=0;i<4;i++) setTimeout(()=>{ playNote(base * Math.pow(2, notes[i]/12), 0.12, 'triangle', 0.0009); }, i*80);
+        }, 360);
+    } else {
+        // ambient default
+        bgProcedural = setInterval(()=>{
+            const root = 220 + (level-1)*8;
+            playNote(root, 0.18, 'sine', 0.0009);
+            playNote(root*1.5, 0.14, 'sine', 0.0006);
+        }, 400);
+    }
 }
+
+function setMusicEnabled(enabled){
+    musicEnabled = !!enabled;
+    localStorage.setItem('stellar_music_enabled', musicEnabled ? 'true' : 'false');
+    updateMusicUI();
+    if (!musicEnabled) stopBackgroundMusic();
+    else {
+        // restart music according to current theme
+        // if an audio file is present prefer bgAudio, otherwise start procedural
+        if (bgAudio && !bgAudio.paused) { try{ bgAudio.play(); }catch{} }
+        else startProceduralMusic(currentMusicTheme);
+    }
+}
+
+function updateMusicUI(){
+    const btn = document.getElementById('toggleMusicBtn');
+    if (!btn) return;
+    btn.textContent = musicEnabled ? 'Music: On' : 'Music: Off';
+}
+
 function stopBackgroundMusic(){
     if (bgAudio) { try{ bgAudio.pause(); bgAudio.currentTime = 0; }catch{} }
     if (bgProcedural) { clearInterval(bgProcedural); bgProcedural = null; }
@@ -1139,11 +1196,33 @@ document.addEventListener('DOMContentLoaded',()=>{
         };
     }
 
+    // Music controls
+    const toggleMusicBtn = document.getElementById('toggleMusicBtn');
+    const musicThemeSelect = document.getElementById('musicThemeSelect');
+    if (toggleMusicBtn) {
+        toggleMusicBtn.onclick = () => { setMusicEnabled(!musicEnabled); };
+    }
+    if (musicThemeSelect) {
+        musicThemeSelect.value = currentMusicTheme;
+        musicThemeSelect.onchange = () => {
+            const theme = musicThemeSelect.value;
+            currentMusicTheme = theme;
+            localStorage.setItem('stellar_music_theme', theme);
+            // restart procedural if music enabled
+            if (musicEnabled) {
+                stopBackgroundMusic();
+                startProceduralMusic(theme);
+            }
+        };
+    }
+
     // Ensure canvas fits the screen on load
     try { requestAnimationFrame(fitCanvasToWindow); } catch(e) {}
 
     // Touch / Pointer controls for mobile: tap to shoot, drag to move
     (function(){
+        let touchActive = false;
+        let touchPointerId = null;
         let touchActive = false;
         let touchPointerId = null;
 
