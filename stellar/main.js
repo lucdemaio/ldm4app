@@ -734,32 +734,36 @@ function drawGameOver() {
     }
 }
 
+function restartGame() {
+    // resettare stato (usato da R e dal pulsante Nuova partita)
+    score = 0;
+    level = 1;
+    lives = 3;
+    gameOver = false;
+    scoreSaved = false;
+    enemies = [];
+    enemyBullets = [];
+    combo = 0;
+    comboTimer = 0;
+    killStreak = 0;
+    shotsFired = 0;
+    shotsHit = 0;
+    powerupsCollected = 0;
+    shield.active = false; shield.timer = 0;
+    rapidFire.active = false; rapidFire.timer = 0;
+    multiShot.active = false; multiShot.timer = 0;
+    powerups = [];
+    particles = [];
+    trails = [];
+    spawnEnemies();
+    updateLeaderboardUI();
+    const overlay = document.getElementById('overlay'); if (overlay) { overlay.classList.add('hidden'); overlay.textContent = ''; }
+}
+
 // Restart key
 document.addEventListener('keydown', e => {
     if (e.key.toLowerCase() === 'r' && gameOver) {
-        // resettare stato
-        score = 0;
-        level = 1;
-        lives = 3;
-        gameOver = false;
-        scoreSaved = false;
-        enemies = [];
-        enemyBullets = [];
-        combo = 0;
-        comboTimer = 0;
-        killStreak = 0;
-        shotsFired = 0;
-        shotsHit = 0;
-        powerupsCollected = 0;
-        shield.active = false;
-        rapidFire.active = false;
-        multiShot.active = false;
-        powerups = [];
-        particles = [];
-        trails = [];
-        spawnEnemies();
-        updateLeaderboardUI();
-        const overlay = document.getElementById('overlay'); if (overlay) { overlay.classList.add('hidden'); overlay.textContent = ''; }
+        restartGame();
     }
 } )
 
@@ -1179,6 +1183,8 @@ function loadGameState(){
 document.addEventListener('DOMContentLoaded',()=>{
     const btn = document.getElementById('saveGameBtn');
     if(btn) btn.onclick = saveGameState;
+    const newBtn = document.getElementById('newGameBtn');
+    if (newBtn) newBtn.onclick = () => { restartGame(); };
 
     const toggle = document.getElementById('toggleDieselBtn');
     if (toggle) {
