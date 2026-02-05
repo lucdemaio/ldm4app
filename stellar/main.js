@@ -170,7 +170,9 @@ function ensureAudio(){
     document.addEventListener('keydown', onFirst, { once: true });
 }
 function playShoot() {
-    ensureAudio();
+    // initialize audio immediately if possible (gesture should allow this)
+    initAudioOnGesture();
+    if (!audioCtx) return; // avoid exceptions if not available
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
     o.type = 'sawtooth';
@@ -183,7 +185,8 @@ function playShoot() {
     setTimeout(()=>{ try{o.stop()}catch{} }, 150);
 }
 function playExplosion() {
-    ensureAudio();
+    initAudioOnGesture();
+    if (!audioCtx) return;
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
     o.type = 'triangle';
@@ -196,7 +199,8 @@ function playExplosion() {
     setTimeout(()=>{ try{o.stop()}catch{} }, 400);
 }
 function playLevelUp() {
-    ensureAudio();
+    initAudioOnGesture();
+    if (!audioCtx) return;
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
     o.type = 'sine';
@@ -213,8 +217,39 @@ function playLevelUp() {
 async function fileExists(url){
     try{ const r = await fetch(url, { method: 'HEAD' }); return r.ok; }catch(e){ return false; }
 }
+
+// Diagnostic check for audio asset: HEAD and a small ranged GET to inspect server behavior
+async function checkMusicAsset(url){
+    try{
+        console.groupCollapsed('[Audio Asset Check] ' + url);
+        // HEAD
+        try{
+            const h = await fetch(url, { method: 'HEAD' });
+            console.log('HEAD status', h.status, h.statusText);
+            for (let pair of h.headers.entries()) {
+                console.log('HEAD header:', pair[0], pair[1]);
+            }
+        }catch(e){ console.warn('HEAD failed', e); }
+        // small ranged GET to inspect Range handling
+        try{
+            const r = await fetch(url, { method: 'GET', headers: { Range: 'bytes=0-1' } });
+            console.log('Ranged GET status', r.status, r.statusText);
+            for (let pair of r.headers.entries()) {
+                console.log('Range header:', pair[0], pair[1]);
+            }
+            // attempt to read a byte if available
+            if (r.ok && r.status !== 416) {
+                const buf = await r.arrayBuffer();
+                console.log('Ranged GET bytes length', buf.byteLength);
+            }
+        }catch(e){ console.warn('Ranged GET failed', e); }
+        console.groupEnd();
+    }catch(e){ console.error('checkMusicAsset failed', e); }
+}
 function startBackgroundMusic() {
     const musicUrl = 'assets/music.ogg';
+    // diagnostic check (logs headers/status) to help debug server 416
+    try { checkMusicAsset(musicUrl); } catch(e) {}
     // controlla che il file esista prima di provare a caricarlo
     fileExists(musicUrl).then(exists => {
         if (!exists) {
@@ -1295,23 +1330,78 @@ document.addEventListener('DOMContentLoaded',()=>{
     let prevPaused = false;
 
     function openMobileMenu(){
-        if (!sidebar) return;
+        console.info('openMobileMenu invoked');
+        if (sidebar) {
+            prevPaused = paused;
+            paused = true;
+            document.body.classList.add('no-scroll');
+            sidebar.classList.add('overlay');
+            if (mobileMenuBackdrop) mobileMenuBackdrop.classList.add('visible');
+            canvas.style.pointerEvents = 'none';
+            if (typeof logLayout === 'function') logLayout('openMobileMenu');
+            return;
+        }
+        // fallback: create simple overlay with essential controls if sidebar not present/visible
+        console.warn('Sidebar not found — showing fallback mobile menu overlay');
         prevPaused = paused;
         paused = true;
         document.body.classList.add('no-scroll');
-        sidebar.classList.add('overlay');
         if (mobileMenuBackdrop) mobileMenuBackdrop.classList.add('visible');
         canvas.style.pointerEvents = 'none';
-        if (typeof logLayout === 'function') logLayout('openMobileMenu');
+        // create fallback container
+        let fallback = document.getElementById('mobileMenuFallback');
+        if (!fallback) {
+            fallback = document.createElement('div');
+            fallback.id = 'mobileMenuFallback';
+            fallback.className = 'sidebar overlay';
+            fallback.style.padding = '12px';
+            fallback.innerHTML = `
+                <h2>Menu</h2>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <button id="fb-save" class="btn">Salva</button>
+                    <button id="fb-new" class="btn">Nuova partita</button>
+                    <button id="fb-theme" class="btn">Toggle Theme</button>
+                    <button id="fb-music" class="btn">Toggle Music</button>
+                    <div style="display:flex;gap:6px;align-items:center;margin-top:8px;">
+                        <button id="fb-zoom-out" class="btn">-</button>
+                        <button id="fb-zoom-reset" class="btn">100%</button>
+                        <button id="fb-zoom-in" class="btn">+</button>
+                    </div>
+                </div>
+                <button id="fb-close" style="margin-top:12px;" class="btn">Chiudi</button>
+            `;
+            document.body.appendChild(fallback);
+            // wire fallback actions to existing controls where possible
+            document.getElementById('fb-save').addEventListener('click', () => { const b = document.getElementById('saveGameBtn'); if (b) b.click(); });
+            document.getElementById('fb-new').addEventListener('click', () => { const b = document.getElementById('newGameBtn'); if (b) b.click(); });
+            document.getElementById('fb-theme').addEventListener('click', () => { const b = document.getElementById('toggleDieselBtn'); if (b) b.click(); });
+            document.getElementById('fb-music').addEventListener('click', () => { const b = document.getElementById('toggleMusicBtn'); if (b) b.click(); });
+            document.getElementById('fb-zoom-in').addEventListener('click', () => { const b = document.getElementById('zoomInBtn'); if (b) b.click(); });
+            document.getElementById('fb-zoom-out').addEventListener('click', () => { const b = document.getElementById('zoomOutBtn'); if (b) b.click(); });
+            document.getElementById('fb-zoom-reset').addEventListener('click', () => { const b = document.getElementById('zoomResetBtn'); if (b) b.click(); });
+            document.getElementById('fb-close').addEventListener('click', closeMobileMenu);
+        }
+        fallback.style.display = 'block';
+        if (typeof logLayout === 'function') logLayout('openMobileMenuFallback');
     }
     function closeMobileMenu(){
-        if (!sidebar) return;
+        if (sidebar) {
+            paused = prevPaused;
+            document.body.classList.remove('no-scroll');
+            sidebar.classList.remove('overlay');
+            if (mobileMenuBackdrop) mobileMenuBackdrop.classList.remove('visible');
+            canvas.style.pointerEvents = 'auto';
+            if (typeof logLayout === 'function') logLayout('closeMobileMenu');
+            return;
+        }
+        // hide fallback
+        const fallback = document.getElementById('mobileMenuFallback');
+        if (fallback) fallback.style.display = 'none';
         paused = prevPaused;
         document.body.classList.remove('no-scroll');
-        sidebar.classList.remove('overlay');
         if (mobileMenuBackdrop) mobileMenuBackdrop.classList.remove('visible');
         canvas.style.pointerEvents = 'auto';
-        if (typeof logLayout === 'function') logLayout('closeMobileMenu');
+        if (typeof logLayout === 'function') logLayout('closeMobileMenuFallback');
     }
     if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
     if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
