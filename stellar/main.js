@@ -26,6 +26,40 @@ function fitCanvasToWindow() {
         // Clamp player position inside new visible/internal bounds
         if (player && typeof player.x === 'number') player.x = Math.min(Math.max(player.x, 0), canvas.width - player.width);
     } catch (e) { console.warn('fitCanvasToWindow failed', e); }
+    // After resizing, output layout debug info if needed
+    if (typeof logLayout === 'function') logLayout('fitCanvasToWindow');
+    // Adjust sidebar height and compact UI for very small screens
+    try { adjustSidebarForViewport(); } catch(e){}
+}
+
+// Adjust sidebar max-height and compact UI dynamically
+function adjustSidebarForViewport(){
+    const appEl = document.querySelector('.app');
+    const sidebar = document.querySelector('.sidebar');
+    const header = document.querySelector('.header');
+    const footer = document.querySelector('.footer');
+    if (!sidebar || !appEl) return;
+    const headerH = header ? header.offsetHeight : 0;
+    const footerH = footer ? footer.offsetHeight : 0;
+    const margin = 26;
+    // If menu is on top, cap height to viewport minus header and some margin
+    if (appEl.classList.contains('menu-top') || window.innerWidth <= 420) {
+        const maxH = Math.max(120, window.innerHeight - headerH - footerH - margin);
+        sidebar.style.maxHeight = maxH + 'px';
+        sidebar.style.overflowY = 'auto';
+    } else {
+        sidebar.style.maxHeight = '';
+        sidebar.style.overflowY = '';
+    }
+
+    // Compact UI on very small devices
+    if (window.innerWidth <= 360) {
+        appEl.classList.add('compact-ui');
+    } else {
+        appEl.classList.remove('compact-ui');
+    }
+
+    if (typeof logLayout === 'function') logLayout('adjustSidebarForViewport');
 }
 
 // Call initially and on resize/orientation
@@ -1227,7 +1261,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
 
     // Ensure canvas fits the screen on load
-    try { requestAnimationFrame(fitCanvasToWindow); } catch(e) {}
+    try { requestAnimationFrame(fitCanvasToWindow); requestAnimationFrame(adjustSidebarForViewport); } catch(e) {}
 
     // Sidebar handle drag for moving the menu to top on mobile
     (function(){
@@ -1238,6 +1272,8 @@ document.addEventListener('DOMContentLoaded',()=>{
             if (!appEl) return;
             if (on) { appEl.classList.add('menu-top'); localStorage.setItem('stellar_menu_top','1'); }
             else { appEl.classList.remove('menu-top'); localStorage.removeItem('stellar_menu_top'); }
+            if (typeof logLayout === 'function') logLayout('setMenuTopState');
+            try { adjustSidebarForViewport(); } catch(e){}
         }
         if (sidebarHandle){
             // restore previous state
@@ -1247,6 +1283,7 @@ document.addEventListener('DOMContentLoaded',()=>{
                 if (e.pointerType === 'mouse' && e.button !== 0) return;
                 sidebarHandle.setPointerCapture(e.pointerId);
                 dragging = true; startY = e.clientY; lastDelta = 0; sidebarHandle.classList.add('dragging');
+                if (typeof logLayout === 'function') logLayout('sidebarPointerDown');
             });
             sidebarHandle.addEventListener('pointermove', e => {
                 if (!dragging) return;
@@ -1261,6 +1298,8 @@ document.addEventListener('DOMContentLoaded',()=>{
                 // if dragged upwards enough, set menu top; if dragged down enough, clear
                 if (lastDelta < -40) setMenuTopState(true);
                 else if (lastDelta > 40) setMenuTopState(false);
+                if (typeof logLayout === 'function') logLayout('sidebarPointerUp');
+                adjustSidebarForViewport();
             });
             sidebarHandle.addEventListener('pointercancel', e => {
                 dragging = false; try{ sidebarHandle.releasePointerCapture(e.pointerId);}catch{}; sidebarHandle.classList.remove('dragging'); sidebarHandle.style.transform = '';
@@ -1268,7 +1307,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             // tap toggles
             sidebarHandle.addEventListener('click', e => { if (Math.abs(lastDelta) < 6) setMenuTopState(!document.querySelector('.app').classList.contains('menu-top')); });
         }
-        if (moveMenuBtn) moveMenuBtn.addEventListener('click', () => setMenuTopState(!document.querySelector('.app').classList.contains('menu-top')));
+        if (moveMenuBtn) moveMenuBtn.addEventListener('click', () => { setMenuTopState(!document.querySelector('.app').classList.contains('menu-top')); if (typeof logLayout === 'function') logLayout('moveMenuBtn'); adjustSidebarForViewport(); });
     })();
 
     // Touch / Pointer controls for mobile: tap to shoot, drag to move + pinch-to-zoom
@@ -1286,6 +1325,8 @@ document.addEventListener('DOMContentLoaded',()=>{
             canvas.style.transform = `scale(${canvasScale})`;
             const resetBtn = document.getElementById('zoomResetBtn'); if (resetBtn) resetBtn.textContent = Math.round(canvasScale*100) + '%';
             localStorage.setItem('stellar_canvas_scale', canvasScale.toString());
+            if (typeof logLayout === 'function') logLayout('applyCanvasScale');
+            try{ adjustSidebarForViewport(); }catch(e){}
         }
         applyCanvasScale();
 
@@ -1368,12 +1409,14 @@ document.addEventListener('DOMContentLoaded',()=>{
                 touchActive = false;
                 touchPointerId = null;
             }
+            if (typeof logLayout === 'function') logLayout('canvasPointerUp');
         });
 
         canvas.addEventListener('pointercancel', (e) => {
             pointers.delete(e.pointerId);
             if (pinchMode && pointers.size < 2) { pinchMode = false; }
             if (e.pointerId === touchPointerId) { touchActive = false; touchPointerId = null; }
+            if (typeof logLayout === 'function') logLayout('canvasPointerCancel');
         });
 
         canvas.addEventListener('pointermove', (e) => {
