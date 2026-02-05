@@ -17,6 +17,7 @@
     
     <!-- PDF and Image Generation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- QR library removed (uses canvas/API fallback in locandina-generator.js) -->
 </head>
 
 <body>
@@ -33,12 +34,22 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+    <!-- Unregister existing SWs and clear caches (debug) BEFORE loading the runtime -->
+    <script>
+        (async function(){
+            if ('serviceWorker' in navigator) {
+                try { const regs = await navigator.serviceWorker.getRegistrations(); for (const r of regs) { await r.unregister(); } console.log('Service workers unregistered (debug)'); } catch(e){ console.warn('Failed to unregister SW', e); }
+            }
+            if ('caches' in window){ try { const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); console.log('Caches cleared (debug)'); } catch(e){ console.warn('Failed to clear caches', e); } }
+            console.log('Service worker registration skipped (debug)');
+        })();
+    </script>
+
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="js/download.js"></script>
     <script src="js/pdf-generator.js"></script>
     <script src="js/locandina-generator.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 
 </html>

@@ -1,8 +1,8 @@
 {
-  "name": "Gestionale Tornei",
-  "short_name": "Tornei",
-  "id": "/tornei/",
-  "start_url": "/tornei/",
+  "name": "GestionaleTorneiWeb",
+  "short_name": "GestionaleTorneiWeb",
+  "id": "./",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#03173d",
