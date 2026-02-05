@@ -150,8 +150,24 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioCtx;
 let bgAudio = null;
 let bgProcedural = null;
-function ensureAudio() {
-    if (!audioCtx) audioCtx = new AudioContext();
+let audioInitializedByGesture = false;
+function initAudioOnGesture(){
+    if (audioInitializedByGesture) return;
+    audioInitializedByGesture = true;
+    try{
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(()=>{});
+    }catch(e){
+        console.warn('Audio init failed', e);
+    }
+}
+// Ensure audio is initialized on first gesture - safe to call from anywhere
+function ensureAudio(){
+    // prefer initializing only after a user gesture; also attach one-time listeners
+    if (audioInitializedByGesture) return;
+    const onFirst = () => { initAudioOnGesture(); document.removeEventListener('pointerdown', onFirst); document.removeEventListener('keydown', onFirst); };
+    document.addEventListener('pointerdown', onFirst, { once: true });
+    document.addEventListener('keydown', onFirst, { once: true });
 }
 function playShoot() {
     ensureAudio();
@@ -203,26 +219,36 @@ function startBackgroundMusic() {
     fileExists(musicUrl).then(exists => {
         if (!exists) {
             // non avviare la procedurale immediatamente per evitare messaggi di autoplay; avvia alla prima interazione
-            const startOnGesture = () => { if (musicEnabled) startProceduralMusic(currentMusicTheme); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
+            const startOnGesture = () => { initAudioOnGesture(); if (musicEnabled) startProceduralMusic(currentMusicTheme); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
             document.addEventListener('pointerdown', startOnGesture, { once: true });
             document.addEventListener('keydown', startOnGesture, { once: true });
             return;
         }
         try {
-            bgAudio = new Audio(musicUrl);
-            bgAudio.loop = true;
-            bgAudio.volume = 0.45;
-            // non chiamare play() immediatamente: aspetta la prima interazione utente
+            // Delay creation of the Audio element until user gesture to avoid autoplay/range issues
             const tryPlay = () => {
+                initAudioOnGesture();
                 if (!musicEnabled) return;
-                bgAudio.play().catch(() => startProceduralMusic(currentMusicTheme));
+                try {
+                    bgAudio = new Audio(musicUrl);
+                    bgAudio.loop = true;
+                    bgAudio.volume = 0.45;
+                    bgAudio.addEventListener('error', () => {
+                        console.warn('bgAudio failed to load, falling back to procedural music');
+                        startProceduralMusic(currentMusicTheme);
+                    });
+                    bgAudio.play().catch((err) => { console.warn('bgAudio.play() failed:', err); startProceduralMusic(currentMusicTheme); });
+                } catch (err) {
+                    console.warn('creating bgAudio failed, falling back to procedural', err);
+                    startProceduralMusic(currentMusicTheme);
+                }
                 document.removeEventListener('pointerdown', tryPlay);
                 document.removeEventListener('keydown', tryPlay);
             };
             document.addEventListener('pointerdown', tryPlay, { once: true });
             document.addEventListener('keydown', tryPlay, { once: true });
         } catch(e){
-            const startOnGesture = () => { if (musicEnabled) startProceduralMusic(currentMusicTheme); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
+            const startOnGesture = () => { initAudioOnGesture(); if (musicEnabled) startProceduralMusic(currentMusicTheme); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
             document.addEventListener('pointerdown', startOnGesture, { once: true });
             document.addEventListener('keydown', startOnGesture, { once: true });
         }
@@ -234,7 +260,9 @@ let musicEnabled = localStorage.getItem('stellar_music_enabled') !== 'false';
 
 function startProceduralMusic(theme){
     if (!musicEnabled) return;
-    ensureAudio();
+    // make sure audio is initialized immediately (gesture handler should call initAudioOnGesture)
+    initAudioOnGesture();
+    if (!audioCtx) { console.warn('startProceduralMusic: audioCtx unavailable'); return; }
     if (bgProcedural) { clearInterval(bgProcedural); bgProcedural = null; }
     const master = audioCtx.createGain(); master.gain.value = 0.05; master.connect(audioCtx.destination);
 
