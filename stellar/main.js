@@ -743,8 +743,8 @@ function updateEnemies() {
         }
     }
 
-    // Avanza livello quando non ci sono nemici oppure tempo onda finito
-    if ((enemies.length === 0 || waveTimerFrames <= 0) && !levelingUp && !gameOver) {
+    // Avanza livello solo quando tutte le navicelle avversarie sono state uccise
+    if (enemies.length === 0 && !levelingUp && !gameOver) {
         levelingUp = true;
         setTimeout(() => {
             level += 1;
@@ -848,19 +848,41 @@ function gameLoop() {
 
 function spawnEnemies() {
     enemies = [];
-    const rows = Math.min(BASE_ENEMY_ROWS + (level - 1), 6);
+    // Dynamic rows / cols scaling with a cap
+    const rows = Math.min(BASE_ENEMY_ROWS + (level - 1), 8); // up to 8 rows
+    const cols = Math.min(ENEMY_COLS + Math.floor((level - 1) / 2), 12); // increase cols every 2 levels, cap 12
     const enemySpeedMultiplier = 1 + (level - 1) * 0.18;
+
+    // spacing adapts to number of columns so formation fits canvas nicely
+    const totalWidth = canvas.width - 80; // left/right margin
+    const spacing = cols > 1 ? totalWidth / cols : ENEMY_WIDTH + 20;
+
     for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < ENEMY_COLS; col++) {
-            const bx = 40 + col * 55;
+        for (let col = 0; col < cols; col++) {
+            const bx = 40 + Math.floor(col * spacing);
             const by = 40 + row * 40;
-            // choose a type based on row & randomness
+
+            // choose type with level-weighted probabilities and introduce 'elite' from mid levels
+            let r = Math.random();
+            // probabilities increase with level
+            const pElite = level >= 6 ? Math.min(0.03 + (level - 6) * 0.02, 0.25) : 0; // elite appears after lvl6
+            const pHeavy = Math.min(0.12 + level * 0.02, 0.35);
+            const pFighter = Math.min(0.25 + level * 0.02, 0.5);
+
             let type = 'scout';
-            if (Math.random() < 0.12 + level*0.02) type = 'heavy';
-            else if (Math.random() < 0.35) type = 'fighter';
-            let hp = type === 'heavy' ? 3 : (type === 'fighter' ? 2 : 1);
-            let scoreValue = type === 'heavy' ? 300 : (type === 'fighter' ? 180 : 100);
-            let color = type === 'scout' ? `hsl(${(row*40 + level*36)%360},80%,60%)` : (type === 'fighter' ? `hsl(${(row*25 + level*18)%360},70%,48%)` : `hsl(${(row*20 + level*10)%360},60%,38%)`);
+            if (r < pElite) type = 'elite';
+            else if (r < pElite + pHeavy) type = 'heavy';
+            else if (r < pElite + pHeavy + pFighter) type = 'fighter';
+            else type = 'scout';
+
+            let hp = type === 'elite' ? 5 : type === 'heavy' ? 3 : type === 'fighter' ? 2 : 1;
+            // Slight HP bump with level for progression
+            hp += Math.floor((level - 1) / 4);
+
+            let scoreValue = type === 'elite' ? 600 : type === 'heavy' ? 300 : type === 'fighter' ? 180 : 100;
+            // color mapping by type for clarity
+            let color = type === 'scout' ? `hsl(${(row * 40 + level * 36) % 360},80%,60%)` : type === 'fighter' ? `hsl(${(row * 25 + level * 18) % 360},70%,48%)` : type === 'heavy' ? `hsl(${(row * 20 + level * 10) % 360},60%,38%)` : `hsl(${(row * 10 + level * 8) % 360},40%,52%)`;
+
             const enemyObj = {
                 baseX: bx,
                 baseY: by,
@@ -876,9 +898,11 @@ function spawnEnemies() {
                 maxHp: hp,
                 scoreValue: scoreValue
             };
+
             // If dieselpunk theme is active and meta is present, adjust size/hitbox from metadata
             if (assetsTheme === 'dieselpunk' && window.dieselpunkMeta && window.dieselpunkMeta.ships) {
-                const candidates = window.dieselpunkMeta.ships.filter(s => s.type === (type === 'scout' ? 'scout' : type === 'fighter' ? 'fighter' : 'heavy'));
+                const queryType = (type === 'scout' ? 'scout' : type === 'fighter' ? 'fighter' : type === 'heavy' ? 'heavy' : 'fighter');
+                const candidates = window.dieselpunkMeta.ships.filter(s => s.type === queryType);
                 if (candidates.length) {
                     const chosen = candidates[Math.floor(Math.random() * candidates.length)];
                     enemyObj.width = chosen.suggestedWidth || enemyObj.width;
@@ -886,14 +910,18 @@ function spawnEnemies() {
                     enemyObj.meta = chosen;
                 }
             }
+
             enemies.push(enemyObj);
         }
     }
+
     formation.offsetX = 0;
     formation.dir = 1;
-    // Mostra testo livello e imposta timer onda
+
+    // Show level text and set wave timer based on enemy count & level
     levelTextTimer = 100;
-    waveTimerFrames = Math.max(5*60, Math.floor(20*60 - level*30));
+    const estimatedCount = enemies.length;
+    waveTimerFrames = Math.max(5 * 60, Math.floor(18 * 60 + estimatedCount * 2 - level * 20));
 }
 
 // Caricamento asset (SVG) e inizializzazione audio
