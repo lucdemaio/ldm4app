@@ -213,7 +213,7 @@ function playLevelUp() {
     setTimeout(()=>{ try{o.stop()}catch{} }, 500);
 }
 
-// Background music loader: prova a caricare 'assets/music.ogg', altrimenti fallback procedurale
+// Background music loader: prova a caricare 'assets/music.ogg' poi 'assets/music.mp3', altrimenti fallback procedurale
 async function fileExists(url){
     try{ const r = await fetch(url, { method: 'HEAD' }); return r.ok; }catch(e){ return false; }
 }
@@ -247,35 +247,88 @@ async function checkMusicAsset(url){
     }catch(e){ console.error('checkMusicAsset failed', e); }
 }
 function startBackgroundMusic() {
-    const musicUrl = 'assets/music.ogg';
-    // diagnostic check (logs headers/status) to help debug server 416
-    try { checkMusicAsset(musicUrl); } catch(e) {}
-    // controlla che il file esista prima di provare a caricarlo
-    fileExists(musicUrl).then(exists => {
+    const ogg = 'assets/music.ogg';
+    const mp3 = 'assets/music.mp3';
+    // diagnostic checks for both formats (helps debugging servers that mishandle range requests)
+    try { checkMusicAsset(ogg); } catch(e) {}
+    try { checkMusicAsset(mp3); } catch(e) {}
+
+    // Try .ogg first, if not present or it fails, try .mp3, otherwise fall back to procedural music
+    fileExists(ogg).then(exists => {
         if (!exists) {
-            // non avviare la procedurale immediatamente per evitare messaggi di autoplay; avvia alla prima interazione
-            const startOnGesture = () => { initAudioOnGesture(); if (musicEnabled) startProceduralMusic(currentMusicTheme); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
-            document.addEventListener('pointerdown', startOnGesture, { once: true });
-            document.addEventListener('keydown', startOnGesture, { once: true });
+            // try mp3 if available
+            fileExists(mp3).then(mpExists => {
+                if (!mpExists) {
+                    const startOnGesture = () => { initAudioOnGesture(); if (musicEnabled) startProceduralMusic(currentMusicTheme); document.removeEventListener('pointerdown', startOnGesture); document.removeEventListener('keydown', startOnGesture); };
+                    document.addEventListener('pointerdown', startOnGesture, { once: true });
+                    document.addEventListener('keydown', startOnGesture, { once: true });
+                } else {
+                    const tryPlayMp3 = () => {
+                        initAudioOnGesture(); if (!musicEnabled) return;
+                        try {
+                            bgAudio = new Audio(mp3);
+                            bgAudio.loop = true;
+                            bgAudio.volume = 0.45;
+                            bgAudio.addEventListener('error', ()=>{ console.warn('bgAudio mp3 failed, falling back to procedural'); startProceduralMusic(currentMusicTheme); });
+                            bgAudio.play().catch((err)=>{ console.warn('bgAudio.mp3.play() failed', err); startProceduralMusic(currentMusicTheme); });
+                        } catch(err){ console.warn('creating bgAudio mp3 failed', err); startProceduralMusic(currentMusicTheme); }
+                        document.removeEventListener('pointerdown', tryPlayMp3);
+                        document.removeEventListener('keydown', tryPlayMp3);
+                    };
+                    document.addEventListener('pointerdown', tryPlayMp3, { once: true });
+                    document.addEventListener('keydown', tryPlayMp3, { once: true });
+                }
+            });
             return;
         }
         try {
-            // Delay creation of the Audio element until user gesture to avoid autoplay/range issues
             const tryPlay = () => {
                 initAudioOnGesture();
                 if (!musicEnabled) return;
                 try {
-                    bgAudio = new Audio(musicUrl);
+                    bgAudio = new Audio(ogg);
                     bgAudio.loop = true;
                     bgAudio.volume = 0.45;
                     bgAudio.addEventListener('error', () => {
-                        console.warn('bgAudio failed to load, falling back to procedural music');
-                        startProceduralMusic(currentMusicTheme);
+                        console.warn('bgAudio failed for ogg, attempting mp3');
+                        fileExists(mp3).then(mpExists => {
+                            if (!mpExists) { startProceduralMusic(currentMusicTheme); return; }
+                            try {
+                                const a = new Audio(mp3);
+                                a.loop = true; a.volume = 0.45;
+                                a.addEventListener('error', ()=>{ console.warn('bgAudio mp3 failed, falling back to procedural'); startProceduralMusic(currentMusicTheme); });
+                                a.play().catch((err)=>{ console.warn('bgAudio.mp3.play() failed', err); startProceduralMusic(currentMusicTheme); });
+                                bgAudio = a;
+                            } catch(err) { console.warn('creating bgAudio mp3 failed', err); startProceduralMusic(currentMusicTheme); }
+                        });
                     });
-                    bgAudio.play().catch((err) => { console.warn('bgAudio.play() failed:', err); startProceduralMusic(currentMusicTheme); });
-                } catch (err) {
-                    console.warn('creating bgAudio failed, falling back to procedural', err);
-                    startProceduralMusic(currentMusicTheme);
+                    bgAudio.play().catch((err) => {
+                        console.warn('bgAudio.play() failed for ogg:', err, ' — trying mp3 fallback');
+                        fileExists(mp3).then(mpExists => {
+                            if (!mpExists) { startProceduralMusic(currentMusicTheme); return; }
+                            try {
+                                const a = new Audio(mp3);
+                                a.loop = true; a.volume = 0.45;
+                                a.addEventListener('error', ()=>{ console.warn('bgAudio mp3 failed, falling back to procedural'); startProceduralMusic(currentMusicTheme); });
+                                a.play().catch((err2)=>{ console.warn('bgAudio.mp3.play() failed', err2); startProceduralMusic(currentMusicTheme); });
+                                bgAudio = a;
+                            } catch(err2) { console.warn('creating bgAudio mp3 failed', err2); startProceduralMusic(currentMusicTheme); }
+                        });
+                    });
+                } catch(e) {
+                    console.warn('creating bgAudio failed, attempting mp3', e);
+                    fileExists(mp3).then(mpExists => {
+                        if (!mpExists) { startProceduralMusic(currentMusicTheme); return; }
+                        const tryPlayMp3 = () => {
+                            initAudioOnGesture();
+                            if (!musicEnabled) return;
+                            try { bgAudio = new Audio(mp3); bgAudio.loop = true; bgAudio.volume = 0.45; bgAudio.addEventListener('error', ()=>{ console.warn('bgAudio mp3 failed, falling back to procedural'); startProceduralMusic(currentMusicTheme); }); bgAudio.play().catch((err)=>{ console.warn('bgAudio.mp3.play() failed', err); startProceduralMusic(currentMusicTheme); }); } catch(err){ console.warn('creating bgAudio mp3 failed', err); startProceduralMusic(currentMusicTheme); }
+                            document.removeEventListener('pointerdown', tryPlayMp3);
+                            document.removeEventListener('keydown', tryPlayMp3);
+                        };
+                        document.addEventListener('pointerdown', tryPlayMp3, { once: true });
+                        document.addEventListener('keydown', tryPlayMp3, { once: true });
+                    });
                 }
                 document.removeEventListener('pointerdown', tryPlay);
                 document.removeEventListener('keydown', tryPlay);
