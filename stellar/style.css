@@ -219,4 +219,15 @@ canvas{
     animation:float 2s ease-in-out infinite;
 }
 
+/* Mobile: ensure the game canvas fits fully in both orientations */
+@media (max-width: 900px) {
+    .game-card { padding: 8px; }
+    .game-card, .main { align-items: flex-start; }
+    canvas { width: calc(100vw - 24px) !important; height: auto !important; max-height: calc(100vh - 140px) !important; display:block; }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+    canvas { max-height: calc(100vh - 90px) !important; }
+}
+
 

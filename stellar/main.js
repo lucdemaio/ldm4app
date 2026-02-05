@@ -2,6 +2,38 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// Responsive canvas fitting for mobile (keep internal resolution but scale via CSS)
+function fitCanvasToWindow() {
+    try {
+        const aspect = canvas.width / canvas.height; // internal aspect (480/640)
+        const header = document.querySelector('.header');
+        const footer = document.querySelector('.footer');
+        const headerH = header ? header.offsetHeight : 0;
+        const footerH = footer ? footer.offsetHeight : 0;
+        const margin = 40; // safety margin
+        const availableW = Math.max(200, window.innerWidth - margin);
+        const availableH = Math.max(200, window.innerHeight - headerH - footerH - margin);
+        // Fit into available space while preserving aspect ratio
+        let desiredW = Math.min(availableW, Math.floor(availableH * aspect));
+        let desiredH = Math.floor(desiredW / aspect);
+        // If width is too small for aspect fallback to height-based sizing
+        if (desiredW <= 0) {
+            desiredH = Math.min(availableH, 640);
+            desiredW = Math.floor(desiredH * aspect);
+        }
+        canvas.style.width = desiredW + 'px';
+        canvas.style.height = desiredH + 'px';
+        // Clamp player position inside new visible/internal bounds
+        if (player && typeof player.x === 'number') player.x = Math.min(Math.max(player.x, 0), canvas.width - player.width);
+    } catch (e) { console.warn('fitCanvasToWindow failed', e); }
+}
+
+// Call initially and on resize/orientation
+window.addEventListener('resize', () => requestAnimationFrame(fitCanvasToWindow));
+window.addEventListener('orientationchange', () => requestAnimationFrame(fitCanvasToWindow));
+window.addEventListener('fullscreenchange', () => requestAnimationFrame(fitCanvasToWindow));
+
+
 const PLAYER_WIDTH = 40;
 const PLAYER_HEIGHT = 30;
 const PLAYER_SPEED = 5;
@@ -824,10 +856,15 @@ function updateEnemies() {
     if (enemies.length === 0 && !levelingUp && !gameOver) {
         levelingUp = true;
         setTimeout(() => {
-            level += 1;
-            playLevelUp();
-            spawnEnemies();
-            levelingUp = false;
+            (async () => {
+                level += 1;
+                // reload assets for new level so visuals change with progression
+                if (typeof loadAssets === 'function') await loadAssets();
+                requestAnimationFrame(fitCanvasToWindow);
+                playLevelUp();
+                spawnEnemies();
+                levelingUp = false;
+            })();
         }, 800);
     }
 }
@@ -1102,6 +1139,9 @@ document.addEventListener('DOMContentLoaded',()=>{
         };
     }
 
+    // Ensure canvas fits the screen on load
+    try { requestAnimationFrame(fitCanvasToWindow); } catch(e) {}
+
     // Touch / Pointer controls for mobile: tap to shoot, drag to move
     (function(){
         let touchActive = false;
@@ -1134,18 +1174,20 @@ document.addEventListener('DOMContentLoaded',()=>{
                 playShoot();
             }
 
-            // Move player to touch position immediately
+            // Move player to touch position immediately (map to internal canvas coords)
             const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            player.x = Math.min(Math.max(x - player.width/2, 0), canvas.width - player.width);
+            const scaleX = canvas.width / rect.width;
+            const xCanvas = (e.clientX - rect.left) * scaleX;
+            player.x = Math.min(Math.max(xCanvas - player.width/2, 0), canvas.width - player.width);
         }, { passive: false });
 
         canvas.addEventListener('pointermove', (e) => {
             if (!touchActive || e.pointerId !== touchPointerId) return;
             e.preventDefault();
             const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            player.x = Math.min(Math.max(x - player.width/2, 0), canvas.width - player.width);
+            const scaleX = canvas.width / rect.width;
+            const xCanvas = (e.clientX - rect.left) * scaleX;
+            player.x = Math.min(Math.max(xCanvas - player.width/2, 0), canvas.width - player.width);
         }, { passive: false });
 
         canvas.addEventListener('pointerup', (e) => {
@@ -1165,12 +1207,14 @@ document.addEventListener('DOMContentLoaded',()=>{
 if (loadGameState()) {
     (async ()=>{
         await loadAssets();
+        requestAnimationFrame(fitCanvasToWindow);
         spawnEnemies();
         gameLoop();
     })();
 } else {
     (async ()=>{
         await loadAssets();
+        requestAnimationFrame(fitCanvasToWindow);
         spawnEnemies();
         gameLoop();
     })();
