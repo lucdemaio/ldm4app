@@ -524,6 +524,83 @@ function drawScore() {
     }
 }
 
+// Disegna le icone che rappresentano il numero di nemici rimasti (coi disegnini) e mostra la salute residua
+function drawEnemyCount() {
+    const count = enemies.length;
+    const maxIcons = 10; // massimo icone visualizzate come disegnini
+    const iconSize = 12;
+    const gap = 6;
+    const shown = Math.min(count, maxIcons);
+    const totalWidth = shown * iconSize + Math.max(0, shown - 1) * gap;
+    const startX = Math.floor(canvas.width / 2 - totalWidth / 2) + iconSize/2;
+    const y = 48; // posizionamento verticale
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 12px Orbitron';
+    ctx.fillStyle = '#fff';
+    ctx.fillText('Enemies', canvas.width / 2, y - 14);
+
+    for (let i = 0; i < shown; i++) {
+        const e = enemies[i] || {};
+        const hp = (e.hp != null && e.maxHp != null) ? Math.max(0, Math.min(e.hp / e.maxHp, 1)) : 1;
+        // colore in base al tipo
+        let col = '#ff8a8a';
+        if (e.type === 'elite') col = '#ffd24d';
+        else if (e.type === 'heavy') col = '#ff9a7a';
+        else if (e.type === 'fighter') col = '#ffb3d1';
+
+        const x = startX + i * (iconSize + gap);
+        ctx.save();
+        ctx.translate(x, y);
+        // piccolo triangolo navicella
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.moveTo(0, -iconSize/2);
+        ctx.lineTo(iconSize/2, iconSize/2);
+        ctx.lineTo(-iconSize/2, iconSize/2);
+        ctx.closePath();
+        ctx.fill();
+        // ombreggiatura proporzionale a salute mancante
+        if (hp < 1) {
+            ctx.fillStyle = 'rgba(0,0,0,' + (1 - hp) * 0.6 + ')';
+            ctx.beginPath();
+            ctx.moveTo(0, -iconSize/2);
+            ctx.lineTo(iconSize/2, iconSize/2);
+            ctx.lineTo(-iconSize/2, iconSize/2);
+            ctx.closePath();
+            ctx.fill();
+        }
+        // barra vita sotto l'icona
+        const barW = iconSize;
+        const barH = 4;
+        const barX = -barW/2;
+        const barY = iconSize/2 + 4;
+        ctx.fillStyle = 'rgba(0,0,0,0.45)';
+        ctx.fillRect(barX, barY, barW, barH);
+        ctx.fillStyle = hp > 0.66 ? '#0f0' : (hp > 0.33 ? '#ff0' : '#f44');
+        ctx.fillRect(barX, barY, Math.max(1, Math.floor(barW * hp)), barH);
+        // bordo della barra
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.strokeRect(barX, barY, barW, barH);
+        ctx.restore();
+    }
+
+    // Se ci sono più nemici delle icone mostrate, aggiungi il conteggio numerico
+    if (count > maxIcons) {
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 12px Orbitron';
+        ctx.fillText('x' + count, startX + shown * (iconSize + gap) + 18, y + 2);
+    } else {
+        // Mostra il numero totale piccolo vicino alle icone
+        ctx.fillStyle = '#fff';
+        ctx.font = '12px Arial';
+        ctx.fillText(count, startX + shown * (iconSize + gap) / 2 + 14, y + 2);
+    }
+
+    ctx.restore();
+}
+
 function drawLevelText() {
     const overlay = document.getElementById('overlay');
     if (levelTextTimer > 0) {
@@ -810,6 +887,7 @@ function gameLoop() {
     drawExplosions();
     drawParticles();
     drawScore();
+    drawEnemyCount();
 
     // Combo indicator canvas
     if (combo > 1) {
