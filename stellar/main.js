@@ -1269,8 +1269,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     (function(){
         let touchActive = false;
         let touchPointerId = null;
-        let touchActive = false;
-        let touchPointerId = null;
 
         canvas.addEventListener('pointerdown', (e) => {
             // only primary touch or left mouse button

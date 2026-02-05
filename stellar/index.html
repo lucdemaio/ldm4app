@@ -76,8 +76,10 @@
 
     <script src="main.js"></script>
     <script>
-      if ('serviceWorker' in navigator) {
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
         navigator.serviceWorker.register('./service-worker.js', { scope: './' }).then(() => console.log('Service Worker registered')).catch(e => console.warn('SW registration failed', e));
+      } else {
+        console.info('Service Worker not registered: insecure origin (file://) or unsupported host');
       }
     </script>
 </body>
