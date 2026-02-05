@@ -313,6 +313,36 @@
     </div>
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script>
+        (function(){
+            console.log('[DIAG] Client diagnostic logging enabled');
+            window.addEventListener('error', function(e){
+                console.log('[CLIENT ERROR]', {message: e.message, filename: e.filename, lineno: e.lineno, colno: e.colno, error: e.error});
+            });
+            window.addEventListener('unhandledrejection', function(e){
+                console.log('[UNHANDLED REJECTION]', e.reason);
+            });
+            const _fetch = window.fetch;
+            window.fetch = function(...args){
+                const url = args[0];
+                return _fetch.apply(this,args).then(res=>{
+                    if(!res.ok){
+                        console.log('[FETCH ERROR]', {url: res.url || url, status: res.status, statusText: res.statusText});
+                    }
+                    return res;
+                }).catch(err=>{
+                    console.log('[FETCH CATCH]', {url, error: err});
+                    throw err;
+                });
+            };
+            document.addEventListener('click', function(e){
+                const a = e.target && e.target.closest ? e.target.closest('a') : null;
+                if(a && a.href){ console.log('[NAV CLICK]', a.href); }
+            }, true);
+            const _push = history.pushState; history.pushState = function(){ console.log('[HISTORY PUSH]', arguments[2]); return _push.apply(this, arguments); };
+            const _replace = history.replaceState; history.replaceState = function(){ console.log('[HISTORY REPLACE]', arguments[2]); return _replace.apply(this, arguments); };
+        })();
+    </script>
     <script src="_framework/blazor.webassembly.js"></script>
     <!-- Service Worker temporaneamente disabilitato per evitare problemi di caching -->
     <!-- <script>navigator.serviceWorker.register('service-worker.js');</script> -->
