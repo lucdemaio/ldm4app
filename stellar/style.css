@@ -273,6 +273,29 @@ canvas{
 }
 
 /* enlarge sidebar handle touch area */
-.sidebar-handle{padding:12px 10px;font-size:20px} 
+.sidebar-handle{padding:12px 10px;font-size:20px}
+
+/* Mobile menu floating button + overlay */
+.mobile-menu-btn{
+    position:fixed;left:14px;bottom:14px;z-index:420;background:#00e5ff;color:#001f3f;border:none;border-radius:10px;padding:10px 12px;font-weight:900;font-size:18px;box-shadow:0 8px 20px rgba(0,0,0,0.4);display:none}
+.mobile-menu-backdrop{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity 180ms}
+.mobile-menu-backdrop.visible{opacity:1;pointer-events:auto}
+
+/* overlay sidebar style */
+.sidebar.overlay{position:fixed;left:12px;right:12px;top:12px;z-index:410;max-height:calc(100vh - 80px);overflow:auto;border-radius:12px;background:linear-gradient(145deg, rgba(15,26,46,0.95), rgba(5,18,36,0.9));box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+
+/* show the mobile button on small viewports */
+@media (max-width: 900px){
+    .mobile-menu-btn{display:block}
+}
+
+/* when menu overlay open prevent body scroll */
+.no-scroll{overflow:hidden!important}
+
+/* compact-ui adjustments */
+.app.compact-ui .sidebar{max-height:220px}
+.app.compact-ui .footer{display:none}
+
+
 
 

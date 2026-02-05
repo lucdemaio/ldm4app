@@ -1260,6 +1260,34 @@ document.addEventListener('DOMContentLoaded',()=>{
         };
     }
 
+    // Mobile menu: floating button & overlay
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+    const sidebar = document.querySelector('.sidebar');
+    let prevPaused = false;
+
+    function openMobileMenu(){
+        if (!sidebar) return;
+        prevPaused = paused;
+        paused = true;
+        document.body.classList.add('no-scroll');
+        sidebar.classList.add('overlay');
+        if (mobileMenuBackdrop) mobileMenuBackdrop.classList.add('visible');
+        canvas.style.pointerEvents = 'none';
+        if (typeof logLayout === 'function') logLayout('openMobileMenu');
+    }
+    function closeMobileMenu(){
+        if (!sidebar) return;
+        paused = prevPaused;
+        document.body.classList.remove('no-scroll');
+        sidebar.classList.remove('overlay');
+        if (mobileMenuBackdrop) mobileMenuBackdrop.classList.remove('visible');
+        canvas.style.pointerEvents = 'auto';
+        if (typeof logLayout === 'function') logLayout('closeMobileMenu');
+    }
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+    if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+
     // Ensure canvas fits the screen on load
     try { requestAnimationFrame(fitCanvasToWindow); requestAnimationFrame(adjustSidebarForViewport); } catch(e) {}
 
