@@ -995,6 +995,64 @@ document.addEventListener('DOMContentLoaded',()=>{
             toggle.disabled = false;
         };
     }
+
+    // Touch / Pointer controls for mobile: tap to shoot, drag to move
+    (function(){
+        let touchActive = false;
+        let touchPointerId = null;
+
+        canvas.addEventListener('pointerdown', (e) => {
+            // only primary touch or left mouse button
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            e.preventDefault();
+            touchActive = true;
+            touchPointerId = e.pointerId;
+
+            // play audio context on first interaction
+            if (!audioCtx) ensureAudio();
+
+            // Immediate shot on touch/click
+            if (player.canShoot && !paused && !gameOver) {
+                shotsFired++;
+                const fireRate = rapidFire.active ? 120 : 200;
+                if (multiShot.active) {
+                    bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2, y: player.y });
+                    bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2 - 12, y: player.y });
+                    bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2 + 12, y: player.y });
+                    shotsFired += 2;
+                } else {
+                    bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2, y: player.y });
+                }
+                player.canShoot = false;
+                setTimeout(() => player.canShoot = true, fireRate);
+                playShoot();
+            }
+
+            // Move player to touch position immediately
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            player.x = Math.min(Math.max(x - player.width/2, 0), canvas.width - player.width);
+        }, { passive: false });
+
+        canvas.addEventListener('pointermove', (e) => {
+            if (!touchActive || e.pointerId !== touchPointerId) return;
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            player.x = Math.min(Math.max(x - player.width/2, 0), canvas.width - player.width);
+        }, { passive: false });
+
+        canvas.addEventListener('pointerup', (e) => {
+            if (e.pointerId !== touchPointerId) return;
+            touchActive = false;
+            touchPointerId = null;
+        });
+
+        canvas.addEventListener('pointercancel', (e) => {
+            if (e.pointerId === touchPointerId) { touchActive = false; touchPointerId = null; }
+        });
+    })();
+
 });
 
 // Carica partita se presente

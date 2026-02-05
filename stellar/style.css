@@ -106,6 +106,10 @@ canvas{
     border-radius:12px;
     box-shadow:0 8px 32px rgba(0,229,255,0.15), inset 0 2px 4px rgba(0,0,0,0.6);
     border:2px solid rgba(0,229,255,0.2);
+    /* Prevent mobile from scrolling/zooming while touching canvas */
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .overlay{
@@ -214,3 +218,5 @@ canvas{
 .powerup-hint{
     animation:float 2s ease-in-out infinite;
 }
+
+
