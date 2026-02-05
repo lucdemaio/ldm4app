@@ -1340,6 +1340,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     const newBtn = document.getElementById('newGameBtn');
     if (newBtn) newBtn.onclick = () => { restartGame(); };
 
+    // Sidebar quick action: Nuova partita
+    const sidebarNew = document.getElementById('sidebarNewGameBtn');
+    if (sidebarNew) sidebarNew.onclick = () => { restartGame(); try{ closeMobileMenu(); }catch{} };
+
     const toggle = document.getElementById('toggleDieselBtn');
     if (toggle) {
         const updateLabel = () => { toggle.textContent = assetsTheme==='dieselpunk' ? 'Theme: Dieselpunk ON' : 'Theme: Dieselpunk OFF'; toggle.style.background = assetsTheme==='dieselpunk' ? '#9a6a3b' : '#6b6b6b'; }
