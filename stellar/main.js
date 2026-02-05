@@ -1225,6 +1225,46 @@ document.addEventListener('DOMContentLoaded',()=>{
     // Ensure canvas fits the screen on load
     try { requestAnimationFrame(fitCanvasToWindow); } catch(e) {}
 
+    // Sidebar handle drag for moving the menu to top on mobile
+    (function(){
+        const appEl = document.querySelector('.app');
+        const sidebarHandle = document.getElementById('sidebarHandle');
+        function setMenuTopState(on){
+            if (!appEl) return;
+            if (on) { appEl.classList.add('menu-top'); localStorage.setItem('stellar_menu_top','1'); }
+            else { appEl.classList.remove('menu-top'); localStorage.removeItem('stellar_menu_top'); }
+        }
+        if (sidebarHandle){
+            // restore previous state
+            if (localStorage.getItem('stellar_menu_top') === '1') setMenuTopState(true);
+            let dragging = false; let startY = 0; let lastDelta = 0;
+            sidebarHandle.addEventListener('pointerdown', e => {
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                sidebarHandle.setPointerCapture(e.pointerId);
+                dragging = true; startY = e.clientY; lastDelta = 0; sidebarHandle.classList.add('dragging');
+            });
+            sidebarHandle.addEventListener('pointermove', e => {
+                if (!dragging) return;
+                e.preventDefault();
+                lastDelta = e.clientY - startY;
+                const translate = Math.max(Math.min(lastDelta, 80), -220);
+                sidebarHandle.style.transform = `translateY(${translate}px)`;
+            }, { passive: false });
+            sidebarHandle.addEventListener('pointerup', e => {
+                if (!dragging) return;
+                dragging = false; sidebarHandle.releasePointerCapture(e.pointerId); sidebarHandle.classList.remove('dragging'); sidebarHandle.style.transform = '';
+                // if dragged upwards enough, set menu top; if dragged down enough, clear
+                if (lastDelta < -40) setMenuTopState(true);
+                else if (lastDelta > 40) setMenuTopState(false);
+            });
+            sidebarHandle.addEventListener('pointercancel', e => {
+                dragging = false; try{ sidebarHandle.releasePointerCapture(e.pointerId);}catch{}; sidebarHandle.classList.remove('dragging'); sidebarHandle.style.transform = '';
+            });
+            // tap toggles
+            sidebarHandle.addEventListener('click', e => { if (Math.abs(lastDelta) < 6) setMenuTopState(!document.querySelector('.app').classList.contains('menu-top')); });
+        }
+    })();
+
     // Touch / Pointer controls for mobile: tap to shoot, drag to move
     (function(){
         let touchActive = false;

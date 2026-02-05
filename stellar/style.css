@@ -131,6 +131,26 @@ canvas{
 
 .sidebar{width:320px;display:flex;flex-direction:column;gap:16px;overflow-y:auto}
 
+/* Sidebar handle for moving the menu on touch devices */
+.sidebar-handle{
+    cursor:grab;
+    padding:8px 6px;
+    text-align:center;
+    font-size:18px;
+    color:var(--muted);
+    -webkit-user-select:none;
+    user-select:none;
+    touch-action:none;
+}
+.sidebar-handle.dragging{cursor:grabbing}
+
+/* When menu is moved to top */
+.app.menu-top .main{flex-direction:column}
+.app.menu-top .sidebar{order:-1;width:100%;max-width:none;margin-bottom:12px}
+.app.menu-top .sidebar .panel{border-radius:12px}
+
+.sidebar{transition:all 220ms ease} 
+
 .panel{
     background:linear-gradient(145deg, rgba(15,26,46,0.65), rgba(10,17,40,0.45));
     padding:16px;
