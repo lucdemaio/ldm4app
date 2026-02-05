@@ -40,7 +40,7 @@ const PLAYER_SPEED = 5;
 
 let player = {
     x: canvas.width / 2 - PLAYER_WIDTH / 2,
-    y: canvas.height - 240,
+    y: canvas.height - 180, // moved lower on screen
     width: PLAYER_WIDTH,
     height: PLAYER_HEIGHT,
     color: '#fff',
@@ -755,6 +755,10 @@ function restartGame() {
     powerups = [];
     particles = [];
     trails = [];
+    // Reset player position to the lower starting point
+    player.x = canvas.width / 2 - PLAYER_WIDTH / 2;
+    player.y = canvas.height - 180;
+
     spawnEnemies();
     updateLeaderboardUI();
     const overlay = document.getElementById('overlay'); if (overlay) { overlay.classList.add('hidden'); overlay.textContent = ''; }
@@ -1229,6 +1233,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     (function(){
         const appEl = document.querySelector('.app');
         const sidebarHandle = document.getElementById('sidebarHandle');
+        const moveMenuBtn = document.getElementById('moveMenuBtn');
         function setMenuTopState(on){
             if (!appEl) return;
             if (on) { appEl.classList.add('menu-top'); localStorage.setItem('stellar_menu_top','1'); }
@@ -1252,7 +1257,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             }, { passive: false });
             sidebarHandle.addEventListener('pointerup', e => {
                 if (!dragging) return;
-                dragging = false; sidebarHandle.releasePointerCapture(e.pointerId); sidebarHandle.classList.remove('dragging'); sidebarHandle.style.transform = '';
+                dragging = false; try { sidebarHandle.releasePointerCapture(e.pointerId);}catch{}; sidebarHandle.classList.remove('dragging'); sidebarHandle.style.transform = '';
                 // if dragged upwards enough, set menu top; if dragged down enough, clear
                 if (lastDelta < -40) setMenuTopState(true);
                 else if (lastDelta > 40) setMenuTopState(false);
@@ -1263,46 +1268,113 @@ document.addEventListener('DOMContentLoaded',()=>{
             // tap toggles
             sidebarHandle.addEventListener('click', e => { if (Math.abs(lastDelta) < 6) setMenuTopState(!document.querySelector('.app').classList.contains('menu-top')); });
         }
+        if (moveMenuBtn) moveMenuBtn.addEventListener('click', () => setMenuTopState(!document.querySelector('.app').classList.contains('menu-top')));
     })();
 
-    // Touch / Pointer controls for mobile: tap to shoot, drag to move
+    // Touch / Pointer controls for mobile: tap to shoot, drag to move + pinch-to-zoom
     (function(){
         let touchActive = false;
         let touchPointerId = null;
+        let pointers = new Map();
+        let pinchMode = false;
+        let pinchStartDist = 0;
+        let pinchStartScale = 1.0;
+        let canvasScale = parseFloat(localStorage.getItem('stellar_canvas_scale') || '1') || 1;
+
+        function applyCanvasScale(){
+            canvas.style.transformOrigin = 'center top';
+            canvas.style.transform = `scale(${canvasScale})`;
+            const resetBtn = document.getElementById('zoomResetBtn'); if (resetBtn) resetBtn.textContent = Math.round(canvasScale*100) + '%';
+            localStorage.setItem('stellar_canvas_scale', canvasScale.toString());
+        }
+        applyCanvasScale();
+
+        // zoom controls
+        const zIn = document.getElementById('zoomInBtn');
+        const zOut = document.getElementById('zoomOutBtn');
+        const zReset = document.getElementById('zoomResetBtn');
+        if (zIn) zIn.addEventListener('click', ()=>{ canvasScale = Math.min(1.6, canvasScale + 0.1); applyCanvasScale(); });
+        if (zOut) zOut.addEventListener('click', ()=>{ canvasScale = Math.max(0.6, canvasScale - 0.1); applyCanvasScale(); });
+        if (zReset) zReset.addEventListener('click', ()=>{ canvasScale = 1; applyCanvasScale(); });
+
 
         canvas.addEventListener('pointerdown', (e) => {
             // only primary touch or left mouse button
             if (e.pointerType === 'mouse' && e.button !== 0) return;
             e.preventDefault();
-            touchActive = true;
-            touchPointerId = e.pointerId;
+            pointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
+            if (pointers.size === 2) {
+                // start pinch
+                const pts = Array.from(pointers.values());
+                pinchStartDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+                pinchStartScale = canvasScale;
+                pinchMode = true;
+            } else if (!pinchMode) {
+                touchActive = true;
+                touchPointerId = e.pointerId;
 
-            // play audio context on first interaction
-            if (!audioCtx) ensureAudio();
+                // play audio context on first interaction
+                if (!audioCtx) ensureAudio();
 
-            // Immediate shot on touch/click
-            if (player.canShoot && !paused && !gameOver) {
-                shotsFired++;
-                const fireRate = rapidFire.active ? 120 : 200;
-                if (multiShot.active) {
-                    bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2, y: player.y });
-                    bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2 - 12, y: player.y });
-                    bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2 + 12, y: player.y });
-                    shotsFired += 2;
-                } else {
-                    bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2, y: player.y });
+                // Immediate shot on touch/click
+                if (player.canShoot && !paused && !gameOver) {
+                    shotsFired++;
+                    const fireRate = rapidFire.active ? 120 : 200;
+                    if (multiShot.active) {
+                        bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2, y: player.y });
+                        bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2 - 12, y: player.y });
+                        bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2 + 12, y: player.y });
+                        shotsFired += 2;
+                    } else {
+                        bullets.push({ x: player.x + player.width/2 - BULLET_WIDTH/2, y: player.y });
+                    }
+                    player.canShoot = false;
+                    setTimeout(() => player.canShoot = true, fireRate);
+                    playShoot();
                 }
-                player.canShoot = false;
-                setTimeout(() => player.canShoot = true, fireRate);
-                playShoot();
-            }
 
-            // Move player to touch position immediately (map to internal canvas coords)
+                // Move player to touch position immediately (map to internal canvas coords)
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const xCanvas = (e.clientX - rect.left) * scaleX;
+                player.x = Math.min(Math.max(xCanvas - player.width/2, 0), canvas.width - player.width);
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('pointermove', (e) => {
+            if (pinchMode && pointers.has(e.pointerId)) {
+                pointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
+                if (pointers.size === 2) {
+                    const pts = Array.from(pointers.values());
+                    const curDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+                    const factor = curDist / pinchStartDist;
+                    canvasScale = Math.min(1.6, Math.max(0.6, pinchStartScale * factor));
+                    applyCanvasScale();
+                }
+                return;
+            }
+            if (!touchActive || e.pointerId !== touchPointerId) return;
+            e.preventDefault();
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvas.width / rect.width;
             const xCanvas = (e.clientX - rect.left) * scaleX;
             player.x = Math.min(Math.max(xCanvas - player.width/2, 0), canvas.width - player.width);
         }, { passive: false });
+
+        canvas.addEventListener('pointerup', (e) => {
+            pointers.delete(e.pointerId);
+            if (pinchMode && pointers.size < 2) { pinchMode = false; }
+            if (e.pointerId === touchPointerId) {
+                touchActive = false;
+                touchPointerId = null;
+            }
+        });
+
+        canvas.addEventListener('pointercancel', (e) => {
+            pointers.delete(e.pointerId);
+            if (pinchMode && pointers.size < 2) { pinchMode = false; }
+            if (e.pointerId === touchPointerId) { touchActive = false; touchPointerId = null; }
+        });
 
         canvas.addEventListener('pointermove', (e) => {
             if (!touchActive || e.pointerId !== touchPointerId) return;
