@@ -75,15 +75,62 @@
                             <span class="text-gray-300">Grafica minimal, gameplay immediato e reattivo.</span>
                         </div>
                     </div>
-                    <div class="mt-auto w-full bg-cyan-900/30 rounded-xl p-4 text-center">
-                        <h3 class="text-lg font-semibold text-accent mb-1">Per gli sviluppatori</h3>
-                        <p class="text-gray-300 text-sm">Vuoi pubblicare un tuo gioco su ldm4app? Scrivici a <a href="mailto:info@ldm4app.com" class="text-accent underline">info@ldm4app.com</a></p>
                     </div>
-                </div>
+                    <!-- Hextris Card -->
+                    <div class="glass-card p-8 flex flex-col items-center animate-slide-up shadow-2xl border border-yellow-700/30 hover:scale-105 transition-transform duration-300">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br from-yellow-400/30 to-indigo-900/60 shadow-lg">
+                            <i class="fas fa-cube text-5xl text-yellow-300 drop-shadow-lg"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold gradient-text mb-2 tracking-tight">Hextris</h2>
+                        <p class="text-lg text-gray-200 mb-6 text-center">Un puzzle game frenetico ispirato a Tetris. Ruota l'esagono, impedisci ai blocchi di uscire e crea combo spettacolari!</p>
+                        <div class="mb-6 w-full max-w-xs mx-auto rounded-xl shadow-lg border border-yellow-800/40 bg-[#0a0e27] flex items-center justify-center" style="aspect-ratio: 16/10;">
+                            <img src="https://hextris.io/images/twitter-opengraph.png" alt="Screenshot Hextris" style="object-fit:contain;max-width:90%;max-height:90%;width:auto;height:auto;" class="rounded-lg" />
+                        </div>
+                        <a href="https://www.ldm4app.com/sviluppatori/hextris-gh-pages" target="_blank" rel="noopener" class="btn-primary text-white px-8 py-3 rounded-full font-bold text-lg shadow-md mb-4 w-full text-center hover:scale-105 transition">Gioca a Hextris</a>
+                        <button onclick="document.getElementById('modal-hextris-dev').style.display='flex'" class="btn-secondary text-yellow-300 px-6 py-2 rounded-full font-semibold w-full text-center mb-6 hover:bg-yellow-900/40 transition">Info sviluppatore</button>
+                        <!-- Modale info sviluppatore Hextris -->
+                        <div id="modal-hextris-dev" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; backdrop-filter: blur(8px);">
+                            <div class="glass-card p-8 max-w-md w-11/12 relative text-center animate-fade-in">
+                                <button onclick="document.getElementById('modal-hextris-dev').style.display='none'" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl" aria-label="Chiudi">&times;</button>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400/30 to-indigo-900/60 flex items-center justify-center mb-4">
+                                        <i class="fas fa-user text-3xl text-yellow-300"></i>
+                                    </div>
+                                    <h4 class="text-2xl font-bold gradient-text mb-2">Logan Engstrom</h4>
+                                    <p class="text-gray-300 mb-2">Sviluppatore principale di Hextris</p>
+                                    <a href="https://github.com/lengstrom" target="_blank" rel="noopener" class="text-yellow-400 underline mb-2">Vai al profilo GitHub</a>
+                                    <a href="https://github.com/Hextris/hextris" target="_blank" rel="noopener" class="text-yellow-400 underline mb-2">Vai al progetto su GitHub</a>
+                                    <p class="text-sm text-gray-400">Hextris è un gioco open source creato da Logan Engstrom e altri sviluppatori, disponibile gratuitamente per la community.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2 w-full mb-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-cubes text-yellow-400"></i>
+                                <span class="text-gray-300">Ruota l'esagono per gestire i blocchi colorati.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-skull-crossbones text-red-400"></i>
+                                <span class="text-gray-300">Il gioco termina se i blocchi escono dall'esagono.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-trophy text-yellow-300"></i>
+                                <span class="text-gray-300">Crea combo distruggendo blocchi dello stesso colore.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-bolt text-accent"></i>
+                                <span class="text-gray-300">Gameplay veloce, grafica flat e UI moderna.</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto w-full bg-yellow-900/30 rounded-xl p-4 text-center">
                 <!-- Altri giochi qui in futuro -->
             </div>
         </div>
     </main>
+    <div class="w-full mt-8 bg-cyan-900/30 rounded-xl p-4 text-center">
+        <h3 class="text-lg font-semibold text-accent mb-1">Per gli sviluppatori</h3>
+        <p class="text-gray-300 text-sm">Vuoi pubblicare un tuo gioco su ldm4app? Scrivi a <a href="mailto:info@ldm4app.com" class="text-accent underline">info@ldm4app.com</a></p>
+    </div>
 
     <footer class="bg-black bg-opacity-50 backdrop-blur-lg border-t border-gray-800 py-12 mt-12">
         <div class="container mx-auto px-6 text-center">
