@@ -1,0 +1,103 @@
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+        }
+        #start_message {
+            position: absolute;
+            width:100%;
+            text-align: center;
+            left: 0px;
+            top: 0px;
+            font-size: 100px;
+            color: green;
+        }
+.center
+{
+    position: absolute;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+    background-color:#b0e0e6;
+}
+.menu{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 20px;
+    color: #00FF15;
+    background-color: #253B3E;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    opacity: 0.9;
+}
+
+#hud{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 20px;
+    color: green;
+    visibility:hidden;
+
+}
+#bugs{
+    position: fixed;
+    bottom: 0;
+}
+#fps{
+    position: fixed;
+    bottom: 0;
+}
+
+
+
+#crosshairs{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -8px;
+  margin-left: -8px;
+  visibility:hidden;
+}
+ 
+.load_screen{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+}
+              
+#MSG{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width : 100%;
+    height : 100%;
+
+    text-align:center;
+
+    font-size: 20px;
+    color: green;
+
+}
+
+#screen_layer{
+            position: fixed;
+
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            visibility:hidden;
+} 
