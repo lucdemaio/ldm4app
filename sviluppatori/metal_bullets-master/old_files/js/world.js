@@ -1,5 +1,9 @@
 hud = new THREE.Scene();
 
+
+// Usa SCREEN_WIDTH e SCREEN_HEIGHT se disponibili globalmente
+var width = (typeof SCREEN_WIDTH !== 'undefined') ? SCREEN_WIDTH : window.innerWidth;
+var height = (typeof SCREEN_HEIGHT !== 'undefined') ? SCREEN_HEIGHT : window.innerHeight;
 hudcamera = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 10 );
 hudcamera.position.z = 10;
 
