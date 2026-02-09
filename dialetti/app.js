@@ -153,17 +153,30 @@ async function predictLoop(){
   if (isPredicting) requestAnimationFrame(predictLoop);
 }
 
-// Inizializzazione: carica il modello e registra il service worker
+// Inizializzazione: carica il modello e registra il service worker (UMD-only flow)
 async function init(){
   try{
     statusEl.textContent = 'Caricamento modello...';
-    // Import dinamico dei pacchetti dalla CDN
-    const tf = await import('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js');
-    const mobilenet = await import('https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js');
 
-    // Carica il modello MobileNet
-    model = await mobilenet.load({version:2, alpha:1.0});
+    const loadScript = (src) => new Promise((resolve,reject)=>{
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => { console.log('Script caricato:', src); resolve(); };
+      s.onerror = () => reject(new Error('Errore caricamento script: ' + src));
+      document.head.appendChild(s);
+    });
+
+    // Carichiamo UMD in sequenza: tfjs -> tfjs-converter -> mobilenet
+    await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.21.0/dist/tf-converter.min.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js');
+
+    if (!window.mobilenet) throw new Error('MobileNet UMD non disponibile dopo caricamento');
+
+    // Caricamento modello
+    model = await window.mobilenet.load({version:2, alpha:1.0});
     statusEl.textContent = 'Modello caricato';
+    console.log('Modello MobileNet caricato (UMD)');
 
     // Registra il service worker, se possibile
     if ('serviceWorker' in navigator){
@@ -214,54 +227,9 @@ function findKeyForLabel(label){
   return null; // nessuna corrispondenza
 }
 
-// Usa Web Speech API per pronunciare la traduzione fonetica
-function speak(text, dialect){
-  if (!('speechSynthesis' in window)) return;
-  const utter = new SpeechSynthesisUtterance(text);
-  // impostazioni di base per italiano, regola se necessario
-  utter.lang = 'it-IT';
-  utter.rate = 0.95;
-  utter.pitch = 1.0;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
-}
+// NOTE: duplicate implementations of `speak` and `predictLoop` were removed here —
+// the updated versions with UI/gesture integrations are defined earlier in the file.
 
-// Loop di inferenza continuo usando requestAnimationFrame
-async function predictLoop(){
-  if (!model) return;
-  if (video.readyState < 2) { requestAnimationFrame(predictLoop); return; }
-
-  try{
-    const predictions = await model.classify(video, 3);
-    if (predictions && predictions.length){
-      const top = predictions[0];
-      const key = findKeyForLabel(top.className);
-
-      const now = Date.now();
-      // Aggiorna area risultati
-      resultsArea.value = `Top: ${top.className} (${(top.probability*100).toFixed(1)}%)\n` +
-                          predictions.slice(1).map(p => `${p.className} - ${(p.probability*100).toFixed(1)}%`).join('\n');
-
-      // Se oltre soglia e abbiamo traduzione, pronuncia
-      if (key && top.probability >= CONFIDENCE_THRESHOLD){
-        const dialect = dialectSelect.value;
-        const translation = dialectDict[key] && dialectDict[key][dialect];
-        if (translation){
-          // Evita ripetizioni ravvicinate
-          if (lastSpoken.key !== key || (now - lastSpoken.time) > SPEAK_COOLDOWN_MS){
-            speak(translation, dialect);
-            lastSpoken = { key, time: now };
-          }
-        }
-      }
-    }
-  }catch(err){
-    console.error('Errore durante la predizione', err);
-  }
-
-  // Continua il ciclo
-  if (isPredicting) requestAnimationFrame(predictLoop);
-}
 
 // Click del bottone start
 startBtn.addEventListener('click', async () => {

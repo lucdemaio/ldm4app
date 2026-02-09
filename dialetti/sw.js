@@ -32,14 +32,26 @@ self.addEventListener('fetch', event => {
   // Ignora richieste cross-origin sensibili (es. API esterne)
   if (new URL(req.url).origin !== location.origin) return;
 
+  // Rispondi con cache se disponibile, altrimenti fetch e tenta di cache-are in modo sicuro
   event.respondWith(
-    caches.match(req).then(cached => cached || fetch(req).then(resp => {
-      // Salva in cache risposte GET
-      if (req.method === 'GET'){
-        caches.open(CACHE_NAME).then(cache => cache.put(req, resp.clone()));
-      }
-      return resp;
-    }).catch(() => caches.match('/pwa-object-recognition/index.html'))
-    )
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      return fetch(req).then(resp => {
+        // Solo GET e risposte valide verranno inserite in cache
+        if (req.method === 'GET' && resp && (resp.status === 200 || resp.type === 'opaque')){
+          try{
+            const respClone = resp.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(req, respClone)).catch(err => {
+              // Non blocchiamo la risposta se il put fallisce
+              console.warn('Cache put fallita:', err);
+            });
+          }catch(err){
+            // Se il clone fallisce (body già usato), ignoriamo caching
+            console.warn('Response clone fallito, skip caching:', err);
+          }
+        }
+        return resp;
+      }).catch(() => caches.match('/pwa-object-recognition/index.html'));
+    })
   );
 });
