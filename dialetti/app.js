@@ -67,7 +67,25 @@ function openDebug(){ if (!debugPanel) return; debugPanel.hidden = false; debugP
 function closeDebug(){ if (!debugPanel) return; debugPanel.style.transform = 'translateY(12px)'; setTimeout(()=> debugPanel.hidden = true, 260); }
 
 // Toggle button (keeps old behavior)
-debugBtn?.addEventListener('click', () => { if (debugPanel && debugPanel.hidden) openDebug(); else closeDebug(); });
+debugBtn?.addEventListener('click', async (ev) => {
+  ev?.preventDefault?.();
+  ev?.stopPropagation?.();
+  const opening = !!(debugPanel && debugPanel.hidden);
+  if (opening) openDebug(); else closeDebug();
+
+  // Dump structured report into console immediately to allow copy/paste
+  try{
+    const regs = await (navigator.serviceWorker && navigator.serviceWorker.getRegistrations ? navigator.serviceWorker.getRegistrations() : Promise.resolve([]));
+    const swInfo = regs.map(r=>({scope:r.scope, active: !!r.active, installing: !!r.installing, waiting: !!r.waiting}));
+    const report = { ts: new Date().toISOString(), url: location.href, ua: navigator.userAgent, sw: swInfo, logs: debugState.logs, state: {modelLoaded: !!model, isPredicting, lastSpoken, lastTopKey} };
+    console.groupCollapsed('DIALETI DEBUG REPORT');
+    console.log(report);
+    console.log('--- Logs ---');
+    console.log(debugState.logs);
+    console.groupEnd();
+    addDebugLog('info','Debug report printed to console');
+  }catch(e){ addDebugLog('error','Failed to print debug report to console', {error: e && e.message}); console.error('Failed to print debug report', e); }
+});
 
 // Event delegation: gestione click centralizzata per robustezza su mobile
 debugPanel?.addEventListener('click', async (e) => {
@@ -85,6 +103,17 @@ debugPanel?.addEventListener('click', async (e) => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url; a.download = 'debug-logs.json'; a.click(); URL.revokeObjectURL(url);
       addDebugLog('info','Logs exported');
+    } else if (id === 'exportReport'){
+      // Fallback per esportare report via delegazione (se il listener diretto non è presente)
+      try{
+        const regs = await (navigator.serviceWorker && navigator.serviceWorker.getRegistrations ? navigator.serviceWorker.getRegistrations() : Promise.resolve([]));
+        const swInfo = regs.map(r=>({scope:r.scope, active: !!r.active, installing: !!r.installing, waiting: !!r.waiting}));
+        const report = { ts: new Date().toISOString(), url: location.href, ua: navigator.userAgent, sw: swInfo, logs: debugState.logs, state: {modelLoaded: !!model, isPredicting, lastSpoken, lastTopKey} };
+        const blob = new Blob([JSON.stringify(report, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`; a.click(); URL.revokeObjectURL(url);
+        addDebugLog('info','Report exported (delegation)');
+      }catch(e){ addDebugLog('error','Export failed (delegation)', {error: e && e.message}); alert('Errore esportazione report: '+ (e && e.message)); }
     } else if (id === 'unregisterSW'){
       try{
         const regs = await navigator.serviceWorker.getRegistrations();
@@ -96,6 +125,28 @@ debugPanel?.addEventListener('click', async (e) => {
       closeDebug();
     }
   }catch(ex){ addDebugLog('error','Error handling debug click', {id, error: ex && ex.message}); }
+});
+
+// Prevent accidental close functionality + direct export button
+const preventCloseCheckbox = document.getElementById('preventClose');
+function beforeUnloadHandler(e){ e.preventDefault(); e.returnValue = ''; }
+preventCloseCheckbox?.addEventListener('change',(ev)=> {
+  if (ev.target.checked) window.addEventListener('beforeunload', beforeUnloadHandler);
+  else window.removeEventListener('beforeunload', beforeUnloadHandler);
+});
+
+const exportReportBtn = document.getElementById('exportReport');
+exportReportBtn?.addEventListener('click', async ()=>{
+  addDebugLog('info','Export report clicked');
+  try{
+    const regs = await (navigator.serviceWorker && navigator.serviceWorker.getRegistrations ? navigator.serviceWorker.getRegistrations() : Promise.resolve([]));
+    const swInfo = regs.map(r=>({scope:r.scope, active: !!r.active, installing: !!r.installing, waiting: !!r.waiting}));
+    const report = { ts: new Date().toISOString(), url: location.href, ua: navigator.userAgent, sw: swInfo, logs: debugState.logs, state: {modelLoaded: !!model, isPredicting, lastSpoken, lastTopKey} };
+    const blob = new Blob([JSON.stringify(report, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = `dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`; a.click(); URL.revokeObjectURL(url);
+    addDebugLog('info','Report exported');
+  }catch(e){ addDebugLog('error','Export failed', {error: e && e.message}); alert('Errore esportazione report: '+ (e && e.message)); }
 });
 
 // Cattura errori globali e promesse non gestite
@@ -278,7 +329,7 @@ async function init(){
     // Registra il service worker, se possibile
     if ('serviceWorker' in navigator){
       try{
-        await navigator.serviceWorker.register('/pwa-object-recognition/sw.js');
+        await navigator.serviceWorker.register('sw.js');
         console.log('Service Worker registrato');
       }catch(err){ console.warn('Registrazione SW fallita', err); }
     }

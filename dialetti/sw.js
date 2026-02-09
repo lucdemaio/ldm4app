@@ -1,13 +1,13 @@
 // Service Worker base per caching e rapido caricamento dell'app
 const CACHE_NAME = 'pwa-dialetti-v1';
 const CORE_ASSETS = [
-  '/pwa-object-recognition/',
-  '/pwa-object-recognition/index.html',
-  '/pwa-object-recognition/styles.css',
-  '/pwa-object-recognition/app.js',
-  '/pwa-object-recognition/manifest.json',
-  '/pwa-object-recognition/icons/icon-192.svg',
-  '/pwa-object-recognition/icons/icon-512.svg'
+  './',
+  './index.html',
+  './styles.css',
+  './app.js',
+  './manifest.json',
+  './icons/icon-192.svg',
+  './icons/icon-512.svg'
 ];
 
 self.addEventListener('install', event => {
@@ -51,7 +51,7 @@ self.addEventListener('fetch', event => {
           }
         }
         return resp;
-      }).catch(() => caches.match('/pwa-object-recognition/index.html'));
+        }).catch(() => caches.match('index.html'));
     })
   );
 });
