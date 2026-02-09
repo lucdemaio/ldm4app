@@ -66,21 +66,36 @@ function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,
 function openDebug(){ if (!debugPanel) return; debugPanel.hidden = false; debugPanel.style.transform = 'translateY(0)'; }
 function closeDebug(){ if (!debugPanel) return; debugPanel.style.transform = 'translateY(12px)'; setTimeout(()=> debugPanel.hidden = true, 260); }
 
+// Toggle button (keeps old behavior)
 debugBtn?.addEventListener('click', () => { if (debugPanel && debugPanel.hidden) openDebug(); else closeDebug(); });
-closeDebugBtn?.addEventListener('click', () => closeDebug());
-clearLogsBtn?.addEventListener('click', () => { debugState.logs = []; renderDebug(); addDebugLog('info','Logs cleared'); });
-downloadLogsBtn?.addEventListener('click', () => {
-  const blob = new Blob([JSON.stringify(debugState.logs, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'debug-logs.json'; a.click(); URL.revokeObjectURL(url);
-});
-unregisterSWBtn?.addEventListener('click', async () => {
+
+// Event delegation: gestione click centralizzata per robustezza su mobile
+debugPanel?.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const id = btn.id;
+  addDebugLog('info', `debug button clicked: ${id}`);
+
   try{
-    const regs = await navigator.serviceWorker.getRegistrations();
-    await Promise.all(regs.map(r => r.unregister()));
-    addDebugLog('info','Service Worker unregistered');
-    alert('Service Worker rimosso');
-  }catch(e){ addDebugLog('error','SW unregister failed', {error: e.message}); }
+    if (id === 'clearLogs'){
+      debugState.logs = []; renderDebug(); addDebugLog('info','Logs cleared');
+    } else if (id === 'downloadLogs'){
+      // Export dei log anche se vuoti
+      const blob = new Blob([JSON.stringify(debugState.logs, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'debug-logs.json'; a.click(); URL.revokeObjectURL(url);
+      addDebugLog('info','Logs exported');
+    } else if (id === 'unregisterSW'){
+      try{
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map(r => r.unregister()));
+        addDebugLog('info','Service Worker unregistered');
+        alert('Service Worker rimosso');
+      }catch(e){ addDebugLog('error','SW unregister failed', {error: e && e.message}); }
+    } else if (id === 'closeDebug'){
+      closeDebug();
+    }
+  }catch(ex){ addDebugLog('error','Error handling debug click', {id, error: ex && ex.message}); }
 });
 
 // Cattura errori globali e promesse non gestite

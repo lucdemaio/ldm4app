@@ -129,8 +129,8 @@ textarea#results{ flex:1; resize:none; padding:10px; border-radius:10px; backgro
 .debug-panel[hidden]{ transform: translateY(12px); opacity:0; }
 .debug-header{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.02); }
 .debug-actions{ display:flex; gap:6px; align-items:center; }
-.debug-actions button{ padding:6px 8px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted); cursor:pointer; }
-.debug-logs{ padding:10px; overflow:auto; font-family:monospace; font-size:12px; color:var(--muted); display:flex; flex-direction:column; gap:8px; }
+.debug-actions button{ padding:6px 8px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted); cursor:pointer; touch-action:manipulation; }
+.debug-logs{ padding:10px; overflow:auto; font-family:monospace; font-size:12px; color:var(--muted); display:flex; flex-direction:column; gap:8px; -webkit-overflow-scrolling:touch; }
 .debug-entry{ padding:8px; border-radius:8px; background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(255,255,255,0.015)); border:1px solid rgba(255,255,255,0.02); }
 .debug-entry .time{ color:rgba(255,255,255,0.35); font-size:11px; }
 .debug-entry .level{ font-weight:600; margin-right:8px; }
