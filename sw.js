@@ -1,55 +1,45 @@
-const CACHE_NAME = 'ldm-viewer-v1';
+// Service Worker base per caching e rapido caricamento dell'app
+const CACHE_NAME = 'pwa-dialetti-v1';
 const CORE_ASSETS = [
-  '/viewer/index-viewer.html',
-  '/viewer/manifest.json'
+  '/pwa-object-recognition/',
+  '/pwa-object-recognition/index.html',
+  '/pwa-object-recognition/styles.css',
+  '/pwa-object-recognition/app.js',
+  '/pwa-object-recognition/manifest.json',
+  '/pwa-object-recognition/icons/icon-192.svg',
+  '/pwa-object-recognition/icons/icon-512.svg'
 ];
-
-// Snippet provider pubblicitario rimosso per motivi di privacy e sicurezza — il sito non carica più script pubblicitari nel service worker
-
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS)).then(()=>self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then(keys => Promise.all(
+      keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+    ))
+  );
+  self.clients.claim();
 });
 
+// Strategia: cache-first per assets app-shell, fallback a network
 self.addEventListener('fetch', event => {
   const req = event.request;
+  // Ignora richieste cross-origin sensibili (es. API esterne)
+  if (new URL(req.url).origin !== location.origin) return;
 
-  // Serve app shell with network-first fallback to cache, ensuring we always return a Response
-  if (req.mode === 'navigate' || req.destination === 'document' || req.url.endsWith('/viewer/index-viewer.html') || req.url.endsWith('/viewer/manifest.json')) {
-    event.respondWith(
-      caches.match(req).then(cached => {
-        if (cached) return cached;
-        return fetch(req).then(res => {
-          if(!res || res.status >= 400) {
-            return caches.match('/viewer/index-viewer.html').then(fallback => fallback || new Response('Offline', {status:503, statusText:'Offline'}));
-          }
-          try{ const copy = res.clone(); caches.open(CACHE_NAME).then(c => c.put(req, copy)); }catch(e){}
-          return res;
-        }).catch(()=> caches.match('/viewer/index-viewer.html').then(fallback => fallback || new Response('Offline', {status:503})));
-      })
-    );
-    return;
-  }
-
-  // For other requests: try cache, then network; always return a Response object
   event.respondWith(
-    caches.match(req).then(cached => {
-      if (cached) return cached;
-      return fetch(req).then(res => {
-        if(!res) return new Response('Network error', {status:503});
-        // Avoid caching opaque cross-origin responses to prevent errors
-        if (res.type !== 'opaque' && res.ok) {
-          try{ const copy = res.clone(); caches.open(CACHE_NAME).then(c=>c.put(req, copy)); }catch(e){}
-        }
-        return res;
-      }).catch(()=> cached || new Response('Network error', {status:503}));
-    })
+    caches.match(req).then(cached => cached || fetch(req).then(resp => {
+      // Salva in cache risposte GET
+      if (req.method === 'GET'){
+        caches.open(CACHE_NAME).then(cache => cache.put(req, resp.clone()));
+      }
+      return resp;
+    }).catch(() => caches.match('/pwa-object-recognition/index.html'))
+    )
   );
 });
-// Duplicate SW block removed — consolidated earlier in the file to prevent redeclarations and ensure single, consistent handlers.
