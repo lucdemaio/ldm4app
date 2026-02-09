@@ -42,7 +42,8 @@
       </div>
 
       <div class="bottom-row">
-        <button id="startBtn" class="ghost-btn visually-hidden">Avvia riconoscimento</button>
+        <!-- Rendi visibile il bottone start per avere un accesso diretto al riconoscimento -->
+        <button id="startBtn" class="ghost-btn">Avvia riconoscimento</button>
         <textarea id="results" readonly rows="3" aria-label="Risultati">Avvia il riconoscimento per vedere i risultati qui.</textarea>
         <div id="status" class="status">Modello non caricato</div>
       </div>
@@ -65,7 +66,8 @@
   </div>
 
   <!-- Debug button & panel (fuori dall'overlay per garantire click sui dispositivi) -->
-  <button id="debugBtn" class="debug-btn" aria-label="Apri debug">🐞</button>
+  <!-- Fallback: onclick inline che chiama window.toggleDebug per funzionare anche se app.js non è bloccato da errori -->
+  <button id="debugBtn" class="debug-btn" aria-label="Apri debug" onclick="(window.toggleDebug?window.toggleDebug():null)">🐞</button>
 
   <div id="debugPanel" class="debug-panel" hidden>
     <div class="debug-header">
@@ -79,6 +81,20 @@
     </div>
     <div id="debugLogs" class="debug-logs" role="log" aria-live="polite"></div>
   </div>
+
+  <!-- Fallback JS minimo: definisce toggleDebug per aprire il pannello se app.js non è eseguito -->
+  <script>
+    window.toggleDebug = function(){
+      try{
+        const p = document.getElementById('debugPanel');
+        if (!p) return;
+        if (p.hidden) { p.hidden = false; p.style.transform = 'translateY(0)'; }
+        else { p.style.transform = 'translateY(12px)'; setTimeout(()=> p.hidden = true, 260); }
+      }catch(e){ console.error('toggleDebug fallback error', e); }
+    };
+    // piccolo indicatore per debugging
+    console.log('Debug fallback injected');
+  </script>
 
   <!-- Script principale come modulo per usare import dinamici -->
   <script type="module" src="/pwa-object-recognition/app.js"></script>
