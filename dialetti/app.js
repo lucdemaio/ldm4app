@@ -31,6 +31,86 @@ const detectionRing = document.getElementById('detectionRing');
 const detailPanel = document.getElementById('detailPanel');
 const detailsContent = document.getElementById('detailsContent');
 
+// Elementi debug
+const debugBtn = document.getElementById('debugBtn');
+const debugPanel = document.getElementById('debugPanel');
+const debugLogsEl = document.getElementById('debugLogs');
+const clearLogsBtn = document.getElementById('clearLogs');
+const downloadLogsBtn = document.getElementById('downloadLogs');
+const unregisterSWBtn = document.getElementById('unregisterSW');
+const closeDebugBtn = document.getElementById('closeDebug');
+
+// Stato debug
+const debugState = { logs: [] };
+
+// Aggiunge un log strutturato
+function addDebugLog(level, message, meta){
+  const entry = { ts: new Date().toISOString(), level, message, meta };
+  debugState.logs.unshift(entry);
+  if (debugState.logs.length > 500) debugState.logs.pop();
+  renderDebug();
+}
+
+// Render dei log nel pannello
+function renderDebug(){
+  if (!debugLogsEl) return;
+  debugLogsEl.innerHTML = debugState.logs.map(l => {
+    const meta = l.meta ? `<div class="debug-meta">${escapeHtml(JSON.stringify(l.meta))}</div>` : '';
+    return `<div class="debug-entry level-${l.level}"><div><span class="level">${l.level.toUpperCase()}</span><span class="time">${l.ts}</span></div><div>${escapeHtml(l.message)}</div>${meta}</div>`;
+  }).join('');
+}
+
+function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// Widget di controllo debug
+function openDebug(){ if (!debugPanel) return; debugPanel.hidden = false; debugPanel.style.transform = 'translateY(0)'; }
+function closeDebug(){ if (!debugPanel) return; debugPanel.style.transform = 'translateY(12px)'; setTimeout(()=> debugPanel.hidden = true, 260); }
+
+debugBtn?.addEventListener('click', () => { if (debugPanel && debugPanel.hidden) openDebug(); else closeDebug(); });
+closeDebugBtn?.addEventListener('click', () => closeDebug());
+clearLogsBtn?.addEventListener('click', () => { debugState.logs = []; renderDebug(); addDebugLog('info','Logs cleared'); });
+downloadLogsBtn?.addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(debugState.logs, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'debug-logs.json'; a.click(); URL.revokeObjectURL(url);
+});
+unregisterSWBtn?.addEventListener('click', async () => {
+  try{
+    const regs = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(regs.map(r => r.unregister()));
+    addDebugLog('info','Service Worker unregistered');
+    alert('Service Worker rimosso');
+  }catch(e){ addDebugLog('error','SW unregister failed', {error: e.message}); }
+});
+
+// Cattura errori globali e promesse non gestite
+window.addEventListener('error', (e) => {
+  addDebugLog('error', e.message, {source: e.filename, lineno: e.lineno, colno: e.colno, stack: e.error && e.error.stack});
+});
+window.addEventListener('unhandledrejection', (e) => {
+  addDebugLog('error', 'UnhandledRejection', {reason: e.reason && (e.reason.stack || e.reason)});
+});
+
+// Intercetta console.* per duplicare i messaggi nel pannello debug
+const _console = { log: console.log.bind(console), info: console.info.bind(console), warn: console.warn.bind(console), error: console.error.bind(console) };
+console.log = (...args) => { addDebugLog('info', args.map(a=>String(a)).join(' ')); _console.log(...args); };
+console.info = (...args) => { addDebugLog('info', args.map(a=>String(a)).join(' ')); _console.info(...args); };
+console.warn = (...args) => { addDebugLog('warn', args.map(a=>String(a)).join(' ')); _console.warn(...args); };
+console.error = (...args) => { addDebugLog('error', args.map(a=>String(a)).join(' ')); _console.error(...args); };
+
+// Wrap fetch per loggare errori di rete (non cambia semantica)
+if (window.fetch){
+  const _fetch = window.fetch.bind(window);
+  window.fetch = async (...args) => {
+    try{
+      const resp = await _fetch(...args);
+      if (!resp.ok) addDebugLog('warn', `Fetch ${args[0]} -> ${resp.status}`, {url: args[0], status: resp.status});
+      return resp;
+    }catch(e){ addDebugLog('error', `Fetch exception ${args[0]}`, {url: args[0], error: e.message}); throw e; }
+  };
+}
+
+
 let model = null;
 let isPredicting = false;
 let lastSpoken = { key: null, time: 0 };
@@ -157,12 +237,13 @@ async function predictLoop(){
 async function init(){
   try{
     statusEl.textContent = 'Caricamento modello...';
+    addDebugLog('info','init: avviato');
 
     const loadScript = (src) => new Promise((resolve,reject)=>{
       const s = document.createElement('script');
       s.src = src;
-      s.onload = () => { console.log('Script caricato:', src); resolve(); };
-      s.onerror = () => reject(new Error('Errore caricamento script: ' + src));
+      s.onload = () => { console.log('Script caricato:', src); addDebugLog('info', `script caricato: ${src}`); resolve(); };
+      s.onerror = () => { addDebugLog('error', `Errore caricamento script: ${src}`); reject(new Error('Errore caricamento script: ' + src)); };
       document.head.appendChild(s);
     });
 
@@ -176,6 +257,7 @@ async function init(){
     // Caricamento modello
     model = await window.mobilenet.load({version:2, alpha:1.0});
     statusEl.textContent = 'Modello caricato';
+    addDebugLog('info','Modello MobileNet caricato (UMD)');
     console.log('Modello MobileNet caricato (UMD)');
 
     // Registra il service worker, se possibile
@@ -202,12 +284,14 @@ async function startCamera(){
     video.srcObject = stream;
     await video.play();
     statusEl.textContent = 'Camera attiva';
+    addDebugLog('info','Camera attiva');
   }catch(err){
     // fallback - alcuni browser non supportano exact
     try{
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio:false });
       video.srcObject = stream; await video.play();
       statusEl.textContent = 'Camera attiva (fallback)';
+      addDebugLog('info','Camera attiva (fallback)');
     }catch(error){
       console.error('Impossibile accedere alla camera', error);
       statusEl.textContent = 'Permesso camera negato o non disponibile';
@@ -233,21 +317,25 @@ function findKeyForLabel(label){
 
 // Click del bottone start
 startBtn.addEventListener('click', async () => {
+  addDebugLog('info','Start button pressed');
   if (!model){
     statusEl.textContent = 'Il modello non è ancora pronto, attendere...';
+    addDebugLog('warn','Start cliccato ma modello non pronto');
     return;
   }
   await startCamera();
   if (!isPredicting){
     isPredicting = true; predictLoop();
     startBtn.textContent = 'Interrompi';
+    addDebugLog('info','Riconoscimento avviato');
   }else{
     isPredicting = false; startBtn.textContent = 'Avvia riconoscimento';
+    addDebugLog('info','Riconoscimento fermato');
   }
 });
 
 // Avvio carico modello all'apertura della pagina
-window.addEventListener('DOMContentLoaded', () => { init(); });
+window.addEventListener('DOMContentLoaded', () => { init(); renderDebug(); });
 
 // Esporta per eventuali test/modularità
 export default { init, startCamera, predictLoop };

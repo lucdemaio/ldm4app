@@ -57,21 +57,27 @@
       <div id="detailsContent">Dettagli riconoscimento</div>
     </div>
 
-    <!-- Debug button & panel -->
-    <button id="debugBtn" class="debug-btn" aria-label="Apri debug">🐞</button>
-
-    <div id="debugPanel" class="debug-panel" hidden>
-      <div class="debug-header">
-        <strong>Debug</strong>
-        <div class="debug-actions">
-          <button id="clearLogs" title="Pulisci log">Pulisci</button>
-          <button id="downloadLogs" title="Esporta">Esporta</button>
-          <button id="unregisterSW" title="Rimuovi Service Worker">Unreg SW</button>
-          <button id="closeDebug" title="Chiudi">✕</button>
-        </div>
-      </div>
-      <div id="debugLogs" class="debug-logs" role="log" aria-live="polite"></div>
+    <!-- Pannello dettagli (swipe up) -->
+    <div id="detailPanel" class="detail-panel" hidden>
+      <div class="handle" aria-hidden="true"></div>
+      <div id="detailsContent">Dettagli riconoscimento</div>
     </div>
+  </div>
+
+  <!-- Debug button & panel (fuori dall'overlay per garantire click sui dispositivi) -->
+  <button id="debugBtn" class="debug-btn" aria-label="Apri debug">🐞</button>
+
+  <div id="debugPanel" class="debug-panel" hidden>
+    <div class="debug-header">
+      <strong>Debug</strong>
+      <div class="debug-actions">
+        <button id="clearLogs" title="Pulisci log">Pulisci</button>
+        <button id="downloadLogs" title="Esporta">Esporta</button>
+        <button id="unregisterSW" title="Rimuovi Service Worker">Unreg SW</button>
+        <button id="closeDebug" title="Chiudi">✕</button>
+      </div>
+    </div>
+    <div id="debugLogs" class="debug-logs" role="log" aria-live="polite"></div>
   </div>
 
   <!-- Script principale come modulo per usare import dinamici -->
