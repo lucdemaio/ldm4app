@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#222" />
+  <title>PWA Riconoscimento Oggetti - Dialetti</title>
+
+  <!-- Manifest per rendere l'app installabile -->
+  <link rel="manifest" href="/pwa-object-recognition/manifest.json">
+  <link rel="stylesheet" href="/pwa-object-recognition/styles.css">
+  <!-- Font moderni per UI 2026 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Video a schermo intero (sfondo) -->
+  <video id="video" autoplay muted playsinline></video>
+
+  <!-- Overlay centrato con controlli e risultati -->
+  <div class="overlay">
+    <div class="glass-panel" id="controlsPanel" role="region" aria-label="Controlli principali">
+      <div class="top-row">
+        <div class="select-wrap">
+          <label for="dialect">Dialetto</label>
+          <select id="dialect" aria-label="Scegli dialetto">
+            <option value="" disabled selected>Seleziona dialetto...</option>
+            <option value="Romano">Romano</option>
+            <option value="Veneto">Veneto</option>
+            <option value="Bergamasco">Bergamasco</option>
+            <option value="Milanese">Milanese</option>
+            <option value="Napoletano">Napoletano</option>
+            <option value="Siciliano">Siciliano</option>
+          </select>
+        </div>
+        <div class="gesture-hint">Tocca il video per avviare • Swipe ↑ per dettagli</div>
+      </div>
+
+      <div class="bento-grid" id="bentoGrid" aria-live="polite" aria-atomic="true">
+        <!-- Carte create dinamicamente -->
+      </div>
+
+      <div class="bottom-row">
+        <button id="startBtn" class="ghost-btn visually-hidden">Avvia riconoscimento</button>
+        <textarea id="results" readonly rows="3" aria-label="Risultati">Avvia il riconoscimento per vedere i risultati qui.</textarea>
+        <div id="status" class="status">Modello non caricato</div>
+      </div>
+    </div>
+
+    <!-- Anello di rilevamento / effetto pulse neon -->
+    <div id="detectionRing" aria-hidden="true"></div>
+
+    <!-- Pannello dettagli (swipe up) -->
+    <div id="detailPanel" class="detail-panel" hidden>
+      <div class="handle" aria-hidden="true"></div>
+      <div id="detailsContent">Dettagli riconoscimento</div>
+    </div>
+  </div>
+
+  <!-- Script principale come modulo per usare import dinamici -->
+  <script type="module" src="/pwa-object-recognition/app.js"></script>
+</body>
+</html>
