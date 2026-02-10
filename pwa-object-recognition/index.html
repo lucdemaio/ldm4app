@@ -113,6 +113,19 @@
     console.log('Debug fallback injected');
   </script>
 
+  <!-- Early safe logger: previene ReferenceError se app.js chiama addDebugLog prima di essere totalmente inizializzato -->
+  <script>
+    (function(){
+      window.__earlyLogs = window.__earlyLogs || [];
+      if (!window.addDebugLog){
+        window.addDebugLog = function(level, message, meta){
+          window.__earlyLogs.push([level, message, meta]);
+          try{ console.log('[early]', level, message, meta); }catch(e){}
+        };
+      }
+    })();
+  </script>
+
   <!-- Script principale come modulo per usare import dinamici. Fallback dinamico per caricare app.js sia da percorso relativo che da possibile percorso assoluto usato in deploy -->
   <script type="module">
     (async ()=>{

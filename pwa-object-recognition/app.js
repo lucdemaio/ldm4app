@@ -35,6 +35,19 @@ function addDebugLog(level, message, meta){
   }catch(e){ try{ console.error('addDebugLog internal error', e); }catch(_){} }
 }
 
+// Se esistono log precoci raccolti dallo stub in index.html, reinoltriamoli nel debugState
+try{
+  if (window.__earlyLogs && Array.isArray(window.__earlyLogs) && window.__earlyLogs.length){
+    const count = window.__earlyLogs.length;
+    window.__earlyLogs.forEach(([lvl,msg,meta]) => {
+      try{ addDebugLog(lvl, msg, meta); }catch(e){ /* ignore individual failures */ }
+    });
+    addDebugLog('info','Flushed early logs',{count});
+    // svuota l'array per evitare doppie invii
+    window.__earlyLogs = [];
+  }
+}catch(e){ /* no-op */ }
+
 if (video){
   ['loadedmetadata','canplay','play','playing','pause','error','stalled','suspend'].forEach(evt => {
     video.addEventListener(evt, (e) => { addDebugLog('info', `video event: ${evt}`, { readyState: video.readyState, currentSrc: video.currentSrc }); });
