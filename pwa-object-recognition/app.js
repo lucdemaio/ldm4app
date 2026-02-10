@@ -320,8 +320,65 @@ function updateBentoGrid(predictions){
     const key = p.className;
     const el = document.createElement('div');
     el.className = 'bento-card' + (idx===0? ' active': '');
-    el.innerHTML = `<h4>${key}</h4><div class="meta">${(p.probability*100).toFixed(1)}% confidence</div><span class="accent" style="background:${getAccentColorForKey(key)}"></span>`;
+    // rendiamo la card interattiva e accessibile
+    el.setAttribute('role','button');
+    el.setAttribute('tabindex','0');
+    el.dataset.key = key;
+    el.innerHTML = `<h4 class="bento-key" data-key="${escapeHtml(key)}">${escapeHtml(key)}</h4><div class="meta">${(p.probability*100).toFixed(1)}% confidence</div><span class="accent" style="background:${getAccentColorForKey(key)}"></span>`;
     bentoGrid.appendChild(el);
+  });
+}
+
+// Interazione: click/tap e tastiera sulle card per pronunciare la traduzione nel dialetto selezionato
+bentoGrid.addEventListener('click', (e) => {
+  const card = e.target.closest('.bento-card');
+  if (!card) return;
+  const displayLabel = card.dataset.key || (card.querySelector('.bento-key') && card.querySelector('.bento-key').dataset.key);
+  if (!displayLabel) return;
+  // Ricava la chiave usata dal dizionario (es. 'bottle' da 'wine bottle')
+  const dictKey = findKeyForLabel(displayLabel) || displayLabel.toLowerCase();
+  const dialect = dialectSelect.value;
+  const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
+  const toSpeak = translation || dictKey || displayLabel;
+  addDebugLog('info','User requested speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation});
+  // Su azione esplicita dell'utente parliamo immediatamente (ignoriamo cooldown)
+  speak(toSpeak, dialect);
+  lastSpoken = { key: dictKey, time: Date.now() };
+  // Feedback visivo minimo
+  card.classList.add('pressed');
+  setTimeout(()=> card.classList.remove('pressed'), 320);
+});
+
+// Supporto accessibilità: invio via tastiera (Enter / Space)
+bentoGrid.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const card = e.target.closest('.bento-card');
+    if (!card) return;
+    e.preventDefault();
+    card.click();
+  }
+});
+
+// Dettaglio: click su nome nel pannello dettagli per pronunciare la traduzione
+if (detailsContent){
+  detailsContent.addEventListener('click', (e) => {
+    const btn = e.target.closest('.detail-key');
+    if (!btn) return;
+    const displayLabel = btn.dataset.key;
+    const dictKey = findKeyForLabel(displayLabel) || displayLabel.toLowerCase();
+    const dialect = dialectSelect.value;
+    const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
+    const toSpeak = translation || dictKey || displayLabel;
+    addDebugLog('info','Detail panel speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation});
+    speak(toSpeak, dialect);
+    lastSpoken = { key: dictKey, time: Date.now() };
+  });
+
+  detailsContent.addEventListener('keydown', (e)=>{
+    if (e.key === 'Enter' || e.key === ' '){
+      const btn = e.target.closest('.detail-key');
+      if (!btn) return; e.preventDefault(); btn.click();
+    }
   });
 }
 
@@ -397,7 +454,8 @@ async function predictLoop(){
         }
 
         // Aggiorna pannello dettagli quando aperto
-        detailsContent.textContent = `Oggetto: ${top.className} — ${(top.probability*100).toFixed(1)}%`;
+        // Rendiamo cliccabile il nome per permettere di pronunciarlo manualmente
+        detailsContent.innerHTML = `Oggetto: <button class="detail-key" data-key="${escapeHtml(top.className)}" type="button">${escapeHtml(top.className)}</button> — ${(top.probability*100).toFixed(1)}%`;
       }
     }
   }catch(err){ console.error('Errore durante la predizione', err); addDebugLog('error','Errore durante la predizione', {message: err && (err.message || String(err)), stack: err && err.stack}); }

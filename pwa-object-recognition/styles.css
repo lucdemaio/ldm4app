@@ -81,6 +81,8 @@ select#dialect:focus{ outline:none; box-shadow: 0 6px 24px rgba(138,43,239,0.12)
 .bento-card h4{ margin:0; font-size:1.05rem; letter-spacing:0.2px; }
 .bento-card .meta{ font-size:0.85rem; color:var(--muted); }
 .bento-card.active{ transform: translateY(-8px) scale(1.02); border-color: rgba(255,255,255,0.12); box-shadow: 0 18px 60px rgba(0,0,0,0.7), 0 0 24px var(--neon-magenta, rgba(255,0,200,0.12)); }
+/* Quick pressed visual feedback for touch/click */
+.bento-card.pressed{ transform: translateY(-4px) scale(1.01); border-color: rgba(255,255,255,0.14); box-shadow: 0 14px 40px rgba(0,0,0,0.65); }
 
 .bottom-row{ display:flex; gap:12px; align-items:center; margin-top:12px; }
 textarea#results{ flex:1; resize:none; padding:10px; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.03); color:var(--text); }
