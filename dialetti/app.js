@@ -459,7 +459,16 @@ startBtn.addEventListener('click', async () => {
 });
 
 // Avvio carico modello all'apertura della pagina
-window.addEventListener('DOMContentLoaded', () => { init(); renderDebug(); });
+function startInitIfNeeded(){
+  addDebugLog('info','startup: checking readyState', {readyState: document.readyState});
+  if (document.readyState === 'interactive' || document.readyState === 'complete'){
+    addDebugLog('info','startup: DOM already ready, calling init immediately');
+    init(); renderDebug();
+  } else {
+    window.addEventListener('DOMContentLoaded', () => { addDebugLog('info','DOMContentLoaded fired, calling init'); init(); renderDebug(); });
+  }
+}
+startInitIfNeeded();
 
 // Esporta per eventuali test/modularità
 export default { init, startCamera, predictLoop };
