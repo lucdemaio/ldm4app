@@ -87,17 +87,6 @@ const downloadLogsBtn = document.getElementById('downloadLogs');
 const unregisterSWBtn = document.getElementById('unregisterSW');
 const closeDebugBtn = document.getElementById('closeDebug');
 
-// Stato debug
-const debugState = { logs: [] };
-
-// Aggiunge un log strutturato
-function addDebugLog(level, message, meta){
-  const entry = { ts: new Date().toISOString(), level, message, meta };
-  debugState.logs.unshift(entry);
-  if (debugState.logs.length > 500) debugState.logs.pop();
-  renderDebug();
-}
-
 // Render dei log nel pannello
 function renderDebug(){
   if (!debugLogsEl) return;
