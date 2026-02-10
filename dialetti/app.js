@@ -96,6 +96,43 @@ function renderDebug(){
 
 function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+// Robust export helper: tries download, then open in new tab, then clipboard
+async function doExportFile(filename, content){
+  const payload = typeof content === 'string' ? content : JSON.stringify(content, null, 2);
+  try{
+    addDebugLog('info','doExportFile start',{filename});
+    const blob = new Blob([payload], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename || 'download.json'; a.style.display = 'none';
+    document.body.appendChild(a);
+
+    let clicked = false;
+    try{
+      a.click();
+      clicked = true;
+      addDebugLog('info','doExportFile: a.click() invoked');
+    }catch(e){ addDebugLog('warn','doExportFile: a.click() failed',{error: e && e.message}); }
+
+    // Some browsers ignore download attribute (mobile Safari/Chrome); fallback to open
+    if (!clicked){
+      try{ window.open(url, '_blank'); addDebugLog('info','doExportFile: opened blob in new tab'); }
+      catch(e){ addDebugLog('warn','doExportFile: window.open failed',{error: e && e.message}); }
+    }
+
+    // last resort: copy to clipboard
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      try{ await navigator.clipboard.writeText(payload); addDebugLog('info','doExportFile: copied payload to clipboard'); }
+      catch(e){ addDebugLog('warn','doExportFile: clipboard write failed',{error: e && e.message}); }
+    }else{ addDebugLog('warn','doExportFile: clipboard API not available'); }
+
+    // cleanup
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    addDebugLog('info','doExportFile finished',{filename});
+    return true;
+  }catch(e){ addDebugLog('error','doExportFile failed',{error: e && e.message}); return false; }
+}
+
 // Widget di controllo debug
 function openDebug(){ if (!debugPanel) return; debugPanel.hidden = false; debugPanel.style.transform = 'translateY(0)'; }
 function closeDebug(){ if (!debugPanel) return; debugPanel.style.transform = 'translateY(12px)'; setTimeout(()=> debugPanel.hidden = true, 260); }
@@ -135,20 +172,20 @@ debugPanel?.addEventListener('click', async (e) => {
       debugState.logs = []; renderDebug(); addDebugLog('info','Logs cleared');
     } else if (id === 'downloadLogs'){
       // Export dei log anche se vuoti
-      const blob = new Blob([JSON.stringify(debugState.logs, null, 2)], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'debug-logs.json'; a.click(); URL.revokeObjectURL(url);
-      addDebugLog('info','Logs exported');
+      addDebugLog('info','downloadLogs handler start');
+      try{
+        const ok = await doExportFile('debug-logs.json', debugState.logs);
+        if (ok) addDebugLog('info','Logs exported'); else addDebugLog('warn','Logs export attempted but some fallback may have failed');
+      }catch(e){ addDebugLog('error','downloadLogs failed',{error: e && e.message}); alert('Errore esportazione logs: ' + (e && e.message)); }
     } else if (id === 'exportReport'){
       // Fallback per esportare report via delegazione (se il listener diretto non è presente)
       try{
         const regs = await (navigator.serviceWorker && navigator.serviceWorker.getRegistrations ? navigator.serviceWorker.getRegistrations() : Promise.resolve([]));
         const swInfo = regs.map(r=>({scope:r.scope, active: !!r.active, installing: !!r.installing, waiting: !!r.waiting}));
         const report = { ts: new Date().toISOString(), url: location.href, ua: navigator.userAgent, sw: swInfo, logs: debugState.logs, state: {modelLoaded: !!model, isPredicting, lastSpoken, lastTopKey} };
-        const blob = new Blob([JSON.stringify(report, null, 2)], {type:'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = `dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`; a.click(); URL.revokeObjectURL(url);
-        addDebugLog('info','Report exported (delegation)');
+        addDebugLog('info','exportReport (delegation) preparing payload');
+        const ok = await doExportFile(`dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`, report);
+        if (ok) addDebugLog('info','Report exported (delegation)'); else addDebugLog('warn','Report export attempted but some fallback may have failed');
       }catch(e){ addDebugLog('error','Export failed (delegation)', {error: e && e.message}); alert('Errore esportazione report: '+ (e && e.message)); }
     } else if (id === 'unregisterSW'){
       try{
@@ -178,10 +215,9 @@ exportReportBtn?.addEventListener('click', async ()=>{
     const regs = await (navigator.serviceWorker && navigator.serviceWorker.getRegistrations ? navigator.serviceWorker.getRegistrations() : Promise.resolve([]));
     const swInfo = regs.map(r=>({scope:r.scope, active: !!r.active, installing: !!r.installing, waiting: !!r.waiting}));
     const report = { ts: new Date().toISOString(), url: location.href, ua: navigator.userAgent, sw: swInfo, logs: debugState.logs, state: {modelLoaded: !!model, isPredicting, lastSpoken, lastTopKey} };
-    const blob = new Blob([JSON.stringify(report, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`; a.click(); URL.revokeObjectURL(url);
-    addDebugLog('info','Report exported');
+    addDebugLog('info','exportReport preparing payload');
+    const ok = await doExportFile(`dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`, report);
+    if (ok) addDebugLog('info','Report exported'); else addDebugLog('warn','Report export attempted but some fallback may have failed');
   }catch(e){ addDebugLog('error','Export failed', {error: e && e.message}); alert('Errore esportazione report: '+ (e && e.message)); }
 });
 
