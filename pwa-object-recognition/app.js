@@ -200,6 +200,37 @@ function renderDebug(){
 
 function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+// Helpers per i "Commenti Sarcastici del Nonno"
+function categorizeLabel(label){
+  if (!label) return null;
+  const s = label.toLowerCase();
+  const tech = ['phone','smart','computer','pc','laptop','tablet','modem','microphone','camera','device','screen'];
+  const food = ['pizza','pasta','coffee','caff','caffettiera','cup','tea','teiera','bread','baguette','banana','cauliflower','guacamole','hot dog','sandwich'];
+  const clothing = ['shirt','jacket','coat','dress','shoe','hat','sneaker','bra','bikini','bow tie','cravat','cap','scarf'];
+  const house = ['chair','table','door','bed','lamp','wardrobe','frying pan','toaster','teapot','bucket','barrel','binoculars','radio','palace','castle'];
+  if (tech.some(k => s.includes(k))) return 'Technology';
+  if (food.some(k => s.includes(k))) return 'FoodAndDrink';
+  if (clothing.some(k => s.includes(k))) return 'Clothing';
+  if (house.some(k => s.includes(k))) return 'Household';
+  return null;
+}
+
+function getSarcasticComment(label, {isError=false} = {}){
+  try{
+    if (isError){
+      const arr = (sarcasticComments && sarcasticComments.errors && sarcasticComments.errors.length) ? sarcasticComments.errors : ["Manco l'IA sa cos'è 'sta schifezza."];
+      return arr[Math.floor(Math.random()*arr.length)];
+    }
+    const cat = categorizeLabel(label);
+    if (cat && sarcasticComments && sarcasticComments.categories && sarcasticComments.categories[cat] && sarcasticComments.categories[cat].length){
+      const arr = sarcasticComments.categories[cat];
+      return arr[Math.floor(Math.random()*arr.length)];
+    }
+    const fallback = (sarcasticComments && sarcasticComments.fallback && sarcasticComments.fallback.length) ? sarcasticComments.fallback : ["Ma che roba è? Ai miei tempi non esisteva."];
+    return fallback[Math.floor(Math.random()*fallback.length)];
+  }catch(e){ return "Eh, il nonno è senza parole..."; }
+}
+
 // Robust export helper: tries download, then open in new tab, then clipboard
 async function doExportFile(filename, content){
   const payload = typeof content === 'string' ? content : JSON.stringify(content, null, 2);
@@ -726,10 +757,13 @@ async function predictLoop(){
               speak(pick, dialect);
               // mostra come quip visuale
               detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = pick);
+              // mostra commento del nonno per il fallback
+              detailsContent.querySelector('.grandpa-comment') && (detailsContent.querySelector('.grandpa-comment').textContent = getSarcasticComment(displayName));
               triggerExclaim();
             } else {
               // fallback neutro
               detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = 'Oggetto non riconosciuto');
+              detailsContent.querySelector('.grandpa-comment') && (detailsContent.querySelector('.grandpa-comment').textContent = getSarcasticComment(displayName, {isError:true}));
             }
           }catch(e){ /* ignore */ }
         }
@@ -749,7 +783,8 @@ async function predictLoop(){
               <div class="meter" title="Passione: ${Math.round(cafoneScore)}/10"><span id="meterBar" style="width:${Math.min(100, Math.round(cafoneScore*10))}%"></span></div>
               <div class="quip">${escapeHtml(quip)}</div>
             </div>
-          </div>`;
+            <div class="grandpa-comment" id="grandpaComment">${escapeHtml(getSarcasticComment(displayName))}</div>
+          </div>`; 
 
         // mostra il footer del pannello (upload, condivisione)
         const footer = document.getElementById('detailFooter'); if (footer) footer.hidden = false;

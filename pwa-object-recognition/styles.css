@@ -133,6 +133,10 @@ textarea#results{ flex:1; resize:none; padding:10px; border-radius:10px; backgro
 /* card playful accent */
 .bento-card.playful{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,250,240,0.01)); border:1px solid rgba(255,255,255,0.04); }
 
+/* Grandpa sarcastic comment style */
+.grandpa-comment{ margin-top:10px; padding:10px 12px; border-radius:10px; background:linear-gradient(90deg, rgba(255,246,230,0.9), rgba(255,238,220,0.85)); color:#2b2b2b; font-style:italic; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border-left:4px solid var(--tile-terracotta); }
+.grandpa-comment::before{ content:"👴"; margin-right:8px; display:inline-block; }
+
 /* theme toggle active */
 .theme-tiles{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,250,240,0.02)); border-color: rgba(255,255,255,0.06); box-shadow: 0 12px 40px rgba(15,111,166,0.08); }
 
