@@ -66,8 +66,8 @@
   </div>
 
   <!-- Debug button & panel (fuori dall'overlay per garantire click sui dispositivi) -->
-  <!-- Fallback: onclick inline che chiama window.toggleDebug per funzionare anche se app.js non è bloccato da errori -->
-  <button id="debugBtn" class="debug-btn" aria-label="Apri debug" type="button" onclick="(window.toggleDebug?window.toggleDebug():null)">🐞</button>
+  <!-- Fallback: onclick inline che chiama window.toggleDebugFallback per funzionare anche se app.js non è bloccato da errori -->
+  <button id="debugBtn" class="debug-btn" aria-label="Apri debug" type="button" onclick="(window.toggleDebugFallback?window.toggleDebugFallback():null)">🐞</button>
 
   <div id="debugPanel" class="debug-panel" hidden>
     <div class="debug-header">
@@ -84,15 +84,19 @@
     <div id="debugLogs" class="debug-logs" role="log" aria-live="polite"></div>
   </div>
 
-  <!-- Fallback JS minimo: definisce toggleDebug per aprire il pannello se app.js non è eseguito -->
+  <!-- Fallback JS minimo: definisce toggleDebugFallback per aprire il pannello se app.js non è eseguito -->
   <script>
-    window.toggleDebug = function(){
+    window.toggleDebugFallback = function(){
       try{
+        // mark that fallback was used so the module-level handler ignores the next click
+        window._toggleDebugFallbackUsed = true;
         const p = document.getElementById('debugPanel');
         if (!p) return;
         if (p.hidden) { p.hidden = false; p.style.transform = 'translateY(0)'; }
         else { p.style.transform = 'translateY(12px)'; setTimeout(()=> p.hidden = true, 260); }
-      }catch(e){ console.error('toggleDebug fallback error', e); }
+        // remove flag shortly after to avoid blocking real clicks
+        setTimeout(()=> { window._toggleDebugFallbackUsed = false; }, 500);
+      }catch(e){ console.error('toggleDebugFallback error', e); }
     };
     // piccolo indicatore per debugging
     console.log('Debug fallback injected');

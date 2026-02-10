@@ -75,6 +75,8 @@ function closeDebug(){ if (!debugPanel) return; debugPanel.style.transform = 'tr
 debugBtn?.addEventListener('click', async (ev) => {
   ev?.preventDefault?.();
   ev?.stopPropagation?.();
+  // If the inline fallback was used, ignore this handler to avoid toggling twice
+  if (window._toggleDebugFallbackUsed) { addDebugLog('info','debug toggle ignored due to fallback'); return; }
   const opening = !!(debugPanel && debugPanel.hidden);
   if (opening) openDebug(); else closeDebug();
 
@@ -322,16 +324,55 @@ async function init(){
 
     // Carichiamo UMD in sequenza: tfjs -> tfjs-converter -> mobilenet
     await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js');
+    // Diagnostica TF immediatamente dopo il load
+    try{
+      if (window.tf && window.tf.ready){
+        await window.tf.ready();
+        addDebugLog('info','tf ready',{version: window.tf.version && window.tf.version['tfjs'] ? window.tf.version['tfjs'] : window.tf.version, backend: window.tf.getBackend && window.tf.getBackend()});
+        addDebugLog('info','tf backend info',{backend: window.tf.getBackend && window.tf.getBackend()});
+      }else{ addDebugLog('warn','tf not present after script load'); }
+    }catch(e){ addDebugLog('error','tf.ready failed',{error: e && e.message}); }
+
     await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.21.0/dist/tf-converter.min.js');
     await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js');
 
-    if (!window.mobilenet) throw new Error('MobileNet UMD non disponibile dopo caricamento');
+    if (!window.mobilenet) { addDebugLog('error','MobileNet UMD non disponibile dopo caricamento'); throw new Error('MobileNet UMD non disponibile dopo caricamento'); }
 
-    // Caricamento modello
-    model = await window.mobilenet.load({version:2, alpha:1.0});
-    statusEl.textContent = 'Modello caricato';
-    addDebugLog('info','Modello MobileNet caricato (UMD)');
-    console.log('Modello MobileNet caricato (UMD)');
+    // Caricamento modello con timeout e logging dettagliato
+    try{
+      const t0 = Date.now();
+      addDebugLog('info','mobilenet.load: start', {version:2, alpha:1.0});
+      // Timeout dopo 15s per diagnosticare casi di rete lenta/malfunzionamento
+      model = await Promise.race([
+        window.mobilenet.load({version:2, alpha:1.0}),
+        new Promise((_,rej)=> setTimeout(()=> rej(new Error('mobilenet.load timeout')), 15000))
+      ]);
+      addDebugLog('info','mobilenet.load: success', {durationMs: Date.now()-t0});
+      statusEl.textContent = 'Modello caricato';
+      addDebugLog('info','Modello MobileNet caricato (UMD)');
+      console.log('Modello MobileNet caricato (UMD)');
+    }catch(e){
+      addDebugLog('error','mobilenet.load failed', {error: e && e.message});
+      console.error('Errore durante il caricamento del modello', e);
+      statusEl.textContent = 'Errore caricamento modello';
+
+      // Proviamo a forzare backend CPU come fallback (alcuni dispositivi mobile hanno problemi con WebGL)
+      try{
+        if (window.tf && window.tf.setBackend){
+          const current = window.tf.getBackend && window.tf.getBackend();
+          addDebugLog('info','Attempting backend fallback', {currentBackend: current});
+          await window.tf.setBackend('cpu');
+          await window.tf.ready();
+          addDebugLog('info','Backend switched to CPU', {backend: window.tf.getBackend && window.tf.getBackend()});
+          // Ritentiamo il caricamento
+          try{
+            model = await window.mobilenet.load({version:2, alpha:1.0});
+            addDebugLog('info','mobilenet.load success after CPU fallback');
+            statusEl.textContent = 'Modello caricato (cpu)';
+          }catch(retryErr){ addDebugLog('error','mobilenet.load retry failed', {error: retryErr && retryErr.message}); }
+        }
+      }catch(backendErr){ addDebugLog('error','backend fallback failed', {error: backendErr && backendErr.message}); }
+    }
 
     // Registra il service worker, se possibile
     if ('serviceWorker' in navigator){
