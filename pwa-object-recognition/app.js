@@ -47,9 +47,70 @@ const creativeInsults = {
 // Oggetti "sacri" per Easter Egg
 const sacredObjects = new Set(['coffee','espresso','caffettiera','pepper','peperoncino','focaccia','pizza','pizza pie','caffè']);
 
+// Emoji per le card (semplice mappa)
+const emojiMap = {
+  'cat':'🐱','dog':'🐶','bottle':'🍾','cup':'☕️','coffee':'☕️','pizza':'🍕','apple':'🍎','banana':'🍌','car':'🚗','person':'🧑','phone':'📱','book':'📚','bicycle':'🚲'};
+
+// Confetti engine state
+let confettiState = { ctx: null, particles: [], running:false };
+
+function initConfetti(){
+  try{
+    const canvas = document.getElementById('confettiCanvas');
+    if (!canvas) return;
+    function resize(){
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(canvas.clientWidth * dpr);
+      canvas.height = Math.round(canvas.clientHeight * dpr);
+      const ctx = canvas.getContext('2d'); ctx.scale(dpr,dpr); confettiState.ctx = ctx;
+    }
+    resize(); window.addEventListener('resize', resize);
+  }catch(e){ addDebugLog('warn','initConfetti failed',{error: e && e.message}); }
+}
+
+function triggerConfetti(count = 40){
+  try{
+    const canvas = document.getElementById('confettiCanvas'); if (!canvas) return;
+    const ctx = confettiState.ctx || canvas.getContext('2d');
+    const colors = [getComputedStyle(document.documentElement).getPropertyValue('--tile-yellow').trim(), getComputedStyle(document.documentElement).getPropertyValue('--tile-terracotta').trim(), getComputedStyle(document.documentElement).getPropertyValue('--tile-green').trim(), getComputedStyle(document.documentElement).getPropertyValue('--tile-blue').trim(), '#ff4db8'];
+    const rect = canvas.getBoundingClientRect();
+    // spawn particles
+    for (let i=0;i<count;i++){
+      confettiState.particles.push({
+        x: Math.random()*rect.width, y: Math.random()*rect.height*0.4, vx: (Math.random()-0.5)*6, vy: Math.random()*6+2, size: Math.random()*10+6, color: colors[Math.floor(Math.random()*colors.length)], rot: Math.random()*360, dr: (Math.random()-0.5)*10
+      });
+    }
+    if (confettiState.running) return; confettiState.running = true;
+    const start = performance.now();
+    function step(now){
+      const dt = (now - (step._last||now))/1000; step._last = now;
+      ctx.clearRect(0,0,rect.width,rect.height);
+      for (let i=confettiState.particles.length-1;i>=0;i--){
+        const p = confettiState.particles[i];
+        p.x += p.vx; p.y += p.vy; p.vy += 0.18; p.rot += p.dr*dt;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot*Math.PI/180);
+        ctx.fillStyle = p.color; ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+        ctx.restore();
+        if (p.y > rect.height + 40) confettiState.particles.splice(i,1);
+      }
+      if (confettiState.particles.length){ requestAnimationFrame(step); } else { ctx.clearRect(0,0,rect.width,rect.height); confettiState.running = false; }
+    }
+    requestAnimationFrame(step);
+  }catch(e){ addDebugLog('warn','triggerConfetti failed',{error: e && e.message}); }
+}
+
 // Carica eventuale file JSON esterno con traduzioni o suggerimenti (dialects.json / dialects_suggestions.json)
 let externalDialectSuggestions = {};
-let italianLabels = {}; 
+let italianLabels = {};
+
+// Sarcastic comments (caricati da sarcastic_comments.json se presente)
+let sarcasticComments = { categories: {}, fallback: [], errors: [] };
+async function loadSarcasticComments(){
+  try{
+    const resp = await fetch('sarcastic_comments.json', {cache:'no-store'});
+    if (resp.ok){ const obj = await resp.json(); sarcasticComments = Object.assign(sarcasticComments, obj); addDebugLog('info','Loaded sarcastic_comments',{cats: Object.keys(sarcasticComments.categories).length}); }
+  }catch(e){ addDebugLog('warn','sarcastic_comments.json not found or parse failed',{error: e && e.message}); }
+}
 
 // Storage per audio personalizzati (localStorage key prefix)
 const AUDIO_STORAGE_PREFIX = 'dialetti_audio:';
@@ -57,6 +118,7 @@ const AUDIO_STORAGE_PREFIX = 'dialetti_audio:';
 async function loadExternalDialects(){
   try{
     addDebugLog('info','loadExternalDialects: start');
+    await loadSarcasticComments().catch(e=> addDebugLog('warn','loadSarcasticComments failed',{error: e && e.message}));
     // carica file principale con traduzioni complete (se presente)
     try{
       const resp = await fetch('dialects.json', {cache: 'no-store'});
@@ -89,6 +151,7 @@ async function loadExternalDialects(){
 
     // rinfresca il select dei dialetti (se è presente)
     if (typeof populateDialectSelect === 'function') populateDialectSelect();
+    try{ initConfetti(); }catch(e){ addDebugLog('warn','initConfetti failed at loadExternalDialects',{error: e && e.message}); }
     addDebugLog('info','loadExternalDialects: finished');
   }catch(e){ addDebugLog('error','loadExternalDialects failed',{error: e && e.message}); }
 }
@@ -441,12 +504,14 @@ function updateBentoGrid(predictions){
     const dictKey = findKeyForLabel(key) || key.toLowerCase();
     const displayName = italianLabels[dictKey] || key;
     const el = document.createElement('div');
-    el.className = 'bento-card' + (idx===0? ' active': '');
+    // alternate playful look for variety
+    el.className = 'bento-card' + (idx===0? ' active playful': ' playful');
     // rendiamo la card interattiva e accessibile
     el.setAttribute('role','button');
     el.setAttribute('tabindex','0');
     el.dataset.key = key;
-    el.innerHTML = `<h4 class="bento-key" data-key="${escapeHtml(key)}">${escapeHtml(displayName)}</h4><div class="meta">${(p.probability*100).toFixed(1)}% confidence</div><span class="accent" style="background:${getAccentColorForKey(key)}"></span>`;
+    const emoji = emojiMap[dictKey] || emojiMap[key.toLowerCase()] || '';
+    el.innerHTML = `<h4 class="bento-key" data-key="${escapeHtml(key)}">${emoji ? `<span class="emoji">${emoji}</span>`: ''}${escapeHtml(displayName)}</h4><div class="meta">${(p.probability*100).toFixed(1)}% confidence</div><span class="accent" style="background:${getAccentColorForKey(key)}"></span>`;
     bentoGrid.appendChild(el);
   });
 }
@@ -469,6 +534,8 @@ bentoGrid.addEventListener('click', (e) => {
   // Feedback visivo minimo
   card.classList.add('pressed');
   setTimeout(()=> card.classList.remove('pressed'), 320);
+  // piccolo festeggiamento locale
+  try{ triggerConfetti(8); }catch(e){ /* ignore */ }
 });
 
 // Supporto accessibilità: invio via tastiera (Enter / Space)
@@ -576,15 +643,17 @@ function getCafoneQuip(key, score){
 function triggerExclaim(){
   const ex = document.createElement('div');
   ex.className = 'exclaim';
-  const picks = ['💥','🎉','😲','🔥','🤌','😭','🤩'];
+  const picks = ['💥','🎉','😲','🔥','🤌','😭','🤩','🫶','🍻','👏'];
   ex.textContent = picks[Math.floor(Math.random()*picks.length)];
   document.body.appendChild(ex);
+  // occasionaletto confetti
+  if (Math.random() < 0.25){ try{ triggerConfetti(12); }catch(e){} }
   setTimeout(()=> { ex.remove(); }, 1400);
 }
 
 async function triggerLegendary(key){
-  try{ playLegendarySound(); }
-  catch(e){ addDebugLog('warn','triggerLegendary sound failed',{error: e && e.message}); }
+  try{ playLegendarySound(); triggerConfetti(80); }
+  catch(e){ addDebugLog('warn','triggerLegendary sound/celebrate failed',{error: e && e.message}); }
 }
 
 // basic WebAudio pluck for the 'legendary' effect (no files required)

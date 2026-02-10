@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="styles.css">
   <!-- Font moderni per UI 2026 -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Font giocoso per tono scherzoso -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 
 
 </head>
@@ -60,7 +62,8 @@
       </div>
     </div> 
   </div>
-
+  <!-- Canvas per confetti ed effetti giocosi -->
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
   <!-- Debug button & panel (fuori dall'overlay per garantire click sui dispositivi) -->
   <!-- Fallback: onclick inline che chiama window.toggleDebugFallback per funzionare anche se app.js non è bloccato da errori -->
   <button id="debugBtn" class="debug-btn" aria-label="Apri debug" type="button" onclick="(window.toggleDebugFallback?window.toggleDebugFallback():null)">🐞</button>
