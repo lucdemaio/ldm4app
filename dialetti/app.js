@@ -398,6 +398,61 @@ async function init(){
   }
 }
 
+// Model retry helpers: allow manual retry with logging and backend fallback
+let modelLoading = false;
+async function loadModelAttempt(timeoutMs = 15000){
+  if (model) return model;
+  if (modelLoading){ addDebugLog('warn','loadModelAttempt already running'); throw new Error('model loading in progress'); }
+  modelLoading = true;
+  try{
+    if (!window.mobilenet){
+      addDebugLog('info','loadModelAttempt: mobilenet missing — calling init() to (re)load scripts and model');
+      await init();
+      if (!model) throw new Error('init did not produce model');
+      return model;
+    }
+    addDebugLog('info','loadModelAttempt: mobilenet present, loading model');
+    const t0 = Date.now();
+    const m = await Promise.race([
+      window.mobilenet.load({version:2, alpha:1.0}),
+      new Promise((_,rej)=> setTimeout(()=> rej(new Error('mobilenet.load timeout')), timeoutMs))
+    ]);
+    model = m;
+    addDebugLog('info','loadModelAttempt success',{durationMs: Date.now()-t0});
+    statusEl.textContent = 'Modello caricato (retry)';
+    return model;
+  }catch(err){
+    addDebugLog('error','loadModelAttempt failed',{error: err && err.message});
+    throw err;
+  }finally{
+    modelLoading = false;
+  }
+}
+
+async function retryLoadModel(maxAttempts = 3, delayMs = 2000){
+  for (let i=1;i<=maxAttempts;i++){
+    try{
+      addDebugLog('info',`retryLoadModel attempt ${i}/${maxAttempts}`);
+      await loadModelAttempt();
+      addDebugLog('info','retryLoadModel succeeded');
+      return;
+    }catch(err){
+      addDebugLog('warn','retryLoadModel attempt failed',{attempt:i, error: err && err.message});
+      // If webgl-related, try cpu backend
+      try{
+        if (window.tf && window.tf.setBackend && window.tf.getBackend && window.tf.getBackend() !== 'cpu'){
+          addDebugLog('info','retryLoadModel: switching backend to cpu and retrying');
+          await window.tf.setBackend('cpu');
+          await window.tf.ready();
+          addDebugLog('info','backend switched to cpu',{backend: window.tf.getBackend()});
+        }
+      }catch(be){ addDebugLog('warn','backend switch failed',{error: be && be.message}); }
+      if (i < maxAttempts) await new Promise(res=>setTimeout(res, delayMs));
+    }
+  }
+  throw new Error('All retryLoadModel attempts failed');
+}
+
 // Avvia la telecamera posteriore e imposta il video
 async function startCamera(){
   try{
@@ -464,6 +519,23 @@ startBtn.addEventListener('click', async () => {
   }else{
     isPredicting = false; startBtn.textContent = 'Avvia riconoscimento';
     addDebugLog('info','Riconoscimento fermato');
+  }
+});
+
+// Retry button hookup
+const retryBtn = document.getElementById('retryModelBtn');
+retryBtn?.addEventListener('click', async () => {
+  addDebugLog('info','Retry model clicked');
+  retryBtn.disabled = true; startBtn.disabled = true;
+  try{
+    statusEl.textContent = 'Riprovo caricamento modello...';
+    await retryLoadModel(3,2000);
+    addDebugLog('info','Retry model finished');
+  }catch(e){
+    addDebugLog('error','Retry model failed',{error: e && e.message});
+    statusEl.textContent = 'Errore caricamento modello';
+  }finally{
+    retryBtn.disabled = false; startBtn.disabled = false;
   }
 });
 
