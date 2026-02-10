@@ -517,36 +517,38 @@ function updateBentoGrid(predictions){
 }
 
 // Interazione: click/tap e tastiera sulle card per pronunciare la traduzione nel dialetto selezionato
-bentoGrid.addEventListener('click', (e) => {
-  const card = e.target.closest('.bento-card');
-  if (!card) return;
-  const displayLabel = card.dataset.key || (card.querySelector('.bento-key') && card.querySelector('.bento-key').dataset.key);
-  if (!displayLabel) return;
-  // Ricava la chiave usata dal dizionario (es. 'bottle' da 'wine bottle')
-  const dictKey = findKeyForLabel(displayLabel) || displayLabel.toLowerCase();
-  const dialect = dialectSelect.value;
-  const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
-  const toSpeak = translation || italianLabels[dictKey] || dictKey || displayLabel;
-  addDebugLog('info','User requested speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation, italianFallback: !!italianLabels[dictKey]});
-  // Su azione esplicita dell'utente: proviamo prima audio personalizzato, poi TTS
-  if (!playCustomAudio(dictKey, dialect)) speak(toSpeak, dialect);
-  lastSpoken = { key: dictKey, time: Date.now() };
-  // Feedback visivo minimo
-  card.classList.add('pressed');
-  setTimeout(()=> card.classList.remove('pressed'), 320);
-  // piccolo festeggiamento locale
-  try{ triggerConfetti(8); }catch(e){ /* ignore */ }
-});
-
-// Supporto accessibilità: invio via tastiera (Enter / Space)
-bentoGrid.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' || e.key === ' ') {
+if (bentoGrid){
+  bentoGrid.addEventListener('click', (e) => {
     const card = e.target.closest('.bento-card');
     if (!card) return;
-    e.preventDefault();
-    card.click();
-  }
-});
+    const displayLabel = card.dataset.key || (card.querySelector('.bento-key') && card.querySelector('.bento-key').dataset.key);
+    if (!displayLabel) return;
+    // Ricava la chiave usata dal dizionario (es. 'bottle' da 'wine bottle')
+    const dictKey = findKeyForLabel(displayLabel) || displayLabel.toLowerCase();
+    const dialect = dialectSelect.value;
+    const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
+    const toSpeak = translation || italianLabels[dictKey] || dictKey || displayLabel;
+    addDebugLog('info','User requested speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation, italianFallback: !!italianLabels[dictKey]});
+    // Su azione esplicita dell'utente: proviamo prima audio personalizzato, poi TTS
+    if (!playCustomAudio(dictKey, dialect)) speak(toSpeak, dialect);
+    lastSpoken = { key: dictKey, time: Date.now() };
+    // Feedback visivo minimo
+    card.classList.add('pressed');
+    setTimeout(()=> card.classList.remove('pressed'), 320);
+    // piccolo festeggiamento locale
+    try{ triggerConfetti(8); }catch(e){ /* ignore */ }
+  });
+
+  // Supporto accessibilità: invio via tastiera (Enter / Space)
+  bentoGrid.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const card = e.target.closest('.bento-card');
+      if (!card) return;
+      e.preventDefault();
+      card.click();
+    }
+  });
+} else { addDebugLog('warn','bentoGrid not found — UI may be incomplete'); }
 
 // Dettaglio: click su nome nel pannello dettagli per pronunciare la traduzione
 if (detailsContent){
