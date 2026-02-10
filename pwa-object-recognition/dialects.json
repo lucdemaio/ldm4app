@@ -1,0 +1,16 @@
+{
+  "cat": { "Romano": "gatto", "Veneto": "gato", "Bergamasco": "gat", "Milanese": "gatt", "Napoletano": "gatto", "Siciliano": "gattu" },
+  "dog": { "Romano": "cane", "Veneto": "can", "Bergamasco": "can", "Milanese": "can", "Napoletano": "cane", "Siciliano": "cani" },
+  "bottle": { "Romano": "bottiglia", "Veneto": "butìa", "Bergamasco": "bütìa", "Milanese": "butéla", "Napoletano": "buttiglia", "Siciliano": "bottìa" },
+  "chair": { "Romano": "seggeta", "Veneto": "segia", "Bergamasco": "segia", "Milanese": "segéla", "Napoletano": "seggióla", "Siciliano": "sègghia" },
+  "cup": { "Romano": "tazza", "Veneto": "tasa", "Bergamasco": "tasa", "Milanese": "tasa", "Napoletano": "tazza", "Siciliano": "tazza" },
+  "car": { "Romano": "macchina", "Veneto": "machina", "Bergamasco": "machina", "Milanese": "machina", "Napoletano": "maccchina", "Siciliano": "macchina" },
+  "person": { "Romano": "persona", "Veneto": "persona", "Bergamasco": "persöna", "Milanese": "persona", "Napoletano": "persona", "Siciliano": "pirsuna" },
+  "phone": { "Romano": "telefono", "Veneto": "telefono", "Bergamasco": "telefon", "Milanese": "telefon", "Napoletano": "telefono", "Siciliano": "telefònu" },
+  "book": { "Romano": "libro", "Veneto": "libro", "Bergamasco": "liber", "Milanese": "liber", "Napoletano": "libbro", "Siciliano": "libbru" },
+  "bicycle": { "Romano": "bicicletta", "Veneto": "bicicleta", "Bergamasco": "bicicléta", "Milanese": "bicicleta", "Napoletano": "bicicletta", "Siciliano": "bicicletta" },
+  "apple": { "Romano": "pòmmolo", "Veneto": "pomo", "Bergamasco": "pòm", "Milanese": "pòm", "Napoletano": "pòmma", "Siciliano": "puma" },
+  "banana": { "Romano": "banana", "Veneto": "banana", "Bergamasco": "banana", "Milanese": "banana", "Napoletano": "banana", "Siciliano": "banana" },
+  "motorbike": { "Romano": "moto", "Veneto": "moto", "Bergamasco": "moto", "Milanese": "moto", "Napoletano": "moto", "Siciliano": "moto" },
+  "potted plant": { "Romano": "pianta", "Veneto": "pianta", "Bergamasco": "pianta", "Milanese": "pianta", "Napoletano": "piantina", "Siciliano": "piantina" }
+}

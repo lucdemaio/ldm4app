@@ -34,6 +34,48 @@ const labelAliases = {
   "motor scooter": "motorbike"
 };
 
+// Carica eventuale file JSON esterno con traduzioni o suggerimenti (dialects.json / dialects_suggestions.json)
+let externalDialectSuggestions = {};
+let italianLabels = {};
+async function loadExternalDialects(){
+  try{
+    addDebugLog('info','loadExternalDialects: start');
+    // carica file principale con traduzioni complete (se presente)
+    try{
+      const resp = await fetch('dialects.json', {cache: 'no-store'});
+      if (resp.ok){
+        const obj = await resp.json();
+        // merge senza sovrascrivere traduzioni già presenti nel codice
+        for (const [k,v] of Object.entries(obj)){
+          if (!dialectDict[k]) dialectDict[k] = v;
+          else {
+            for (const [dName,trans] of Object.entries(v)){
+              if (!dialectDict[k][dName]) dialectDict[k][dName] = trans;
+            }
+          }
+        }
+        addDebugLog('info','loadExternalDialects: merged dialects.json',{count: Object.keys(obj).length});
+      }
+    }catch(e){ addDebugLog('warn','loadExternalDialects: dialects.json not found or parse failed',{error: e && e.message}); }
+
+    // carica suggerimenti (es. risultati del crawler) — opzionale
+    try{
+      const resp2 = await fetch('dialects_suggestions.json', {cache:'no-store'});
+      if (resp2.ok){ externalDialectSuggestions = await resp2.json(); addDebugLog('info','Loaded dialect suggestions',{count: Object.keys(externalDialectSuggestions).length}); }
+    }catch(e){ /* no-op */ }
+
+    // carica i lemmi italiani (mappatura pulita da Wikipedia)
+    try{
+      const resp3 = await fetch('dialects_it_lemma.json', {cache:'no-store'});
+      if (resp3.ok){ italianLabels = await resp3.json(); addDebugLog('info','Loaded italian labels',{count: Object.keys(italianLabels).length}); }
+    }catch(e){ addDebugLog('warn','dialects_it_lemma.json not found or parse failed',{error: e && e.message}); }
+
+    // rinfresca il select dei dialetti (se è presente)
+    if (typeof populateDialectSelect === 'function') populateDialectSelect();
+    addDebugLog('info','loadExternalDialects: finished');
+  }catch(e){ addDebugLog('error','loadExternalDialects failed',{error: e && e.message}); }
+}
+
 // Elementi DOM
 const video = document.getElementById('video');
 
@@ -74,7 +116,7 @@ if (dialectSelect){
     dialectSelect.addEventListener('change', (e) => { addDebugLog('info','dialect changed',{value: e.target.value}); });
 
     // Populate select dynamically from dialectDict (keeps HTML in sync with available dialects)
-    (function populateDialectSelect(){
+    function populateDialectSelect(){
       const existing = new Set(Array.from(dialectSelect.options).map(o=>o.value));
       const dialectNames = new Set();
       Object.values(dialectDict).forEach(entry => Object.keys(entry).forEach(d => dialectNames.add(d)));
@@ -84,7 +126,9 @@ if (dialectSelect){
           dialectSelect.appendChild(opt);
         }
       });
-    })();
+    }
+    // chiamiamo subito per non cambiare behavior
+    populateDialectSelect();
 
     // Ensure mobile accessibility: add a name attribute and touch-action
     dialectSelect.setAttribute('name','dialect-select');
@@ -346,13 +390,15 @@ function updateBentoGrid(predictions){
   bentoGrid.innerHTML = '';
   predictions.forEach((p, idx) => {
     const key = p.className;
+    const dictKey = findKeyForLabel(key) || key.toLowerCase();
+    const displayName = italianLabels[dictKey] || key;
     const el = document.createElement('div');
     el.className = 'bento-card' + (idx===0? ' active': '');
     // rendiamo la card interattiva e accessibile
     el.setAttribute('role','button');
     el.setAttribute('tabindex','0');
     el.dataset.key = key;
-    el.innerHTML = `<h4 class="bento-key" data-key="${escapeHtml(key)}">${escapeHtml(key)}</h4><div class="meta">${(p.probability*100).toFixed(1)}% confidence</div><span class="accent" style="background:${getAccentColorForKey(key)}"></span>`;
+    el.innerHTML = `<h4 class="bento-key" data-key="${escapeHtml(key)}">${escapeHtml(displayName)}</h4><div class="meta">${(p.probability*100).toFixed(1)}% confidence</div><span class="accent" style="background:${getAccentColorForKey(key)}"></span>`;
     bentoGrid.appendChild(el);
   });
 }
@@ -367,8 +413,8 @@ bentoGrid.addEventListener('click', (e) => {
   const dictKey = findKeyForLabel(displayLabel) || displayLabel.toLowerCase();
   const dialect = dialectSelect.value;
   const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
-  const toSpeak = translation || dictKey || displayLabel;
-  addDebugLog('info','User requested speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation});
+  const toSpeak = translation || italianLabels[dictKey] || dictKey || displayLabel;
+  addDebugLog('info','User requested speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation, italianFallback: !!italianLabels[dictKey]});
   // Su azione esplicita dell'utente parliamo immediatamente (ignoriamo cooldown)
   speak(toSpeak, dialect);
   lastSpoken = { key: dictKey, time: Date.now() };
@@ -396,8 +442,8 @@ if (detailsContent){
     const dictKey = findKeyForLabel(displayLabel) || displayLabel.toLowerCase();
     const dialect = dialectSelect.value;
     const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
-    const toSpeak = translation || dictKey || displayLabel;
-    addDebugLog('info','Detail panel speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation});
+    const toSpeak = translation || italianLabels[dictKey] || dictKey || displayLabel;
+    addDebugLog('info','Detail panel speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation, italianFallback: !!italianLabels[dictKey]});
     speak(toSpeak, dialect);
     lastSpoken = { key: dictKey, time: Date.now() };
   });
@@ -479,11 +525,17 @@ async function predictLoop(){
             speak(translation, dialect);
             lastSpoken = { key, time: now };
           }
+        } else if (italianLabels[key]){
+          if (lastSpoken.key !== key || (now - lastSpoken.time) > SPEAK_COOLDOWN_MS){
+            speak(italianLabels[key], dialect);
+            lastSpoken = { key, time: now };
+          }
         }
 
         // Aggiorna pannello dettagli quando aperto
         // Rendiamo cliccabile il nome per permettere di pronunciarlo manualmente
-        detailsContent.innerHTML = `Oggetto: <button class="detail-key" data-key="${escapeHtml(top.className)}" type="button">${escapeHtml(top.className)}</button> — ${(top.probability*100).toFixed(1)}%`;
+        const displayName = italianLabels[key] || top.className;
+        detailsContent.innerHTML = `Oggetto: <button class="detail-key" data-key="${escapeHtml(top.className)}" type="button">${escapeHtml(displayName)}</button> — ${(top.probability*100).toFixed(1)}%`;
       }
     }
   }catch(err){ console.error('Errore durante la predizione', err); addDebugLog('error','Errore durante la predizione', {message: err && (err.message || String(err)), stack: err && err.stack}); }
@@ -496,6 +548,8 @@ async function init(){
   try{
     statusEl.textContent = 'Caricamento modello...';
     addDebugLog('info','init: avviato');
+    // carichiamo eventuale dizionario esterno prima di procedere (merge e popolamento select)
+    await loadExternalDialects().catch(e => addDebugLog('warn','loadExternalDialects failed at init',{error: e && e.message}));
     addDebugLog('info','environment',{ ua: navigator.userAgent, platform: navigator.platform, mobile: /Mobi|Android|iPhone|iPad/.test(navigator.userAgent) });
     addDebugLog('info','navigator.mediaDevices',{ mediaDevices: !!navigator.mediaDevices, getUserMedia: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) });
 
