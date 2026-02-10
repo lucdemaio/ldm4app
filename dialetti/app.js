@@ -22,6 +22,19 @@ export const dialectDict = {
 
 // Elementi DOM
 const video = document.getElementById('video');
+
+// Stato debug (spostato in cima per evitare ReferenceError se addDebugLog viene chiamato presto)
+const debugState = { logs: [] };
+function addDebugLog(level, message, meta){
+  try{
+    const entry = { ts: new Date().toISOString(), level, message, meta };
+    debugState.logs.unshift(entry);
+    if (debugState.logs.length > 500) debugState.logs.pop();
+    // renderDebug potrebbe non essere disponibile ancora quando la funzione è chiamata molto presto
+    try{ renderDebug(); }catch(e){ /* no-op */ }
+  }catch(e){ try{ console.error('addDebugLog internal error', e); }catch(_){} }
+}
+
 if (video){
   ['loadedmetadata','canplay','play','playing','pause','error','stalled','suspend'].forEach(evt => {
     video.addEventListener(evt, (e) => { addDebugLog('info', `video event: ${evt}`, { readyState: video.readyState, currentSrc: video.currentSrc }); });

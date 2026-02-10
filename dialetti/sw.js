@@ -1,114 +1,57 @@
-// 🔧 Service Worker completo per PWA Dialetti LDM4App
-// Deploy: https://www.ldm4app.com/dialetti/sw.js
-console.log('🚀 SW.js CARICATO - Dialetti PWA v1.2');
-
-const CACHE_NAME = 'dialetti-pwa-v1.2';
+// Service Worker base per caching e rapido caricamento dell'app
+const CACHE_NAME = 'pwa-dialetti-v1';
 const CORE_ASSETS = [
-  './',                    // index.html
+  './',
   './index.html',
   './styles.css',
   './app.js',
   './manifest.json',
   './icons/icon-192.svg',
-  './icons/icon-512.svg',
-  './icons/icon-192.png',  // Aggiungi PNG per compatibilità
-  './icons/icon-512.png'
+  './icons/icon-512.svg'
 ];
 
 self.addEventListener('install', event => {
-  console.log('🔧 SW INSTALL - Inizio cache assets');
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('🔧 Cache aperta:', CACHE_NAME);
-        return cache.addAll(CORE_ASSETS);
-      })
-      .then(() => {
-        console.log('✅ SW INSTALL completato -', CORE_ASSETS.length, 'assets cached');
-        return self.skipWaiting();
-      })
-      .catch(err => {
-        console.error('❌ SW INSTALL fallito:', err);
-      })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
-  console.log('🔧 SW ACTIVATE - Pulizia vecchie cache');
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('🗑️ Eliminando cache obsoleta:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-    .then(() => {
-      console.log('✅ SW ATTIVATO e cache pulite');
-      return self.clients.claim();
-    })
+    caches.keys().then(keys => Promise.all(
+      keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+    ))
   );
+  self.clients.claim();
 });
 
-// Strategia Cache-First con Network Fallback + offline page
+// Strategia: cache-first per assets app-shell, fallback a network
 self.addEventListener('fetch', event => {
-  const url = event.request.url;
-  
-  // Log solo per debug (ridotto)
-  if (Math.random() < 0.1) {  // 10% delle richieste
-    console.log('📡 FETCH:', new URL(url).pathname);
-  }
-  
-  // Skip cross-origin e non-GET
-  if (new URL(url).origin !== location.origin || event.request.method !== 'GET') {
-    return;
-  }
+  const req = event.request;
+  // Ignora richieste cross-origin sensibili (es. API esterne)
+  if (new URL(req.url).origin !== location.origin) return;
 
+  // Rispondi con cache se disponibile, altrimenti fetch e tenta di cache-are in modo sicuro
   event.respondWith(
-    caches.match(event.request)
-      .then(cachedResponse => {
-        // Cache hit
-        if (cachedResponse) {
-          return cachedResponse;
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      return fetch(req).then(resp => {
+        // Solo GET e risposte valide verranno inserite in cache
+        if (req.method === 'GET' && resp && (resp.status === 200 || resp.type === 'opaque')){
+          try{
+            const respClone = resp.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(req, respClone)).catch(err => {
+              // Non blocchiamo la risposta se il put fallisce
+              console.warn('Cache put fallita:', err);
+            });
+          }catch(err){
+            // Se il clone fallisce (body già usato), ignoriamo caching
+            console.warn('Response clone fallito, skip caching:', err);
+          }
         }
-
-        // Cache miss → Network
-        return fetch(event.request)
-          .then(networkResponse => {
-            // Solo 200 OK responses in cache
-            if (networkResponse && networkResponse.status === 200) {
-              const responseClone = networkResponse.clone();
-              caches.open(CACHE_NAME)
-                .then(cache => {
-                  cache.put(event.request, responseClone);
-                })
-                .catch(err => {
-                  console.warn('⚠️ Cache update fallita:', err);
-                });
-            }
-            return networkResponse;
-          })
-          .catch(() => {
-            // Network fail → fallback index.html per SPA
-            console.log('🌐 Offline - serving cached index.html');
-            return caches.match('./index.html');
-          });
-      })
-  );
-});
-
-// Push notifications (futuro)
-self.addEventListener('push', event => {
-  console.log('🔔 Push ricevuto:', event.data?.text());
-  const options = {
-    body: event.data?.text() || 'Nuovo messaggio!',
-    icon: './icons/icon-192.png',
-    badge: './icons/icon-192.png'
-  };
-  event.waitUntil(
-    self.registration.showNotification('LDM Dialetti', options)
+        return resp;
+        }).catch(() => caches.match('index.html'));
+    })
   );
 });

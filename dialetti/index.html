@@ -116,19 +116,20 @@
   <!-- Script principale come modulo per usare import dinamici. Fallback dinamico per caricare app.js sia da percorso relativo che da possibile percorso assoluto usato in deploy -->
   <script type="module">
     (async ()=>{
-      try{
-        await import('./app.js');
-        console.log('app.js caricato (relative)');
-      }catch(e){
-        console.warn('app.js failed from ./app.js — trying absolute fallback', e);
+      const tryImport = async (p) => { try{ await import(p); console.log('app.js caricato da', p); addDebugLog && addDebugLog('info', 'app loaded', {path: p}); return true; }catch(e){ console.warn('import failed', p, e); return false; } };
+      const base = location.pathname.replace(/\/$/, '');
+      const candidates = ['./app.js', `${base}/app.js`, `${base}/pwa-object-recognition/app.js`, '/pwa-object-recognition/app.js'];
+      let ok = false;
+      for (const c of candidates){
+        // try relative when appropriate
         try{
-          await import('/pwa-object-recognition/app.js');
-          console.log('app.js caricato (absolute fallback)');
-        }catch(e2){
-          console.error('Impossibile caricare app.js da alcun percorso', e2);
-          // Mostra messaggio visibile in UI
-          const s = document.getElementById('status'); if (s) s.textContent = 'Errore caricamento app.js';
-        }
+          ok = await tryImport(c);
+          if (ok) break;
+        }catch(e){ /* continue */ }
+      }
+      if (!ok){
+        console.error('Impossibile caricare app.js da alcun percorso');
+        const s = document.getElementById('status'); if (s) s.textContent = 'Errore caricamento app.js';
       }
     })();
   </script>
