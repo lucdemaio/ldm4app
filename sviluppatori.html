@@ -29,9 +29,9 @@
                 <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-4">Giochi Gratuiti per la Community</h1>
                 <p class="text-lg text-gray-200 mb-2">In questa pagina trovi giochi gratuiti che gli sviluppatori hanno gentilmente concesso per l'utilizzo libero da parte di tutti. Puoi giocarli direttamente online oppure, se sei uno sviluppatore, contattarci per collaborazioni o richieste di integrazione.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 items-start">
                 <!-- Floppy Bird Card -->
-                <div class="glass-card p-8 flex flex-col items-center animate-slide-up shadow-2xl border border-cyan-700/30 hover:scale-105 transition-transform duration-300">
+                <div class="glass-card p-8 flex flex-col items-center animate-slide-up shadow-2xl border border-cyan-700/30 hover:scale-105 hover:z-30 transition-transform duration-300 w-full col-span-1">
                     <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br from-cyan-500/30 to-blue-900/60 shadow-lg">
                         <i class="fas fa-dove text-5xl text-accent drop-shadow-lg"></i>
                     </div>
@@ -41,21 +41,16 @@
                         <img src="https://nebezb.com/floppybird/assets/thumb.png" alt="Screenshot Floppy Bird" style="object-fit:contain;max-width:90%;max-height:90%;width:auto;height:auto;" class="rounded-lg" />
                     </div>
                     <a href="https://www.ldm4app.com/sviluppatori/floppybird-gh-pages/" target="_blank" rel="noopener" class="btn-primary text-white px-8 py-3 rounded-full font-bold text-lg shadow-md mb-4 w-full text-center hover:scale-105 transition">Gioca a Floppy Bird</a>
-                    <button onclick="document.getElementById('modal-floppybird-dev').style.display='flex'" class="btn-secondary text-cyan-300 px-6 py-2 rounded-full font-semibold w-full text-center mb-6 hover:bg-cyan-900/40 transition">Info sviluppatore</button>
-                    <!-- Modale info sviluppatore Floppy Bird -->
-                    <div id="modal-floppybird-dev" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; backdrop-filter: blur(8px);">
-                        <div class="glass-card p-6 max-w-xs w-11/12 relative text-center animate-fade-in">
-                            <button onclick="document.getElementById('modal-floppybird-dev').style.display='none'" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl" aria-label="Chiudi">&times;</button>
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500/30 to-blue-900/60 flex items-center justify-center mb-4">
-                                    <i class="fas fa-user text-3xl text-accent"></i>
-                                </div>
-                                <h4 class="text-2xl font-bold gradient-text mb-2">Nebez Briefkani</h4>
-                                <p class="text-gray-300 mb-2">Sviluppatore di Floppy Bird</p>
-                                <a href="https://github.com/nebez/floppybird" target="_blank" rel="noopener" class="text-cyan-400 underline mb-2">Vai al progetto su GitHub</a>
-                                <p class="text-sm text-gray-400">Floppy Bird è una fedele ricostruzione open source del celebre Flappy Bird, realizzata da Nebez Briefkani per la community.</p>
+                    <button onclick="const e=document.getElementById('accordion-floppybird-dev');e.style.display=e.style.display==='block'?'none':'block'" class="btn-secondary text-cyan-300 px-6 py-2 rounded-full font-semibold w-full text-center mb-2 hover:bg-cyan-900/40 transition">Info sviluppatore</button>
+                    <div id="accordion-floppybird-dev" style="display:none" class="w-full bg-cyan-900/10 border border-cyan-700/30 rounded-xl p-4 mb-4 text-sm text-gray-200">
+                        <div class="flex flex-col items-center mb-2">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/30 to-blue-900/60 flex items-center justify-center mb-2">
+                                <i class="fas fa-user text-xl text-accent"></i>
                             </div>
+                            <span class="font-bold text-cyan-300">Nebez Briefkani</span>
                         </div>
+                        <a href="https://github.com/nebez/floppybird" target="_blank" rel="noopener" class="text-cyan-400 underline mb-1 block">Progetto su GitHub</a>
+                        <p>Floppy Bird è una fedele ricostruzione open source del celebre Flappy Bird, realizzata da Nebez Briefkani per la community.</p>
                     </div>
                     <div class="flex flex-col gap-2 w-full mb-4">
                         <div class="flex items-center gap-2">
@@ -77,7 +72,7 @@
                     </div>
                     </div>
                     <!-- Hextris Card -->
-                    <div class="glass-card p-8 flex flex-col items-center animate-slide-up shadow-2xl border border-yellow-700/30 hover:scale-105 transition-transform duration-300">
+                    <div class="glass-card p-8 flex flex-col items-center animate-slide-up shadow-2xl border border-yellow-700/30 hover:scale-105 hover:z-30 transition-transform duration-300 w-full col-span-1">
                         <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br from-yellow-400/30 to-indigo-900/60 shadow-lg">
                             <i class="fas fa-cube text-5xl text-yellow-300 drop-shadow-lg"></i>
                         </div>
@@ -87,22 +82,17 @@
                             <img src="https://hextris.io/images/twitter-opengraph.png" alt="Screenshot Hextris" style="object-fit:contain;max-width:90%;max-height:90%;width:auto;height:auto;" class="rounded-lg" />
                         </div>
                         <a href="https://www.ldm4app.com/sviluppatori/hextris-gh-pages" target="_blank" rel="noopener" class="btn-primary text-white px-8 py-3 rounded-full font-bold text-lg shadow-md mb-4 w-full text-center hover:scale-105 transition">Gioca a Hextris</a>
-                        <button onclick="document.getElementById('modal-hextris-dev').style.display='flex'" class="btn-secondary text-yellow-300 px-6 py-2 rounded-full font-semibold w-full text-center mb-6 hover:bg-yellow-900/40 transition">Info sviluppatore</button>
-                        <!-- Modale info sviluppatore Hextris -->
-                        <div id="modal-hextris-dev" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; backdrop-filter: blur(8px);">
-                            <div class="glass-card p-6 max-w-xs w-11/12 relative text-center animate-fade-in">
-                                <button onclick="document.getElementById('modal-hextris-dev').style.display='none'" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl" aria-label="Chiudi">&times;</button>
-                                <div class="flex flex-col items-center">
-                                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400/30 to-indigo-900/60 flex items-center justify-center mb-4">
-                                        <i class="fas fa-user text-3xl text-yellow-300"></i>
-                                    </div>
-                                    <h4 class="text-2xl font-bold gradient-text mb-2">Logan Engstrom</h4>
-                                    <p class="text-gray-300 mb-2">Sviluppatore principale di Hextris</p>
-                                    <a href="https://github.com/lengstrom" target="_blank" rel="noopener" class="text-yellow-400 underline mb-2">Vai al profilo GitHub</a>
-                                    <a href="https://github.com/Hextris/hextris" target="_blank" rel="noopener" class="text-yellow-400 underline mb-2">Vai al progetto su GitHub</a>
-                                    <p class="text-sm text-gray-400">Hextris è un gioco open source creato da Logan Engstrom e altri sviluppatori, disponibile gratuitamente per la community.</p>
+                        <button onclick="const e=document.getElementById('accordion-hextris-dev');e.style.display=e.style.display==='block'?'none':'block'" class="btn-secondary text-yellow-300 px-6 py-2 rounded-full font-semibold w-full text-center mb-2 hover:bg-yellow-900/40 transition">Info sviluppatore</button>
+                        <div id="accordion-hextris-dev" style="display:none" class="w-full bg-yellow-900/10 border border-yellow-700/30 rounded-xl p-4 mb-4 text-sm text-gray-200">
+                            <div class="flex flex-col items-center mb-2">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400/30 to-indigo-900/60 flex items-center justify-center mb-2">
+                                    <i class="fas fa-user text-xl text-yellow-300"></i>
                                 </div>
+                                <span class="font-bold text-yellow-300">Logan Engstrom</span>
                             </div>
+                            <a href="https://github.com/lengstrom" target="_blank" rel="noopener" class="text-yellow-400 underline mb-1 block">Profilo GitHub</a>
+                            <a href="https://github.com/Hextris/hextris" target="_blank" rel="noopener" class="text-yellow-400 underline mb-1 block">Progetto su GitHub</a>
+                            <p>Hextris è un gioco open source creato da Logan Engstrom e altri sviluppatori, disponibile gratuitamente per la community.</p>
                         </div>
                         <div class="flex flex-col gap-2 w-full mb-4">
                             <div class="flex items-center gap-2">
@@ -122,7 +112,51 @@
                                 <span class="text-gray-300">Gameplay veloce, grafica flat e UI moderna.</span>
                             </div>
                         </div>
-                        <div class="mt-auto w-full bg-yellow-900/30 rounded-xl p-4 text-center">
+                    </div>
+                    <!-- HexGL Card -->
+                    <div class="glass-card p-8 flex flex-col items-center animate-slide-up shadow-2xl border border-purple-700/30 hover:scale-105 hover:z-30 transition-transform duration-300 w-full col-span-1">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br from-purple-400/30 to-indigo-900/60 shadow-lg">
+                            <i class="fas fa-rocket text-5xl text-purple-300 drop-shadow-lg"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold gradient-text mb-2 tracking-tight">HexGL</h2>
+                        <p class="text-lg text-gray-200 mb-6 text-center">Un gioco di corse futuristico in HTML5. Guida navi ad alta velocità attraverso circuiti mozzafiato in un ambiente ispirato alla fantascienza.</p>
+                        <div class="mb-6 w-full max-w-xs mx-auto rounded-xl shadow-lg border border-purple-800/40 bg-[#0a0e27] flex items-center justify-center" style="aspect-ratio: 16/10;">
+                            <img src="sviluppatori/HexGL-master/icon_256.png" alt="Screenshot HexGL" style="object-fit:contain;max-width:90%;max-height:90%;width:auto;height:auto;" class="rounded-lg" />
+                        </div>
+                        <a href="https://www.ldm4app.com/sviluppatori/HexGL-master/" target="_blank" rel="noopener" class="btn-primary text-white px-8 py-3 rounded-full font-bold text-lg shadow-md mb-4 w-full text-center hover:scale-105 transition">Gioca a HexGL</a>
+                        <button onclick="const e=document.getElementById('accordion-hexgl-dev');e.style.display=e.style.display==='block'?'none':'block'" class="btn-secondary text-purple-300 px-6 py-2 rounded-full font-semibold w-full text-center mb-2 hover:bg-purple-900/40 transition">Info sviluppatore</button>
+                        <div id="accordion-hexgl-dev" style="display:none" class="w-full bg-purple-900/10 border border-purple-700/30 rounded-xl p-4 mb-4 text-sm text-gray-200">
+                            <div class="flex flex-col items-center mb-2">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400/30 to-indigo-900/60 flex items-center justify-center mb-2">
+                                    <i class="fas fa-user text-xl text-purple-300"></i>
+                                </div>
+                                <span class="font-bold text-purple-300">Thibaut Despoulain (BKcore)</span>
+                            </div>
+                            <a href="https://github.com/BKcore" target="_blank" rel="noopener" class="text-purple-400 underline mb-1 block">Profilo GitHub</a>
+                            <a href="https://github.com/BKcore/HexGL" target="_blank" rel="noopener" class="text-purple-400 underline mb-1 block">Progetto su GitHub</a>
+                            <p>HexGL è un gioco di corse futuristica in HTML5, open source con licenza MIT.</p>
+                        </div>
+                        <div class="flex flex-col gap-2 w-full mb-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-gamepad text-purple-400"></i>
+                                <span class="text-gray-300">Corse futuristiche ad alta velocità con controlli reattivi.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-skull-crossbones text-red-400"></i>
+                                <span class="text-gray-300">Collisioni letali: evita ostacoli e altri veicoli.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-trophy text-yellow-300"></i>
+                                <span class="text-gray-300">Obiettivi e replay per migliorare le tue performance.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-bolt text-accent"></i>
+                                <span class="text-gray-300">Grafica 3D avanzata per un gioco HTML5 classico.</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="mt-auto w-full bg-yellow-900/30 rounded-xl p-4 text-center">
                 <!-- Altri giochi qui in futuro -->
             </div>
         </div>

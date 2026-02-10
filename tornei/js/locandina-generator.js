@@ -1,4 +1,5 @@
 // Locandina Generator usando Canvas API e QRCode
+console.log('[locandina-generator] loaded v3');
 window.locandinaGenerator = {
     // Generate QR code using API fallback if library fails
     generateQRCode: async function(text, size) {
@@ -108,78 +109,98 @@ window.locandinaGenerator = {
 
     generateLocandinaClassifica: async function (torneoNome, classifica) {
         try {
-            const canvas = document.createElement('canvas');
-            canvas.width = 1080;
-            canvas.height = 1350;
-            const ctx = canvas.getContext('2d');
+            console.log('[locandina-generator] generateLocandinaClassifica (SVG) called');
 
-            // Gradient background
-            const gradient = ctx.createLinearGradient(0, 0, 0, 1350);
-            gradient.addColorStop(0, '#667eea');
-            gradient.addColorStop(1, '#764ba2');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 1080, 1350);
+            // Helper to escape XML entities
+            function escapeXml(unsafe) {
+                if (!unsafe && unsafe !== 0) return '';
+                return String(unsafe)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&apos;');
+            }
+
+            const width = 1080;
+            const height = 1350;
+
+            // Render QR as data URL (if generateQRCode available)
+            let qrDataUrl = '';
+            try {
+                const qrCanvas = await this.generateQRCode('https://www.ldm4app.com', 150);
+                qrDataUrl = qrCanvas.toDataURL('image/png');
+            } catch (e) {
+                console.warn('[locandina-generator] QR generation failed, leaving placeholder', e);
+            }
+
+            // Build SVG
+            const title = escapeXml('CLASSIFICA');
+            const tournament = escapeXml(torneoNome || '');
+            const top5 = (classifica || []).slice(0, 5);
+
+            const cardYStart = 200;
+            const cardGap = 150;
+
+            const svgParts = [];
+            svgParts.push(`<?xml version="1.0" encoding="UTF-8"?>`);
+            svgParts.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`);
+            // Gradient
+            svgParts.push(`<defs><linearGradient id="g0" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#667eea"/><stop offset="100%" stop-color="#764ba2"/></linearGradient></defs>`);
+            svgParts.push(`<rect width="100%" height="100%" fill="url(#g0)"/>`);
 
             // Title
-            ctx.fillStyle = '#FFD700';
-            ctx.font = 'bold 70px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('CLASSIFICA', 540, 100);
+            svgParts.push(`<text x="540" y="100" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="70" fill="#FFD700">${title}</text>`);
+            svgParts.push(`<text x="540" y="160" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="40" fill="#FFFFFF">${tournament}</text>`);
 
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = '40px Arial';
-            ctx.fillText(torneoNome, 540, 160);
+            // Cards and badges
+            for (let i = 0; i < 5; i++) {
+                const y = cardYStart + i * cardGap;
+                // card rect
+                svgParts.push(`<rect x="60" y="${y}" rx="12" ry="12" width="960" height="120" fill="rgba(255,255,255,0.95)" />`);
+                if (top5[i]) {
+                    const name = escapeXml(top5[i].nome || '');
+                    const punti = escapeXml(top5[i].punti || '');
 
-            // Top 5
-            const top5 = classifica.slice(0, 5);
-            let y = 250;
+                    // badge circle
+                    const cx = 150, cy = y + 60, r = 40;
+                    svgParts.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#667eea"/>`);
+                    // number white
+                    svgParts.push(`<text x="${cx}" y="${cy + 2}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="40" fill="#FFFFFF">${i+1}</text>`);
 
-            top5.forEach((squadra, index) => {
-                // Card background
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-                ctx.roundRect(90, y, 900, 120, 15);
-                ctx.fill();
+                    // team name and points
+                    svgParts.push(`<text x="220" y="${y + 55}" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="35" fill="#333333">${name}</text>`);
+                    svgParts.push(`<text x="220" y="${y + 90}" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#666666">Punti: ${punti}</text>`);
+                }
+            }
 
-                // Position badge
-                const badgeColors = ['#FFD700', '#C0C0C0', '#CD7F32', '#667eea', '#667eea'];
-                ctx.fillStyle = badgeColors[index];
-                ctx.beginPath();
-                ctx.arc(150, y + 60, 40, 0, Math.PI * 2);
-                ctx.fill();
+            // QR and branding
+            if (qrDataUrl) {
+                svgParts.push(`<image x="${540 - 75}" y="${height - 360}" width="150" height="150" href="${qrDataUrl}" />`);
+            } else {
+                svgParts.push(`<rect x="${540 - 75}" y="${height - 360}" width="150" height="150" fill="#ffffff" />`);
+            }
+            svgParts.push(`<text x="540" y="${height - 80}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="20" fill="#FFFFFF">Creato da www.ldm4app.com</text>`);
 
-                ctx.fillStyle = '#FFFFFF';
-                ctx.font = 'bold 40px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText((index + 1).toString(), 150, y + 75);
+            svgParts.push(`</svg>`);
 
-                // Squadra name
-                ctx.fillStyle = '#333333';
-                ctx.font = 'bold 35px Arial';
-                ctx.textAlign = 'left';
-                ctx.fillText(squadra.nome, 220, y + 50);
+            const svg = svgParts.join('\n');
+            console.log('[locandina-generator] SVG length', svg.length);
 
-                // Stats
-                ctx.font = '28px Arial';
-                ctx.fillStyle = '#666666';
-                ctx.fillText(`Punti: ${squadra.punti}`, 220, y + 85);
+            // Rasterize SVG into canvas
+            const img = new Image();
+            img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+            await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; });
 
-                y += 150;
-            });
+            const outCanvas = document.createElement('canvas');
+            outCanvas.width = width; outCanvas.height = height;
+            const outCtx = outCanvas.getContext('2d');
+            outCtx.drawImage(img, 0, 0);
 
-            // QR Code
-            const qrCanvas = await this.generateQRCode('https://www.ldm4app.com', 150);
-            ctx.drawImage(qrCanvas, 465, y + 50, 150, 150);
-
-            // Branding
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 25px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('Creato da www.ldm4app.com', 540, y + 240);
-
-            // Convert to base64
-            return canvas.toDataURL('image/png').split(',')[1];
+            // Return as base64
+            return outCanvas.toDataURL('image/png').split(',')[1];
         } catch (error) {
-            console.error('Error generating locandina classifica:', error);
+            console.error('Error generating locandina classifica (SVG):', error);
             throw error;
         }
     },

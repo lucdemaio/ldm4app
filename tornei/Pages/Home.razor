@@ -5,3 +5,12 @@
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<hr />
+
+<h2>Esempio formattazione numeri</h2>
+<p>Valore grezzo: 0.6666666666666666</p>
+<p>Formattato con F2 (component): <Shared.FormattedNumber Value="0.6666666666666666" /></p>
+<p>Formattato con ToF2 helper (C#): @((0.6666666666666666).ToF2())</p>
+<p>Formattato come percentuale (component AsPercent): <Shared.FormattedNumber Value="0.6666666666666666" AsPercent="true" /></p>
+<p>Formattato come percentuale (helper): @((0.6666666666666666 * 100).ToF2())%</p>
