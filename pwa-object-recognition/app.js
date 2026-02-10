@@ -20,6 +20,20 @@ export const dialectDict = {
   "potted plant":{ "Romano":"pianta",    "Veneto":"pianta",      "Bergamasco":"pianta",  "Milanese":"pianta",   "Napoletano":"piantina", "Siciliano":"piantina" }
 };
 
+// Mappa alias: alcune etichette dal modello che contengono parole aggiuntive o sinonimi
+const labelAliases = {
+  "wine bottle": "bottle",
+  "water bottle": "bottle",
+  "beer bottle": "bottle",
+  "cell phone": "phone",
+  "mobile phone": "phone",
+  "cellphone": "phone",
+  "sports car": "car",
+  "race car": "car",
+  "bike": "bicycle",
+  "motor scooter": "motorbike"
+};
+
 // Elementi DOM
 const video = document.getElementById('video');
 
@@ -58,6 +72,20 @@ if (dialectSelect){
   try{
     addDebugLog('info','dialect initial',{value: dialectSelect.value, options: Array.from(dialectSelect.options).map(o=>({value:o.value, disabled:o.disabled, selected:o.selected, text:o.text}))});
     dialectSelect.addEventListener('change', (e) => { addDebugLog('info','dialect changed',{value: e.target.value}); });
+
+    // Populate select dynamically from dialectDict (keeps HTML in sync with available dialects)
+    (function populateDialectSelect(){
+      const existing = new Set(Array.from(dialectSelect.options).map(o=>o.value));
+      const dialectNames = new Set();
+      Object.values(dialectDict).forEach(entry => Object.keys(entry).forEach(d => dialectNames.add(d)));
+      Array.from(dialectNames).sort().forEach(d => {
+        if (!existing.has(d)){
+          const opt = document.createElement('option'); opt.value = d; opt.textContent = d;
+          dialectSelect.appendChild(opt);
+        }
+      });
+    })();
+
     // Ensure mobile accessibility: add a name attribute and touch-action
     dialectSelect.setAttribute('name','dialect-select');
     dialectSelect.style.touchAction = 'manipulation';
@@ -637,14 +665,29 @@ async function startCamera(){
 
 // Mappa l'etichetta fornita da MobileNet ad una chiave del dizionario
 function findKeyForLabel(label){
-  const normalized = label.toLowerCase();
-  // Prova a trovare una chiave che sia contenuta nell'etichetta
+  if (!label) return null;
+  let normalized = label.toLowerCase().trim();
+  // rimuovi punteggiatura comune
+  normalized = normalized.replace(/[.,()]/g,'');
+  // controlla mappa alias (etichette composte o sinonimi)
+  if (labelAliases[normalized]) return labelAliases[normalized];
+  // controllo esatto su tutte le chiavi
+  for (const key of Object.keys(dialectDict)){
+    if (normalized === key) return key;
+  }
+  // prova contains (es. 'wine bottle' includes 'bottle')
   for (const key of Object.keys(dialectDict)){
     if (normalized.includes(key)) return key;
-    // anche controllo per parole separate
     if (key.split(' ').some(k => normalized.includes(k))) return key;
   }
-  return null; // nessuna corrispondenza
+  // tentativo semplice di singolare/plurale (rimuove trailing s)
+  if (normalized.endsWith('s')){
+    const singular = normalized.replace(/s$/,'');
+    for (const key of Object.keys(dialectDict)){
+      if (singular === key || singular.includes(key) || key.includes(singular)) return key;
+    }
+  }
+  return null;
 }
 
 // NOTE: duplicate implementations of `speak` and `predictLoop` were removed here —
