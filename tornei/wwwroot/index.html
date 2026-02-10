@@ -311,7 +311,18 @@
     </div>
 
     <script src="_framework/blazor.webassembly.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script>
+      // Service worker disabled for deployment (to avoid stale-caching issues during upload).
+      if('serviceWorker' in navigator){
+        (async ()=>{
+          try{
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(r => r.unregister()));
+            console.log('Service workers unregistered');
+          }catch(e){ console.warn('SW unregister failed', e); }
+        })();
+      }
+    </script>
 </body>
 
 </html>
