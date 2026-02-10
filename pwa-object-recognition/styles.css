@@ -5,8 +5,13 @@
   --glass-border: rgba(255,255,255,0.06);
   --text:#e9eef8;
   --muted: rgba(233,238,248,0.5);
-  --neon-magenta: #ff00c8;
-  --neon-cyan: #00f0ff;
+  /* palette ispirata a maioliche e mercati rionali */
+  --tile-blue: #0f6fa6; /* ceruleo */
+  --tile-yellow: #f2c94c; /* ocra */
+  --tile-terracotta: #d96a52; /* terracotta */
+  --tile-green: #3bb273; /* verde mercato */
+  --neon-magenta: #ff4db8;
+  --neon-cyan: #4ee8d8;
   --neon-viola: #8a2bef;
   --neon-green: #7fff6f;
   --transition: 450ms cubic-bezier(.16,.84,.24,1);
@@ -98,6 +103,39 @@ textarea#results{ flex:1; resize:none; padding:10px; border-radius:10px; backgro
   50%{ transform: scale(1.05); opacity:0.6 }
   100%{ transform: scale(0.92); opacity:0.95 }
 }
+
+/* Esclamazione pop animation */
+@keyframes exclaimPop{
+  0%{ transform: translateY(0) scale(0.6); opacity:0 }
+  30%{ transform: translateY(-18px) scale(1.15); opacity:1 }
+  70%{ transform: translateY(-30px) scale(1.05); opacity:0.9 }
+  100%{ transform: translateY(-60px) scale(0.8); opacity:0 }
+}
+
+.exclaim{
+  position:fixed; left:50%; top:40%; transform:translateX(-50%); z-index:9999; pointer-events:none; font-size:2.6rem; animation: exclaimPop 1100ms cubic-bezier(.2,.9,.24,1);
+  text-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+
+/* Quirky buttons */
+.quirky-btn{ padding:8px 12px; border-radius:12px; background:linear-gradient(180deg,var(--tile-yellow),#ffd76b); color:#2b2b2b; border:none; font-weight:600; box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+.quirky-btn:active{ transform: translateY(2px); }
+
+/* Cafone meter */
+.cafone-meter{ display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.cafone-meter .meter{ height:12px; background:rgba(0,0,0,0.12); border-radius:999px; overflow:hidden; }
+.cafone-meter .meter > span{ display:block; height:100%; background: linear-gradient(90deg,var(--tile-terracotta),var(--tile-blue)); width:0%; transition: width 800ms cubic-bezier(.16,.84,.24,1); }
+.cafone-meter .quip{ font-size:0.95rem; color:var(--text); }
+
+/* Legendary badge */
+.legendary{ padding:6px 8px; border-radius:10px; background:linear-gradient(90deg,#ffd36b,#ff7b6b); color:#2b2b2b; font-weight:700; box-shadow: 0 10px 40px rgba(255,123,107,0.18); }
+
+/* card playful accent */
+.bento-card.playful{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,250,240,0.01)); border:1px solid rgba(255,255,255,0.04); }
+
+/* theme toggle active */
+.theme-tiles{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,250,240,0.02)); border-color: rgba(255,255,255,0.06); box-shadow: 0 12px 40px rgba(15,111,166,0.08); }
+
 
 /* Detail panel slide up */
 .detail-panel{ position:fixed; left:12px; right:12px; bottom:calc(12px + var(--safe-bottom)); height:0%; max-height:60%; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015)); border-radius:16px; overflow:hidden; pointer-events:auto; transition:height 360ms var(--transition); border:1px solid var(--glass-border); box-shadow: 0 20px 60px rgba(2,2,8,0.7); z-index:4; }

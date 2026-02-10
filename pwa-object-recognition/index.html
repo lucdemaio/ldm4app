@@ -34,19 +34,13 @@
             <option value="Siciliano">Siciliano</option>
           </select>
         </div>
-        <div class="gesture-hint">Tocca il video per avviare • Swipe ↑ per dettagli</div>
-      </div>
 
-      <div class="bento-grid" id="bentoGrid" aria-live="polite" aria-atomic="true">
-        <!-- Carte create dinamicamente -->
-      </div>
+        <!-- Nuove chicche per tono goliardico -->
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="display:inline-flex;align-items:center;gap:8px"><input id="insultMode" type="checkbox"> <strong>Insulto Creativo</strong></label>
+          <button id="themeToggle" class="ghost-btn" title="Colore bar/maioliche" type="button">🎨 Tema</button>
+        </div>
 
-      <div class="bottom-row">
-        <!-- Rendi visibile il bottone start per avere un accesso diretto al riconoscimento -->
-        <button id="retryModelBtn" class="ghost-btn">Riprova modello</button>
-        <button id="startBtn" class="ghost-btn">Avvia riconoscimento</button>
-        <textarea id="results" readonly rows="3" aria-label="Risultati">Avvia il riconoscimento per vedere i risultati qui.</textarea>
-        <div id="status" class="status">Modello non caricato</div>
       </div>
     </div>
 
@@ -56,7 +50,14 @@
     <!-- Pannello dettagli (swipe up) -->
     <div id="detailPanel" class="detail-panel" hidden>
       <div class="handle" aria-hidden="true"></div>
-      <div id="detailsContent">Dettagli riconoscimento</div>
+      <div id="detailsContent" class="details-wrap">Dettagli riconoscimento</div>
+      <div id="detailFooter" style="padding:12px;border-top:1px solid rgba(255,255,255,0.02);display:flex;gap:8px;align-items:center;" hidden>
+        <input id="audioFileInput" type="file" accept="audio/*" hidden />
+        <button id="uploadAudioBtn" class="quirky-btn" type="button">🎙️ Carica esclamazione</button>
+        <button id="playCustomBtn" class="quirky-btn" type="button">🔊 Riproduci</button>
+        <button id="dilloNonnaBtn" class="quirky-btn" type="button">💌 Dillo a nonna</button>
+        <div id="legendaryBadge" class="legendary" hidden>🔥 Oggetto Sacro!</div>
+      </div>
     </div> 
   </div>
 

@@ -34,9 +34,26 @@ const labelAliases = {
   "motor scooter": "motorbike"
 };
 
+// Insulto Creativo — frasi bonarie per dialetto (puoi aggiungerne altre)
+const creativeInsults = {
+  "Romano": ["Aho, ma che roba è questa?!", "Vabbè, sto coso pare scappato da casa tua"],
+  "Veneto": ["Ma che roba xe questa?!", "Ue, 'sto arnese me fa rider"],
+  "Bergamasco": ["Ma che roba l'è?", "Te set bón de fa rider anca i sassi"],
+  "Milanese": ["Ma l'è 'n càpitel!", "Ti gh'et propri un bel cos"],
+  "Napoletano": ["Uè, che è chesta 'na robba?", "Statte accuort', pare 'nu giocattolo"],
+  "Siciliano": ["Uè, chi è chistu?", "Eh, chista è roba d'atri tempi!"]
+};
+
+// Oggetti "sacri" per Easter Egg
+const sacredObjects = new Set(['coffee','espresso','caffettiera','pepper','peperoncino','focaccia','pizza','pizza pie','caffè']);
+
 // Carica eventuale file JSON esterno con traduzioni o suggerimenti (dialects.json / dialects_suggestions.json)
 let externalDialectSuggestions = {};
-let italianLabels = {};
+let italianLabels = {}; 
+
+// Storage per audio personalizzati (localStorage key prefix)
+const AUDIO_STORAGE_PREFIX = 'dialetti_audio:';
+
 async function loadExternalDialects(){
   try{
     addDebugLog('info','loadExternalDialects: start');
@@ -415,8 +432,8 @@ bentoGrid.addEventListener('click', (e) => {
   const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
   const toSpeak = translation || italianLabels[dictKey] || dictKey || displayLabel;
   addDebugLog('info','User requested speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation, italianFallback: !!italianLabels[dictKey]});
-  // Su azione esplicita dell'utente parliamo immediatamente (ignoriamo cooldown)
-  speak(toSpeak, dialect);
+  // Su azione esplicita dell'utente: proviamo prima audio personalizzato, poi TTS
+  if (!playCustomAudio(dictKey, dialect)) speak(toSpeak, dialect);
   lastSpoken = { key: dictKey, time: Date.now() };
   // Feedback visivo minimo
   card.classList.add('pressed');
@@ -444,7 +461,7 @@ if (detailsContent){
     const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
     const toSpeak = translation || italianLabels[dictKey] || dictKey || displayLabel;
     addDebugLog('info','Detail panel speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation, italianFallback: !!italianLabels[dictKey]});
-    speak(toSpeak, dialect);
+    if (!playCustomAudio(dictKey, dialect)) speak(toSpeak, dialect);
     lastSpoken = { key: dictKey, time: Date.now() };
   });
 
@@ -458,7 +475,7 @@ if (detailsContent){
 
 // Apri / chiudi pannello dettagli
 function openDetailPanel(){ detailPanel.hidden = false; detailPanel.classList.add('open'); }
-function closeDetailPanel(){ detailPanel.classList.remove('open'); setTimeout(()=> detailPanel.hidden = true, 420); }
+function closeDetailPanel(){ detailPanel.classList.remove('open'); const footer = document.getElementById('detailFooter'); if (footer) footer.hidden = true; setTimeout(()=> detailPanel.hidden = true, 420); }
 
 // Toggle start/stop con micro-interazione
 async function toggleStartStop(){
@@ -486,6 +503,13 @@ detailPanel.querySelector('.handle').addEventListener('click', ()=> closeDetailP
 
 // Usa Web Speech API per pronunciare la traduzione fonetica
 function speak(text, dialect){
+  if (!text) return;
+  // first try custom uploaded audio for emphasis
+  try{
+    const played = playCustomAudio(text, dialect);
+    if (played) return;
+  }catch(e){ /* ignore and fallback to TTS */ }
+
   if (!('speechSynthesis' in window)) return;
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'it-IT';
@@ -493,6 +517,168 @@ function speak(text, dialect){
   utter.pitch = 1.0;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utter);
+}
+
+// ---- Giocose funzionalità: Cafone-Meter, Insulti Creativi, audio personalizzati, condivisione, easter eggs ----
+
+function computeCafoneScore(key, probability){
+  let score = (probability || 0) * 10; // 0..10
+  const k = (key || '').toLowerCase();
+  if (/coffee|caff|espresso|moka|caffettiera/.test(k)) score += 2.2;
+  if (/pizza|focaccia|pepperoncino|peperoncino|chili|guacamole/.test(k)) score += 1.8;
+  if (/cup|bottle|glass/.test(k)) score += 0.8;
+  // clamp
+  score = Math.max(0, Math.min(10, Math.round(score*10)/10));
+  return score;
+}
+
+function getCafoneQuip(key, score){
+  const base = `Voto ${Math.round(score)}/10:`;
+  const k = (key||'').toLowerCase();
+  if (/coffee|caff|espresso/.test(k)) return `${base} Questo ti risveglia pure i bisnonni.`;
+  if (/pizza|focaccia/.test(k)) return `${base} Santo cielo, chiamate la nonna: qui si fa festa.`;
+  if (/pepperon|chili/.test(k)) return `${base} Piccante come la zia al pranzo di Natale.`;
+  if (/bottle|wine/.test(k)) return `${base} Ecco, questo promette aperitivo.`;
+  return `${base} Decisamente 'na chicca, te sì bravə.`;
+}
+
+function triggerExclaim(){
+  const ex = document.createElement('div');
+  ex.className = 'exclaim';
+  const picks = ['💥','🎉','😲','🔥','🤌','😭','🤩'];
+  ex.textContent = picks[Math.floor(Math.random()*picks.length)];
+  document.body.appendChild(ex);
+  setTimeout(()=> { ex.remove(); }, 1400);
+}
+
+async function triggerLegendary(key){
+  try{ playLegendarySound(); }
+  catch(e){ addDebugLog('warn','triggerLegendary sound failed',{error: e && e.message}); }
+}
+
+// basic WebAudio pluck for the 'legendary' effect (no files required)
+function playLegendarySound(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sine';
+    o.frequency.value = 880;
+    g.gain.value = 0.0001;
+    o.connect(g); g.connect(ctx.destination);
+    const now = ctx.currentTime;
+    // quick pluck
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.4, now + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+    o.start(now); o.stop(now + 1.0);
+    // small chorus
+    setTimeout(()=>{ try{ ctx.close(); }catch(_){} }, 1400);
+  }catch(e){ console.warn('playLegendarySound error', e); }
+}
+
+function playCustomAudio(keyOrText, dialect){
+  try{
+    // keyOrText might be a dictKey or a text; prefer to look up by current footer dataset
+    const dictKey = keyOrText.toLowerCase();
+    const dialectId = dialect || (dialectSelect && dialectSelect.value) || '';
+    const storageKey = AUDIO_STORAGE_PREFIX + dictKey + '|' + dialectId;
+    const fallbackKey = AUDIO_STORAGE_PREFIX + dictKey + '|';
+    const b64 = localStorage.getItem(storageKey) || localStorage.getItem(fallbackKey);
+    if (!b64) return false;
+    const blob = b64ToBlob(b64);
+    const url = URL.createObjectURL(blob);
+    const a = new Audio(url);
+    a.play();
+    a.onended = () => { URL.revokeObjectURL(url); };
+    return true;
+  }catch(e){ addDebugLog('error','playCustomAudio failed',{error: e && e.message}); return false; }
+}
+
+function b64ToBlob(b64){
+  const parts = b64.split(',');
+  const mime = parts[0].match(/:(.*?);/)[1];
+  const bytes = atob(parts[1]);
+  const buf = new Uint8Array(bytes.length);
+  for(let i=0;i<bytes.length;i++) buf[i]=bytes.charCodeAt(i);
+  return new Blob([buf], {type:mime});
+}
+
+// handler wiring
+function attachDetailFooterHandlers(){
+  const uploadBtn = document.getElementById('uploadAudioBtn');
+  const input = document.getElementById('audioFileInput');
+  const playBtn = document.getElementById('playCustomBtn');
+  const shareBtn = document.getElementById('dilloNonnaBtn');
+  if (!uploadBtn || !input || !playBtn || !shareBtn) return;
+
+  uploadBtn.addEventListener('click', ()=> input.click());
+  input.addEventListener('change', async (ev)=>{
+    try{
+      const file = ev.target.files && ev.target.files[0]; if (!file) return;
+      const footer = document.getElementById('detailFooter'); if(!footer) return;
+      const dictKey = footer.dataset.currentKey || 'unknown';
+      const dialectId = (dialectSelect && dialectSelect.value) || '';
+      // read as dataURL and store
+      const reader = new FileReader();
+      reader.onload = function(){
+        const dataUrl = reader.result;
+        const storageKey = AUDIO_STORAGE_PREFIX + dictKey.toLowerCase() + '|' + dialectId;
+        localStorage.setItem(storageKey, dataUrl);
+        addDebugLog('info','Audio uploaded',{key: dictKey, dialect: dialectId});
+        // provide quick feedback
+        triggerExclaim();
+      };
+      reader.readAsDataURL(file);
+    }catch(e){ addDebugLog('error','audio upload failed',{error: e && e.message}); }
+  });
+
+  playBtn.addEventListener('click', ()=>{
+    try{ const footer = document.getElementById('detailFooter'); const dictKey = footer && footer.dataset.currentKey; if(!dictKey) return; playCustomAudio(dictKey, (dialectSelect && dialectSelect.value)); }
+    catch(e){ addDebugLog('error','play custom failed',{error: e && e.message}); }
+  });
+
+  shareBtn.addEventListener('click', async ()=>{
+    try{ const footer = document.getElementById('detailFooter'); const dictKey = footer && footer.dataset.currentKey; if(!dictKey) return; await shareCard(dictKey); }
+    catch(e){ addDebugLog('error','shareCard failed',{error: e && e.message}); }
+  });
+}
+
+async function shareCard(dictKey){
+  try{
+    // render a simple postcard on canvas
+    const name = italianLabels[dictKey] || (dialectDict[dictKey] && dialectDict[dictKey][dialectSelect.value]) || dictKey;
+    const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = 800;
+    const ctx = canvas.getContext('2d');
+    // background che ricorda una cartolina vintage
+    ctx.fillStyle = '#fff6ea'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    // border
+    ctx.fillStyle = '#f3c86b'; ctx.fillRect(40,40,canvas.width-80,20); ctx.fillRect(40,720,canvas.width-80,20);
+    // title
+    ctx.fillStyle = '#2b2b2b'; ctx.font = 'bold 56px Inter, Arial'; ctx.fillText(name, 80, 160);
+    ctx.font = '28px Inter, Arial'; ctx.fillText((dialectDict[dictKey] && dialectDict[dictKey][dialectSelect.value]) || italianLabels[dictKey] || '', 80, 210);
+    // little stamp: "Dillo a nonna"
+    ctx.font = '26px Inter, Arial'; ctx.fillStyle='#c84a3d'; ctx.fillText('Dillo a nonna ❤️', canvas.width-380, 160);
+
+    // add small emoji
+    ctx.font = '96px serif'; ctx.fillText('☕️', 80, 320);
+
+    // to blob
+    const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+    const filesArray = [new File([blob], `${dictKey}.png`, { type: 'image/png' })];
+
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })){
+      await navigator.share({ files: filesArray, title: `Dillo a nonna: ${name}`, text: `Guarda qui: ${name} — ${dialectDict[dictKey] && dialectDict[dictKey][dialectSelect.value] ? dialectDict[dictKey][dialectSelect.value] : italianLabels[dictKey] || dictKey}` });
+      addDebugLog('info','Shared via native share',{key:dictKey});
+      return;
+    }
+
+    // fallback: open WhatsApp web with text and attachment link (not trivial), so provide simple copy & open
+    const text = `Dillo a nonna: ${name} — ${(dialectDict[dictKey] && dialectDict[dictKey][dialectSelect.value]) || italianLabels[dictKey] || dictKey}`;
+    await navigator.clipboard.writeText(text);
+    alert('Testo copiato negli appunti. Incollalo su WhatsApp o condividi la cartolina da file.');
+    addDebugLog('info','Share fallback used',{key:dictKey});
+  }catch(e){ addDebugLog('error','shareCard error',{error: e && e.message}); throw e; }
 }
 
 // Loop di inferenza continuo usando requestAnimationFrame
@@ -530,12 +716,55 @@ async function predictLoop(){
             speak(italianLabels[key], dialect);
             lastSpoken = { key, time: now };
           }
+        } else {
+          // Possibilità di insulto creativo o messaggio di fallback
+          try{
+            const insultOn = document.getElementById('insultMode') && document.getElementById('insultMode').checked;
+            if (insultOn && (!key || top.probability < (CONFIDENCE_THRESHOLD + 0.05))){
+              const phrases = creativeInsults[dialect] || creativeInsults['Romano'] || ['Ma che roba è?'];
+              const pick = phrases[Math.floor(Math.random()*phrases.length)];
+              speak(pick, dialect);
+              // mostra come quip visuale
+              detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = pick);
+              triggerExclaim();
+            } else {
+              // fallback neutro
+              detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = 'Oggetto non riconosciuto');
+            }
+          }catch(e){ /* ignore */ }
         }
 
         // Aggiorna pannello dettagli quando aperto
         // Rendiamo cliccabile il nome per permettere di pronunciarlo manualmente
         const displayName = italianLabels[key] || top.className;
-        detailsContent.innerHTML = `Oggetto: <button class="detail-key" data-key="${escapeHtml(top.className)}" type="button">${escapeHtml(displayName)}</button> — ${(top.probability*100).toFixed(1)}%`;
+        const cafoneScore = computeCafoneScore(key, top.probability);
+        const quip = getCafoneQuip(key, cafoneScore);
+        detailsContent.innerHTML = `
+          <div class="detail-main">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+              <button class="detail-key" data-key="${escapeHtml(top.className)}" type="button">${escapeHtml(displayName)}</button>
+              <div style="font-size:0.9rem;color:var(--muted)">${(top.probability*100).toFixed(1)}%</div>
+            </div>
+            <div class="cafone-meter" aria-hidden="false">
+              <div class="meter" title="Passione: ${Math.round(cafoneScore)}/10"><span id="meterBar" style="width:${Math.min(100, Math.round(cafoneScore*10))}%"></span></div>
+              <div class="quip">${escapeHtml(quip)}</div>
+            </div>
+          </div>`;
+
+        // mostra il footer del pannello (upload, condivisione)
+        const footer = document.getElementById('detailFooter'); if (footer) footer.hidden = false;
+        // salva il key corrente per i bottoni del footer
+        footer && (footer.dataset.currentKey = key);
+
+        // se è un oggetto sacro, mostra il badge e suona
+        const legendaryBadge = document.getElementById('legendaryBadge');
+        if (sacredObjects.has(key) || sacredObjects.has(displayName.toLowerCase())){
+          legendaryBadge.hidden = false;
+          triggerLegendary(key);
+        } else { legendaryBadge.hidden = true; }
+
+        // quick animation ed esclamazione se sopra soglia
+        triggerExclaim();
       }
     }
   }catch(err){ console.error('Errore durante la predizione', err); addDebugLog('error','Errore durante la predizione', {message: err && (err.message || String(err)), stack: err && err.stack}); }
@@ -612,6 +841,14 @@ async function init(){
         }
       }catch(backendErr){ addDebugLog('error','backend fallback failed', {error: backendErr && backendErr.message}); }
     }
+
+    // Hook UI playful features
+    try{ attachDetailFooterHandlers();
+      const insultToggle = document.getElementById('insultMode');
+      if (insultToggle){ insultToggle.checked = false; insultToggle.addEventListener('change', ()=> addDebugLog('info','insultMode',{value: insultToggle.checked})); }
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle && themeToggle.addEventListener('click', ()=> { document.querySelector('.glass-panel')?.classList.toggle('theme-tiles'); triggerExclaim(); });
+    }catch(e){ addDebugLog('warn','UI playful init failed',{error: e && e.message}); }
 
     // Registra il service worker, se possibile
     if ('serviceWorker' in navigator){
