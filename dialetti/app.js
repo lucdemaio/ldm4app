@@ -22,6 +22,11 @@ export const dialectDict = {
 
 // Elementi DOM
 const video = document.getElementById('video');
+if (video){
+  ['loadedmetadata','canplay','play','playing','pause','error','stalled','suspend'].forEach(evt => {
+    video.addEventListener(evt, (e) => { addDebugLog('info', `video event: ${evt}`, { readyState: video.readyState, currentSrc: video.currentSrc }); });
+  });
+}
 const dialectSelect = document.getElementById('dialect');
 const resultsArea = document.getElementById('results');
 const statusEl = document.getElementById('status');
@@ -294,7 +299,7 @@ async function predictLoop(){
         detailsContent.textContent = `Oggetto: ${top.className} — ${(top.probability*100).toFixed(1)}%`;
       }
     }
-  }catch(err){ console.error('Errore durante la predizione', err); }
+  }catch(err){ console.error('Errore durante la predizione', err); addDebugLog('error','Errore durante la predizione', {message: err && (err.message || String(err)), stack: err && err.stack}); }
 
   if (isPredicting) requestAnimationFrame(predictLoop);
 }
@@ -304,6 +309,8 @@ async function init(){
   try{
     statusEl.textContent = 'Caricamento modello...';
     addDebugLog('info','init: avviato');
+    addDebugLog('info','environment',{ ua: navigator.userAgent, platform: navigator.platform, mobile: /Mobi|Android|iPhone|iPad/.test(navigator.userAgent) });
+    addDebugLog('info','navigator.mediaDevices',{ mediaDevices: !!navigator.mediaDevices, getUserMedia: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) });
 
     const loadScript = (src) => new Promise((resolve,reject)=>{
       const s = document.createElement('script');
@@ -329,9 +336,10 @@ async function init(){
     // Registra il service worker, se possibile
     if ('serviceWorker' in navigator){
       try{
-        await navigator.serviceWorker.register('sw.js');
+        const registration = await navigator.serviceWorker.register('sw.js');
         console.log('Service Worker registrato');
-      }catch(err){ console.warn('Registrazione SW fallita', err); }
+        addDebugLog('info','Service Worker registrato', {scope: registration.scope});
+      }catch(err){ console.warn('Registrazione SW fallita', err); addDebugLog('warn','Registrazione SW fallita', {error: err && (err.name || err.message)}); }
     }
 
   }catch(e){
@@ -343,6 +351,7 @@ async function init(){
 // Avvia la telecamera posteriore e imposta il video
 async function startCamera(){
   try{
+    addDebugLog('info','startCamera: requesting environment (exact)', {constraints:{video:{facingMode:{exact:'environment'}}, audio:false}});
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: { exact: 'environment' } },
       audio: false
@@ -350,17 +359,25 @@ async function startCamera(){
     video.srcObject = stream;
     await video.play();
     statusEl.textContent = 'Camera attiva';
-    addDebugLog('info','Camera attiva');
+    addDebugLog('info','Camera attiva', {videoTracks: stream.getVideoTracks().map(t=>({label:t.label, facingMode: t.getSettings && t.getSettings().facingMode }))});
   }catch(err){
+    addDebugLog('warn','startCamera exact failed', {error: err && (err.name || err.message)});
     // fallback - alcuni browser non supportano exact
     try{
+      addDebugLog('info','startCamera: requesting environment (fallback)', {constraints:{video:{facingMode:'environment'}, audio:false}});
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio:false });
       video.srcObject = stream; await video.play();
       statusEl.textContent = 'Camera attiva (fallback)';
-      addDebugLog('info','Camera attiva (fallback)');
+      addDebugLog('info','Camera attiva (fallback)', {videoTracks: stream.getVideoTracks().map(t=>({label:t.label, facingMode: t.getSettings && t.getSettings().facingMode }))});
     }catch(error){
+      addDebugLog('error','Impossibile accedere alla camera', {error: error && (error.name || error.message)});
       console.error('Impossibile accedere alla camera', error);
       statusEl.textContent = 'Permesso camera negato o non disponibile';
+      // attempt to list devices if possible
+      try{
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        addDebugLog('info','Available devices', {devices: devices.map(d=>({kind:d.kind, label: d.label, deviceId: d.deviceId}))});
+      }catch(enumErr){ addDebugLog('warn','enumerateDevices failed', {error: enumErr && (enumErr.name || enumErr.message)}); }
     }
   }
 }
