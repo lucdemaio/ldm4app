@@ -28,6 +28,15 @@ if (video){
   });
 }
 const dialectSelect = document.getElementById('dialect');
+if (dialectSelect){
+  try{
+    addDebugLog('info','dialect initial',{value: dialectSelect.value, options: Array.from(dialectSelect.options).map(o=>({value:o.value, disabled:o.disabled, selected:o.selected, text:o.text}))});
+    dialectSelect.addEventListener('change', (e) => { addDebugLog('info','dialect changed',{value: e.target.value}); });
+    // Ensure mobile accessibility: add a name attribute and touch-action
+    dialectSelect.setAttribute('name','dialect-select');
+    dialectSelect.style.touchAction = 'manipulation';
+  }catch(e){ addDebugLog('error','dialect init failed',{error: e && e.message}); }
+}
 const resultsArea = document.getElementById('results');
 const statusEl = document.getElementById('status');
 const startBtn = document.getElementById('startBtn');
