@@ -1,0 +1,31 @@
+# Serve file statici direttamente
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Ignora file e directory esistenti
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Tutte le altre richieste vanno a index.html, tranne le cartelle statiche
+  RewriteCond %{REQUEST_URI} !^/(_framework|css|js|favicon|service-worker|manifest|sample-data)/
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Imposta i tipi MIME corretti per Blazor
+AddType application/wasm .wasm
+AddType application/json .json
+AddType application/octet-stream .dll
+AddType application/javascript .js
+AddType text/css .css
+AddType application/manifest+json .webmanifest
+
+# Abilita la cache per i file statici
+<FilesMatch "\.(js|css|wasm|dll|png|jpg|jpeg|gif|svg|ico|json|webmanifest)$">
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+
+# Abilita CORS per i file necessari (opzionale, se richiesto)
+<FilesMatch "\.(wasm|json|webmanifest)$">
+  Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
