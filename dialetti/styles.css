@@ -141,3 +141,16 @@ textarea#results{ flex:1; resize:none; padding:10px; border-radius:10px; backgro
 
 @media (max-width:480px){ .debug-panel{ width:92vw; right:4vw; left:4vw; bottom:84px; } }
 
+/* Export modal styles */
+.export-modal{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:9999; }
+.export-modal[hidden]{ display:none; }
+.export-overlay{ position:absolute; inset:0; background:rgba(0,0,0,0.6); }
+.export-panel{ position:relative; width:min(720px,92vw); max-width:720px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); box-shadow:0 20px 60px rgba(0,0,0,0.8); padding:12px; z-index:1; pointer-events:auto; }
+.export-header{ display:flex; align-items:center; justify-content:space-between; gap:8px; border-bottom:1px solid rgba(255,255,255,0.03); padding-bottom:8px; }
+.export-body{ padding-top:10px; display:flex; flex-direction:column; gap:8px; }
+#logExportTextarea{ width:100%; min-height:220px; max-height:52vh; resize:vertical; font-family:monospace; font-size:12px; padding:8px; background:transparent; border:1px solid rgba(255,255,255,0.03); color:var(--muted); }
+.export-actions{ display:flex; gap:8px; align-items:center; }
+#logExportStatus{ color:var(--muted); font-size:0.9rem; margin-top:4px; }
+
+@media (max-width:480px){ .export-panel{ width:94vw; padding:10px; } #logExportTextarea{ min-height:200px; }}
+

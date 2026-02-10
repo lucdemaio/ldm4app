@@ -79,6 +79,22 @@
     <div id="debugLogs" class="debug-logs" role="log" aria-live="polite"></div>
   </div>
 
+  <!-- Export modal: mostra JSON dei log e fornisce Download/Copy fallback per mobile -->
+  <div id="logExportModal" class="export-modal" hidden aria-hidden="true" role="dialog" aria-label="Export log">
+    <div class="export-overlay" id="exportOverlay"></div>
+    <div class="export-panel">
+      <div class="export-header"><strong>Esporta log</strong><button id="closeLogModal" title="Chiudi" type="button">✕</button></div>
+      <div class="export-body">
+        <textarea id="logExportTextarea" readonly rows="12" aria-label="Log JSON"></textarea>
+        <div class="export-actions">
+          <button id="downloadLogBtn" class="ghost-btn">Scarica</button>
+          <button id="copyLogBtn" class="ghost-btn">Copia negli appunti</button>
+        </div>
+        <div id="logExportStatus" class="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Fallback JS minimo: definisce toggleDebugFallback per aprire il pannello se app.js non è eseguito -->
   <script>
     window.toggleDebugFallback = function(){

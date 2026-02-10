@@ -133,6 +133,28 @@ async function doExportFile(filename, content){
   }catch(e){ addDebugLog('error','doExportFile failed',{error: e && e.message}); return false; }
 }
 
+// Export modal helpers
+function openLogExportModal(filename, payload){
+  try{
+    const modal = document.getElementById('logExportModal');
+    const ta = document.getElementById('logExportTextarea');
+    const status = document.getElementById('logExportStatus');
+    if (!modal || !ta) { addDebugLog('warn','openLogExportModal: DOM elements missing'); return; }
+    const content = typeof payload === 'string' ? payload : JSON.stringify(payload, null, 2);
+    ta.value = content;
+    modal.dataset.filename = filename || 'export.json';
+    status.textContent = '';
+    modal.hidden = false; modal.setAttribute('aria-hidden','false');
+    // Auto-select content for easier long-press copy
+    setTimeout(()=>{ ta.focus(); ta.select(); }, 120);
+    addDebugLog('info','openLogExportModal',{filename});
+  }catch(e){ addDebugLog('error','openLogExportModal failed',{error: e && e.message}); }
+}
+function closeLogExportModal(){
+  const modal = document.getElementById('logExportModal');
+  if (!modal) return; modal.hidden = true; modal.setAttribute('aria-hidden','true');
+}
+
 // Widget di controllo debug
 function openDebug(){ if (!debugPanel) return; debugPanel.hidden = false; debugPanel.style.transform = 'translateY(0)'; }
 function closeDebug(){ if (!debugPanel) return; debugPanel.style.transform = 'translateY(12px)'; setTimeout(()=> debugPanel.hidden = true, 260); }
@@ -171,12 +193,11 @@ debugPanel?.addEventListener('click', async (e) => {
     if (id === 'clearLogs'){
       debugState.logs = []; renderDebug(); addDebugLog('info','Logs cleared');
     } else if (id === 'downloadLogs'){
-      // Export dei log anche se vuoti
-      addDebugLog('info','downloadLogs handler start');
+      // Mostra il modal con i log per permettere copia manuale o download dal telefono
       try{
-        const ok = await doExportFile('debug-logs.json', debugState.logs);
-        if (ok) addDebugLog('info','Logs exported'); else addDebugLog('warn','Logs export attempted but some fallback may have failed');
-      }catch(e){ addDebugLog('error','downloadLogs failed',{error: e && e.message}); alert('Errore esportazione logs: ' + (e && e.message)); }
+        openLogExportModal('debug-logs.json', debugState.logs);
+        addDebugLog('info','downloadLogs: opened export modal');
+      }catch(e){ addDebugLog('error','downloadLogs open modal failed',{error: e && e.message}); }
     } else if (id === 'exportReport'){
       // Fallback per esportare report via delegazione (se il listener diretto non è presente)
       try{
@@ -184,8 +205,7 @@ debugPanel?.addEventListener('click', async (e) => {
         const swInfo = regs.map(r=>({scope:r.scope, active: !!r.active, installing: !!r.installing, waiting: !!r.waiting}));
         const report = { ts: new Date().toISOString(), url: location.href, ua: navigator.userAgent, sw: swInfo, logs: debugState.logs, state: {modelLoaded: !!model, isPredicting, lastSpoken, lastTopKey} };
         addDebugLog('info','exportReport (delegation) preparing payload');
-        const ok = await doExportFile(`dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`, report);
-        if (ok) addDebugLog('info','Report exported (delegation)'); else addDebugLog('warn','Report export attempted but some fallback may have failed');
+        openLogExportModal(`dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`, report);
       }catch(e){ addDebugLog('error','Export failed (delegation)', {error: e && e.message}); alert('Errore esportazione report: '+ (e && e.message)); }
     } else if (id === 'unregisterSW'){
       try{
@@ -216,8 +236,7 @@ exportReportBtn?.addEventListener('click', async ()=>{
     const swInfo = regs.map(r=>({scope:r.scope, active: !!r.active, installing: !!r.installing, waiting: !!r.waiting}));
     const report = { ts: new Date().toISOString(), url: location.href, ua: navigator.userAgent, sw: swInfo, logs: debugState.logs, state: {modelLoaded: !!model, isPredicting, lastSpoken, lastTopKey} };
     addDebugLog('info','exportReport preparing payload');
-    const ok = await doExportFile(`dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`, report);
-    if (ok) addDebugLog('info','Report exported'); else addDebugLog('warn','Report export attempted but some fallback may have failed');
+    openLogExportModal(`dialetti-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`, report);
   }catch(e){ addDebugLog('error','Export failed', {error: e && e.message}); alert('Errore esportazione report: '+ (e && e.message)); }
 });
 
@@ -606,6 +625,46 @@ function startInitIfNeeded(){
   }
 }
 startInitIfNeeded();
+
+// Export modal button handlers
+const downloadLogBtn = document.getElementById('downloadLogBtn');
+const copyLogBtn = document.getElementById('copyLogBtn');
+const closeLogModalBtn = document.getElementById('closeLogModal');
+const logExportTextarea = document.getElementById('logExportTextarea');
+const logExportStatus = document.getElementById('logExportStatus');
+
+if (downloadLogBtn){
+  downloadLogBtn.addEventListener('click', async () => {
+    try{
+      const modal = document.getElementById('logExportModal');
+      const filename = (modal && modal.dataset && modal.dataset.filename) || `export-${new Date().toISOString().replace(/[:.]/g,'-')}.json`;
+      const payload = logExportTextarea.value;
+      logExportStatus.textContent = 'Avvio download...';
+      const ok = await doExportFile(filename, payload);
+      logExportStatus.textContent = ok ? 'Scaricato / Aperto' : 'Tentativo di esportazione completato (usa Copia)';
+      addDebugLog('info','downloadLogBtn result',{ok});
+    }catch(e){ addDebugLog('error','downloadLogBtn failed',{error: e && e.message}); logExportStatus.textContent = 'Errore durante il download'; }
+  });
+}
+if (copyLogBtn){
+  copyLogBtn.addEventListener('click', async () => {
+    try{
+      const text = logExportTextarea.value;
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(text);
+        logExportStatus.textContent = 'Copiato negli appunti';
+        addDebugLog('info','copyLogBtn: copied to clipboard');
+      }else{
+        // fallback: select + execCommand
+        logExportTextarea.select();
+        const ok = document.execCommand && document.execCommand('copy');
+        logExportStatus.textContent = ok ? 'Copiato (fallback)' : 'Copia non riuscita';
+        addDebugLog('info','copyLogBtn fallback',{ok});
+      }
+    }catch(e){ addDebugLog('error','copyLogBtn failed',{error: e && e.message}); logExportStatus.textContent = 'Errore copia'; }
+  });
+}
+if (closeLogModalBtn){ closeLogModalBtn.addEventListener('click', ()=> { closeLogExportModal(); }); }
 
 // Esporta per eventuali test/modularità
 export default { init, startCamera, predictLoop };
