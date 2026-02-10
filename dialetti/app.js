@@ -35,6 +35,26 @@ if (dialectSelect){
     // Ensure mobile accessibility: add a name attribute and touch-action
     dialectSelect.setAttribute('name','dialect-select');
     dialectSelect.style.touchAction = 'manipulation';
+    // Ensure it's not accidentally disabled
+    dialectSelect.disabled = false;
+    // Raise z-index to avoid accidental overlaying by video elements
+    dialectSelect.style.zIndex = 1000;
+
+    // On touch devices, try to programmatically open the native picker when tapping the select wrap
+    const selectWrap = document.querySelector('.select-wrap');
+    if (selectWrap){
+      selectWrap.addEventListener('touchstart', (ev) => {
+        try{
+          addDebugLog('info','select-wrap touchstart');
+          // Attempt to open native picker
+          dialectSelect.focus();
+          // Programmatic click may help on some browsers
+          dialectSelect.click();
+          // For accessibility, also trigger a pointerdown
+          dialectSelect.dispatchEvent(new PointerEvent('pointerdown', {bubbles:true}));
+        }catch(ex){ addDebugLog('warn','select-wrap touch failed',{error: ex && ex.message}); }
+      }, {passive:true});
+    }
   }catch(e){ addDebugLog('error','dialect init failed',{error: e && e.message}); }
 }
 const resultsArea = document.getElementById('results');
