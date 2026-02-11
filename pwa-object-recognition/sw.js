@@ -29,6 +29,14 @@ self.addEventListener('activate', event => {
 // Strategia: cache-first per assets app-shell, fallback a network
 self.addEventListener('fetch', event => {
   const req = event.request;
+  try{
+    // Intercept favicon requests and respond with the SVG icon to avoid 404 noisy logs
+    const p = new URL(req.url).pathname;
+    if (p === '/favicon.ico' || p.endsWith('/favicon.ico')){
+      event.respondWith(fetch('/icons/icon-192.svg').catch(() => caches.match('index.html')));
+      return;
+    }
+  }catch(e){ /* ignore malformed URL */ }
   // Ignora richieste cross-origin sensibili (es. API esterne)
   if (new URL(req.url).origin !== location.origin) return;
 

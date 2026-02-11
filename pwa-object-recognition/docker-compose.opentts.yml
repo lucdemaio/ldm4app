@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  opentts:
+    image: "synesthesias/opentts:latest"
+    container_name: opentts
+    restart: unless-stopped
+    ports:
+      - "5500:5500"
+    volumes:
+      - ./opentts_data:/data
+    environment:
+      # example env variables; adjust according to OpenTTS image docs
+      - TTS_BACKEND=coqui
+      - COQUI_MODEL=tts_models/it/multi-tacotron2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5500/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+# Usage:
+# docker compose -f docker-compose.opentts.yml up -d
+# Then OpenTTS will be available at http://localhost:5500 (default)

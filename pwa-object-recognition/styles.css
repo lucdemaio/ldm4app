@@ -1,23 +1,23 @@
 /* Design 2026: Glassmorphism 2.0, Bento Grid, Neon Glow, Gestures */
 :root{
-  --bg:#0b0b10; /* dark default */
+  --bg:#120f12; /* warmer dark base */
   --glass-bg: rgba(255,255,255,0.03);
   --glass-border: rgba(255,255,255,0.06);
-  --text:#e9eef8;
-  --muted: rgba(233,238,248,0.5);
-  /* palette ispirata a maioliche e mercati rionali */
-  --tile-blue: #0f6fa6; /* ceruleo */
-  --tile-yellow: #f2c94c; /* ocra */
-  --tile-terracotta: #d96a52; /* terracotta */
+  --text:#fff7f2;
+  --muted: rgba(255,244,236,0.6);
+  /* palette ispirata a mercati rionali e maioliche, più goliardica */
+  --tile-blue: #ff7b6b; /* coral-arioso (usato come secondary) */
+  --tile-yellow: #ffd36b; /* ocra caldo */
+  --tile-terracotta: #ff6f4d; /* terracotta vivace */
   --tile-green: #3bb273; /* verde mercato */
   --neon-magenta: #ff4db8;
   --neon-cyan: #4ee8d8;
-  --neon-viola: #8a2bef;
+  --neon-viola: #d44cff; /* più acceso */
   --neon-green: #7fff6f;
   --transition: 450ms cubic-bezier(.16,.84,.24,1);
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-}
+} 
 
 html,body{
   height:100%;
@@ -61,6 +61,7 @@ video#video{
   border-radius:16px;
   padding:16px;
   pointer-events:auto;
+  position:relative; z-index:100; /* ensure panel is above video and overlays for clickability */
   backdrop-filter: blur(20px) saturate(1.05);
   -webkit-backdrop-filter: blur(20px) saturate(1.05);
   border: 1px solid var(--glass-border);
@@ -71,8 +72,8 @@ video#video{
 
 /* Brand header giocoso */
 .app-brand{ display:flex; flex-direction:column; gap:6px; margin-bottom:8px; }
-.brand-title{ font-family: 'Baloo 2', 'Outfit', system-ui; font-weight:700; font-size:1.4rem; color:var(--tile-blue); text-shadow: 0 6px 18px rgba(0,0,0,0.28); }
-.brand-tagline{ font-family: 'Inter', sans-serif; color:var(--muted); font-size:0.85rem; }
+.brand-title{ font-family: 'Baloo 2', 'Outfit', system-ui; font-weight:800; font-size:1.5rem; color:var(--tile-terracotta); text-shadow: 0 8px 28px rgba(0,0,0,0.32); letter-spacing:0.6px; }
+.brand-tagline{ font-family: 'Inter', sans-serif; color:var(--muted); font-size:0.9rem; } 
 
 /* Confetti canvas overlay */
 #confettiCanvas{ position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:9998; }
@@ -91,7 +92,11 @@ video#video{
 .top-row{ display:flex; align-items:center; gap:12px; justify-content:space-between; }
 .select-wrap{ display:flex; gap:10px; align-items:center; }
 select#dialect{ padding:8px 12px; border-radius:12px; background:transparent; color:var(--text); border:1px solid rgba(255,255,255,0.06); backdrop-filter: blur(6px); transition:all var(--transition); }
-select#dialect:focus{ outline:none; box-shadow: 0 6px 24px rgba(138,43,239,0.12); }
+select#dialect:focus{ outline:none; box-shadow: 0 6px 24px rgba(212,76,63,0.12); }
+/* Speak controls layout (translation input + mic + translate) */
+.speak-wrap{ display:flex; align-items:center; gap:6px; margin-left:12px; pointer-events:auto; z-index:110; }
+.speak-wrap input{ min-width:220px; padding:6px; border-radius:6px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:inherit; }
+.speak-wrap .ghost-btn{ cursor:pointer; pointer-events:auto; z-index:111; padding:8px 10px; }
 .gesture-hint{ color:var(--muted); font-size:0.9rem; }
 
 /* Bento grid cards */
@@ -115,7 +120,7 @@ textarea#results{ flex:1; resize:none; padding:10px; border-radius:10px; backgro
 /* Detection ring - centro dello schermo */
 #detectionRing{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:220px; height:220px; border-radius:50%; pointer-events:none; z-index:3; opacity:0; transition:opacity 250ms ease; }
 #detectionRing.active{ opacity:1; }
-#detectionRing::before{ content:""; position:absolute; inset:12px; border-radius:50%; box-shadow: 0 0 40px var(--glow-color, rgba(138,43,239,0.45)), inset 0 0 40px var(--glow-color, rgba(138,43,239,0.25)); animation: pulse 1200ms ease-out infinite; }
+#detectionRing::before{ content:""; position:absolute; inset:12px; border-radius:50%; box-shadow: 0 0 48px var(--glow-color, rgba(255,111,77,0.45)), inset 0 0 36px var(--glow-color, rgba(255,111,77,0.22)); animation: pulse 1200ms ease-out infinite; }
 
 @keyframes pulse{
   0%{ transform: scale(0.92); opacity:0.95 }
@@ -150,14 +155,14 @@ textarea#results{ flex:1; resize:none; padding:10px; border-radius:10px; backgro
 .legendary{ padding:6px 8px; border-radius:10px; background:linear-gradient(90deg,#ffd36b,#ff7b6b); color:#2b2b2b; font-weight:700; box-shadow: 0 10px 40px rgba(255,123,107,0.18); }
 
 /* card playful accent */
-.bento-card.playful{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,250,240,0.01)); border:1px solid rgba(255,255,255,0.04); }
+.bento-card.playful{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,240,230,0.01)); border:1px solid rgba(255,240,230,0.04); }
 
 /* Grandpa sarcastic comment style */
 .grandpa-comment{ margin-top:10px; padding:10px 12px; border-radius:10px; background:linear-gradient(90deg, rgba(255,246,230,0.9), rgba(255,238,220,0.85)); color:#2b2b2b; font-style:italic; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border-left:4px solid var(--tile-terracotta); }
 .grandpa-comment::before{ content:"👴"; margin-right:8px; display:inline-block; }
 
 /* theme toggle active */
-.theme-tiles{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,250,240,0.02)); border-color: rgba(255,255,255,0.06); box-shadow: 0 12px 40px rgba(15,111,166,0.08); }
+.theme-tiles{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,250,240,0.02)); border-color: rgba(255,255,255,0.06); box-shadow: 0 12px 40px rgba(255,111,77,0.08); }
 
 
 /* Detail panel slide up */
@@ -177,18 +182,18 @@ textarea#results{ flex:1; resize:none; padding:10px; border-radius:10px; backgro
   #detectionRing{ width:160px; height:160px; }
 }
 
-/* Background più vivace: ispirazione maioliche/mercati */
+/* Background più vivace: ispirazione maioliche/mercati (più calda e giocosa) */
 body{
-  background-image: radial-gradient(circle at 10% 10%, rgba(243,200,110,0.04), transparent 12%), radial-gradient(circle at 90% 80%, rgba(77,211,160,0.03), transparent 14%), linear-gradient(180deg, rgba(6,12,32,0.96), rgba(10,14,28,0.96));
-}
+  background-image: radial-gradient(circle at 10% 10%, rgba(255,211,139,0.06), transparent 12%), radial-gradient(circle at 90% 80%, rgba(255,111,77,0.04), transparent 14%), linear-gradient(180deg, rgba(18,10,12,0.96), rgba(18,12,18,0.96));
+} 
 
 /* playful sticker on cards */
 .bento-card::after{ content:''; position:absolute; right:10px; top:10px; width:36px; height:36px; background: linear-gradient(180deg,var(--tile-yellow),#ffd36b); border-radius:10px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); transform: rotate(-8deg); }
 .bento-card{ position:relative; overflow:visible; }
 
 /* Add big playful start button */
-#startBtn{ font-weight:800; background:linear-gradient(180deg,var(--tile-blue),#0d8bc8); color:white; padding:10px 16px; border-radius:14px; box-shadow: 0 12px 50px rgba(13,139,200,0.16); border:none; }
-#startBtn:active{ transform: translateY(2px) scale(0.99); }
+#startBtn{ font-weight:900; background:linear-gradient(180deg,var(--tile-terracotta),var(--tile-yellow)); color:#2b2b2b; padding:12px 18px; border-radius:16px; box-shadow: 0 14px 60px rgba(255,111,77,0.13); border:none; transform-origin:center; }
+#startBtn:active{ transform: translateY(2px) scale(0.985); } 
 
 /* detection ring fun bubble */
 #detectionRing::after{ content:'!'; position:absolute; right:-8px; top:-8px; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:#2b2b2b; background:linear-gradient(90deg,#fff06b,#ffd36b); box-shadow: 0 8px 20px rgba(0,0,0,0.25); transform: translate(20px,-20px) scale(0.9); }

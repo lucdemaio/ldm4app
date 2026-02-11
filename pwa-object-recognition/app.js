@@ -294,6 +294,24 @@ function getSarcasticComment(label, {isError=false} = {}){
   }catch(e){ return "Eh, il nonno è senza parole..."; }
 }
 
+// Global helper to manually test creative insults from console
+window.playInsult = async (dialect) => {
+  try{
+    const d = dialect || (dialectSelect && dialectSelect.value) || 'Romano';
+    const phrases = creativeInsults[d] || creativeInsults['Romano'];
+    const pick = phrases[Math.floor(Math.random()*phrases.length)];
+    // Per "Insulto Creativo" non usare TTS: prova prima audio locale, altrimenti mostra il testo
+    const played = await playDialectPhrase(d);
+    if (!played){
+      addDebugLog('info','playInsult: no recorded audio available, TTS disabled for insults',{dialect: d, text: pick});
+      try{ detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = pick); }catch(_){}
+    } else {
+      addDebugLog('info','playInsult: played recorded insult audio',{dialect: d});
+    }
+    return true;
+  }catch(e){ console.error('playInsult failed', e); return false; }
+};
+
 // Robust export helper: tries download, then open in new tab, then clipboard
 async function doExportFile(filename, content){
   const payload = typeof content === 'string' ? content : JSON.stringify(content, null, 2);
@@ -469,6 +487,35 @@ if (window.fetch){
 let model = null;
 let isPredicting = false;
 let lastSpoken = { key: null, time: 0 };
+// Audio concurrency guard — evita sovrapposizioni tra file audio e TTS
+let _currentAudio = null; // HTMLAudioElement in riproduzione
+let _currentTTS = false; // true se c'è un utter attivo
+window._lastUtter = null;
+function stopAllVoices(){
+  try{
+    // stop audio element
+    if (_currentAudio){
+      try{ _currentAudio.pause(); }catch(_){}
+      try{ _currentAudio.src = ''; }catch(_){}
+      addDebugLog('info','stopAllVoices: stopped current audio');
+      _currentAudio = null;
+    }
+    // stop any WebSpeech utterance
+    try{
+      if ('speechSynthesis' in window){
+        if (window._lastUtter && typeof window._lastUtter.onend === 'function'){
+          // detach handlers to avoid double-clear
+          window._lastUtter.onend = null;
+          window._lastUtter.oncancel = null;
+        }
+        window.speechSynthesis.cancel();
+      }
+    }catch(e){ addDebugLog('warn','stopAllVoices: speechSynthesis cancel failed',{error: e && e.message}); }
+    if (_currentTTS){ addDebugLog('info','stopAllVoices: stopped TTS'); }
+    _currentTTS = false;
+    window._lastUtter = null;
+  }catch(e){ addDebugLog('warn','stopAllVoices failed',{error: e && e.message}); }
+}
 let touchStartY = 0;
 let lastTopKey = null;
 
@@ -518,7 +565,7 @@ function updateBentoGrid(predictions){
 
 // Interazione: click/tap e tastiera sulle card per pronunciare la traduzione nel dialetto selezionato
 if (bentoGrid){
-  bentoGrid.addEventListener('click', (e) => {
+  bentoGrid.addEventListener('click', async (e) => {
     const card = e.target.closest('.bento-card');
     if (!card) return;
     const displayLabel = card.dataset.key || (card.querySelector('.bento-key') && card.querySelector('.bento-key').dataset.key);
@@ -529,8 +576,37 @@ if (bentoGrid){
     const translation = dialectDict[dictKey] && dialectDict[dictKey][dialect];
     const toSpeak = translation || italianLabels[dictKey] || dictKey || displayLabel;
     addDebugLog('info','User requested speak',{key: dictKey, displayLabel, dialect, hasTranslation: !!translation, italianFallback: !!italianLabels[dictKey]});
-    // Su azione esplicita dell'utente: proviamo prima audio personalizzato, poi TTS
-    if (!playCustomAudio(dictKey, dialect)) speak(toSpeak, dialect);
+
+    // Preferenza: se Insulto Creativo è attivo, pronuncia una frase umoristica del dialetto scelto; altrimenti comportati come prima
+    try{
+      const insultOn = document.getElementById('insultMode') && document.getElementById('insultMode').checked;
+      if (insultOn){
+        const phrases = creativeInsults[dialect] || creativeInsults['Romano'] || ['Ma che roba è?'];
+        const pick = phrases[Math.floor(Math.random()*phrases.length)];
+        // prova prima audio registrato; se non disponibile non usare la TTS (evita voce femminile)
+        const played = await playDialectPhrase(dialect, dictKey);
+        if (!played) { addDebugLog('info','Insult mode: no local audio, skipping TTS per preference',{dialect, pick}); }
+        // visual feedback
+        detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = pick);
+        detailsContent.querySelector('.grandpa-comment') && (detailsContent.querySelector('.grandpa-comment').textContent = getSarcasticComment(displayName || (italianLabels[key] || key)));
+      } else {
+        if (translation) {
+          const phrasePlayed = await playDialectPhrase(dialect, dictKey);
+          if (!phrasePlayed) { speak(translation, dialect); }
+        } else {
+          const played = await playDialectPhrase(dialect, dictKey);
+          if (!played) {
+            if (!playCustomAudio(dictKey, dialect)) speak(toSpeak, dialect);
+          }
+        }
+      }
+    } catch(e){ addDebugLog('error','playDialect/translation/insult failed',{error: e && e.message});
+      // fallback
+      const insultOn = document.getElementById('insultMode') && document.getElementById('insultMode').checked;
+      if (insultOn){ const phrases = creativeInsults[dialect] || creativeInsults['Romano'] || ['Mah...']; addDebugLog('info','Insult fallback: skipping TTS per preference',{dialect, phrase: phrases[0]}); try{ detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = phrases[0]); }catch(_){} }
+      else if (translation) speak(translation, dialect); else if (!playCustomAudio(dictKey, dialect)) speak(toSpeak, dialect);
+    }
+
     lastSpoken = { key: dictKey, time: Date.now() };
     // Feedback visivo minimo
     card.classList.add('pressed');
@@ -602,7 +678,7 @@ video.addEventListener('touchend', (e)=>{
 detailPanel.querySelector('.handle').addEventListener('click', ()=> closeDetailPanel());
 
 // Usa Web Speech API per pronunciare la traduzione fonetica
-function speak(text, dialect){
+function speak(text, dialect, opts = {}){
   if (!text) return;
   // first try custom uploaded audio for emphasis
   try{
@@ -610,13 +686,41 @@ function speak(text, dialect){
     if (played) return;
   }catch(e){ /* ignore and fallback to TTS */ }
 
+  const force = opts && opts.force;
+  // If Insulto Creativo is active, suppress TTS entirely (user preference: no female voice for insults)
+  try{
+    const insultOn = document.getElementById('insultMode') && document.getElementById('insultMode').checked;
+    if (insultOn && !force){ addDebugLog('info','speak suppressed because Insulto Creativo active',{text}); try{ detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = text); }catch(_){} return; }
+  }catch(e){ /* ignore DOM errors and continue to TTS fallback */ }
+
+  // If user selected OpenTTS explicitly and has endpoint configured, prefer it
+  try{
+    const voiceSource = (document.getElementById('voiceSource') && document.getElementById('voiceSource').value) || 'auto';
+    if (voiceSource === 'opentts' || voiceSource === 'auto'){
+      const endpointInput = document.getElementById('openttsEndpoint');
+      const endpoint = (endpointInput && endpointInput.value) || '';
+      if (endpoint){
+        const ok = await speakViaOpenTTS(text, dialect, endpoint);
+        if (ok) return;
+      }
+    }
+  }catch(e){ addDebugLog('warn','speak: OpenTTS attempt failed',{error: e && e.message}); }
+
   if (!('speechSynthesis' in window)) return;
+  // ensure no other audio or TTS is playing
+  stopAllVoices();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'it-IT';
   utter.rate = 0.95;
   utter.pitch = 1.0;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
+  // mark TTS active and attach handlers to clear state
+  _currentTTS = true;
+  window._lastUtter = utter;
+  utter.onstart = function(){ addDebugLog('info','speak: TTS started',{text, dialect}); };
+  utter.onend = function(){ addDebugLog('info','speak: TTS ended',{text, dialect}); _currentTTS = false; if (window._lastUtter === utter) window._lastUtter = null; };
+  utter.onerror = function(e){ addDebugLog('error','speak: TTS error',{text, dialect, error: e && e.error}); _currentTTS = false; if (window._lastUtter === utter) window._lastUtter = null; };
+  utter.onpause = function(){ addDebugLog('info','speak: TTS paused',{text, dialect}); };
+  try{ window.speechSynthesis.speak(utter); }catch(e){ addDebugLog('error','speak: speechSynthesis.speak failed',{error: e && e.message}); _currentTTS = false; window._lastUtter = null; }
 }
 
 // ---- Giocose funzionalità: Cafone-Meter, Insulti Creativi, audio personalizzati, condivisione, easter eggs ----
@@ -631,6 +735,222 @@ function computeCafoneScore(key, probability){
   score = Math.max(0, Math.min(10, Math.round(score*10)/10));
   return score;
 }
+
+// --- Nuova funzionalità: parla in italiano e traduci nel dialetto scelto ---
+let _italianToKeyMap = null;
+function buildItalianToKeyMap(){
+  if (_italianToKeyMap) return _italianToKeyMap;
+  _italianToKeyMap = {};
+  try{
+    for (const [k,v] of Object.entries(italianLabels || {})){
+      if (!v) continue;
+      const norm = String(v).toLowerCase().trim().replace(/[.,()]/g,'');
+      _italianToKeyMap[norm] = k;
+    }
+    for (const [k,langs] of Object.entries(dialectDict)){
+      for (const langVal of Object.values(langs)){
+        if (!langVal) continue;
+        const norm = String(langVal).toLowerCase().trim().replace(/[.,()]/g,'');
+        if (!_italianToKeyMap[norm]) _italianToKeyMap[norm] = k;
+      }
+    }
+  }catch(e){ addDebugLog('warn','buildItalianToKeyMap failed',{error: e && e.message}); }
+  return _italianToKeyMap;
+}
+
+function translateItalianToDialect(text, dialect){
+  if (!text) return '';
+  buildItalianToKeyMap();
+  const cleaned = String(text).toLowerCase().replace(/[?.!]/g,' ').replace(/\s+/g,' ').trim();
+  if (!cleaned) return '';
+  const tokens = cleaned.split(' ');
+  const out = [];
+  const maxGram = Math.min(4, tokens.length);
+  for (let i=0;i<tokens.length;){
+    let matched = false;
+    for (let len = maxGram; len>=1; len--){
+      if (i+len > tokens.length) continue;
+      const phrase = tokens.slice(i,i+len).join(' ');
+      if (_italianToKeyMap[phrase]){
+        const key = _italianToKeyMap[phrase];
+        const trans = (dialectDict[key] && dialectDict[key][dialect]) || null;
+        if (trans) out.push(trans);
+        else out.push(phrase);
+        i += len; matched = true; break;
+      }
+      const fk = findKeyForLabel(phrase);
+      if (fk){ const trans = (dialectDict[fk] && dialectDict[fk][dialect]) || null; if (trans) out.push(trans); else out.push(phrase); i += len; matched = true; break; }
+    }
+    if (!matched){ out.push(tokens[i]); i++; }
+  }
+
+  // Fallback robusto per parole singole o mismatch: tenta matching senza diacritici e confronto parziale
+  const removeDiacritics = s => s.normalize ? s.normalize('NFD').replace(/[\u0300-\u036f]/g,'') : s;
+  const joined = out.join(' ').trim();
+  if (joined === cleaned || joined.split(' ').every((w,idx) => w === tokens[idx])){
+    addDebugLog('info','translateItalianToDialect: applying fallback matching for single words',{input: cleaned});
+    const final = tokens.map(token => {
+      const tNorm = removeDiacritics(token);
+      // check italianLabels
+      for (const [k,v] of Object.entries(italianLabels || {})){
+        if (!v) continue;
+        const vn = removeDiacritics(String(v).toLowerCase());
+        if (vn === tNorm || vn.includes(tNorm) || tNorm.includes(vn)){
+          const trans = (dialectDict[k] && dialectDict[k][dialect]) || null;
+          if (trans){ addDebugLog('info','translateItalianToDialect: fallback matched italianLabels',{token, key:k, trans}); return trans; }
+        }
+      }
+      // check dialectDict values
+      for (const [k,langs] of Object.entries(dialectDict)){
+        for (const val of Object.values(langs)){
+          if (!val) continue;
+          const vn = removeDiacritics(String(val).toLowerCase());
+          if (vn === tNorm || vn.includes(tNorm) || tNorm.includes(vn)){
+            const trans = (dialectDict[k] && dialectDict[k][dialect]) || null;
+            if (trans){ addDebugLog('info','translateItalianToDialect: fallback matched dialectDict',{token, key:k, trans}); return trans; }
+          }
+        }
+      }
+      // try findKeyForLabel (English model label heuristics)
+      const fk = findKeyForLabel(token);
+      if (fk){ const trans = (dialectDict[fk] && dialectDict[fk][dialect]) || null; if (trans){ addDebugLog('info','translateItalianToDialect: fallback matched findKey',{token, key:fk, trans}); return trans; } }
+      // no match: return original token
+      return token;
+    });
+    return final.join(' ');
+  }
+
+  return out.join(' ');
+}
+
+let _recognition = null;
+function initSpeechRecognition(){
+  try{
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return false;
+    _recognition = new SR();
+    _recognition.lang = 'it-IT';
+    _recognition.interimResults = true;
+    _recognition.maxAlternatives = 1;
+  }catch(e){ addDebugLog('warn','initSpeechRecognition catch',{error: e && e.message}); return false; }
+}
+
+// Load OpenTTS and Coqui configuration from credentials JSONs (if present) and prefill endpoint inputs
+async function loadOpenTTSConfig(){
+  try{
+    // OpenTTS config
+    try{
+      const resp = await fetch('credentials/opentts.json', {cache:'no-store'});
+      if (resp.ok){
+        const cfg = await resp.json();
+        const endpointInput = document.getElementById('openttsEndpoint');
+        if (endpointInput && cfg.endpoint) endpointInput.value = cfg.endpoint;
+        if (endpointInput && cfg.voice_map) endpointInput.dataset.voice = JSON.stringify(cfg.voice_map);
+        addDebugLog('info','loadOpenTTSConfig: loaded opentts',{endpoint: cfg.endpoint, voices: Object.keys(cfg.voice_map||{})});
+      } else addDebugLog('info','loadOpenTTSConfig: no opentts config');
+    }catch(e){ addDebugLog('info','loadOpenTTSConfig: opentts fetch failed',{error: e && e.message}); }
+
+    // Coqui config
+    try{
+      const resp2 = await fetch('credentials/coqui.json', {cache:'no-store'});
+      if (resp2.ok){
+        const cfg2 = await resp2.json();
+        const ep2 = document.getElementById('coquiEndpoint');
+        if (ep2 && cfg2.endpoint) ep2.value = cfg2.endpoint;
+        if (ep2 && cfg2.voice_map) ep2.dataset.voice = JSON.stringify(cfg2.voice_map);
+        addDebugLog('info','loadOpenTTSConfig: loaded coqui',{endpoint: cfg2.endpoint, model: cfg2.model, voices: Object.keys(cfg2.voice_map||{})});
+      } else addDebugLog('info','loadOpenTTSConfig: no coqui config');
+    }catch(e){ addDebugLog('info','loadOpenTTSConfig: coqui fetch failed',{error: e && e.message}); }
+
+    // Set selected voice for current dialects if possible
+    try{
+      const dialect = (dialectSelect && dialectSelect.value) || '';
+      const ep = document.getElementById('openttsEndpoint'); if (ep && ep.dataset && ep.dataset.voice){ const vm = JSON.parse(ep.dataset.voice || '{}'); ep.dataset.selectedVoice = vm[dialect] || vm['default'] || ''; }
+      const ep2 = document.getElementById('coquiEndpoint'); if (ep2 && ep2.dataset && ep2.dataset.voice){ const vm2 = JSON.parse(ep2.dataset.voice || '{}'); ep2.dataset.selectedVoice = vm2[dialect] || vm2['default'] || ''; }
+    }catch(e){}
+    return true;
+  }catch(e){ addDebugLog('warn','loadOpenTTSConfig failed',{error: e && e.message}); return false; }
+}
+    _recognition.onstart = function(){ document.getElementById('recStatus') && (document.getElementById('recStatus').textContent = 'Ascoltando...'); addDebugLog('info','speechRecognition: started'); };
+    _recognition.onresult = function(evt){ try{ const inter = Array.from(evt.results).map(r => r[0].transcript).join(' '); const el = document.getElementById('translateInput'); if (el) el.value = inter; }catch(e){ addDebugLog('warn','speechRecognition onresult failed',{error: e && e.message}); } };
+    _recognition.onend = function(){ try{ document.getElementById('startRecBtn') && document.getElementById('startRecBtn').classList.remove('active'); document.getElementById('recStatus') && (document.getElementById('recStatus').textContent = ''); const txt = document.getElementById('translateInput') && document.getElementById('translateInput').value; const dialect = (dialectSelect && dialectSelect.value) || 'Romano'; if (txt && txt.trim()){ const translated = translateItalianToDialect(txt, dialect); detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = translated); speak(translated, dialect, {force:true}); addDebugLog('info','speechRecognition: final',{transcript: txt, translated}); } }catch(e){ addDebugLog('error','speechRecognition onend failed',{error: e && e.message}); } };
+    _recognition.onerror = function(e){ addDebugLog('error','speechRecognition error',{error: e && e.error}); document.getElementById('recStatus') && (document.getElementById('recStatus').textContent = 'Errore riconoscimento'); };
+    return true;
+  }catch(e){ addDebugLog('warn','initSpeechRecognition failed',{error: e && e.message}); return false; }
+}
+
+// UI wiring for the translation controls
+(function attachTranslationControls(){
+  try{
+    const startBtn = document.getElementById('startRecBtn');
+    const translateBtn = document.getElementById('translateBtn');
+    const input = document.getElementById('translateInput');
+    if (!startBtn || !translateBtn || !input) return;
+
+    // utility: when dialect changes, update default OpenTTS/Coqui voice dataset if config loaded
+    try{
+      const endpointInput = document.getElementById('openttsEndpoint');
+      const coquiInput = document.getElementById('coquiEndpoint');
+      const checkBtn = document.getElementById('checkCoquiBtn');
+      if (endpointInput){
+        const updateVoiceForDialect = () => {
+          try{
+            const cfgVoice = endpointInput.dataset && endpointInput.dataset.voice ? JSON.parse(endpointInput.dataset.voice || '{}') : null;
+            const dialect = (dialectSelect && dialectSelect.value) || '';
+            if (cfgVoice && typeof cfgVoice === 'object'){
+              const selected = cfgVoice[dialect] || cfgVoice['default'] || '';
+              if (selected) endpointInput.dataset.selectedVoice = selected;
+            }
+          }catch(e){ /* ignore */ }
+        };
+        dialectSelect && dialectSelect.addEventListener('change', updateVoiceForDialect);
+        // call once at startup
+        setTimeout(updateVoiceForDialect, 300);
+      }
+      if (coquiInput){
+        const updateCoquiForDialect = () => {
+          try{
+            const cfgVoice = coquiInput.dataset && coquiInput.dataset.voice ? JSON.parse(coquiInput.dataset.voice || '{}') : null;
+            const dialect = (dialectSelect && dialectSelect.value) || '';
+            if (cfgVoice && typeof cfgVoice === 'object'){
+              const selected = cfgVoice[dialect] || cfgVoice['default'] || '';
+              if (selected) coquiInput.dataset.selectedVoice = selected;
+            }
+          }catch(e){ /* ignore */ }
+        };
+        dialectSelect && dialectSelect.addEventListener('change', updateCoquiForDialect);
+        setTimeout(updateCoquiForDialect, 300);
+      }
+      if (checkBtn){ checkBtn.addEventListener('click', ()=> verifyCoquiEndpoint()); }
+    }catch(e){ addDebugLog('warn','attachTranslationControls: updateVoiceForDialect setup failed',{error: e && e.message}); }
+    startBtn.addEventListener('click', ()=>{
+      if (!_recognition){ const ok = initSpeechRecognition(); if (!ok){ alert('Riconoscimento vocale non disponibile qui'); return; } }
+      if (_recognition && _recognition._running){ try{ _recognition.stop(); }catch(_){} _recognition._running = false; startBtn.classList.remove('active'); document.getElementById('recStatus') && (document.getElementById('recStatus').textContent = ''); }
+      else { try{ _recognition.start(); _recognition._running = true; startBtn.classList.add('active'); }catch(e){ addDebugLog('error','start recognition failed',{error: e && e.message}); alert('Impossibile avviare il microfono'); } }
+    });
+    translateBtn.addEventListener('click', async ()=>{
+      try{
+        const txt = input.value || '';
+        if (!txt.trim()){ alert('Scrivi o pronuncia qualcosa in italiano prima di tradurre'); return; }
+        const dialect = (dialectSelect && dialectSelect.value) || 'Romano';
+        const translated = translateItalianToDialect(txt, dialect);
+        detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = translated);
+        // Pronuncia/mostra traduzione: forziamo la TTS anche se Insulto Creativo è attivo (utente ha richiesto traduzione esplicita)
+        const voiceSource = (document.getElementById('voiceSource') && document.getElementById('voiceSource').value) || 'auto';
+        if (voiceSource === 'opentts' || voiceSource === 'auto'){
+          const endpointInput = document.getElementById('openttsEndpoint');
+          const endpoint = (endpointInput && endpointInput.value) || '';
+          if (endpoint){
+            const ok = await speakViaOpenTTS(translated, dialect, endpoint);
+            if (ok) { addDebugLog('info','translateBtn: played via OpenTTS',{translated, dialect}); return; }
+          }
+        }
+        speak(translated, dialect, {force:true});
+        addDebugLog('info','translateBtn: translated',{input: txt, translated, dialect});
+      }catch(e){ addDebugLog('error','translateBtn handler failed',{error: e && e.message}); }
+    });
+  }catch(e){ addDebugLog('warn','attachTranslationControls failed',{error: e && e.message}); }
+})();
 
 function getCafoneQuip(key, score){
   const base = `Voto ${Math.round(score)}/10:`;
@@ -690,12 +1010,17 @@ function playCustomAudio(keyOrText, dialect){
     if (!b64) return false;
     const blob = b64ToBlob(b64);
     const url = URL.createObjectURL(blob);
+    // stop any ongoing playback to avoid overlapping voices
+    stopAllVoices();
     const a = new Audio(url);
-    a.play();
-    a.onended = () => { URL.revokeObjectURL(url); };
+    _currentAudio = a;
+    a.addEventListener('playing', ()=> addDebugLog('info','playCustomAudio: started playing',{key: dictKey, dialect: dialectId}));
+    a.addEventListener('error', (ev)=> addDebugLog('error','playCustomAudio: audio error',{key: dictKey, dialect: dialectId, code: a.error && a.error.code, message: a.error && a.error.message}));
+    a.play().catch(e => addDebugLog('warn','playCustomAudio play failed',{error: e && e.message}));
+    a.onended = () => { URL.revokeObjectURL(url); if (_currentAudio === a) _currentAudio = null; addDebugLog('info','playCustomAudio: ended playing',{key: dictKey, dialect: dialectId}); };
     return true;
   }catch(e){ addDebugLog('error','playCustomAudio failed',{error: e && e.message}); return false; }
-}
+} 
 
 function b64ToBlob(b64){
   const parts = b64.split(',');
@@ -705,6 +1030,223 @@ function b64ToBlob(b64){
   for(let i=0;i<bytes.length;i++) buf[i]=bytes.charCodeAt(i);
   return new Blob([buf], {type:mime});
 }
+
+// ===== Audio helpers: play audio files for dialect phrases =====
+async function playAudioPath(path){
+  try{
+    // normalize backslashes
+    path = path.replace(/\\\\/g, '/');
+    // stop any ongoing playback to avoid overlapping voices
+    stopAllVoices();
+    const audio = new Audio(path);
+    _currentAudio = audio;
+    audio.addEventListener('playing', ()=> { addDebugLog('info','playAudioPath: started playing',{path}); });
+    audio.addEventListener('ended', ()=> { try{ audio.src = ''; if (_currentAudio === audio) _currentAudio = null; addDebugLog('info','playAudioPath: ended playing',{path}); }catch(_){} });
+    audio.addEventListener('error', (ev)=> { addDebugLog('error','playAudioPath: audio error',{path, code: audio.error && audio.error.code, message: audio.error && audio.error.message}); });
+    await audio.play();
+    return true;
+  }catch(e){ addDebugLog('warn','playAudioPath failed',{path, error: e && e.message}); return false; }
+}
+
+// Speak via OpenTTS (tries /api/tts then /speak). Returns true if audio played successfully
+async function speakViaOpenTTS(text, dialect, endpoint){
+  try{
+    if (!text) return false;
+    const ep = (endpoint || '').replace(/\/$/, '');
+    if (!ep) return false;
+
+    // Stop existing audio/TTS before requesting new
+    stopAllVoices();
+
+    // Attempt 1: POST /api/tts (JSON body)
+    try{
+      const voice = (document.getElementById('openttsEndpoint') && document.getElementById('openttsEndpoint').dataset && document.getElementById('openttsEndpoint').dataset.voice) || '';
+      const payload = { input: text, voice: voice || '', format: 'mp3' };
+      const resp = await fetch(ep + '/api/tts', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+      if (resp.ok){
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        _currentAudio = audio;
+        audio.addEventListener('playing', ()=> addDebugLog('info','speakViaOpenTTS: started',{endpoint: ep}));
+        audio.addEventListener('ended', ()=> { URL.revokeObjectURL(url); if (_currentAudio === audio) _currentAudio = null; addDebugLog('info','speakViaOpenTTS: ended',{endpoint: ep}); });
+        audio.play();
+        return true;
+      }
+    }catch(e){ addDebugLog('warn','speakViaOpenTTS attempt /api/tts failed',{error: e && e.message}); }
+
+    // Attempt 2: POST /speak (form data)
+    try{
+      const form = new FormData(); form.append('input', text); form.append('format','mp3');
+      const resp2 = await fetch(ep + '/speak', { method: 'POST', body: form });
+      if (resp2.ok){ const blob2 = await resp2.blob(); const url2 = URL.createObjectURL(blob2); const audio2 = new Audio(url2); _currentAudio = audio2; audio2.addEventListener('playing', ()=> addDebugLog('info','speakViaOpenTTS: started,/speak',{endpoint: ep})); audio2.addEventListener('ended', ()=> { URL.revokeObjectURL(url2); if (_currentAudio === audio2) _currentAudio = null; addDebugLog('info','speakViaOpenTTS: ended,/speak',{endpoint: ep}); }); audio2.play(); return true; }
+    }catch(e){ addDebugLog('warn','speakViaOpenTTS attempt /speak failed',{error: e && e.message}); }
+
+    addDebugLog('warn','speakViaOpenTTS: no supported endpoints responded',{endpoint: ep});
+    return false;
+  }catch(e){ addDebugLog('error','speakViaOpenTTS failed',{error: e && e.message}); return false; }
+}
+
+// Speak via Coqui TTS (POST /speak directly). Returns true if audio played successfully
+async function speakViaCoqui(text, dialect, endpoint){
+  try{
+    if (!text) return false;
+    const ep = (endpoint || '').replace(/\/$/, '');
+    if (!ep) return false;
+    stopAllVoices();
+    try{
+      const form = new FormData(); form.append('input', text); form.append('format','mp3'); form.append('speaker','');
+      const resp = await fetch(ep + '/speak', { method: 'POST', body: form });
+      if (resp.ok){
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        _currentAudio = audio;
+        audio.addEventListener('playing', ()=> addDebugLog('info','speakViaCoqui: started',{endpoint: ep}));
+        audio.addEventListener('ended', ()=> { URL.revokeObjectURL(url); if (_currentAudio === audio) _currentAudio = null; addDebugLog('info','speakViaCoqui: ended',{endpoint: ep}); });
+        audio.play();
+        return true;
+      }
+    }catch(e){ addDebugLog('warn','speakViaCoqui failed',{error: e && e.message}); }
+    return false;
+  }catch(e){ addDebugLog('error','speakViaCoqui failed outer',{error: e && e.message}); return false; }
+}
+
+// Speak via gTTS server (POST /speak). Returns true if audio played successfully
+async function speakViaGtts(text, dialect, endpoint){
+  try{
+    if (!text) return false;
+    const ep = (endpoint || '').replace(/\/$/, '');
+    if (!ep) return false;
+    stopAllVoices();
+    try{
+      const form = new FormData(); form.append('input', text); form.append('format','mp3');
+      const resp = await fetch(ep + '/speak', { method: 'POST', body: form });
+      if (resp.ok){
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        _currentAudio = audio;
+        audio.addEventListener('playing', ()=> addDebugLog('info','speakViaGtts: started',{endpoint: ep}));
+        audio.addEventListener('ended', ()=> { URL.revokeObjectURL(url); if (_currentAudio === audio) _currentAudio = null; addDebugLog('info','speakViaGtts: ended',{endpoint: ep}); });
+        audio.play();
+        return true;
+      }
+    }catch(e){ addDebugLog('warn','speakViaGtts failed',{error: e && e.message}); }
+    return false;
+  }catch(e){ addDebugLog('error','speakViaGtts failed outer',{error: e && e.message}); return false; }
+}
+
+// Verify Coqui endpoint: calls /health and /voices and updates UI
+async function verifyCoquiEndpoint(){
+  try{
+    const endpointInput = document.getElementById('coquiEndpoint');
+    const resultEl = document.getElementById('coquiCheckResult');
+    if (!endpointInput || !resultEl) return false;
+    const ep = (endpointInput.value || '').replace(/\/$/, '');
+    if (!ep){ resultEl.textContent = 'Endpoint non impostato'; return false; }
+    resultEl.textContent = 'Verifico...';
+    // health
+    try{
+      const h = await fetch(ep + '/health', {cache:'no-store'});
+      if (!h.ok) throw new Error('health status ' + h.status);
+      const j = await h.json();
+      let voices = [];
+      try{
+        const v = await fetch(ep + '/voices', {cache:'no-store'});
+        if (v.ok){ const vj = await v.json(); voices = vj.voices || vj.speakers || vj.list || []; }
+      }catch(e){}
+      resultEl.textContent = 'OK ' + (j.model || '') + (voices && voices.length ? ' — voci: ' + voices.slice(0,5).join(', ') : '');
+      addDebugLog('info','verifyCoqui success',{endpoint: ep, health: j, voices});
+      return true;
+    }catch(e){ resultEl.textContent = 'Errore: ' + (e && e.message); addDebugLog('error','verifyCoqui failed',{endpoint: ep, error: e && e.message}); return false; }
+  }catch(e){ addDebugLog('error','verifyCoqui outer failed',{error: e && e.message}); return false; }
+}
+
+// Cache phrases.json per dialetto per evitare fetch ripetuti
+const _phrasesCache = {};
+async function getPhrasesForDialect(dialect){
+  if (!dialect) return [];
+  if (_phrasesCache[dialect]) return _phrasesCache[dialect];
+  try{
+    const p = await fetch(`audio/${dialect}/phrases.json`, {cache:'no-store'});
+    if (!p.ok) return [];
+    const arr = await p.json(); _phrasesCache[dialect] = arr; return arr;
+  }catch(e){ addDebugLog('warn','getPhrasesForDialect failed',{dialect, error: e && e.message}); return []; }
+}
+
+// Cerca e riproduce una frase registrata per il dialetto: preferisce SSML locale, poi mp3 locale, poi human recordings
+async function playDialectPhrase(dialect, dictKey){
+  try{
+    if (!dialect) return false;
+    const phrases = await getPhrasesForDialect(dialect);
+    if (!phrases || !phrases.length) return false;
+    // prefer tones sarcastic/humorous; fallback all
+    const candidates = phrases.filter(ph => ['sarcastic','humorous'].includes((ph.tone||'').toLowerCase()));
+    const pool = candidates.length ? candidates : phrases;
+    // pick random phrase
+    const ph = pool[Math.floor(Math.random()*pool.length)];
+    if (!ph) return false;
+    // try OpenTTS / Coqui / gTTS (local) if selected
+    try{
+      const voiceSource = (document.getElementById('voiceSource') && document.getElementById('voiceSource').value) || 'auto';
+      // gTTS path
+      if (voiceSource === 'gtts' || voiceSource === 'auto'){
+        const gttsEp = (document.getElementById('gttsEndpoint') && document.getElementById('gttsEndpoint').value) || '';
+        if (ph.open_mp3){ const p = `audio/${dialect}/${ph.open_mp3.replace(/\\\\/g,'/')}`; try{ const ok = await playAudioPath(p); if (ok) return true; }catch(e){} }
+        try{ const ok = await speakViaGtts((ph.text||ph.phrase||ph.translation||ph.label||''), dialect, gttsEp); if (ok) return true; }catch(e){}
+      }
+      // Coqui path
+      if (voiceSource === 'coqui' || voiceSource === 'auto'){
+        const coquiEp = (document.getElementById('coquiEndpoint') && document.getElementById('coquiEndpoint').value) || '';
+        if (ph.open_mp3){ const p = `audio/${dialect}/${ph.open_mp3.replace(/\\\\/g,'/')}`; try{ const ok = await playAudioPath(p); if (ok) return true; }catch(e){} }
+        try{ const ok = await speakViaCoqui((ph.text||ph.phrase||ph.translation||ph.label||''), dialect, coquiEp); if (ok) return true; }catch(e){}
+      }
+      // OpenTTS path (legacy)
+      if (voiceSource === 'opentts' || voiceSource === 'auto'){
+        const endpointInput = document.getElementById('openttsEndpoint');
+        const endpoint = (endpointInput && endpointInput.value) || '/';
+        if (ph.open_mp3){ const p = `audio/${dialect}/${ph.open_mp3.replace(/\\\\/g,'/')}`; try{ const ok = await playAudioPath(p); if (ok) return true; }catch(e){} }
+        try{ const ok = await speakViaOpenTTS((ph.text||ph.phrase||ph.translation||ph.label||''), dialect, endpoint); if (ok) return true; }catch(e){}
+      }
+    }catch(e){/* ignore */}
+
+    // try Azure local files (if user selected Azure as voice source or automatic) 
+    try{
+      const voiceSource = (document.getElementById('voiceSource') && document.getElementById('voiceSource').value) || 'auto';
+      if (voiceSource === 'azure' || voiceSource === 'auto'){
+        if (ph.azure_mp3){
+          const pAzure = `audio/${dialect}/${ph.azure_mp3.replace(/\\\\/g,'/')}`;
+          try{ const ok = await playAudioPath(pAzure); if (ok) return true; }catch(e){}
+        }
+        // also try common path azure/<id>_azure.mp3
+        if (typeof ph.id !== 'undefined'){
+          const pAzure2 = `audio/${dialect}/azure/${ph.id}_azure.mp3`;
+          try{ const ok = await playAudioPath(pAzure2); if (ok) return true; }catch(e){}
+        }
+      }
+    }catch(e){/* ignore */}
+    // try google_ssml_local
+    if (ph.google_ssml_local){
+      const path = `audio/${dialect}/${ph.google_ssml_local.replace(/\\\\/g,'/')}`;
+      try{ const ok = await playAudioPath(path); if (ok) return true; }catch(e){}
+    }
+    // try local mp3 (SAPI-generated)
+    if (ph.mp3){
+      const path2 = `audio/${dialect}/${ph.mp3}`;
+      try{ const ok = await playAudioPath(path2); if (ok) return true; }catch(e){}
+    }
+    // try human recordings
+    if (ph.human && ph.human.length){
+      // human paths are relative to repo root (e.g., 'human-recordings/siciliano/...')
+      const raw = ph.human[0];
+      const path3 = raw.replace(/\\\\/g,'/');
+      try{ const ok = await playAudioPath(path3); if (ok) return true; }catch(e){}
+    }
+    return false;
+  }catch(e){ addDebugLog('error','playDialectPhrase failed',{dialect, dictKey, error: e && e.message}); return false; }
+}
+
 
 // handler wiring
 function attachDetailFooterHandlers(){
@@ -808,7 +1350,19 @@ async function predictLoop(){
 
         const dialect = dialectSelect.value;
         const translation = dialectDict[key] && dialectDict[key][dialect];
-        if (translation){
+        const insultOn = document.getElementById('insultMode') && document.getElementById('insultMode').checked;
+        if (insultOn){
+          if (lastSpoken.key !== key || (now - lastSpoken.time) > SPEAK_COOLDOWN_MS){
+            const phrases = creativeInsults[dialect] || creativeInsults['Romano'] || ['Ma che roba è?'];
+            const pick = phrases[Math.floor(Math.random()*phrases.length)];
+            speak(pick, dialect);
+            lastSpoken = { key, time: now };
+            // show quip
+            detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = pick);
+            detailsContent.querySelector('.grandpa-comment') && (detailsContent.querySelector('.grandpa-comment').textContent = getSarcasticComment(italianLabels[key] || key));
+            triggerExclaim();
+          }
+        } else if (translation){
           if (lastSpoken.key !== key || (now - lastSpoken.time) > SPEAK_COOLDOWN_MS){
             speak(translation, dialect);
             lastSpoken = { key, time: now };
@@ -819,23 +1373,10 @@ async function predictLoop(){
             lastSpoken = { key, time: now };
           }
         } else {
-          // Possibilità di insulto creativo o messaggio di fallback
+          // fallback neutro
           try{
-            const insultOn = document.getElementById('insultMode') && document.getElementById('insultMode').checked;
-            if (insultOn && (!key || top.probability < (CONFIDENCE_THRESHOLD + 0.05))){
-              const phrases = creativeInsults[dialect] || creativeInsults['Romano'] || ['Ma che roba è?'];
-              const pick = phrases[Math.floor(Math.random()*phrases.length)];
-              speak(pick, dialect);
-              // mostra come quip visuale
-              detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = pick);
-              // mostra commento del nonno per il fallback
-              detailsContent.querySelector('.grandpa-comment') && (detailsContent.querySelector('.grandpa-comment').textContent = getSarcasticComment(displayName));
-              triggerExclaim();
-            } else {
-              // fallback neutro
-              detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = 'Oggetto non riconosciuto');
-              detailsContent.querySelector('.grandpa-comment') && (detailsContent.querySelector('.grandpa-comment').textContent = getSarcasticComment(displayName, {isError:true}));
-            }
+            detailsContent.querySelector('.quip') && (detailsContent.querySelector('.quip').textContent = 'Oggetto non riconosciuto');
+            detailsContent.querySelector('.grandpa-comment') && (detailsContent.querySelector('.grandpa-comment').textContent = getSarcasticComment(italianLabels[key] || key, {isError:true}));
           }catch(e){ /* ignore */ }
         }
 
@@ -887,6 +1428,8 @@ async function init(){
     await loadExternalDialects().catch(e => addDebugLog('warn','loadExternalDialects failed at init',{error: e && e.message}));
     addDebugLog('info','environment',{ ua: navigator.userAgent, platform: navigator.platform, mobile: /Mobi|Android|iPhone|iPad/.test(navigator.userAgent) });
     addDebugLog('info','navigator.mediaDevices',{ mediaDevices: !!navigator.mediaDevices, getUserMedia: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) });
+    // Load OpenTTS config (auto-populate endpoint and default voice) if present
+    try{ await loadOpenTTSConfig().catch(e => addDebugLog('warn','loadOpenTTSConfig failed',{error: e && e.message})); }catch(e){ addDebugLog('warn','loadOpenTTSConfig outer failed',{error: e && e.message}); }
 
     const loadScript = (src) => new Promise((resolve,reject)=>{
       const s = document.createElement('script');
