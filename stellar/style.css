@@ -296,6 +296,10 @@ canvas{
 .app.compact-ui .sidebar{max-height:220px}
 .app.compact-ui .footer{display:none}
 
+/* Share buttons styles */
+.share-buttons{display:flex;gap:8px;align-items:center}
+.share-buttons .btn{padding:8px 12px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
+@media (max-width:420px){.share-buttons{flex-wrap:wrap}}
 
 
 
