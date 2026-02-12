@@ -5,7 +5,7 @@
       "url": "css\/app.css"
     },
     {
-      "hash": "sha256-z8OR40MowJ8GgK6P89Y+hiJK5+cclzFHzLhFQLL92bg=",
+      "hash": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=",
       "url": "css\/bootstrap\/bootstrap.min.css"
     },
     {
@@ -29,7 +29,7 @@
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-gYyq8ISUbcHF3zMmgW7vNsC27fBetZIIcxuinJH6Ugo=",
+      "hash": "sha256-k/bdDUSJXq9vW/TZy7zvlNrzUgU+ugw3ohl/KzFpk9w=",
       "url": "index.html"
     },
     {
@@ -37,7 +37,7 @@
       "url": "js\/download.js"
     },
     {
-      "hash": "sha256-5vElQyHilXPfF\/Ke3RNcaxXakCiWcTr0ptiCija7i1Y=",
+      "hash": "sha256-z3xfagISyod1wQEqCISxxLb1UmlNFbFNXGQQ000s3IY=",
       "url": "js\/locandina-generator.js"
     },
     {
@@ -57,11 +57,11 @@
       "url": "_framework\/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-MVfdBJ6e7axwvjhKnKkzo13y4YElMb5\/59I8Txh+b4M=",
+      "hash": "sha256-K7kHHBIaGq7NPu7TTKnX2qIWS0KJhU4J4tb15KNynyo=",
       "url": "_framework\/dotnet.js"
     },
     {
-      "hash": "sha256-NljIbpK\/1KCj0+knpX8U77Rbl5kTtfFIuFjK7AuczEw=",
+      "hash": "sha256-mx8PRy9WM\/o6LUooqUTwRc6QEXy56Q73NaIyKxLlVi0=",
       "url": "_framework\/dotnet.native.8.0.23.y5sf23alu6.js"
     },
     {
@@ -69,7 +69,7 @@
       "url": "_framework\/dotnet.native.wasm"
     },
     {
-      "hash": "sha256-TGUqQm2\/C+r+yZ5BCjd72qyLw9wv0KPFKzKXk\/giiyY=",
+      "hash": "sha256-/2DMN5yXHTNmrVlVoDKt4OFmrgeQJyED1BRfpXStv9g=",
       "url": "_framework\/dotnet.runtime.8.0.23.ac2yte2lv5.js"
     },
     {
