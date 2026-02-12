@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "dialect": "Romano",
+    "text": "Bravissimo, sei proprio 'n genio, eh?",
+    "italian": "Bravissimo, sei proprio un genio, eh?",
+    "tone": "sarcastic",
+    "mp3": "romano_01.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ]
+  },
+  {
+    "id": 2,
+    "dialect": "Romano",
+    "text": "Ah, sei arrivato in orario? Mamma mia.",
+    "italian": "Ah, sei arrivato in orario? Mamma mia.",
+    "tone": "sarcastic",
+    "mp3": "romano_02.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ]
+  },
+  {
+    "id": 3,
+    "dialect": "Romano",
+    "text": "Nun te preoccupà, lo sai meglio te...",
+    "italian": "Non ti preoccupare, lo sai meglio tu...",
+    "tone": "sarcastic",
+    "mp3": "romano_03.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ]
+  },
+  {
+    "id": 4,
+    "dialect": "Romano",
+    "text": "Fanno 'n colpo 'e genio, eh?",
+    "italian": "Un altro colpo di genio, eh?",
+    "tone": "sarcastic",
+    "mp3": "romano_04.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ]
+  },
+  {
+    "id": 5,
+    "dialect": "Romano",
+    "text": "Grazzie pe' 'sto contributo, fondamentale veramente.",
+    "italian": "Grazie per questo contributo, fondamentale veramente.",
+    "tone": "sarcastic",
+    "mp3": "romano_05.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ]
+  },
+  {
+    "id": 6,
+    "dialect": "Romano",
+    "text": "Aò, che talento puro, famo 'na statua?",
+    "italian": "Che talento puro, facciamo una statua?",
+    "tone": "humorous",
+    "mp3": "romano_06.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ],
+    "google_ssml": "samples\\romano_6_SSML.mp3",
+    "google_ssml_local": "google_ssml\\romano_6_SSML.mp3"
+  },
+  {
+    "id": 7,
+    "dialect": "Romano",
+    "text": "Mo' sei diventato 'no fenomeno.",
+    "italian": "Ora sei diventato un fenomeno.",
+    "tone": "humorous",
+    "mp3": "romano_07.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ],
+    "google_ssml": "samples\\romano_7_SSML.mp3",
+    "google_ssml_local": "google_ssml\\romano_7_SSML.mp3"
+  },
+  {
+    "id": 8,
+    "dialect": "Romano",
+    "text": "Famo finta che te credemo.",
+    "italian": "Facciamo finta che ti crediamo.",
+    "tone": "humorous",
+    "mp3": "romano_08.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ],
+    "google_ssml": "samples\\romano_8_SSML.mp3",
+    "google_ssml_local": "google_ssml\\romano_8_SSML.mp3"
+  },
+  {
+    "id": 9,
+    "dialect": "Romano",
+    "text": "Te sei studiato 'sto capolavoro tutta 'a vita?",
+    "italian": "Ti sei studiato questo capolavoro tutta la vita?",
+    "tone": "humorous",
+    "mp3": "romano_09.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ],
+    "google_ssml": "samples\\romano_9_SSML.mp3",
+    "google_ssml_local": "google_ssml\\romano_9_SSML.mp3"
+  },
+  {
+    "id": 10,
+    "dialect": "Romano",
+    "text": "Grazzie pe' 'sto capolavoro, te ringrazio assai.",
+    "italian": "Grazie per questo capolavoro, ti ringrazio molto.",
+    "tone": "humorous",
+    "mp3": "romano_10.mp3",
+    "human": [
+      "human-recordings\\romanesco\\Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+      "human-recordings\\romanesco\\LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+      "human-recordings\\romanesco\\Nl-romanesco.mp3"
+    ],
+    "google_ssml": "samples\\romano_10_SSML.mp3",
+    "google_ssml_local": "google_ssml\\romano_10_SSML.mp3"
+  }
+]

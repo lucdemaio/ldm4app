@@ -8,11 +8,14 @@
     <base href="/tornei/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="_content/MudBlazor/MudBlazor.min.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="GestionaleTorneiWeb.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <!-- Offline persistence: intercept failed API writes and store in IndexedDB -->
+    <script src="js/offline-intercept.js"></script>
 </head>
 
 <body>
@@ -310,6 +313,7 @@
         </footer>
     </div>
 
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
       if('serviceWorker' in navigator){

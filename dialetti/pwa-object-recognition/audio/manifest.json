@@ -1,0 +1,5 @@
+{
+  "generated_with": "TTS placeholders",
+  "dialects": ["Romano","Veneto","Bergamasco","Milanese","Napoletano","Siciliano"],
+  "notes": "Ogni sottocartella contiene un file phrases.json con 5 frasi sarcastiche e i nomi dei file MP3 suggeriti. I file MP3 sono placeholder; usa scripts/generate_tts.py per generarli con gTTS."
+}

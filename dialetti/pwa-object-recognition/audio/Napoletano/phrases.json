@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "dialect": "Napoletano",
+    "text": "Bravissimo, comme sempe...",
+    "italian": "Bravissimo, come sempre...",
+    "tone": "sarcastic",
+    "mp3": "napoletano_01.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ]
+  },
+  {
+    "id": 2,
+    "dialect": "Napoletano",
+    "text": "Ottima idea, proprio 'nu genio...",
+    "italian": "Ottima idea, proprio un genio...",
+    "tone": "sarcastic",
+    "mp3": "napoletano_02.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ]
+  },
+  {
+    "id": 3,
+    "dialect": "Napoletano",
+    "text": "Chi fai, fai apposta?",
+    "italian": "Che fai, lo fai apposta?",
+    "tone": "sarcastic",
+    "mp3": "napoletano_03.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ]
+  },
+  {
+    "id": 4,
+    "dialect": "Napoletano",
+    "text": "Noo, continua accussì.",
+    "italian": "No, continua così.",
+    "tone": "sarcastic",
+    "mp3": "napoletano_04.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ]
+  },
+  {
+    "id": 5,
+    "dialect": "Napoletano",
+    "text": "Grazzie pe' niente.",
+    "italian": "Grazie per niente.",
+    "tone": "sarcastic",
+    "mp3": "napoletano_05.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ]
+  },
+  {
+    "id": 6,
+    "dialect": "Napoletano",
+    "text": "E che genio! Ce mettimm' 'na candela?",
+    "italian": "Che genio! Ci mettiamo una candela?",
+    "tone": "humorous",
+    "mp3": "napoletano_06.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ],
+    "google_ssml": "samples\\napoletano_6_SSML.mp3",
+    "google_ssml_local": "google_ssml\\napoletano_6_SSML.mp3"
+  },
+  {
+    "id": 7,
+    "dialect": "Napoletano",
+    "text": "Si 'na macchina de idee, sul serio.",
+    "italian": "Sei una macchina di idee, sul serio.",
+    "tone": "humorous",
+    "mp3": "napoletano_07.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ],
+    "google_ssml": "samples\\napoletano_7_SSML.mp3",
+    "google_ssml_local": "google_ssml\\napoletano_7_SSML.mp3"
+  },
+  {
+    "id": 8,
+    "dialect": "Napoletano",
+    "text": "Mo facimm' 'na festa pe' te.",
+    "italian": "Ora facciamo una festa per te.",
+    "tone": "humorous",
+    "mp3": "napoletano_08.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ],
+    "google_ssml": "samples\\napoletano_8_SSML.mp3",
+    "google_ssml_local": "google_ssml\\napoletano_8_SSML.mp3"
+  },
+  {
+    "id": 9,
+    "dialect": "Napoletano",
+    "text": "Me fai morì, pe' 'o ridere.",
+    "italian": "Mi fai morire, dal ridere.",
+    "tone": "humorous",
+    "mp3": "napoletano_09.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ],
+    "google_ssml": "samples\\napoletano_9_SSML.mp3",
+    "google_ssml_local": "google_ssml\\napoletano_9_SSML.mp3"
+  },
+  {
+    "id": 10,
+    "dialect": "Napoletano",
+    "text": "Grazie, mo stamm' a posto.",
+    "italian": "Grazie, ora siamo a posto.",
+    "tone": "humorous",
+    "mp3": "napoletano_10.mp3",
+    "human": [
+      "human-recordings\\napoletano\\LL-Q36163__nap_-Key_Mirza-a_staggione.mp3"
+    ],
+    "google_ssml": "samples\\napoletano_10_SSML.mp3",
+    "google_ssml_local": "google_ssml\\napoletano_10_SSML.mp3"
+  }
+]

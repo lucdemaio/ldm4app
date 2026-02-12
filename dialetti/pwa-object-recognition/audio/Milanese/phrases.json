@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "dialect": "Milanese",
+    "text": "Geniàl, eh?",
+    "italian": "Geniale, eh?",
+    "tone": "sarcastic",
+    "mp3": "milanese_01.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ]
+  },
+  {
+    "id": 2,
+    "dialect": "Milanese",
+    "text": "Che sorpresa, veramente.",
+    "italian": "Che sorpresa, veramente.",
+    "tone": "sarcastic",
+    "mp3": "milanese_02.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ]
+  },
+  {
+    "id": 3,
+    "dialect": "Milanese",
+    "text": "Bel lavor, complimenti.",
+    "italian": "Bel lavoro, complimenti.",
+    "tone": "sarcastic",
+    "mp3": "milanese_03.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ]
+  },
+  {
+    "id": 4,
+    "dialect": "Milanese",
+    "text": "Grazie per 'l aiuto, se no...",
+    "italian": "Grazie per l'aiuto, se no...",
+    "tone": "sarcastic",
+    "mp3": "milanese_04.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ]
+  },
+  {
+    "id": 5,
+    "dialect": "Milanese",
+    "text": "Propri fantastich.",
+    "italian": "Proprio fantastico.",
+    "tone": "sarcastic",
+    "mp3": "milanese_05.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ]
+  },
+  {
+    "id": 6,
+    "dialect": "Milanese",
+    "text": "Eh, che spettacolo, applausi.",
+    "italian": "Eh, che spettacolo, applausi.",
+    "tone": "humorous",
+    "mp3": "milanese_06.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ],
+    "google_ssml": "samples\\milanese_6_SSML.mp3",
+    "google_ssml_local": "google_ssml\\milanese_6_SSML.mp3"
+  },
+  {
+    "id": 7,
+    "dialect": "Milanese",
+    "text": "Se fa minga pena, te sei 'n mito.",
+    "italian": "Non fa mica pena, sei un mito.",
+    "tone": "humorous",
+    "mp3": "milanese_07.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ],
+    "google_ssml": "samples\\milanese_7_SSML.mp3",
+    "google_ssml_local": "google_ssml\\milanese_7_SSML.mp3"
+  },
+  {
+    "id": 8,
+    "dialect": "Milanese",
+    "text": "C'amma fà senza de ti?",
+    "italian": "Che cosa faremmo senza di te?",
+    "tone": "humorous",
+    "mp3": "milanese_08.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ],
+    "google_ssml": "samples\\milanese_8_SSML.mp3",
+    "google_ssml_local": "google_ssml\\milanese_8_SSML.mp3"
+  },
+  {
+    "id": 9,
+    "dialect": "Milanese",
+    "text": "Mo scriven un libro sui to consigli.",
+    "italian": "Ora scrivono un libro sui tuoi consigli.",
+    "tone": "humorous",
+    "mp3": "milanese_09.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ],
+    "google_ssml": "samples\\milanese_9_SSML.mp3",
+    "google_ssml_local": "google_ssml\\milanese_9_SSML.mp3"
+  },
+  {
+    "id": 10,
+    "dialect": "Milanese",
+    "text": "Propri 'na trovata da Oscar.",
+    "italian": "Proprio una trovata da Oscar.",
+    "tone": "humorous",
+    "mp3": "milanese_10.mp3",
+    "human": [
+      "human-recordings\\milanese\\40Al_Milanese_CastellArquato.mp3",
+      "human-recordings\\milanese\\LL-Q7026__cat_-Millars-milaneses.mp3",
+      "human-recordings\\milanese\\Milanese.mp3"
+    ],
+    "google_ssml": "samples\\milanese_10_SSML.mp3",
+    "google_ssml_local": "google_ssml\\milanese_10_SSML.mp3"
+  }
+]

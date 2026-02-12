@@ -1424,6 +1424,11 @@ document.addEventListener('DOMContentLoaded',()=>{
                         <button id="fb-zoom-reset" class="btn">100%</button>
                         <button id="fb-zoom-in" class="btn">+</button>
                     </div>
+                    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+                        <button id="fb-share" class="btn">Condividi</button>
+                        <button id="fb-share-wp" class="btn" style="background:#25D366;color:#001f3f;">WhatsApp</button>
+                        <button id="fb-share-tg" class="btn" style="background:#0088cc;color:#fff;">Telegram</button>
+                    </div>
                 </div>
                 <button id="fb-close" style="margin-top:12px;" class="btn">Chiudi</button>
             `;
@@ -1437,6 +1442,10 @@ document.addEventListener('DOMContentLoaded',()=>{
             document.getElementById('fb-zoom-out').addEventListener('click', () => { const b = document.getElementById('zoomOutBtn'); if (b) b.click(); });
             document.getElementById('fb-zoom-reset').addEventListener('click', () => { const b = document.getElementById('zoomResetBtn'); if (b) b.click(); });
             document.getElementById('fb-close').addEventListener('click', closeMobileMenu);
+            // wire fallback share buttons
+            const fbShare = document.getElementById('fb-share'); if (fbShare) fbShare.addEventListener('click', () => { const b = document.getElementById('shareBtn'); if (b) b.click(); });
+            const fbShareWP = document.getElementById('fb-share-wp'); if (fbShareWP) fbShareWP.addEventListener('click', () => { const b = document.getElementById('shareWhatsAppBtn'); if (b) b.click(); });
+            const fbShareTG = document.getElementById('fb-share-tg'); if (fbShareTG) fbShareTG.addEventListener('click', () => { const b = document.getElementById('shareTelegramBtn'); if (b) b.click(); });
         }
         fallback.style.display = 'block';
         if (typeof logLayout === 'function') logLayout('openMobileMenuFallback');
@@ -1462,6 +1471,41 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
     if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
     if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+
+    // Share buttons: WhatsApp, Telegram and native Web Share fallback
+    function buildSharePayload(){
+        const url = location.href;
+        const title = document.title || 'Stellar ldm4app';
+        const scoreText = document.getElementById('score') ? document.getElementById('score').textContent.trim() : '';
+        const levelText = document.getElementById('level') ? document.getElementById('level').textContent.trim() : '';
+        const extras = [scoreText, levelText].filter(Boolean).join(' • ');
+        const text = extras ? `${title} — ${extras}. Gioca: ${url}` : `${title} — Gioca: ${url}`;
+        return { title, text, url };
+    }
+
+    const shareBtn = document.getElementById('shareBtn');
+    const shareWhatsAppBtn = document.getElementById('shareWhatsAppBtn');
+    const shareTelegramBtn = document.getElementById('shareTelegramBtn');
+
+    if (shareBtn) shareBtn.addEventListener('click', () => {
+        const payload = buildSharePayload();
+        if (navigator.share) {
+            navigator.share({ title: payload.title, text: payload.text, url: payload.url }).catch(()=>{});
+            return;
+        }
+        // Fallback to Telegram web if Web Share API not available
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(payload.url)}&text=${encodeURIComponent(payload.text)}`,'_blank');
+    });
+    if (shareWhatsAppBtn) shareWhatsAppBtn.addEventListener('click', () => {
+        const payload = buildSharePayload();
+        const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(payload.text)}`;
+        window.open(link, '_blank');
+    });
+    if (shareTelegramBtn) shareTelegramBtn.addEventListener('click', () => {
+        const payload = buildSharePayload();
+        const link = `https://t.me/share/url?url=${encodeURIComponent(payload.url)}&text=${encodeURIComponent(payload.text)}`;
+        window.open(link, '_blank');
+    });
 
     // Ensure canvas fits the screen on load
     try { requestAnimationFrame(fitCanvasToWindow); requestAnimationFrame(adjustSidebarForViewport); } catch(e) {}

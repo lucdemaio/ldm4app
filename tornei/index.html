@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' http: https: ws:;">
     <title>GestionaleTorneiWeb</title>
-    <base href="/" />
-    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/app.css" />
-    <link rel="stylesheet" href="/_content/MudBlazor/MudBlazor.min.css" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link href="/GestionaleTorneiWeb.styles.css" rel="stylesheet" />
-    <link href="/manifest.webmanifest" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
+    <base href="./" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="_content/MudBlazor/MudBlazor.min.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="GestionaleTorneiWeb.styles.css" rel="stylesheet" />
+    <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
 </head>
 
 <body>
@@ -312,12 +312,12 @@
         </footer>
     </div>
 
-    <script src="/_content/MudBlazor/MudBlazor.min.js"></script>
-    <script src="/js/vendor/jspdf.umd.min.js"></script>
-    <script src="/js/pdf-generator.js"></script>
-    <script src="/js/vendor/qrcode.min.js"></script>
-    <script src="/js/locandina-generator.js?v=13"></script>
-    <script src="/js/download.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="js/vendor/jspdf.umd.min.js"></script>
+    <script src="js/pdf-generator.js"></script>
+    <script src="js/vendor/qrcode.min.js"></script>
+    <script src="js/locandina-generator.js?v=13"></script>
+    <script src="js/download.js"></script>
 
     <script>
         (function() {
@@ -344,17 +344,124 @@
                 debugDiv.style.backgroundColor = 'orange';
             });
 
-            const script = document.createElement('script');
-            script.src = '/_framework/blazor.webassembly.js';
-            script.onload = () => {
-                debugDiv.textContent = '[DEBUG] blazor.webassembly.js loaded successfully.';
-                debugDiv.style.backgroundColor = 'green';
-            };
-            script.onerror = () => {
-                debugDiv.textContent = '[ERROR] Failed to load blazor.webassembly.js';
-                debugDiv.style.backgroundColor = 'red';
-            };
-            document.head.appendChild(script);
+            function buildCandidates(path) {
+                const baseEl = document.querySelector('base');
+                let base = baseEl ? baseEl.getAttribute('href') : '/';
+                if (!base.endsWith('/')) base += '/';
+                // remove leading slash if present so we can concatenate
+                const p = path.replace(/^\//, '');
+                return [base + p, '/' + p, p];
+            }
+
+            function tryLoadScript(paths, isModule) {
+                return new Promise((resolve, reject) => {
+                    // If any candidate already present on the page, resolve immediately
+                    for (const p of paths) {
+                        const plain = p.split('?')[0];
+                        const existing = Array.from(document.scripts).find(s => s.src && s.src.split('?')[0].endsWith(plain.replace(/^\/+/, '')));
+                        if (existing) { resolve(existing.src); return; }
+                    }
+                    let i = 0;
+                    function next() {
+                        if (i >= paths.length) { reject(new Error('All attempts failed')); return; }
+                        const candidate = paths[i++];
+                        // skip if already loaded in other form
+                        const existing = Array.from(document.scripts).find(s => s.src && s.src.split('?')[0].endsWith(candidate.replace(/^\/+/, '').split('?')[0]));
+                        if (existing) { resolve(existing.src); return; }
+                        const s = document.createElement('script');
+                        if (isModule) s.type = 'module';
+                        s.src = candidate;
+                        s.onload = () => resolve(s.src);
+                        s.onerror = () => { s.remove(); next(); };
+                        document.head.appendChild(s);
+                    }
+                    next();
+                });
+            }
+
+            function tryLoadLink(paths) {
+                return new Promise((resolve, reject) => {
+                    // If any candidate already present on the page, resolve immediately
+                    for (const p of paths) {
+                        const plain = p.split('?')[0];
+                        const existing = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).find(l => l.href && l.href.split('?')[0].endsWith(plain.replace(/^\/+/, '')));
+                        if (existing) { resolve(existing.href); return; }
+                    }
+                    let i = 0;
+                    function next() {
+                        if (i >= paths.length) { reject(new Error('All attempts failed')); return; }
+                        const candidate = paths[i++];
+                        const existing = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).find(l => l.href && l.href.split('?')[0].endsWith(candidate.replace(/^\/+/, '').split('?')[0]));
+                        if (existing) { resolve(existing.href); return; }
+                        const l = document.createElement('link');
+                        l.rel = 'stylesheet';
+                        l.href = candidate;
+                        l.onload = () => resolve(l.href);
+                        l.onerror = () => { l.remove(); next(); };
+                        document.head.appendChild(l);
+                    }
+                    next();
+                });
+            }
+
+            // Try dotnet.js as a module, then blazor
+            (async function() {
+                try {
+                    const dotnetCandidates = buildCandidates('_framework/dotnet.js');
+                    const loadedDotnet = await tryLoadScript(dotnetCandidates, true);
+                    debugDiv.textContent = `[DEBUG] Loaded ${loadedDotnet}`;
+                    debugDiv.style.backgroundColor = 'green';
+
+                    const blazorCandidates = buildCandidates('_framework/blazor.webassembly.js');
+                    const loadedBlazor = await tryLoadScript(blazorCandidates, false);
+                    debugDiv.textContent = `[DEBUG] Loaded ${loadedBlazor}`;
+                    debugDiv.style.backgroundColor = 'green';
+                } catch (err) {
+                    debugDiv.textContent = `[ERROR] ${err.message}`;
+                    debugDiv.style.backgroundColor = 'red';
+                }
+
+                // Ensure other scripts/styles are present; attempt root-relative fallbacks if missing
+                const assetsToCheck = [
+                    { type: 'link', path: 'css/app.css' },
+                    { type: 'link', path: 'css/bootstrap/bootstrap.min.css' },
+                    { type: 'script', path: '_content/MudBlazor/MudBlazor.min.js' },
+                    { type: 'script', path: 'js/vendor/jspdf.umd.min.js' },
+                    { type: 'script', path: 'js/pdf-generator.js' },
+                    { type: 'script', path: 'js/vendor/qrcode.min.js' },
+                    { type: 'script', path: 'js/locandina-generator.js?v=13' },
+                    { type: 'script', path: 'js/download.js' }
+                ];
+
+                for (const a of assetsToCheck) {
+                    try {
+                        const c = buildCandidates(a.path);
+                        if (a.type === 'link') {
+                            await tryLoadLink(c);
+                        } else {
+                            await tryLoadScript(c, false);
+                        }
+                    } catch (e) {
+                        // continue; we already display primary errors above
+                    }
+                }
+
+                // Try manifest fetch
+                try {
+                    const manifestCandidates = buildCandidates('manifest.webmanifest');
+                    let fetched = false;
+                    for (const url of manifestCandidates) {
+                        try {
+                            const r = await fetch(url, { method: 'GET' });
+                            if (r.ok) { fetched = true; break; }
+                        } catch (e) { }
+                    }
+                    if (!fetched) {
+                        debugDiv.textContent = '[WARN] manifest.webmanifest not found';
+                        debugDiv.style.backgroundColor = 'orange';
+                    }
+                } catch (e) { }
+            })();
         })();
     </script>
 </body>

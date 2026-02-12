@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "dialect": "Bergamasco",
+    "text": "Brav, come se semper.",
+    "italian": "Bravo, come sempre.",
+    "tone": "sarcastic",
+    "mp3": "bergamasco_01.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ]
+  },
+  {
+    "id": 2,
+    "dialect": "Bergamasco",
+    "text": "Otema idea, eh?",
+    "italian": "Ottima idea, eh?",
+    "tone": "sarcastic",
+    "mp3": "bergamasco_02.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ]
+  },
+  {
+    "id": 3,
+    "dialect": "Bergamasco",
+    "text": "Fanstastic, propri.",
+    "italian": "Fantastico, proprio.",
+    "tone": "sarcastic",
+    "mp3": "bergamasco_03.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ]
+  },
+  {
+    "id": 4,
+    "dialect": "Bergamasco",
+    "text": "Grassie per 'l nagot.",
+    "italian": "Grazie per il nulla.",
+    "tone": "sarcastic",
+    "mp3": "bergamasco_04.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ]
+  },
+  {
+    "id": 5,
+    "dialect": "Bergamasco",
+    "text": "Te set insostituibil.",
+    "italian": "Sei insostituibile.",
+    "tone": "sarcastic",
+    "mp3": "bergamasco_05.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ]
+  },
+  {
+    "id": 6,
+    "dialect": "Bergamasco",
+    "text": "Sei propri 'n furbet, compliment!",
+    "italian": "Sei proprio un furbo, complimenti!",
+    "tone": "humorous",
+    "mp3": "bergamasco_06.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ],
+    "google_ssml": "samples\\bergamasco_6_SSML.mp3",
+    "google_ssml_local": "google_ssml\\bergamasco_6_SSML.mp3"
+  },
+  {
+    "id": 7,
+    "dialect": "Bergamasco",
+    "text": "Brav, mo fa' 'n discors per la stampa.",
+    "italian": "Bravo, ora fai un discorso per la stampa.",
+    "tone": "humorous",
+    "mp3": "bergamasco_07.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ],
+    "google_ssml": "samples\\bergamasco_7_SSML.mp3",
+    "google_ssml_local": "google_ssml\\bergamasco_7_SSML.mp3"
+  },
+  {
+    "id": 8,
+    "dialect": "Bergamasco",
+    "text": "Che bel, mo te paghen con 'na medaja.",
+    "italian": "Che bello, ora ti pagano con una medaglia.",
+    "tone": "humorous",
+    "mp3": "bergamasco_08.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ],
+    "google_ssml": "samples\\bergamasco_8_SSML.mp3",
+    "google_ssml_local": "google_ssml\\bergamasco_8_SSML.mp3"
+  },
+  {
+    "id": 9,
+    "dialect": "Bergamasco",
+    "text": "Grazie, adess possiamo turnà a casa.",
+    "italian": "Grazie, adesso possiamo tornare a casa.",
+    "tone": "humorous",
+    "mp3": "bergamasco_09.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ],
+    "google_ssml": "samples\\bergamasco_9_SSML.mp3",
+    "google_ssml_local": "google_ssml\\bergamasco_9_SSML.mp3"
+  },
+  {
+    "id": 10,
+    "dialect": "Bergamasco",
+    "text": "Te set insostituibil? Forse per te stesso.",
+    "italian": "Sei insostituibile? Forse per te stesso.",
+    "tone": "humorous",
+    "mp3": "bergamasco_10.mp3",
+    "human": [
+      "human-recordings\\bergamasco\\LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3"
+    ],
+    "google_ssml": "samples\\bergamasco_10_SSML.mp3",
+    "google_ssml_local": "google_ssml\\bergamasco_10_SSML.mp3"
+  }
+]

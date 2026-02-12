@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "dialect": "Siciliano",
+    "text": "E chi bravu!",
+    "italian": "E che bravo!",
+    "tone": "sarcastic",
+    "mp3": "siciliano_01.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ]
+  },
+  {
+    "id": 2,
+    "dialect": "Siciliano",
+    "text": "Propriu fantasticu.",
+    "italian": "Proprio fantastico.",
+    "tone": "sarcastic",
+    "mp3": "siciliano_02.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ]
+  },
+  {
+    "id": 3,
+    "dialect": "Siciliano",
+    "text": "Un sacciu comu fazzu senza di tia...",
+    "italian": "Non so come avrei fatto senza di te...",
+    "tone": "sarcastic",
+    "mp3": "siciliano_03.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ]
+  },
+  {
+    "id": 4,
+    "dialect": "Siciliano",
+    "text": "Complimenti, assai.",
+    "italian": "Complimenti, davvero.",
+    "tone": "sarcastic",
+    "mp3": "siciliano_04.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ]
+  },
+  {
+    "id": 5,
+    "dialect": "Siciliano",
+    "text": "Grazzî assà.",
+    "italian": "Grazie assai.",
+    "tone": "sarcastic",
+    "mp3": "siciliano_05.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ]
+  },
+  {
+    "id": 6,
+    "dialect": "Siciliano",
+    "text": "Ah, ca bravura! Facemu festa.",
+    "italian": "Ah, che bravura! Facciamo festa.",
+    "tone": "humorous",
+    "mp3": "siciliano_06.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ],
+    "google_ssml": "samples\\siciliano_6_SSML.mp3",
+    "google_ssml_local": "google_ssml\\siciliano_6_SSML.mp3"
+  },
+  {
+    "id": 7,
+    "dialect": "Siciliano",
+    "text": "Sei troppu geniale, ci voli 'na medaglia.",
+    "italian": "Sei troppo geniale, ci vuole una medaglia.",
+    "tone": "humorous",
+    "mp3": "siciliano_07.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ],
+    "google_ssml": "samples\\siciliano_7_SSML.mp3",
+    "google_ssml_local": "google_ssml\\siciliano_7_SSML.mp3"
+  },
+  {
+    "id": 8,
+    "dialect": "Siciliano",
+    "text": "Mi fai ridiri assai.",
+    "italian": "Mi fai ridere molto.",
+    "tone": "humorous",
+    "mp3": "siciliano_08.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ],
+    "google_ssml": "samples\\siciliano_8_SSML.mp3",
+    "google_ssml_local": "google_ssml\\siciliano_8_SSML.mp3"
+  },
+  {
+    "id": 9,
+    "dialect": "Siciliano",
+    "text": "Grazzî, ora è tuttu appostu.",
+    "italian": "Grazie, ora è tutto a posto.",
+    "tone": "humorous",
+    "mp3": "siciliano_09.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ],
+    "google_ssml": "samples\\siciliano_9_SSML.mp3",
+    "google_ssml_local": "google_ssml\\siciliano_9_SSML.mp3"
+  },
+  {
+    "id": 10,
+    "dialect": "Siciliano",
+    "text": "Cu stu talento non si po' nun applaudirti.",
+    "italian": "Con questo talento non si può non applauderti.",
+    "tone": "humorous",
+    "mp3": "siciliano_10.mp3",
+    "human": [
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_babbala.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+      "human-recordings\\siciliano\\LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3"
+    ],
+    "google_ssml": "samples\\siciliano_10_SSML.mp3",
+    "google_ssml_local": "google_ssml\\siciliano_10_SSML.mp3"
+  }
+]

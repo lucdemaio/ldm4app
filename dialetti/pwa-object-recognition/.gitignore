@@ -1,0 +1,3 @@
+# Local credentials (do not commit)
+/credentials/google-tts-sa.json
+/credentials/elevenlabs.key

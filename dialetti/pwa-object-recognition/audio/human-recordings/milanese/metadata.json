@@ -1,0 +1,32 @@
+﻿[
+    {
+        "filename":  "Milanese.ogg",
+        "mp3":  "Milanese.mp3",
+        "file_page":  "https://commons.wikimedia.org/wiki/File:Milanese.ogg",
+        "download_url":  "https://upload.wikimedia.org/wikipedia/commons/4/42/Milanese.ogg",
+        "license":  "CC-BY-SA 3.0",
+        "license_url":  "https://creativecommons.org/licenses/by-sa/3.0/",
+        "author":  "LjL",
+        "duration":  "00:04:42.38"
+    },
+    {
+        "filename":  "LL-Q7026__cat_-Millars-milaneses.wav",
+        "mp3":  "LL-Q7026__cat_-Millars-milaneses.mp3",
+        "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q7026_(cat)-Millars-milaneses.wav",
+        "download_url":  "https://upload.wikimedia.org/wikipedia/commons/4/41/LL-Q7026_%28cat%29-Millars-milaneses.wav",
+        "license":  "CC-BY-SA 4.0",
+        "license_url":  "https://creativecommons.org/licenses/by-sa/4.0/",
+        "author":  "Millars",
+        "duration":  "00:00:01.14"
+    },
+    {
+        "filename":  "40Al_Milanese_CastellArquato.ogg",
+        "mp3":  "40Al_Milanese_CastellArquato.mp3",
+        "file_page":  "https://commons.wikimedia.org/wiki/File:40Al_Milanese_Castell%27Arquato.ogg",
+        "download_url":  "https://upload.wikimedia.org/wikipedia/commons/c/c5/40Al_Milanese_Castell%27Arquato.ogg",
+        "license":  "CC-BY-SA 3.0",
+        "license_url":  "https://creativecommons.org/licenses/by-sa/3.0/",
+        "author":  "Metzner",
+        "duration":  "00:00:49.24"
+    }
+]

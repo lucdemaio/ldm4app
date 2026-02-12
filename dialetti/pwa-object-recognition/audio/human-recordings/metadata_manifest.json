@@ -1,0 +1,174 @@
+﻿{
+    "siciliano":  [
+                      {
+                          "value":  [
+                                        {
+                                            "filename":  "LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.wav",
+                                            "mp3":  "LL-Q33973__scn_-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.mp3",
+                                            "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q33973_(scn)-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.wav",
+                                            "download_url":  "https://upload.wikimedia.org/wikipedia/commons/6/65/LL-Q33973_%28scn%29-XANA000-a_cavaddu_datu_nun_si_guarda_in_bucca.wav",
+                                            "license":  "CC0 1.0",
+                                            "license_url":  "https://creativecommons.org/publicdomain/zero/1.0/",
+                                            "author":  "Ã€ncilu",
+                                            "duration":  "00:00:03.02"
+                                        },
+                                        {
+                                            "filename":  "LL-Q33973__scn_-XANA000-sicilianu_anticu.wav",
+                                            "mp3":  "LL-Q33973__scn_-XANA000-sicilianu_anticu.mp3",
+                                            "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q33973_(scn)-XANA000-sicilianu_anticu.wav",
+                                            "download_url":  "https://upload.wikimedia.org/wikipedia/commons/2/21/LL-Q33973_%28scn%29-XANA000-sicilianu_anticu.wav",
+                                            "license":  "CC0 1.0",
+                                            "license_url":  "https://creativecommons.org/publicdomain/zero/1.0/",
+                                            "author":  "Ã€ncilu",
+                                            "duration":  "00:00:01.74"
+                                        },
+                                        {
+                                            "filename":  "LL-Q33973__scn_-XANA000-a_babbala.wav",
+                                            "mp3":  "LL-Q33973__scn_-XANA000-a_babbala.mp3",
+                                            "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q33973_(scn)-XANA000-a_babbal%C3%A0.wav",
+                                            "download_url":  "https://upload.wikimedia.org/wikipedia/commons/f/f2/LL-Q33973_%28scn%29-XANA000-a_babbal%C3%A0.wav",
+                                            "license":  "CC0 1.0",
+                                            "license_url":  "https://creativecommons.org/publicdomain/zero/1.0/",
+                                            "author":  "Ã€ncilu",
+                                            "duration":  "00:00:01.48"
+                                        }
+                                    ],
+                          "Count":  3
+                      }
+                  ],
+    "napoletano":  [
+                       {
+                           "filename":  "LL-Q36163__nap_-Key_Mirza-a_staggione.wav",
+                           "mp3":  "LL-Q36163__nap_-Key_Mirza-a_staggione.mp3",
+                           "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q36163_(nap)-Key_M%C3%AErza-%27a_staggione.wav",
+                           "download_url":  "https://upload.wikimedia.org/wikipedia/commons/6/60/LL-Q36163_%28nap%29-Key_M%C3%AErza-%27a_staggione.wav",
+                           "license":  "CC-BY-SA 4.0",
+                           "license_url":  "https://creativecommons.org/licenses/by-sa/4.0/",
+                           "author":  "Key MÃ®rza",
+                           "duration":  "00:00:01.78"
+                       }
+                   ],
+    "bergamasco":  [
+                       {
+                           "filename":  "LL-Q809__pol_-Jest_Spoczko-bergamasco.wav",
+                           "mp3":  "LL-Q809__pol_-Jest_Spoczko-bergamasco.mp3",
+                           "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q809_(pol)-Jest_Spoczko-bergamasco.wav",
+                           "download_url":  "https://upload.wikimedia.org/wikipedia/commons/e/e4/LL-Q809_%28pol%29-Jest_Spoczko-bergamasco.wav",
+                           "license":  "CC-BY-SA 4.0",
+                           "license_url":  "https://creativecommons.org/licenses/by-sa/4.0/",
+                           "author":  "Jest Spoczko",
+                           "duration":  "00:00:01.22"
+                       }
+                   ],
+    "veneto":  [
+                   {
+                       "value":  [
+                                     {
+                                         "filename":  "Es-Veneto-article.ogg",
+                                         "mp3":  "Es-Veneto-article.mp3",
+                                         "file_page":  "https://commons.wikimedia.org/wiki/File:Es-V%C3%A9neto-article.ogg",
+                                         "download_url":  "https://upload.wikimedia.org/wikipedia/commons/a/ac/Es-V%C3%A9neto-article.ogg",
+                                         "license":  "CC-BY-SA 4.0",
+                                         "license_url":  "https://creativecommons.org/licenses/by-sa/4.0/",
+                                         "author":  "Klausghm",
+                                         "duration":  "00:03:50.59"
+                                     },
+                                     {
+                                         "filename":  "Nl-Veneto.ogg",
+                                         "mp3":  "Nl-Veneto.mp3",
+                                         "file_page":  "https://commons.wikimedia.org/wiki/File:Nl-Veneto.ogg",
+                                         "download_url":  "https://upload.wikimedia.org/wikipedia/commons/8/84/Nl-Veneto.ogg",
+                                         "license":  "CC0 1.0",
+                                         "license_url":  "https://creativecommons.org/publicdomain/zero/1.0/",
+                                         "author":  "Marcel coenders",
+                                         "duration":  "00:00:01.50"
+                                     },
+                                     {
+                                         "filename":  "LL-Q1860__eng_-Vealhurl-Veneto.wav",
+                                         "mp3":  "LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+                                         "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-Veneto.wav",
+                                         "download_url":  "https://upload.wikimedia.org/wikipedia/commons/3/33/LL-Q1860_%28eng%29-Vealhurl-Veneto.wav",
+                                         "license":  "CC-BY-SA 4.0",
+                                         "license_url":  "https://creativecommons.org/licenses/by-sa/4.0/",
+                                         "author":  "Vealhurl",
+                                         "duration":  "00:00:01.20"
+                                     }
+                                 ],
+                       "Count":  3
+                   }
+               ],
+    "milanese":  [
+                     {
+                         "value":  [
+                                       {
+                                           "filename":  "Milanese.ogg",
+                                           "mp3":  "Milanese.mp3",
+                                           "file_page":  "https://commons.wikimedia.org/wiki/File:Milanese.ogg",
+                                           "download_url":  "https://upload.wikimedia.org/wikipedia/commons/4/42/Milanese.ogg",
+                                           "license":  "CC-BY-SA 3.0",
+                                           "license_url":  "https://creativecommons.org/licenses/by-sa/3.0/",
+                                           "author":  "LjL",
+                                           "duration":  "00:04:42.38"
+                                       },
+                                       {
+                                           "filename":  "LL-Q7026__cat_-Millars-milaneses.wav",
+                                           "mp3":  "LL-Q7026__cat_-Millars-milaneses.mp3",
+                                           "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q7026_(cat)-Millars-milaneses.wav",
+                                           "download_url":  "https://upload.wikimedia.org/wikipedia/commons/4/41/LL-Q7026_%28cat%29-Millars-milaneses.wav",
+                                           "license":  "CC-BY-SA 4.0",
+                                           "license_url":  "https://creativecommons.org/licenses/by-sa/4.0/",
+                                           "author":  "Millars",
+                                           "duration":  "00:00:01.14"
+                                       },
+                                       {
+                                           "filename":  "40Al_Milanese_CastellArquato.ogg",
+                                           "mp3":  "40Al_Milanese_CastellArquato.mp3",
+                                           "file_page":  "https://commons.wikimedia.org/wiki/File:40Al_Milanese_Castell%27Arquato.ogg",
+                                           "download_url":  "https://upload.wikimedia.org/wikipedia/commons/c/c5/40Al_Milanese_Castell%27Arquato.ogg",
+                                           "license":  "CC-BY-SA 3.0",
+                                           "license_url":  "https://creativecommons.org/licenses/by-sa/3.0/",
+                                           "author":  "Metzner",
+                                           "duration":  "00:00:49.24"
+                                       }
+                                   ],
+                         "Count":  3
+                     }
+                 ],
+    "romanesco":  [
+                      {
+                          "value":  [
+                                        {
+                                            "filename":  "Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.ogg",
+                                            "mp3":  "Giuseppe_Gioachino_Belli_Er_caffettiere_fisolofo.mp3",
+                                            "file_page":  "https://commons.wikimedia.org/wiki/File:Giuseppe_Gioachino_Belli,_Er_caffettiere_fisolofo.ogg",
+                                            "download_url":  "https://upload.wikimedia.org/wikipedia/commons/c/c7/Giuseppe_Gioachino_Belli%2C_Er_caffettiere_fisolofo.ogg",
+                                            "license":  "Public Domain",
+                                            "license_url":  "https://commons.wikimedia.org/wiki/Public_domain",
+                                            "author":  "Nightbit",
+                                            "duration":  "00:01:08.41"
+                                        },
+                                        {
+                                            "filename":  "Nl-romanesco.ogg",
+                                            "mp3":  "Nl-romanesco.mp3",
+                                            "file_page":  "https://commons.wikimedia.org/wiki/File:Nl-romanesco.ogg",
+                                            "download_url":  "https://upload.wikimedia.org/wikipedia/commons/7/7c/Nl-romanesco.ogg",
+                                            "license":  "CC-BY-SA 3.0",
+                                            "license_url":  "https://creativecommons.org/licenses/by-sa/3.0/",
+                                            "author":  "Marcel coenders",
+                                            "duration":  "00:00:01.45"
+                                        },
+                                        {
+                                            "filename":  "LL-Q150__fra_-Helenou66-chou_romanesco.wav",
+                                            "mp3":  "LL-Q150__fra_-Helenou66-chou_romanesco.mp3",
+                                            "file_page":  "https://commons.wikimedia.org/wiki/File:LL-Q150_(fra)-Helenou66-chou_romanesco.wav",
+                                            "download_url":  "https://upload.wikimedia.org/wikipedia/commons/b/b3/LL-Q150_%28fra%29-Helenou66-chou_romanesco.wav",
+                                            "license":  "CC0 1.0",
+                                            "license_url":  "https://creativecommons.org/publicdomain/zero/1.0/",
+                                            "author":  "Helenou66",
+                                            "duration":  "00:00:01.97"
+                                        }
+                                    ],
+                          "Count":  3
+                      }
+                  ]
+}

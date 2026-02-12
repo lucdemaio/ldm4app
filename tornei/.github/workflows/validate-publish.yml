@@ -1,0 +1,31 @@
+name: Validate publish and SRI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-validate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore -c Release
+
+      - name: Publish + check service-worker integrity
+        shell: pwsh
+        run: |
+          # Run the integrity check script which will run dotnet publish internally
+          ./scripts/check-serviceworker-integrity.ps1 -RunPublish -ExitOnMismatch

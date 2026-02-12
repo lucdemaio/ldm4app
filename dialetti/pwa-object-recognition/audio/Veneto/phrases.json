@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "dialect": "Veneto",
+    "text": "Ah, proprio utile, vero?",
+    "italian": "Ah, proprio utile, vero?",
+    "tone": "sarcastic",
+    "mp3": "veneto_01.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ]
+  },
+  {
+    "id": 2,
+    "dialect": "Veneto",
+    "text": "Bravo, te gà risolto tuto?",
+    "italian": "Bravo, hai risolto tutto?",
+    "tone": "sarcastic",
+    "mp3": "veneto_02.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ]
+  },
+  {
+    "id": 3,
+    "dialect": "Veneto",
+    "text": "Che originalità, da premio.",
+    "italian": "Che originalità, da premio.",
+    "tone": "sarcastic",
+    "mp3": "veneto_03.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ]
+  },
+  {
+    "id": 4,
+    "dialect": "Veneto",
+    "text": "Ti xe 'n genio, veramente.",
+    "italian": "Sei un genio, veramente.",
+    "tone": "sarcastic",
+    "mp3": "veneto_04.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ]
+  },
+  {
+    "id": 5,
+    "dialect": "Veneto",
+    "text": "Bel lavoro, complimenti.",
+    "italian": "Bel lavoro, complimenti.",
+    "tone": "sarcastic",
+    "mp3": "veneto_05.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ]
+  },
+  {
+    "id": 6,
+    "dialect": "Veneto",
+    "text": "Ma che bravo, te gà inventà 'na scusa nova.",
+    "italian": "Ma che bravo, hai inventato una scusa nuova.",
+    "tone": "humorous",
+    "mp3": "veneto_06.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ],
+    "google_ssml": "samples\\veneto_6_SSML.mp3",
+    "google_ssml_local": "google_ssml\\veneto_6_SSML.mp3"
+  },
+  {
+    "id": 7,
+    "dialect": "Veneto",
+    "text": "Te sì 'l nostro salvatore, certo.",
+    "italian": "Sei il nostro salvatore, certo.",
+    "tone": "humorous",
+    "mp3": "veneto_07.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ],
+    "google_ssml": "samples\\veneto_7_SSML.mp3",
+    "google_ssml_local": "google_ssml\\veneto_7_SSML.mp3"
+  },
+  {
+    "id": 8,
+    "dialect": "Veneto",
+    "text": "Ghe vole 'na statua per te.",
+    "italian": "Ci vuole una statua per te.",
+    "tone": "humorous",
+    "mp3": "veneto_08.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ],
+    "google_ssml": "samples\\veneto_8_SSML.mp3",
+    "google_ssml_local": "google_ssml\\veneto_8_SSML.mp3"
+  },
+  {
+    "id": 9,
+    "dialect": "Veneto",
+    "text": "Bravo, mo te spetta 'l red carpet.",
+    "italian": "Bravo, ora ti aspetta il red carpet.",
+    "tone": "humorous",
+    "mp3": "veneto_09.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ],
+    "google_ssml": "samples\\veneto_9_SSML.mp3",
+    "google_ssml_local": "google_ssml\\veneto_9_SSML.mp3"
+  },
+  {
+    "id": 10,
+    "dialect": "Veneto",
+    "text": "Come no, ti sì 'l re dell'umiltà.",
+    "italian": "Come no, tu sei il re dell'umiltà.",
+    "tone": "humorous",
+    "mp3": "veneto_10.mp3",
+    "human": [
+      "human-recordings\\veneto\\Es-Veneto-article.mp3",
+      "human-recordings\\veneto\\LL-Q1860__eng_-Vealhurl-Veneto.mp3",
+      "human-recordings\\veneto\\Nl-Veneto.mp3"
+    ],
+    "google_ssml": "samples\\veneto_10_SSML.mp3",
+    "google_ssml_local": "google_ssml\\veneto_10_SSML.mp3"
+  }
+]
