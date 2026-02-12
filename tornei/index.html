@@ -8,11 +8,14 @@
     <base href="/tornei/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="_content/MudBlazor/MudBlazor.min.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="GestionaleTorneiWeb.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <!-- Offline persistence: intercept failed API writes and store in IndexedDB -->
+    <script src="js/offline-intercept.js"></script>
 </head>
 
 <body>
@@ -313,11 +316,37 @@
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
-      // Register service worker for PWA (uses the published service worker)
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.published.js')
-          .then(reg => console.log('Service worker registered:', reg.scope))
-          .catch(err => console.warn('Service worker registration failed:', err));
+      if('serviceWorker' in navigator){
+        (async ()=>{
+          try{
+            // In development (localhost / 127.*) avoid registering the SW to prevent stale caches from blocking debugging.
+            const host = location.hostname;
+            if(host === 'localhost' || host.startsWith('127.') || host === '::1'){
+              console.log('Skipping Service Worker registration on local host for debug');
+              // Also unregister any existing SWs for cleanliness
+              const regs = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(regs.map(r => r.unregister()));
+              return;
+            }
+
+            const base = document.querySelector('base')?.getAttribute('href') || '/';
+            // Only register when current path is within base
+            if(location.pathname.startsWith(base)){
+              await navigator.serviceWorker.register('service-worker.js');
+              console.log('Service worker registered for base', base);
+            } else {
+              // Unregister SWs that don't match the base (avoid cross-scope intercept)
+              const regs = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(regs.map(r => {
+                if(r.scope && !r.scope.startsWith(location.origin + base)){
+                  console.log('Unregistering SW with scope', r.scope);
+                  return r.unregister();
+                }
+                return Promise.resolve(true);
+              }));
+            }
+          }catch(e){ console.warn('SW registration check failed', e); }
+        })();
       }
     </script>
 </body>
