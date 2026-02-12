@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="it" class="h-full bg-white text-blue-800">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Scuola 2026 — Gestionale</title>
+    <!-- Small inline SVG favicon to avoid 404 -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23111827'/%3E%3Ctext x='50' y='56' font-size='50' text-anchor='middle' fill='%23ffffff' font-family='Arial'%3ES%3C/text%3E%3C/svg%3E" />
+
+    <!-- Tailwind (built) - replaced CDN with compiled CSS for production -->
+    <link rel="stylesheet" href="./dist/output.css">
+
+    <!-- Lucide icons (minimal thin icons) -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.264.0/dist/lucide.min.js"></script>
+
+    <!-- Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+        svg: { fontCache: 'local' }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="h-full antialiased selection:bg-indigo-500 selection:text-white">
+    <!-- Top Navbar -->
+    <header class="backdrop-blur-md bg-white/80 border-b border-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-4">
+            <div class="logo flex items-center gap-3">
+              <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 via-pink-500 to-amber-400 rounded-2xl shadow-lg"></div>
+              <div>
+                <div class="text-sm font-semibold">Scuola 2026</div>
+                <div class="text-xs text-slate-400">Gestionale scolastico</div>
+              </div>
+            </div>
+
+            <nav class="ml-6 hidden md:flex items-center gap-2" aria-label="Main">
+              <button class="nav-link px-4 py-2 rounded-2xl text-sm" data-route="dashboard">
+                <svg class="nav-icon w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h8V3H3z"></path><path d="M13 21h8V11h-8z"></path></svg>
+                Dashboard
+              </button>
+
+              <button class="nav-link px-4 py-2 rounded-2xl text-sm" data-route="ai">
+                <svg class="nav-icon w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"></path><path d="M7 6v2"></path><path d="M17 6v2"></path><path d="M5 12h14"></path><path d="M7 18v2"></path><path d="M12 18v2"></path><path d="M17 18v2"></path></svg>
+                IA Tutor
+              </button>
+
+              <button class="nav-link px-4 py-2 rounded-2xl text-sm" data-route="code">
+                <svg class="nav-icon w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                Code Tutor
+              </button>
+
+              <button class="nav-link px-4 py-2 rounded-2xl text-sm" data-route="excel">
+                <svg class="nav-icon w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+                Excel Tutor
+              </button>
+
+              <button class="nav-link px-4 py-2 rounded-2xl text-sm" data-route="math">
+                <i data-lucide="hash" class="lucide-icon w-4 h-4 mr-2"></i>
+                Matematica
+              </button>
+
+              <button class="nav-link px-4 py-2 rounded-2xl text-sm" data-route="sintesi">
+                <i data-lucide="file-text" class="lucide-icon w-4 h-4 mr-2"></i>
+                Sintesi
+              </button>
+
+              <button class="nav-link px-4 py-2 rounded-2xl text-sm" data-route="schemi">
+                <i data-lucide="layout" class="lucide-icon w-4 h-4 mr-2"></i>
+                Schemi
+              </button>
+
+
+            </nav>
+          </div>
+
+          <!-- top-right global share buttons -->
+          <div class="flex items-center gap-3">
+            <button id="share-global-ws" class="px-3 py-2 rounded-xl bg-green-600 text-white text-xs inline-flex" title="Condividi su WhatsApp">
+              <i data-lucide="message-square" class="lucide-icon w-4 h-4 mr-2"></i>WhatsApp
+            </button>
+            <button id="share-global-tg" class="px-3 py-2 rounded-xl bg-sky-500 text-white text-xs inline-flex" title="Condividi su Telegram">
+              <i data-lucide="send" class="lucide-icon w-4 h-4 mr-2"></i>Telegram
+            </button>
+          </div>
+
+
+        </div>
+      </div>
+    </header>
+
+    <main class="py-10 px-4 max-w-7xl mx-auto">
+      <div id="app" class="min-h-[60vh] rounded-2xl p-8 bg-gradient-to-br from-black/40 via-white/2 to-black/30 border border-white/3 shadow-xl backdrop-blur-md">
+        <!-- Dynamic content injected here -->
+      </div>
+    </main>
+
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm text-slate-300 pb-8">
+      <div class="flex justify-between items-center">
+        <div>© Scuola 2026</div>
+        <div class="text-sm text-slate-400">creato da <a href="https://www.ldm4app.com" class="underline hover:text-blue-700">www.ldm4app.com</a></div>
+      </div>
+    </footer>
+
+    <script type="module" src="./utils.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
