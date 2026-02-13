@@ -54,28 +54,74 @@ export function downloadSvgString(svgString, filename){
 
 export async function generatePosterSvg(opts){
   // opts: { title, subtitle, footer = 'creato da www.ldm4app.com', qrUrl }
-  const title = escapeHtml(opts.title || 'Scuola 2026');
-  const subtitle = escapeHtml(opts.subtitle || 'Progettato con Scuola 2026 — LDM4App');
-  const footer = escapeHtml(opts.footer || 'creato da www.ldm4app.com');
-  const qrUrl = opts.qrUrl || 'https://www.ldm4app.com';
+  const title = String(opts.title || 'Scuola 2026').trim();
+  const rawSubtitle = String(opts.subtitle || 'Progettato con Scuola 2026 — LDM4App').trim();
+  const footer = String(opts.footer || 'creato da www.ldm4app.com').trim();
+  const qrUrl = String(opts.qrUrl || 'https://www.ldm4app.com').trim();
   const qrParam = encodeURIComponent(qrUrl);
   const width = 1200, height = 630;
 
-  // Try to fetch the QR image and inline it as base64 to ensure the downloaded SVG contains the QR.
-  let qrHref = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${qrParam}&choe=UTF-8`;
-  try{
-    const resp = await fetch(qrHref);
-    if(resp.ok){
-      const blob = await resp.blob();
-      // convert blob -> data URL
-      const dataUrl = await new Promise((res, rej)=>{
-        const fr = new FileReader(); fr.onload = ()=>res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob);
-      });
-      qrHref = dataUrl;
+  // Helper: simple text wrapper for SVG (returns array of lines)
+  function wrapText(str, maxChars){
+    const words = str.split(/\s+/);
+    const lines = [];
+    let cur = '';
+    for(const w of words){
+      if((cur + ' ' + w).trim().length <= maxChars) cur = (cur + ' ' + w).trim();
+      else { if(cur) lines.push(cur); cur = w; }
     }
-  }catch(e){ /* fallback to external chart URL if fetch fails */ }
+    if(cur) lines.push(cur);
+    return lines;
+  }
 
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n  <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">\n    <defs>\n      <style>\n        .bg{fill:#071021}\n        .title{fill:#E6EEF8; font-family: Inter, Arial, sans-serif; font-weight:700; font-size:56px}\n        .sub{fill:#9fb8d6; font-size:20px}\n        .footer{fill:#8aa4bf; font-size:16px}\n      </style>\n    </defs>\n    <rect class="bg" width="100%" height="100%" rx="24"/>\n    <g transform="translate(64,96)">\n      <text class="title">${title}</text>\n      <text class="sub" y="72">${subtitle}</text>\n    </g>\n    <image x="920" y="56" width="180" height="180" href="${qrHref}" />\n    <text x="64" y="560" class="footer">${footer}</text>\n  </svg>`;
+  // Try to fetch an SVG QR (preferred) from qrserver and inline it; fallback to data-URL image or placeholder
+  let qrSvgInner = null;
+  try{
+    const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrParam}&format=svg`;
+    const r = await fetch(qrApi);
+    if(r.ok){
+      const txt = await r.text();
+      // strip outer <svg> wrapper so we can embed inner shapes
+      const inner = txt.replace(/<\?xml[\s\S]*?\?>/,'').replace(/<svg[^>]*>/i,'').replace(/<\/svg>/i,'').trim();
+      if(inner) qrSvgInner = inner;
+    }
+  }catch(e){ /* ignore and fallback below */ }
+
+  let qrFallbackHref = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${qrParam}&choe=UTF-8`;
+  let qrDataUrl = null;
+  if(!qrSvgInner){
+    try{
+      const resp = await fetch(qrFallbackHref);
+      if(resp && resp.ok){
+        const blob = await resp.blob();
+        qrDataUrl = await new Promise((res, rej)=>{ const fr = new FileReader(); fr.onload = ()=>res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
+      }
+    }catch(e){ /* leave qrDataUrl null */ }
+  }
+
+  // Build subtitle lines (wrap at ~48 chars per line)
+  const subtitleLines = wrapText(rawSubtitle, 48).map(escapeHtml);
+
+  // escape title/footer for insertion into SVG text nodes
+  const safeTitle = escapeHtml(title);
+  const safeFooter = escapeHtml(footer);
+
+  // Compose SVG (embed QR as inline SVG if available, otherwise use image href, otherwise render a visible placeholder with link)
+  const qrBlock = qrSvgInner
+    ? `<a href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener"><g transform="translate(920,56) scale(0.95)" aria-label="qr">${qrSvgInner}</g></a>`
+    : (qrDataUrl
+      ? `<a href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener"><image x="920" y="56" width="180" height="180" href="${qrDataUrl}" /></a>`
+      : `<a href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener"><rect x="920" y="56" width="180" height="180" rx="8" fill="#0b84ff" opacity="0.12" stroke="#6fb1ff"/><text x="1010" y="150" font-size="12" text-anchor="middle" fill="#cfe9ff">Apri</text><text x="1010" y="168" font-size="11" text-anchor="middle" fill="#9fcfff">www.ldm4app.com</text></a>`
+    );
+
+  // subtitle tspan blocks
+  const subtitleTspans = subtitleLines.map((ln, idx) => {
+    const dy = idx === 0 ? '0' : '1.2em';
+    return `<tspan x="0" dy="${dy}">${ln}</tspan>`;
+  }).join('');
+
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">\n  <defs>\n    <style>\n      .bg{fill:#071021}\n      .title{fill:#E6EEF8; font-family: Inter, Arial, sans-serif; font-weight:700; font-size:56px}\n      .sub{fill:#9fb8d6; font-size:20px; font-family: Inter, Arial, sans-serif}\n      .footer{fill:#8aa4bf; font-size:16px; font-family: Inter, Arial, sans-serif}\n    </style>\n  </defs>\n  <rect class="bg" width="100%" height="100%" rx="24"/>\n  <g transform="translate(64,96)">\n    <text class="title" x="0" y="0">${safeTitle}</text>\n    <text class="sub" x="0" y="72">${subtitleTspans}</text>\n  </g>\n  ${qrBlock}\n  <text x="64" y="560" class="footer">${escapeHtml(safeFooter)}</text>\n</svg>`;
+
   return svg;
 }
 
