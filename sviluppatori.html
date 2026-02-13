@@ -155,6 +155,50 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Snake Card -->
+                    <div class="glass-card p-8 flex flex-col items-center animate-slide-up shadow-2xl border border-green-700/30 hover:scale-105 hover:z-30 transition-transform duration-300 w-full col-span-1">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br from-green-400/30 to-emerald-900/60 shadow-lg">
+                            <i class="fas fa-ghost text-5xl text-green-300 drop-shadow-lg"></i>
+                        </div>
+                        <h2 class="text-3xl font-extrabold gradient-text mb-2 tracking-tight">Snake</h2>
+                        <p class="text-lg text-gray-200 mb-6 text-center">Il classico Snake in HTML/JS: mangia il cibo per crescere, evita muri e collisioni con te stesso. Gameplay semplice ma coinvolgente.</p>
+                        <div class="mb-6 w-full max-w-xs mx-auto rounded-xl shadow-lg border border-green-800/40 bg-[#0a0e27] flex items-center justify-center" style="aspect-ratio: 16/10;">
+                            <img src="https://raw.githubusercontent.com/amankrs21/Snake-Game-JS/main/Gameplay.png" alt="Screenshot Snake" style="object-fit:contain;max-width:90%;max-height:90%;width:auto;height:auto;" class="rounded-lg" />
+                        </div>
+                        <a href="https://www.ldm4app.com/snake/index.html" target="_blank" rel="noopener" class="btn-primary text-white px-8 py-3 rounded-full font-bold text-lg shadow-md mb-4 w-full text-center hover:scale-105 transition">Gioca a Snake</a>
+                        <button onclick="const e=document.getElementById('accordion-snake-dev');e.style.display=e.style.display==='block'?'none':'block'" class="btn-secondary text-green-300 px-6 py-2 rounded-full font-semibold w-full text-center mb-2 hover:bg-green-900/40 transition">Info sviluppatore</button>
+                        <div id="accordion-snake-dev" style="display:none" class="w-full bg-green-900/10 border border-green-700/30 rounded-xl p-4 mb-4 text-sm text-gray-200">
+                            <div class="flex flex-col items-center mb-2">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400/30 to-emerald-900/60 flex items-center justify-center mb-2">
+                                    <i class="fas fa-user text-xl text-green-300"></i>
+                                </div>
+                                <span class="font-bold text-green-300">Aman Singh</span>
+                            </div>
+                            <a href="https://github.com/amankrs21" target="_blank" rel="noopener" class="text-green-400 underline mb-1 block">Profilo GitHub</a>
+                            <a href="https://github.com/amankrs21/Snake-Game-JS" target="_blank" rel="noopener" class="text-green-400 underline mb-1 block">Progetto su GitHub</a>
+                            <p>Snake-Game-JS è un classico Snake realizzato in HTML/CSS/JavaScript. Apri index.html per giocare — nessuna dipendenza richiesta.</p>
+                        </div>
+                        <div class="flex flex-col gap-2 w-full mb-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-arrow-up text-green-400"></i>
+                                <span class="text-gray-300">Controlli con le frecce della tastiera.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-skull-crossbones text-red-400"></i>
+                                <span class="text-gray-300">Il gioco termina se tocchi un muro o te stesso.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-trophy text-yellow-300"></i>
+                                <span class="text-gray-300">Punteggio e high score salvati in localStorage.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-bolt text-accent"></i>
+                                <span class="text-gray-300">Grafica semplice e gameplay immediato.</span>
+                            </div>
+                        </div>
+                    </div>
+
                     </div>
                     <div class="mt-auto w-full bg-yellow-900/30 rounded-xl p-4 text-center">
                 <!-- Altri giochi qui in futuro -->
