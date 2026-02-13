@@ -207,7 +207,8 @@ function renderAiTutor(container){
   const posterAiBtn = document.getElementById('poster-ai-svg');
   if(posterAiBtn) posterAiBtn.addEventListener('click', async ()=>{
     const snippet = (document.querySelector('#chat-log .msg-user')?.textContent || 'IA Tutor').trim();
-    const svg = await generatePosterSvg({ title: 'IA Tutor — Scuola 2026', subtitle: snippet, qrUrl: 'https://www.ldm4app.com' });
+    const aiBody = (document.querySelector('#chat-log .msg-ai:last-of-type')?.textContent || '').trim();
+    const svg = await generatePosterSvg({ title: 'IA Tutor — Scuola 2026', subtitle: snippet, body: aiBody, qrUrl: 'https://www.ldm4app.com' });
     downloadSvgString(svg, 'scheda-ia.svg');
   });
 
@@ -312,7 +313,8 @@ function renderCodeTutor(container){
   const posterCodeBtn = document.getElementById('poster-code-svg');
   if(posterCodeBtn) posterCodeBtn.addEventListener('click', async ()=>{
     const snippet = (document.getElementById('code-input').value || '').split('\n').slice(0,3).join(' ');
-    const svg = await generatePosterSvg({ title: 'Code Tutor — Scuola 2026', subtitle: snippet || 'Snippet di codice', qrUrl: 'https://www.ldm4app.com' });
+    const aiBody = (document.getElementById('explain-output')?.innerText || '').trim();
+    const svg = await generatePosterSvg({ title: 'Code Tutor — Scuola 2026', subtitle: snippet || 'Snippet di codice', body: aiBody, qrUrl: 'https://www.ldm4app.com' });
     downloadSvgString(svg, 'poster-code.svg');
   });
 
@@ -455,7 +457,8 @@ function renderExcelTutor(container){
   const posterExcel = document.getElementById('poster-excel-svg');
   if(posterExcel) posterExcel.addEventListener('click', async ()=>{
     const snippet = (document.getElementById('excel-input').value || '').split('\n').slice(0,3).join(' ');
-    const svg = await generatePosterSvg({ title: 'Excel Tutor — Scuola 2026', subtitle: snippet || 'Analisi dati', qrUrl: 'https://www.ldm4app.com' });
+    const aiBody = (document.getElementById('excel-output')?.innerText || '').trim();
+    const svg = await generatePosterSvg({ title: 'Excel Tutor — Scuola 2026', subtitle: snippet || 'Analisi dati', body: aiBody, qrUrl: 'https://www.ldm4app.com' });
     downloadSvgString(svg, 'poster-excel.svg');
   });
 
@@ -903,7 +906,8 @@ function renderMatematica(container){
 
   const posterBtn = document.getElementById('poster-math-svg'); if(posterBtn) posterBtn.addEventListener('click', async ()=>{
     const snippet = (document.getElementById('math-input').value || '').split('\n').slice(0,3).join(' ');
-    const svg = await generatePosterSvg({ title: 'Matematica — Scuola 2026', subtitle: snippet || 'Esercizio', qrUrl: 'https://www.ldm4app.com' });
+    const aiBody = (document.getElementById('math-output')?.innerText || '').trim();
+    const svg = await generatePosterSvg({ title: 'Matematica — Scuola 2026', subtitle: snippet || 'Esercizio', body: aiBody, qrUrl: 'https://www.ldm4app.com' });
     downloadSvgString(svg, 'poster-math.svg');
   });
 
@@ -974,7 +978,7 @@ function renderSintesi(container){
     const outHtml = document.getElementById('sintesi-output').innerHTML || '';
     exportHtmlToPrintableWindow('Sintesi - Esportazione', `<h1>Sintesi</h1><h2>Originale</h2><pre>${inTxt}</pre><h2>Sintesi</h2>${outHtml}`);
   });
-  const posterBtn = document.getElementById('poster-sintesi-svg'); if(posterBtn) posterBtn.addEventListener('click', async ()=>{ const snippet = (document.getElementById('sintesi-input').value || '').split('\n').slice(0,3).join(' '); const svg = await generatePosterSvg({ title: 'Sintesi — Scuola 2026', subtitle: snippet || 'Sintesi', qrUrl: 'https://www.ldm4app.com' }); downloadSvgString(svg, 'poster-sintesi.svg'); });
+  const posterBtn = document.getElementById('poster-sintesi-svg'); if(posterBtn) posterBtn.addEventListener('click', async ()=>{ const snippet = (document.getElementById('sintesi-input').value || '').split('\n').slice(0,3).join(' '); const aiBody = (document.getElementById('sintesi-output')?.innerText || '').trim(); const svg = await generatePosterSvg({ title: 'Sintesi — Scuola 2026', subtitle: snippet || 'Sintesi', body: aiBody, qrUrl: 'https://www.ldm4app.com' }); downloadSvgString(svg, 'poster-sintesi.svg'); });
   const sws = document.getElementById('share-sintesi-ws'); if(sws) sws.addEventListener('click', ()=> shareToWhatsApp('Ecco una sintesi da Scuola 2026', window.location.href));
   const stg = document.getElementById('share-sintesi-tg'); if(stg) stg.addEventListener('click', ()=> shareToTelegram('Ecco una sintesi da Scuola 2026', window.location.href));
 }
@@ -1062,7 +1066,8 @@ function renderSchemi(container){
   document.getElementById('poster-schema-svg').addEventListener('click', async ()=>{
     const src = document.getElementById('schema-source').value.trim();
     const snippet = src.split('\n').slice(0,2).join(' ');
-    const svg = await generatePosterSvg({ title: 'Schema — Scuola 2026', subtitle: snippet || 'Diagramma', qrUrl: 'https://www.ldm4app.com' });
+    const aiBody = (document.getElementById('schema-output')?.innerText || '').trim();
+    const svg = await generatePosterSvg({ title: 'Schema — Scuola 2026', subtitle: snippet || 'Diagramma', body: aiBody, qrUrl: 'https://www.ldm4app.com' });
     downloadSvgString(svg, 'poster-schema.svg');
   });
 

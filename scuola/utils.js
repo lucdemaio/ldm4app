@@ -102,11 +102,20 @@ export async function generatePosterSvg(opts){
   // Build subtitle lines (wrap at ~48 chars per line)
   const subtitleLines = wrapText(rawSubtitle, 48).map(escapeHtml);
 
+  // optional body (IA response) — strip HTML and wrap, limit lines
+  const rawBody = String(opts.body || '').trim();
+  let bodyLines = [];
+  if(rawBody){
+    // strip any HTML tags if present
+    const tmp = document.createElement('div'); tmp.innerHTML = rawBody; const bodyText = (tmp.textContent || tmp.innerText || '').trim();
+    bodyLines = wrapText(bodyText, 60).slice(0, 6).map(escapeHtml); // max 6 lines
+  }
+
   // escape title/footer for insertion into SVG text nodes
   const safeTitle = escapeHtml(title);
   const safeFooter = escapeHtml(footer);
 
-  // Compose SVG (embed QR as inline SVG if available, otherwise use image href, otherwise render a visible placeholder with link)
+  // Compose QR block (embed SVG or image or placeholder)
   const qrBlock = qrSvgInner
     ? `<a href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener"><g transform="translate(920,56) scale(0.95)" aria-label="qr">${qrSvgInner}</g></a>`
     : (qrDataUrl
@@ -120,7 +129,13 @@ export async function generatePosterSvg(opts){
     return `<tspan x="0" dy="${dy}">${ln}</tspan>`;
   }).join('');
 
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">\n  <defs>\n    <style>\n      .bg{fill:#071021}\n      .title{fill:#E6EEF8; font-family: Inter, Arial, sans-serif; font-weight:700; font-size:56px}\n      .sub{fill:#9fb8d6; font-size:20px; font-family: Inter, Arial, sans-serif}\n      .footer{fill:#8aa4bf; font-size:16px; font-family: Inter, Arial, sans-serif}\n    </style>\n  </defs>\n  <rect class="bg" width="100%" height="100%" rx="24"/>\n  <g transform="translate(64,96)">\n    <text class="title" x="0" y="0">${safeTitle}</text>\n    <text class="sub" x="0" y="72">${subtitleTspans}</text>\n  </g>\n  ${qrBlock}\n  <text x="64" y="560" class="footer">${escapeHtml(safeFooter)}</text>\n</svg>`;
+  // body tspan blocks (if any)
+  const bodyTspans = bodyLines.length ? bodyLines.map((ln, idx) => {
+    const dy = idx === 0 ? '0' : '1.15em';
+    return `<tspan x="0" dy="${dy}">${ln}</tspan>`;
+  }).join('') : '';
+
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">\n  <defs>\n    <style>\n      .bg{fill:#071021}\n      .title{fill:#E6EEF8; font-family: Inter, Arial, sans-serif; font-weight:700; font-size:56px}\n      .sub{fill:#9fb8d6; font-size:20px; font-family: Inter, Arial, sans-serif}\n      .body{fill:#cfe9ff; font-size:18px; font-family: Inter, Arial, sans-serif}\n      .footer{fill:#8aa4bf; font-size:16px; font-family: Inter, Arial, sans-serif}\n    </style>\n  </defs>\n  <rect class="bg" width="100%" height="100%" rx="24"/>\n  <g transform="translate(64,96)">\n    <text class="title" x="0" y="0">${safeTitle}</text>\n    <text class="sub" x="0" y="72">${subtitleTspans}</text>\n    ${bodyTspans ? `<text class="body" x="0" y="140">${bodyTspans}</text>` : ''}\n  </g>\n  ${qrBlock}\n  <text x="64" y="560" class="footer">${escapeHtml(safeFooter)}</text>\n</svg>`;
 
   return svg;
 }

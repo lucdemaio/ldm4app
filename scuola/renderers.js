@@ -237,7 +237,8 @@ export function renderAiTutor(container){
   const posterAiBtn = document.getElementById('poster-ai-svg');
   if(posterAiBtn) posterAiBtn.addEventListener('click', async ()=>{
     const snippet = (document.querySelector('#chat-log .msg-user')?.textContent || 'IA Tutor').trim();
-    const svg = await generatePosterSvg({ title: 'IA Tutor — Scuola 2026', subtitle: snippet, qrUrl: 'https://www.ldm4app.com' });
+    const aiBody = (document.querySelector('#chat-log .msg-ai:last-of-type')?.textContent || '').trim();
+    const svg = await generatePosterSvg({ title: 'IA Tutor — Scuola 2026', subtitle: snippet, body: aiBody, qrUrl: 'https://www.ldm4app.com' });
     downloadSvgString(svg, 'scheda-ia.svg');
   });
 
