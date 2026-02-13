@@ -26,6 +26,11 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 
     <link rel="stylesheet" href="./style.css" />
+
+    <!-- PWA: manifest & theme color -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#111827" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
   </head>
   <body class="h-full antialiased selection:bg-indigo-500 selection:text-white">
     <!-- Top Navbar -->
@@ -83,6 +88,10 @@
 
           <!-- top-right global share buttons -->
           <div class="flex items-center gap-3">
+            <button id="install-pwa-btn" class="px-3 py-2 rounded-xl bg-slate-800 text-white text-xs inline-flex hidden" title="Installa Scuola 2026">
+              <i data-lucide="download" class="lucide-icon w-4 h-4 mr-2"></i>Installa
+            </button>
+
             <button id="share-global-ws" class="px-3 py-2 rounded-xl bg-green-600 text-white text-xs inline-flex" title="Condividi su WhatsApp">
               <i data-lucide="message-square" class="lucide-icon w-4 h-4 mr-2"></i>WhatsApp
             </button>

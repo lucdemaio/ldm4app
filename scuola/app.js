@@ -1116,3 +1116,64 @@ function renderSchemi(container){
   - For production, proxy requests via a secure server to keep keys secret.
   - Update model/endpoint parameters according to Google's latest API docs.
 */
+
+// --- PWA: register service worker + 'install' CTA handling ---
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js');
+      console.log('Service Worker registered:', reg);
+
+      // if an updated SW is waiting, prompt user to reload
+      if (reg.waiting) notifyUpdateAvailable(reg);
+
+      reg.addEventListener('updatefound', () => {
+        const installing = reg.installing;
+        installing && (installing.addEventListener('statechange', () => {
+          if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+            // new content available
+            notifyUpdateAvailable(reg);
+          }
+        }));
+      });
+
+      // reload when the new SW activates after skipWaiting
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+      });
+    } catch (err) {
+      console.warn('SW registration failed:', err);
+    }
+  });
+}
+
+function notifyUpdateAvailable(registration) {
+  const doReload = confirm('È disponibile una nuova versione dell\'app. Ricaricare ora per aggiornare?');
+  if (doReload) {
+    // tell SW to activate immediately
+    registration.waiting && registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+  }
+}
+
+// beforeinstallprompt -> show install button
+let deferredPwaPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPwaPrompt = e;
+  const btn = document.getElementById('install-pwa-btn');
+  if (btn) btn.classList.remove('hidden');
+});
+
+const installBtn = document.getElementById('install-pwa-btn');
+if (installBtn) installBtn.addEventListener('click', async () => {
+  if (!deferredPwaPrompt) return;
+  deferredPwaPrompt.prompt();
+  const choice = await deferredPwaPrompt.userChoice;
+  if (choice.outcome === 'accepted') {
+    console.log('PWA install accepted');
+  } else {
+    console.log('PWA install dismissed');
+  }
+  deferredPwaPrompt = null;
+  installBtn.classList.add('hidden');
+});
