@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: './',
   plugins: [
     react(),
     VitePWA({
@@ -18,13 +19,13 @@ export default defineConfig({
       manifest: {
         name: 'Traduzioni Ldm4app',
         short_name: 'Ldm4app',
-        start_url: '/',
+        start_url: './',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#0ea5a4',
         icons: [
-          { src: '/pwa-192x192.svg', sizes: '192x192', type: 'image/svg+xml' },
-          { src: '/pwa-512x512.svg', sizes: '512x512', type: 'image/svg+xml' }
+          { src: 'pwa-192x192.svg', sizes: '192x192', type: 'image/svg+xml' },
+          { src: 'pwa-512x512.svg', sizes: '512x512', type: 'image/svg+xml' }
         ]
       }
     })
