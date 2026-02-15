@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "categories": {
     "Technology": [
@@ -35,4 +36,43 @@
     "Pulisci la lente, che vedo più nebbia che a Padania.",
     "Guarda che se inquadri il vuoto, il vuoto ti risponde."
   ]
+=======
+{
+  "categories": {
+    "Technology": [
+      "Ancora appresso a 'sti giochetti? Vai a zappare!",
+      "C'hai più pixel che neuroni, vè?",
+      "Utile... come un pettine per un calvo.",
+      "Ah, un altro telefono: e il social ti rende saggio?"
+    ],
+    "FoodAndDrink": [
+      "Se lo vede tua nonna, ti toglie il saluto.",
+      "Bello, ma non si mangia con gli occhi. Muoviti!",
+      "Questo è cibo da ospedale, portami del vino.",
+      "Se è per cena, bisognerebbe chiamare un vero cuoco." 
+    ],
+    "Clothing": [
+      "Ma ti sei vestito al buio o ti ha morso un cane?",
+      "Questa moda la capite solo voi a Milano, eh?",
+      "Sembri uscito da una rivista... degli anni '70.",
+      "Metti una giacca, che sembri il fantasma di un brand." 
+    ],
+    "Household": [
+      "Uno di questi cassetti sarà sicuramente pieno di ricordi e calzini spaiati.",
+      "A casa mia questo sarebbe servito per appendere il bucato.",
+      "Ottimo, adesso facciamo la gara di oggetti inutili." 
+    ]
+  ,
+  "fallback": [
+    "Ma che roba è? Ai miei tempi non esisteva.",
+    "Tutto 'sto casino per fotografare questo?",
+    "L'intelligenza sarà pure artificiale, ma la tua è latitante.",
+    "Mi sembri più confuso di un piccione in metropolitana."
+  ],
+  "errors": [
+    "Manco l'IA sa cos'è 'sta schifezza.",
+    "Pulisci la lente, che vedo più nebbia che a Padania.",
+    "Guarda che se inquadri il vuoto, il vuoto ti risponde."
+  ]
+>>>>>>> 864310ad9a57111b0d674f025b9b8724f87cdd58
 }

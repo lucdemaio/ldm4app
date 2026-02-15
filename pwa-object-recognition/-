@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="it">
 <head>
@@ -183,4 +184,191 @@
     })();
   </script>
 </body>
+=======
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#222" />
+  <title>PWA Riconoscimento Oggetti - Dialetti</title>
+
+  <!-- Manifest per rendere l'app installabile -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Font moderni per UI 2026 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Font giocoso per tono scherzoso -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+  <!-- Video a schermo intero (sfondo) -->
+  <video id="video" autoplay muted playsinline></video>
+
+  <!-- Overlay centrato con controlli e risultati -->
+  <div class="overlay">
+    <div class="glass-panel" id="controlsPanel" role="region" aria-label="Controlli principali">
+      <div class="top-row">
+        <div class="select-wrap">
+          <label for="dialect">Dialetto</label>
+          <select id="dialect" aria-label="Scegli dialetto">
+            <option value="" disabled selected>Seleziona dialetto...</option>
+            <option value="Romano">Romano</option>
+            <option value="Veneto">Veneto</option>
+            <option value="Bergamasco">Bergamasco</option>
+            <option value="Milanese">Milanese</option>
+            <option value="Napoletano">Napoletano</option>
+            <option value="Siciliano">Siciliano</option>
+          </select>
+        </div>
+
+        <!-- Nuove chicche per tono goliardico -->
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="display:inline-flex;align-items:center;gap:8px"><input id="insultMode" type="checkbox"> <strong>Insulto Creativo</strong></label>
+          <button id="themeToggle" class="ghost-btn" title="Colore bar/maioliche" type="button">🎨 Tema</button>
+          <label style="display:inline-flex;align-items:center;gap:6px;align-items:center;margin-left:8px"><span style="font-size:12px;color:var(--muted);margin-right:6px">Voce</span>
+            <select id="voiceSource" aria-label="Sorgente voce" style="padding:6px 8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit">
+              <option value="auto">Automatico</option>
+              <option value="sapi">SAPI (locale)</option>
+              <option value="google">Google WaveNet</option>
+              <option value="azure">Azure Neural TTS</option>
+              <option value="opentts">OpenTTS (Local)</option>
+              <option value="coqui">Coqui TTS (Local)</option>
+              <option value="human">Human</option>
+            </select>
+          </label>
+          <label style="display:inline-flex;align-items:center;gap:6px;margin-left:8px"><input id="openttsEndpoint" placeholder="http://localhost:5500" style="min-width:160px;padding:6px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+          </label>
+          <label style="display:inline-flex;align-items:center;gap:6px;margin-left:8px"><input id="coquiEndpoint" placeholder="http://localhost:5510" style="min-width:160px;padding:6px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" /></label>
+          <label style="display:inline-flex;align-items:center;gap:6px;margin-left:8px"><input id="gttsEndpoint" placeholder="http://localhost:5520" style="min-width:160px;padding:6px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" /></label>
+          <button id="checkCoquiBtn" class="ghost-btn" title="Verifica Coqui" type="button">🔍 Verifica Coqui</button>
+          <span id="coquiCheckResult" class="status" style="font-size:12px;margin-left:8px;min-width:220px;display:inline-block"></span>
+        </div>
+        <!-- Controlli per traduzione vocale: scrivi o parla in italiano e il sistema traduce nel dialetto selezionato -->
+        <div class="speak-wrap" style="display:flex;align-items:center;gap:6px;margin-left:12px">
+          <input id="translateInput" type="text" placeholder="Parla o scrivi in italiano..." aria-label="Testo in italiano" style="min-width:220px;padding:6px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit" />
+          <button id="startRecBtn" class="ghost-btn" title="Registra voce" type="button">🎤</button>
+          <button id="translateBtn" class="ghost-btn" title="Traduci e parla" type="button">🗣️</button>
+          <span id="recStatus" class="status" style="font-size:12px;margin-left:6px"></span>
+        </div>
+
+      </div>
+
+      <div class="bento-grid" id="bentoGrid" aria-live="polite" aria-atomic="true">
+        <!-- Carte create dinamicamente -->
+      </div>
+
+      <div class="bottom-row">
+        <button id="retryModelBtn" class="ghost-btn">Riprova modello</button>
+        <button id="startBtn" class="ghost-btn">Avvia riconoscimento</button>
+        <textarea id="results" readonly rows="3" aria-label="Risultati">Avvia il riconoscimento per vedere i risultati qui.</textarea>
+        <div id="status" class="status">Modello non caricato</div>
+      </div>
+
+    </div>
+
+    <!-- Anello di rilevamento / effetto pulse neon -->
+    <div id="detectionRing" aria-hidden="true"></div>
+
+    <!-- Pannello dettagli (swipe up) -->
+    <div id="detailPanel" class="detail-panel" hidden>
+      <div class="handle" aria-hidden="true"></div>
+      <div id="detailsContent" class="details-wrap">Dettagli riconoscimento</div>
+      <div id="detailFooter" style="padding:12px;border-top:1px solid rgba(255,255,255,0.02);display:flex;gap:8px;align-items:center;" hidden>
+        <input id="audioFileInput" type="file" accept="audio/*" hidden />
+        <button id="uploadAudioBtn" class="quirky-btn" type="button">🎙️ Carica esclamazione</button>
+        <button id="playCustomBtn" class="quirky-btn" type="button">🔊 Riproduci</button>
+        <button id="dilloNonnaBtn" class="quirky-btn" type="button">💌 Dillo a nonna</button>
+        <div id="legendaryBadge" class="legendary" hidden>🔥 Oggetto Sacro!</div>
+      </div>
+    </div> 
+  </div>
+  <!-- Canvas per confetti ed effetti giocosi -->
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+  <div id="debugPanel" class="debug-panel" hidden>
+    <div class="debug-header">
+      <strong>Debug</strong>
+      <div class="debug-actions">
+        <button id="clearLogs" title="Pulisci log" type="button">Pulisci</button>
+        <button id="downloadLogs" title="Esporta" type="button">Esporta</button>
+        <button id="exportReport" title="Esporta report" type="button">Esporta Report</button>
+        <label style="display:inline-flex;align-items:center;gap:6px;margin-left:8px"><input id="preventClose" type="checkbox"> Previeni chiusura</label>
+        <button id="unregisterSW" title="Rimuovi Service Worker" type="button">Unreg SW</button>
+        <button id="closeDebug" title="Chiudi" type="button">✕</button>
+      </div>
+    </div>
+    <div id="debugLogs" class="debug-logs" role="log" aria-live="polite"></div>
+  </div>
+
+  <!-- Export modal: mostra JSON dei log e fornisce Download/Copy fallback per mobile -->
+  <div id="logExportModal" class="export-modal" hidden aria-hidden="true" role="dialog" aria-label="Export log">
+    <div class="export-overlay" id="exportOverlay"></div>
+    <div class="export-panel">
+      <div class="export-header"><strong>Esporta log</strong><button id="closeLogModal" title="Chiudi" type="button">✕</button></div>
+      <div class="export-body">
+        <textarea id="logExportTextarea" readonly rows="12" aria-label="Log JSON"></textarea>
+        <div class="export-actions">
+          <button id="downloadLogBtn" class="ghost-btn">Scarica</button>
+          <button id="copyLogBtn" class="ghost-btn">Copia negli appunti</button>
+        </div>
+        <div id="logExportStatus" class="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fallback JS minimo: definisce toggleDebugFallback per aprire il pannello se app.js non è eseguito -->
+  <script>
+    window.toggleDebugFallback = function(){
+      try{
+        // mark that fallback was used so the module-level handler ignores the next click
+        window._toggleDebugFallbackUsed = true;
+        const p = document.getElementById('debugPanel');
+        if (!p) return;
+        if (p.hidden) { p.hidden = false; p.style.transform = 'translateY(0)'; }
+        else { p.style.transform = 'translateY(12px)'; setTimeout(()=> p.hidden = true, 260); }
+        // remove flag shortly after to avoid blocking real clicks
+        setTimeout(()=> { window._toggleDebugFallbackUsed = false; }, 500);
+      }catch(e){ console.error('toggleDebugFallback error', e); }
+    };
+    // piccolo indicatore per debugging
+    console.log('Debug fallback injected');
+  </script>
+
+  <!-- Early safe logger: previene ReferenceError se app.js chiama addDebugLog prima di essere totalmente inizializzato -->
+  <script>
+    (function(){
+      window.__earlyLogs = window.__earlyLogs || [];
+      if (!window.addDebugLog){
+        window.addDebugLog = function(level, message, meta){
+          window.__earlyLogs.push([level, message, meta]);
+          try{ console.log('[early]', level, message, meta); }catch(e){}
+        };
+      }
+    })();
+  </script>
+
+  <!-- Script principale come modulo per usare import dinamici. Fallback dinamico per caricare app.js sia da percorso relativo che da possibile percorso assoluto usato in deploy -->
+  <script type="module">
+    (async ()=>{
+      const tryImport = async (p) => { try{ await import(p); console.log('app.js caricato da', p); addDebugLog && addDebugLog('info', 'app loaded', {path: p}); return true; }catch(e){ console.warn('import failed', p, e); return false; } };
+      const base = location.pathname.replace(/\/$/, '');
+      const candidates = ['./app.js', `${base}/app.js`, `${base}/pwa-object-recognition/app.js`, '/pwa-object-recognition/app.js'];
+      let ok = false;
+      for (const c of candidates){
+        // try relative when appropriate
+        try{
+          ok = await tryImport(c);
+          if (ok) break;
+        }catch(e){ /* continue */ }
+      }
+      if (!ok){
+        console.error('Impossibile caricare app.js da alcun percorso');
+        const s = document.getElementById('status'); if (s) s.textContent = 'Errore caricamento app.js';
+      }
+    })();
+  </script>
+</body>
+>>>>>>> 864310ad9a57111b0d674f025b9b8724f87cdd58
 </html>

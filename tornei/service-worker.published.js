@@ -19,6 +19,9 @@ const manifestUrlList = self.assetsManifest.assets.map(asset => new URL(asset.ur
 async function onInstall(event) {
     console.info('Service worker: Install');
 
+    // Activate new service worker immediately so app sees updated assets right away
+    try { self.skipWaiting(); } catch (e) { console.warn('skipWaiting failed', e); }
+
     // Fetch and cache all matching items from the assets manifest
     const assetsRequests = self.assetsManifest.assets
         .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
@@ -29,6 +32,9 @@ async function onInstall(event) {
 
 async function onActivate(event) {
     console.info('Service worker: Activate');
+
+    // Take control of uncontrolled clients immediately after activation
+    try { await self.clients.claim(); } catch (e) { console.warn('clients.claim failed', e); }
 
     // Delete unused caches
     const cacheKeys = await caches.keys();

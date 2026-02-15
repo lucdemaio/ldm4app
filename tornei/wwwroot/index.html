@@ -316,6 +316,7 @@
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
+<<<<<<< HEAD
       if('serviceWorker' in navigator){
         (async ()=>{
           try{
@@ -346,6 +347,16 @@
               }));
             }
           }catch(e){ console.warn('SW registration check failed', e); }
+=======
+      // Service worker disabled for deployment (to avoid stale-caching issues during upload).
+      if('serviceWorker' in navigator){
+        (async ()=>{
+          try{
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(r => r.unregister()));
+            console.log('Service workers unregistered');
+          }catch(e){ console.warn('SW unregister failed', e); }
+>>>>>>> 864310ad9a57111b0d674f025b9b8724f87cdd58
         })();
       }
     </script>
