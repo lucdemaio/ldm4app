@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  base: './',
+  base: '/traduttore/',
   plugins: [
     react(),
     VitePWA({
@@ -19,7 +19,7 @@ export default defineConfig({
       manifest: {
         name: 'Traduzioni Ldm4app',
         short_name: 'Ldm4app',
-        start_url: './',
+        start_url: '/traduttore/',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#0ea5a4',
