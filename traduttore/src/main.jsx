@@ -2,6 +2,9 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import './styles.css'
+
+console.log('[main.jsx] App is loading')
+
 // registra il service worker (fallback manual quando presente)
 if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
   (async () => {
@@ -21,4 +24,6 @@ if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
 const translationWorker = new Worker(new URL('./workers/translator.worker.js', import.meta.url), { type: 'module' })
 window.translationWorker = translationWorker
 
+console.log('[main.jsx] creating React root and rendering App')
 createRoot(document.getElementById('root')).render(<App />)
+console.log('[main.jsx] App rendered')
