@@ -27,7 +27,7 @@ export default function Help() {
       <section style={{ marginTop: 12 }}>
         <h3 style={{ margin: '6px 0' }}>Istruzioni operative (Step‑by‑Step)</h3>
         <ol style={{ marginTop: 8 }}>
-          <li><strong>Primo Avvio</strong>: al primo accesso il sistema scaricherà il modello NLLB (≈200–600MB). Vedrai una barra di caricamento. Una volta completato, il motore rimarrà residente nel browser.</li>
+          <li><strong>Primo Avvio</strong>: il download non parte automaticamente. Usa il link "Scarica modello" in alto per scaricare i file del modello (o il file .bin), poi premi il pulsante <strong>Carica modello</strong> per avviare il motore. Vedrai quindi la barra di caricamento; al termine il motore rimarrà residente nel browser.</li>
           <li><strong>Selezione Lingue</strong>: scegli la lingua di origine e quella di destinazione dal menu a tendina.</li>
           <li><strong>Traduzione</strong>: scrivi o incolla il testo nel campo di sinistra. La traduzione apparirà a destra man mano che digiti (debounced processing).</li>
           <li><strong>Gestione Risorse</strong>: se il PC rallenta, puoi mettere in pausa il motore AI dal tasto <code>Power</code> in basso a sinistra.</li>
