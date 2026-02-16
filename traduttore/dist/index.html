@@ -38,6 +38,19 @@
   <link rel="manifest" href="./manifest.webmanifest"></head>
   <body>
     <div id="root"></div>
-    
+    <script>
+      // Marker che indica la versione nuova
+      window.__NEW_VERSION__ = true;
+    </script>
+    <script>
+      // Se il vecchio SW ha servito il cache, questo script non sarà nel HTML
+      // Quindi forzerò un reload con query parameter per bypassare qualsiasi cache
+      if (!window.__NEW_VERSION__) {
+        console.log('[body] Old version detected, force reloading with cache buster');
+        const url = new URL(window.location);
+        url.searchParams.set('fw', Date.now());
+        window.location.href = url.toString();
+      }
+    </script>
   </body>
 </html>
