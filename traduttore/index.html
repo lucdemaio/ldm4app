@@ -4,6 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
+    
+    <script>
+      // DETECTION: Se il vecchio SW serve il vecchio HTML, questo script dirà che siamo in versione nuova
+      // Se il vecchio HTML NON ha questo script, il body dirà di fare un reload
+      window.__NEW_INDEX_VERSION__ = 'v2';
+      console.log('[HEAD] New index version marker set');
+    </script>
+    
     <script>
       // EMERGENCY: Clear cache IMMEDIATELY before anything else
       console.log('[HTML FIRST] EMERGENCY CACHE CLEAR START')
