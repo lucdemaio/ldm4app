@@ -1,0 +1,391 @@
+/* ============================================================
+   NAVBAR MODERNA 2026 - ULTRA FIXED (Z-Index Supremo)
+   ============================================================ */
+
+:root {
+    /* Colori moderni 2026 */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --navbar-blur: 20px;
+    --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Navbar Container con Z-Index Massimo */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999 !important;
+
+    /* Glassmorphism Effect */
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+    );
+    backdrop-filter: blur(var(--navbar-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--navbar-blur)) saturate(180%);
+
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+
+    transition: all 0.3s var(--transition-smooth);
+}
+
+/* Effetto scroll - navbar più compatta */
+.top-navbar.scrolled {
+    padding: 0.5rem 2rem;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.08)
+    );
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Brand Section */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 100000;
+}
+
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+
+    transition: all 0.3s var(--transition-bounce);
+}
+
+.navbar-logo:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.75rem;
+    cursor: pointer;
+    color: rgba(30, 30, 50, 0.9);
+    transition: all 0.3s var(--transition-smooth);
+}
+
+.mobile-menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1) rotate(90deg);
+}
+
+.mobile-menu-toggle:active {
+    transform: scale(0.95) rotate(90deg);
+}
+
+/* Navigation Main */
+.navbar-main {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+    position: relative;
+    z-index: 99998;
+}
+
+/* Nav Buttons - Stile Moderno con testo scuro */
+.nav-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+
+    color: rgba(30, 30, 50, 0.95);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    transition: all 0.3s var(--transition-smooth);
+    overflow: hidden;
+}
+
+/* Effetto sfondo animato */
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--primary-gradient);
+    opacity: 0;
+    transition: opacity 0.3s var(--transition-smooth);
+    z-index: -1;
+}
+
+.nav-btn:hover::before {
+    opacity: 0.15;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-btn:active {
+    transform: translateY(0);
+}
+
+/* Icone animate */
+.nav-btn i {
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s var(--transition-bounce);
+}
+
+.nav-btn:hover i {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* Dropdown Container con z-index massimo */
+.nav-dropdown {
+    position: relative;
+    z-index: 100000 !important;
+}
+
+.dropdown-toggle {
+    gap: 0.4rem;
+}
+
+.dropdown-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s var(--transition-smooth);
+}
+
+.nav-dropdown:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* Dropdown Menu - Z-Index Supremo con position fixed */
+.dropdown-menu {
+    position: fixed !important;
+    top: auto !important;
+    left: auto !important;
+    transform: translateY(-10px);
+
+    min-width: 220px;
+    padding: 0.75rem;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95),
+        rgba(245, 245, 250, 0.98)
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+    border: 1px solid rgba(200, 200, 220, 0.3);
+    border-radius: 16px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: all 0.3s var(--transition-smooth);
+    z-index: 999999 !important;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+/* Dropdown Items con testo scuro */
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+
+    color: rgba(30, 30, 50, 0.95);
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    transition: all 0.2s var(--transition-smooth);
+    cursor: pointer;
+}
+
+.dropdown-menu a:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: translateX(4px);
+    color: rgba(10, 10, 30, 1);
+}
+
+.dropdown-menu a i {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+    transition: all 0.2s var(--transition-smooth);
+}
+
+.dropdown-menu a:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Animazione ingresso dropdown items */
+.dropdown-menu a {
+    animation: slideInLeft 0.3s var(--transition-smooth) backwards;
+}
+
+.dropdown-menu a:nth-child(1) { animation-delay: 0.05s; }
+.dropdown-menu a:nth-child(2) { animation-delay: 0.1s; }
+.dropdown-menu a:nth-child(3) { animation-delay: 0.15s; }
+.dropdown-menu a:nth-child(4) { animation-delay: 0.2s; }
+.dropdown-menu a:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Active State */
+.nav-btn.active {
+    background: var(--primary-gradient);
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
+.nav-btn.active::before {
+    opacity: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .navbar-main {
+        gap: 0.25rem;
+    }
+
+    .nav-btn {
+        padding: 0.65rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .navbar-main {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        padding: 1rem;
+
+        background: linear-gradient(
+            180deg,
+            rgba(30, 30, 50, 0.98),
+            rgba(20, 20, 40, 0.98)
+        );
+        backdrop-filter: blur(20px);
+
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+
+        transition: all 0.4s var(--transition-smooth);
+    }
+
+    .navbar-main.active {
+        max-height: calc(100vh - 70px);
+        opacity: 1;
+        overflow-y: auto;
+    }
+
+    /* Testo bianco per mobile menu scuro */
+    .navbar-main.active .nav-btn {
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+    .nav-btn {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .dropdown-menu {
+        position: static !important;
+        transform: none !important;
+        margin-top: 0.5rem;
+        margin-left: 1rem;
+    }
+
+    .nav-dropdown:hover .dropdown-menu {
+        transform: none !important;
+    }
+}
+
+/* Micro-animations */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.nav-btn[data-notify]::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    background: #f5576c;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    animation: pulse 2s infinite;
+}

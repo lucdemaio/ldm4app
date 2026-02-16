@@ -1,0 +1,78 @@
+﻿/* ICONE COLORATE SU SFONDO BIANCO - Come Gestione Squadre */
+
+.section-icon {
+    width: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    margin-right: 12px !important;
+    background-color: #f5f5f5 !important;
+    flex-shrink: 0 !important;
+}
+
+/* Icone SVG dentro - COLORATE */
+.section-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+}
+
+/* Gestione Fiscale - ARANCIONE */
+.gestione-fiscale-icon svg {
+    color: #f59e0b !important;
+    fill: #f59e0b !important;
+}
+
+/* Documenti Legali - AZZURRO */
+.documenti-legali-icon svg {
+    color: #06b6d4 !important;
+    fill: #06b6d4 !important;
+}
+
+/* Verbali Assemblee - INDACO */
+.verbali-icon svg {
+    color: #6366f1 !important;
+    fill: #6366f1 !important;
+}
+
+/* Pagamenti Atleti - TURCHESE */
+.pagamenti-icon svg {
+    color: #14b8a6 !important;
+    fill: #14b8a6 !important;
+}
+
+/* Archivia Stagione - GRIGIO */
+.archivia-icon svg {
+    color: #64748b !important;
+    fill: #64748b !important;
+}
+
+/* Ricevute Fiscali - BLU */
+.ricevute-icon svg {
+    color: #3b82f6 !important;
+    fill: #3b82f6 !important;
+}
+
+/* Collaboratori - VIOLA */
+.collaboratori-icon svg {
+    color: #8b5cf6 !important;
+    fill: #8b5cf6 !important;
+}
+
+/* Prima Nota - ROSA */
+.prima-nota-icon svg {
+    color: #ec4899 !important;
+    fill: #ec4899 !important;
+}
+
+/* Assicura che TUTTI i SVG dentro le icone siano visibili */
+.section-header svg {
+    color: inherit !important;
+    fill: currentColor !important;
+}
+
+.card-icon svg {
+    color: inherit !important;
+    fill: currentColor !important;
+}

@@ -1,0 +1,231 @@
+/**
+ * VARIABLES.CSS
+ * Premium Design System - Midnight Blue & Vibrant Green
+ * Modern Glassmorphism UI
+ */
+
+/* ===== FONT IMPORT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    /* ===== COLORI PRIMARI - MIDNIGHT BLUE ===== */
+    --color-primary: #0f172a;          /* Midnight Blue - Slate 900 */
+    --color-primary-dark: #020617;     /* Slate 950 */
+    --color-primary-light: #1e293b;    /* Slate 800 */
+    --color-primary-50: rgba(15, 23, 42, 0.05);
+    --color-primary-100: rgba(15, 23, 42, 0.1);
+    
+    /* ===== VIBRANT GREEN - ACCENTI ===== */
+    --color-accent: #22c55e;           /* Vibrant Green - Grass Color */
+    --color-accent-dark: #16a34a;
+    --color-accent-light: #4ade80;
+    --color-accent-glow: rgba(34, 197, 94, 0.3);
+    --color-accent-50: rgba(34, 197, 94, 0.1);
+    
+    --color-secondary: #3b82f6;        /* Blue */
+    --color-secondary-light: #60a5fa;
+    
+    /* ===== COLORI STATO ===== */
+    --color-success: #22c55e;          /* Green */
+    --color-success-bg: rgba(34, 197, 94, 0.1);
+    --color-warning: #f59e0b;          /* Amber */
+    --color-warning-bg: rgba(245, 158, 11, 0.1);
+    --color-danger: #ef4444;           /* Red */
+    --color-danger-bg: rgba(239, 68, 68, 0.1);
+    --color-info: #3b82f6;             /* Blue */
+    --color-info-bg: rgba(59, 130, 246, 0.1);
+    
+    /* ===== COLORI RUOLI ATLETI ===== */
+    --color-role-gk: #fbbf24;          /* Goalkeeper - Gold */
+    --color-role-gk-bg: rgba(251, 191, 36, 0.15);
+    --color-role-def: #3b82f6;         /* Defender - Blue */
+    --color-role-def-bg: rgba(59, 130, 246, 0.15);
+    --color-role-mid: #22c55e;         /* Midfielder - Green */
+    --color-role-mid-bg: rgba(34, 197, 94, 0.15);
+    --color-role-att: #ef4444;         /* Attacker - Red */
+    --color-role-att-bg: rgba(239, 68, 68, 0.15);
+    
+    /* ===== COLORI GRIGI ===== */
+    --color-gray-50: #f8fafc;
+    --color-gray-100: #f1f5f9;
+    --color-gray-200: #e2e8f0;
+    --color-gray-300: #cbd5e1;
+    --color-gray-400: #94a3b8;
+    --color-gray-500: #64748b;
+    --color-gray-600: #475569;
+    --color-gray-700: #334155;
+    --color-gray-800: #1e293b;
+    --color-gray-900: #0f172a;
+    
+    /* ===== COLORI TESTO ===== */
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --color-text-tertiary: #94a3b8;
+    --color-text-inverse: #ffffff;
+    
+    /* ===== DIMENSIONI LAYOUT ===== */
+    --header-height: 72px;
+    --bottom-nav-height: 0px;
+    --max-width-container: 1400px;
+    
+    /* Testo su sfondi - High Contrast */
+    --text-on-primary: #ffffff;        /* Testo bianco su sfondi scuri */
+    --text-on-light: #0f172a;          /* Testo scuro su sfondi chiari */
+    --text-on-accent: #ffffff;         /* Testo bianco su accent verde */
+    --text-on-dark: #ffffff;           /* Testo bianco su sfondi scuri */
+    --text-on-secondary: #ffffff;      /* Testo bianco su secondary blue */
+    
+    /* ===== COLORI SFONDO - GLASSMORPHISM ===== */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f8fafc;
+    --color-bg-tertiary: #f1f5f9;
+    --color-bg-glass: rgba(255, 255, 255, 0.7);
+    --color-bg-glass-strong: rgba(255, 255, 255, 0.9);
+    --color-bg-overlay: rgba(15, 23, 42, 0.4);
+    
+    /* ===== COLORI BORDI ===== */
+    --color-border: #e2e8f0;
+    --color-border-light: #f1f5f9;
+    --color-border-glass: rgba(255, 255, 255, 0.2);
+    
+    /* Colori utilità */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    
+    /* ===== TIPOGRAFIA - INTER FONT ===== */
+    --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-family-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    
+    --font-size-xs: 0.875rem;     /* 14px - Minimo leggibile */
+    --font-size-sm: 0.875rem;     /* 14px */
+    --font-size-base: 1rem;       /* 16px */
+    --font-size-lg: 1.125rem;     /* 18px */
+    --font-size-xl: 1.25rem;      /* 20px */
+    --font-size-2xl: 1.5rem;      /* 24px */
+    --font-size-3xl: 1.875rem;    /* 30px */
+    --font-size-4xl: 2.25rem;     /* 36px */
+    
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    
+    /* ===== SPAZIATURE ===== */
+    --spacing-1: 0.25rem;    /* 4px */
+    --spacing-2: 0.5rem;     /* 8px */
+    --spacing-3: 0.75rem;    /* 12px */
+    --spacing-4: 1rem;       /* 16px */
+    --spacing-5: 1.25rem;    /* 20px */
+    --spacing-6: 1.5rem;     /* 24px */
+    --spacing-7: 1.75rem;    /* 28px */
+    --spacing-8: 2rem;       /* 32px */
+    --spacing-10: 2.5rem;    /* 40px */
+    --spacing-12: 3rem;      /* 48px */
+    --spacing-16: 4rem;      /* 64px */
+    
+    /* ===== BORDER RADIUS - MODERN ROUNDED ===== */
+    --radius-sm: 0.5rem;     /* 8px */
+    --radius-md: 0.75rem;    /* 12px */
+    --radius-lg: 1rem;       /* 16px */
+    --radius-xl: 1.25rem;    /* 20px */
+    --radius-2xl: 1.5rem;    /* 24px */
+    --radius-full: 9999px;
+    
+    /* ===== OMBRE - SOFT & ELEVATED ===== */
+    --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.1);
+    --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.12);
+    --shadow-xl: 0 12px 32px rgba(15, 23, 42, 0.15);
+    --shadow-2xl: 0 20px 48px rgba(15, 23, 42, 0.2);
+    --shadow-glow: 0 0 20px var(--color-accent-glow);
+    --shadow-inner: inset 0 2px 4px rgba(15, 23, 42, 0.06);
+    
+    /* ===== GRADIENTI ===== */
+    --gradient-primary: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    
+    /* ===== TRANSIZIONI - SMOOTH ===== */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* ===== Z-INDEX ===== */
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-fixed: 300;
+    --z-header: 350;              /* Header navbar */
+    --z-overlay: 400;
+    --z-sidebar: 450;
+    --z-modal: 500;
+    --z-toast: 600;
+    --z-tooltip: 700;
+    --z-loading: 9999;
+    
+    /* ===== DIMENSIONI MINIME TOUCH/CLICK ===== */
+    --min-touch-size: 44px;        /* Minimo WCAG per area clic */
+    --min-button-height: 44px;     /* Altezza minima bottoni */
+    --min-nav-item-height: 48px;   /* Altezza minima voci menu */
+    
+    /* ===== GLASSMORPHISM EFFECT ===== */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-blur: blur(12px);
+    --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.1);
+}
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"] {
+    /* Primari Dark Mode */
+    --color-primary: #3b82f6;
+    --color-primary-light: #60a5fa;
+    --color-primary-dark: #2563eb;
+    
+    /* Testo Dark Mode */
+    --color-text-primary: #f1f5f9;
+    --color-text-secondary: #cbd5e1;
+    --color-text-tertiary: #64748b;
+    
+    /* Sfondi Dark Mode */
+    --color-bg-primary: #020617;
+    --color-bg-secondary: #0f172a;
+    --color-bg-tertiary: #1e293b;
+    --color-bg-glass: rgba(15, 23, 42, 0.8);
+    --color-bg-glass-strong: rgba(15, 23, 42, 0.95);
+    --color-bg-overlay: rgba(0, 0, 0, 0.6);
+    
+    /* Card e elementi bianchi diventano scuri */
+    --color-white: #1e293b;
+    --color-gray-50: #1e293b;
+    --color-gray-100: #334155;
+    --color-gray-200: #475569;
+    
+    /* Bordi Dark Mode */
+    --color-border: #1e293b;
+    --color-border-light: #334155;
+    
+    /* Glassmorphism Dark */
+    --glass-bg: rgba(15, 23, 42, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    
+    /* Ombre Dark Mode */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+}

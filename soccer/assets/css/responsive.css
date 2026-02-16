@@ -1,0 +1,365 @@
+/**
+ * RESPONSIVE.CSS
+ * Media queries e ottimizzazioni per diverse dimensioni schermo
+ * Approccio Mobile-First: si parte da mobile e si aggiungono regole per schermi più grandi
+ */
+
+/* ========== TABLET (640px+) ========== */
+@media (min-width: 640px) {
+    .app-container {
+        padding: var(--spacing-6);
+    }
+
+    .section-header {
+        margin-bottom: var(--spacing-8);
+    }
+
+    .card {
+        padding: var(--spacing-6);
+    }
+
+    .bottom-nav {
+        padding: var(--spacing-3) 0;
+    }
+
+    .nav-item {
+        font-size: var(--font-size-sm);
+    }
+
+    .filters-bar {
+        flex-wrap: nowrap;
+    }
+
+    .search-box {
+        flex: 2;
+    }
+}
+
+/* ========== DESKTOP (1024px+) ========== */
+@media (min-width: 1024px) {
+    .app-container {
+        padding: var(--spacing-8);
+    }
+
+    .bottom-nav {
+        /* Su desktop potremmo nasconderlo e usare una sidebar permanente */
+        /* Oppure mantenerlo per consistenza mobile-like */
+    }
+
+    .dashboard-grid {
+        gap: var(--spacing-5);
+    }
+
+    .card-stat {
+        padding: var(--spacing-5);
+    }
+
+    .athletes-grid,
+    .teams-container {
+        gap: var(--spacing-5);
+    }
+
+    /* Maggiore spaziatura tra elementi */
+    .list-container {
+        gap: var(--spacing-4);
+    }
+}
+
+/* ========== LARGE DESKTOP (1280px+) ========== */
+@media (min-width: 1280px) {
+    .app-container {
+        max-width: 1400px;
+    }
+
+    /* Possiamo mostrare 4 colonne nella griglia atleti */
+    .athletes-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ========== EXTRA LARGE (1536px+) ========== */
+@media (min-width: 1536px) {
+    .app-container {
+        max-width: 1600px;
+    }
+}
+
+/* ========== LANDSCAPE MOBILE ========== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .app-header {
+        height: 48px;
+    }
+
+    .bottom-nav {
+        height: 56px;
+    }
+
+    .nav-item {
+        font-size: 0;
+        padding: var(--spacing-1);
+    }
+
+    .nav-item i {
+        font-size: var(--font-size-xl);
+    }
+
+    .app-container {
+        padding: var(--spacing-3);
+    }
+}
+
+/* ========== ACCESSIBILITY: REDUCED MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========== PRINT STYLES ========== */
+@media print {
+    .app-header,
+    .bottom-nav,
+    .sidebar,
+    .sidebar-overlay,
+    .btn,
+    .filters-bar,
+    .admob-banner-container {
+        display: none !important;
+    }
+
+    .app-container {
+        margin: 0;
+        padding: 0;
+    }
+
+    .card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid var(--color-gray-300);
+    }
+}
+
+/* ========== DARK MODE PREFERENCES ========== */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--bg-primary);
+        color: var(--color-gray-100);
+    }
+
+    .app-header {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    }
+
+    .bottom-nav,
+    .card,
+    .modal-content,
+    .sidebar,
+    .athlete-card,
+    .team-card,
+    .calendar-event {
+        background-color: var(--color-gray-800);
+        color: var(--color-gray-100);
+    }
+
+    .card-header,
+    .modal-header,
+    .sidebar-header {
+        border-bottom-color: var(--color-gray-700);
+    }
+
+    .list-item {
+        background-color: var(--color-gray-700);
+    }
+
+    .list-item:hover {
+        background-color: var(--color-gray-600);
+    }
+
+    .search-box input,
+    .filter-select {
+        background-color: var(--color-gray-700);
+        border-color: var(--color-gray-600);
+        color: var(--color-gray-100);
+    }
+
+    .btn-secondary {
+        background-color: var(--color-gray-700);
+        color: var(--color-gray-100);
+    }
+
+    .btn-icon {
+        background-color: var(--color-gray-700);
+    }
+
+    .sidebar-link {
+        color: var(--color-gray-300);
+    }
+
+    .sidebar-link:hover {
+        background-color: var(--color-gray-700);
+    }
+}
+
+/* ========== TABLET PORTRAIT SPECIFIC ========== */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+    .athletes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ========== OTTIMIZZAZIONI TOUCH ========== */
+@media (hover: none) and (pointer: coarse) {
+    /* Aumenta l'area di tocco per dispositivi touch */
+    .btn,
+    .nav-item,
+    .btn-icon {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .sidebar-link {
+        padding: var(--spacing-4);
+    }
+
+    /* Rimuovi hover effects su touch */
+    .card:hover,
+    .athlete-card:hover,
+    .team-card:hover {
+        transform: none;
+    }
+}
+
+/* ========== TOP NAVBAR RESPONSIVE ========== */
+
+/* Mobile: Nasconde testo nav, mostra solo icone */
+@media (max-width: 768px) {
+    .top-navbar {
+        padding: 0 var(--spacing-3);
+        gap: var(--spacing-2);
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .navbar-logo {
+        font-size: var(--font-size-base);
+    }
+
+    .navbar-main {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        background: var(--color-white);
+        box-shadow: var(--shadow-lg);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: var(--spacing-2);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .navbar-main.active {
+        max-height: calc(100vh - var(--header-height));
+        overflow-y: auto;
+    }
+
+    .nav-btn {
+        padding: var(--spacing-3) var(--spacing-4);
+        color: var(--color-text);
+        border-radius: var(--radius-md);
+        justify-content: flex-start;
+    }
+
+    .nav-btn:hover {
+        background: var(--color-bg-secondary);
+        color: var(--color-primary);
+    }
+
+    .nav-btn span {
+        display: inline;
+    }
+
+    .nav-dropdown {
+        width: 100%;
+    }
+
+    .nav-dropdown .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: var(--color-bg-secondary);
+        margin-top: var(--spacing-1);
+        margin-bottom: var(--spacing-2);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .nav-dropdown.active .dropdown-menu {
+        max-height: 300px;
+    }
+
+    .dropdown-icon {
+        display: block;
+        margin-left: auto;
+    }
+
+    .nav-dropdown.active .dropdown-icon {
+        transform: rotate(180deg);
+    }
+
+    .navbar-actions {
+        gap: var(--spacing-1);
+    }
+
+    .nav-icon-btn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Tablet: Mostra testo solo per voci principali */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .top-navbar {
+        padding: 0 var(--spacing-4);
+        gap: var(--spacing-3);
+    }
+
+    .navbar-logo {
+        font-size: var(--font-size-lg);
+    }
+
+    .nav-btn {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* Desktop large: Menu sempre visibile */
+@media (min-width: 1280px) {
+    .top-navbar {
+        padding: 0 var(--spacing-8);
+    }
+
+    .navbar-main {
+        gap: var(--spacing-2);
+    }
+
+    .nav-btn {
+        padding: var(--spacing-3) var(--spacing-5);
+    }
+}

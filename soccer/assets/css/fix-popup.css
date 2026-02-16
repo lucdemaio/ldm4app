@@ -1,0 +1,50 @@
+﻿/* ===== FIX AGGRESSIVO PER GESTIONE FISCALE E TUTTI I POPUP ===== */
+
+/* Forza TUTTI i popup/dialog/modal a essere visibili sotto la navbar */
+dialog,
+.dialog,
+[role="dialog"],
+[class*="dialog"],
+[class*="popup"],
+[class*="form-modal"],
+[class*="form-container"],
+.fiscal-form,
+[id*="fiscal"],
+[data-fiscal],
+div[style*="position: fixed"][style*="z-index"] {
+    top: 80px !important;
+    max-height: calc(100vh - 100px) !important;
+    overflow-y: auto !important;
+}
+
+/* Forza il centering di TUTTI i container di form */
+[class*="form"] {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 10001 !important;
+}
+
+/* Overlay/Backdrop */
+[class*="overlay"],
+[class*="backdrop"],
+.modal-overlay,
+div[style*="position: fixed"][style*="background"] {
+    top: 0 !important;
+    z-index: 10000 !important;
+}
+
+/* Scrollbar per i form lunghi */
+body {
+    overflow-x: hidden !important;
+}
+
+/* Assicura che i form non vadano sotto la navbar */
+@media (min-height: 1200px) {
+    [class*="form"],
+    dialog,
+    [role="dialog"] {
+        max-height: 90vh !important;
+    }
+}
