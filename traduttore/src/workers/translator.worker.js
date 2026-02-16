@@ -1,4 +1,15 @@
-import { pipeline } from "@xenova/transformers"
+import { pipeline, env } from "@xenova/transformers"
+
+// If the site is served without cross-origin isolation (COOP/COEP) — e.g. GitHub Pages —
+// WebAssembly threads / SharedArrayBuffer are unavailable. Force the ONNX WASM
+// backend to use a single thread so the model can initialize reliably on those hosts.
+try {
+  if (env && env.backends && env.backends.onnx && env.backends.onnx.wasm) {
+    env.backends.onnx.wasm.numThreads = 1
+  }
+} catch (e) {
+  /* ignore */
+}
 
 // Singleton promise that resolves to the translation pipeline
 let translatorPromise = null
@@ -22,12 +33,17 @@ async function getTranslator() {
     // notify main thread: starting load
     self.postMessage({ type: 'status', status: 'loading' })
 
-    const tpl = await pipeline('translation', 'Xenova/nllb-200-distilled-600M', {
-      // progress_callback receives either a number [0..1] or an object with loaded/total
-      progress_callback: (p) => sendProgress(p),
-      // force use of browser-friendly backend if needed; the library auto-detects
-      // (no extra options required here)
-    })
+    let tpl
+    try {
+      tpl = await pipeline('translation', 'Xenova/nllb-200-distilled-600M', {
+        // progress_callback receives either a number [0..1] or an object with loaded/total
+        progress_callback: (p) => sendProgress(p),
+      })
+    } catch (err) {
+      // forward initialization errors to the main thread (helps when debugging production)
+      self.postMessage({ type: 'error', message: 'Pipeline init failed: ' + (err?.message || String(err)), stack: err?.stack })
+      throw err
+    }
 
     self.postMessage({ type: 'status', status: 'ready' })
     sendProgress(1)

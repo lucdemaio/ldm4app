@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import TranslationUI from './components/TranslationUI'
 import Help from './components/Help'
+import LoadingOverlay from './components/LoadingOverlay'
+import LoadingDebug from './components/LoadingDebug'
 import useTranslator from './hooks/useTranslator'
 
 export default function App() {
   const [view, setView] = useState('translate')
-  const { preload, persistStorage, clearModelCache, persisted, loading, progress } = useTranslator()
+  const { preload, persistStorage, clearModelCache, persisted, loading, progress, status, error } = useTranslator()
+  
+  // Auto-preload il modello al mount dell'app
+  useEffect(() => {
+    preload().catch(() => {
+      // Errore gestito dal componente LoadingOverlay
+    })
+  }, [])
 
   const downloadModel = async () => {
     try {
@@ -35,6 +44,12 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      {/* Overlay di caricamento con barra progress */}
+      <LoadingOverlay loading={loading} progress={progress} status={status} error={error} />
+      
+      {/* Debug panel (visible con tasto in basso a destra) */}
+      <LoadingDebug loading={loading} progress={progress} status={status} error={error} />
+
       <aside className="sidebar">
         <Sidebar active={view} onNavigate={setView} />
       </aside>

@@ -1,0 +1,268 @@
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto;
+}
+
+/* Barra di progresso in alto */
+.progress-bar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(15, 23, 36, 0.08);
+  z-index: 1001;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #0ea5a4);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0;
+}
+
+/* Modal di caricamento */
+.loading-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.loading-content {
+  text-align: center;
+  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Spinner animato */
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 20px;
+  border: 3px solid rgba(99, 102, 241, 0.15);
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-title {
+  margin: 0 0 12px 0;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: #0f1724;
+  letter-spacing: -0.02em;
+}
+
+.loading-status {
+  margin: 0 0 24px 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.loading-hint {
+  margin: 16px 0 0 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  min-height: 1.2em;
+  transition: color 0.3s ease;
+}
+
+/* Barra di progresso con percentuale */
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.progress-percentage {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6366f1;
+  min-width: 32px;
+  text-align: right;
+}
+
+.progress-bg {
+  flex: 1;
+  height: 6px;
+  background: rgba(15, 23, 36, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  max-width: 240px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #0ea5a4);
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0;
+}
+
+/* Banner di errore */
+.error-banner {
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border-bottom: 1px solid #fca5a5;
+  padding: 16px 28px;
+  z-index: 999;
+  animation: slideDown 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.error-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.error-icon {
+  width: 24px;
+  height: 24px;
+  color: #dc2626;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.error-text {
+  text-align: left;
+}
+
+.error-text strong {
+  display: block;
+  color: #dc2626;
+  font-size: 0.9375rem;
+  margin-bottom: 4px;
+}
+
+.error-text p {
+  margin: 0;
+  color: #991b1b;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+/* Banner di successo */
+.success-banner {
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border-bottom: 1px solid #86efac;
+  padding: 16px 28px;
+  z-index: 999;
+  animation: slideDown 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.success-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.success-icon {
+  width: 24px;
+  height: 24px;
+  color: #16a34a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.success-text {
+  text-align: left;
+}
+
+.success-text strong {
+  display: block;
+  color: #16a34a;
+  font-size: 0.9375rem;
+  margin-bottom: 4px;
+}
+
+.success-text p {
+  margin: 0;
+  color: #15803d;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+/* Auto-hide success after 3 seconds */
+.success-banner {
+  animation: slideDown 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 2.7s forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
