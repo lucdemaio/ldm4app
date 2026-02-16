@@ -33,13 +33,24 @@ jobs:
         run: npm run build
         working-directory: traduttore
 
+      - name: Prepare deployment directory
+        run: |
+          mkdir -p _site
+          cp -r * _site/ 2>/dev/null || true
+          rm -rf _site/traduttore/dist
+          rm -rf _site/traduttore/node_modules
+          rm -rf _site/traduttore/src
+          rm -rf _site/_site
+          mkdir -p _site/traduttore
+          cp -r traduttore/dist/* _site/traduttore/
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './traduttore/dist'
+          path: './_site'
 
   deploy:
     environment:
