@@ -14,8 +14,9 @@ export default defineConfig({
       filename: 'sw.js',
       includeAssets: ['favicon.svg', 'pwa-192x192.svg', 'pwa-512x512.svg'],
       injectManifest: {
-        // include hashed assets so worker can precache the worker + model-related files
-        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}']
+        // DISABLED: Don't precache anything to avoid caching old files
+        // globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}']
+        globPatterns: []  // Empty - no precaching
       },
       manifest: {
         name: 'Traduzioni Ldm4app',
