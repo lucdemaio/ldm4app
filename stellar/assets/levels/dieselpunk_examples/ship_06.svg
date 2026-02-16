@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <rect width="32" height="32" fill="#000" />
+  <!-- Long narrow dive-bomber style hull -->
+  <path d="M4 17c2-4.5 10-5.5 12-5.5s9 1 11.5 5.5" fill="#4e5a44" stroke="#24271f" stroke-width="0.18" />
+  <!-- Rear fin and exhaust -->
+  <rect x="15" y="20" width="2" height="2" fill="#2d2d2d" />
+  <rect x="8" y="21" width="16" height="0.8" fill="#3f3f3f" />
+  <!-- Dual side guns lower -->
+  <rect x="2" y="14.6" width="4" height="1" fill="#4b4b4b" />
+  <rect x="26" y="14.6" width="4" height="1" fill="#4b4b4b" />
+  <!-- Rivet clusters -->
+  <g fill="#2a2a24">
+    <circle cx="10" cy="16.2" r="0.45" />
+    <circle cx="13" cy="15.8" r="0.45" />
+    <circle cx="19" cy="15.8" r="0.45" />
+    <circle cx="22" cy="16.2" r="0.45" />
+  </g>
+  <!-- Heavy rust stains -->
+  <path d="M9 18c1 1.1 3 1.4 5 0.9" stroke="#7a4229" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.95" />
+</svg>

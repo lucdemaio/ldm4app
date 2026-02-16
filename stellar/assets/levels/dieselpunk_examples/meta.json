@@ -1,0 +1,16 @@
+{
+  "theme": "dieselpunk",
+  "palette": ["#4f5b36", "#596261", "#7a4428", "#6b7a45", "#222222"],
+  "ships": [
+    { "id": "ship_01", "file": "ship_01.svg", "type": "fighter", "suggestedWidth": 36, "suggestedHeight": 28, "hitbox": {"w": 28, "h": 20} },
+    { "id": "ship_02", "file": "ship_02.svg", "type": "fighter", "suggestedWidth": 34, "suggestedHeight": 26, "hitbox": {"w": 28, "h": 18} },
+    { "id": "ship_03", "file": "ship_03.svg", "type": "fighter", "suggestedWidth": 36, "suggestedHeight": 28, "hitbox": {"w": 30, "h": 20} },
+    { "id": "ship_04", "file": "ship_04.svg", "type": "heavy", "suggestedWidth": 42, "suggestedHeight": 34, "hitbox": {"w": 36, "h": 28} },
+    { "id": "ship_05", "file": "ship_05.svg", "type": "scout", "suggestedWidth": 30, "suggestedHeight": 22, "hitbox": {"w": 24, "h": 18} },
+    { "id": "ship_06", "file": "ship_06.svg", "type": "fighter", "suggestedWidth": 36, "suggestedHeight": 28, "hitbox": {"w": 28, "h": 20} },
+    { "id": "ship_07", "file": "ship_07.svg", "type": "heavy", "suggestedWidth": 44, "suggestedHeight": 36, "hitbox": {"w": 38, "h": 30} },
+    { "id": "ship_08", "file": "ship_08.svg", "type": "scout", "suggestedWidth": 30, "suggestedHeight": 22, "hitbox": {"w": 24, "h": 18} },
+    { "id": "ship_09", "file": "ship_09.svg", "type": "heavy", "suggestedWidth": 46, "suggestedHeight": 36, "hitbox": {"w": 40, "h": 30} },
+    { "id": "ship_10", "file": "ship_10.svg", "type": "scout", "suggestedWidth": 28, "suggestedHeight": 20, "hitbox": {"w": 22, "h": 16} }
+  ]
+}

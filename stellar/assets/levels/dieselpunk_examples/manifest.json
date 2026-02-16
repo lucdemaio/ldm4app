@@ -1,0 +1,15 @@
+{
+  "files": [
+    "ship_01.svg","ship_01_128.svg","ship_01_64.svg",
+    "ship_02.svg","ship_02_128.svg","ship_02_64.svg",
+    "ship_03.svg","ship_03_128.svg","ship_03_64.svg",
+    "ship_04.svg","ship_04_128.svg","ship_04_64.svg",
+    "ship_05.svg","ship_05_128.svg","ship_05_64.svg",
+    "ship_06.svg","ship_06_128.svg","ship_06_64.svg",
+    "ship_07.svg","ship_07_128.svg","ship_07_64.svg",
+    "ship_08.svg","ship_08_128.svg","ship_08_64.svg",
+    "ship_09.svg","ship_09_128.svg","ship_09_64.svg",
+    "ship_10.svg","ship_10_128.svg","ship_10_64.svg",
+    "dieselpunk_sprite_sheet.svg","meta.json"
+  ]
+}

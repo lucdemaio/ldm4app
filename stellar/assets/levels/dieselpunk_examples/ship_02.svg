@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <rect width="32" height="32" fill="#000" />
+  <!-- Rounded hull, more armored look -->
+  <ellipse cx="16" cy="16" rx="10" ry="5.5" fill="#596261" stroke="#222" stroke-width="0.2" />
+  <!-- Dome -->
+  <ellipse cx="16" cy="12.2" rx="3" ry="2.1" fill="#2f393d" />
+  <!-- Side cannons -->
+  <rect x="1.5" y="14.5" width="5" height="1.2" fill="#4a4a4a" />
+  <rect x="25.5" y="14.5" width="5" height="1.2" fill="#4a4a4a" />
+  <!-- Rivets line -->
+  <g fill="#2b2b27">
+    <circle cx="7" cy="16" r="0.5" />
+    <circle cx="11" cy="15.7" r="0.5" />
+    <circle cx="20" cy="15.7" r="0.5" />
+    <circle cx="24" cy="16" r="0.5" />
+  </g>
+  <!-- Porthole and pipes -->
+  <circle cx="16" cy="15" r="1.1" fill="#7aa2b8" stroke="#2b3b40" stroke-width="0.1" />
+  <rect x="17.8" y="11" width="6" height="0.9" fill="#684838" transform="rotate(12 20.8 11.5)" opacity="0.9" />
+  <!-- Rust brush -->
+  <path d="M10 17c0.8 0.5 2.2 1 3.8 1" stroke="#7b4226" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.95" />
+</svg>
