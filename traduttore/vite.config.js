@@ -2,8 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-export default defineConfig({
-  base: './',
+// Use /traduttore/ as base when building for production, ./ for dev
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/traduttore/' : '/',
   plugins: [
     react(),
     VitePWA({
@@ -33,4 +34,4 @@ export default defineConfig({
       }
     })
   ]
-})
+}))
