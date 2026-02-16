@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 {
   "name": "Traduzioni Ldm4app",
   "short_name": "Ldm4app",
@@ -25,3 +26,32 @@
   ]
 }
 >>>>>>> 4ed97089a1560f5117ba46810126bc400d2d0a7f
+=======
+<<<<<<< HEAD
+{
+  "name": "Traduzioni Ldm4app",
+  "short_name": "Ldm4app",
+  "start_url": "/traduttore/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5a4",
+  "icons": [
+    { "src": "pwa-192x192.svg", "sizes": "192x192", "type": "image/svg+xml" },
+    { "src": "pwa-512x512.svg", "sizes": "512x512", "type": "image/svg+xml" }
+  ]
+}
+=======
+{
+  "name": "Traduzioni Ldm4app",
+  "short_name": "Ldm4app",
+  "start_url": "/traduttore/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5a4",
+  "icons": [
+    { "src": "pwa-192x192.svg", "sizes": "192x192", "type": "image/svg+xml" },
+    { "src": "pwa-512x512.svg", "sizes": "512x512", "type": "image/svg+xml" }
+  ]
+}
+>>>>>>> 4ed97089a1560f5117ba46810126bc400d2d0a7f
+>>>>>>> d0000b9f5f5a33ac6f9baf4c588b5c8c5d6a2b20
