@@ -2,6 +2,10 @@ import React from 'react'
 import '../styles/LoadingOverlay.css'
 
 export default function LoadingOverlay({ loading, progress, status, error }) {
+  React.useEffect(() => {
+    console.log('[LoadingOverlay render]', { loading, progress, status, error })
+  }, [loading, progress, status, error])
+
   // Non mostrare nulla se non c'è attività
   if (!loading && status === 'idle' && !error) return null
 

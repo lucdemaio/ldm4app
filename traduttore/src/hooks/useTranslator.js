@@ -47,8 +47,11 @@ export default function useTranslator() {
 
       if (!data) return
 
+      console.log('[useTranslator.onMessage] received:', data?.type || 'unknown', data)
+
       // progress/status are global (model-level)
       if (data.type === 'progress') {
+        console.log('[useTranslator] progress update:', data.progress)
         setError(null)
         setLoading(true)
         setProgress(typeof data.progress === 'number' ? data.progress : 0)
@@ -56,12 +59,14 @@ export default function useTranslator() {
       }
 
       if (data.type === 'status') {
+        console.log('[useTranslator] status update:', data.status)
         setStatus(data.status)
         setLoading(data.status === 'loading')
         if (data.status === 'ready') {
           setProgress(100)
           setError(null)
           // resolve any preload() callers
+          console.log('[useTranslator] status ready, resolving', preloadResolversRef.current.length, 'preload promises')
           const resolvers = preloadResolversRef.current.splice(0)
           resolvers.forEach((r) => r())
         }
@@ -71,6 +76,7 @@ export default function useTranslator() {
       // translation / error may include an id to correlate
       if (data.type === 'translation') {
         const id = data.id ?? null
+        console.log('[useTranslator] translation received, id:', id)
         if (id && pendingRef.current.has(id)) {
           const { resolve, timeout } = pendingRef.current.get(id)
           clearTimeout(timeout)
@@ -85,6 +91,7 @@ export default function useTranslator() {
 
       if (data.type === 'error') {
         const id = data.id ?? null
+        console.error('[useTranslator] error received:', data.message, 'id:', id)
         if (id && pendingRef.current.has(id)) {
           const { reject, timeout } = pendingRef.current.get(id)
           clearTimeout(timeout)
@@ -94,7 +101,6 @@ export default function useTranslator() {
         }
 
         // global error (no id) — expose to UI
-        console.error('Translator worker error:', data.message)
         setError(data.message || 'Errore dal worker')
         return
       }
@@ -157,12 +163,18 @@ export default function useTranslator() {
   /** Pre-carica il modello; risolve quando il worker invia `status: 'ready'`. */
   function preload() {
     const worker = workerRef.current || ensureWorker()
+    console.log('[useTranslator.preload] called, current status:', status)
 
-    if (status === 'ready') return Promise.resolve()
+    if (status === 'ready') {
+      console.log('[useTranslator.preload] already ready, returning resolved promise')
+      return Promise.resolve()
+    }
 
+    console.log('[useTranslator.preload] not ready yet, pushing resolver and sending load message')
     return new Promise((resolve, reject) => {
       preloadResolversRef.current.push(resolve)
       try {
+        console.log('[useTranslator.preload] posting load message to worker')
         worker.postMessage({ type: 'load' })
 
         // chiedi al Service Worker di preriscaldare/cache alcuni URL modello comuni (se presente)

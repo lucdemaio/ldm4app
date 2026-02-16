@@ -12,8 +12,10 @@ export default function App() {
   
   // Auto-preload il modello al mount dell'app
   useEffect(() => {
-    preload().catch(() => {
+    console.log('[App] mounting, calling preload()')
+    preload().catch((err) => {
       // Errore gestito dal componente LoadingOverlay
+      console.error('[App] preload() rejected:', err)
     })
   }, [])
 

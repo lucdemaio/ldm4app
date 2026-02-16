@@ -7,6 +7,8 @@ export default function LoadingDebug({ loading, progress, status, error }) {
 
   // Log dei cambiamenti di stato
   useEffect(() => {
+    console.log('[LoadingDebug state]', { loading, progress, status, error })
+    
     const msg = []
     if (loading) msg.push(`⏳ Loading: ${progress}%`)
     if (status && status !== 'idle') msg.push(`📊 Status: ${status}`)
@@ -23,10 +25,10 @@ export default function LoadingDebug({ loading, progress, status, error }) {
     }
   }, [loading, progress, status, error])
 
-  // Auto-mostra il debug se c'è un errore
+  // Auto-mostra il debug se c'è un errore o durante caricamento
   useEffect(() => {
-    if (error) setIsVisible(true)
-  }, [error])
+    if (error || loading) setIsVisible(true)
+  }, [error, loading])
 
   return (
     <>
