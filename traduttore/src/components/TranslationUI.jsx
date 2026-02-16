@@ -10,7 +10,7 @@ export default function TranslationUI() {
   const [translating, setTranslating] = useState(false)
   const debounceRef = useRef(null)
 
-  const { translate, preload, persistStorage, clearModelCache, persisted, loading, progress } = useTranslator()
+  const { translate, preload, persistStorage, clearModelCache, persisted, loading, progress, error, clearError } = useTranslator()
 
   // audio recording / STT states
   const [recording, setRecording] = useState(false)
@@ -128,6 +128,15 @@ export default function TranslationUI() {
     setSrcName(tgtName)
     setTgtName(srcName)
   }
+
+  // show worker-level error (if any)
+  
+  // ----- Worker error banner -----
+  useEffect(() => {
+    if (!error) return
+    const t = setTimeout(() => clearError && clearError(), 8000)
+    return () => clearTimeout(t)
+  }, [error, clearError])
 
   // ----- Recording / Transcription -----
   async function startRecording() {
@@ -385,6 +394,14 @@ export default function TranslationUI() {
             <div className="small-muted">{copied ? 'Copiato!' : ''}</div>
           </div>
         </div>
+
+        {error && (
+          <div role="alert" style={{ background: '#fff5f5', border: '1px solid #fecaca', padding: 10, marginBottom: 10, borderRadius: 6 }}>
+            <strong style={{ marginRight: 8 }}>Errore motore:</strong>
+            <span>{error}</span>
+            <button className="btn small" onClick={() => clearError()} style={{ marginLeft: 12 }}>Chiudi</button>
+          </div>
+        )}
 
         <div className={`output-area ${(loading || translating) ? 'shimmer' : ''}`}>
           {(!output && !loading && !translating) ? (

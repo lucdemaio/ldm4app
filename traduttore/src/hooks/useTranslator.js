@@ -31,6 +31,7 @@ export default function useTranslator() {
   const [progress, setProgress] = useState(0)
   const [status, setStatus] = useState('idle')
   const [persisted, setPersisted] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const worker = ensureWorker()
@@ -48,6 +49,7 @@ export default function useTranslator() {
 
       // progress/status are global (model-level)
       if (data.type === 'progress') {
+        setError(null)
         setLoading(true)
         setProgress(typeof data.progress === 'number' ? data.progress : 0)
         return
@@ -58,6 +60,7 @@ export default function useTranslator() {
         setLoading(data.status === 'loading')
         if (data.status === 'ready') {
           setProgress(100)
+          setError(null)
           // resolve any preload() callers
           const resolvers = preloadResolversRef.current.splice(0)
           resolvers.forEach((r) => r())
@@ -90,8 +93,9 @@ export default function useTranslator() {
           return
         }
 
-        // global error (no id)
+        // global error (no id) — expose to UI
         console.error('Translator worker error:', data.message)
+        setError(data.message || 'Errore dal worker')
         return
       }
     }
@@ -233,6 +237,8 @@ export default function useTranslator() {
   }
 
   // esporta API pubblica del hook
-  return { translate, preload, persistStorage, clearModelCache, persisted, loading, progress, status }
+  function clearError() { setError(null) }
+
+  return { translate, preload, persistStorage, clearModelCache, persisted, loading, progress, status, error, clearError }
 }
 
