@@ -59,10 +59,10 @@ export default function App() {
           <div className="title">Traduzioni Ldm4app</div>
 
           <div style={{ marginLeft: 16, display: 'flex', gap: 8, alignItems: 'center' }}>
-            {/* link per scaricare il modello (apre la pagina del modello su Hugging Face) */}
-            <a className="btn" href="https://huggingface.co/Xenova/nllb-200-distilled-600M" target="_blank" rel="noopener noreferrer" title="Scarica il modello (nllb-200)">
+            {/* link per scaricare direttamente il file .bin principale del modello nllb-200 */}
+            <a className="btn" href="https://huggingface.co/Xenova/nllb-200-distilled-600M/resolve/main/onnx/decoder_model_merged_quantized.onnx" download target="_blank" rel="noopener noreferrer" title="Scarica file .bin del modello (600MB)">
               <svg className="btn-icon ic-green" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3v10m0 0l4-4m-4 4l-4-4M5 21h14v-2H5v2z"/></svg>
-              Scarica modello
+              Scarica modello (.bin)
             </a>
 
             {/* pulsante manuale richiesto dall'utente: avvia il caricamento/gestionale */}
