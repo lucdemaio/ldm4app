@@ -36,6 +36,12 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Marker che indica la versione nuova
+      window.__NEW_VERSION__ = true;
+      // Se il vecchio SW serve il cache, questo script non girerà
+      // Allora il body della pagina sarà vuoto e forzeremo un reload
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
