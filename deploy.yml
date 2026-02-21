@@ -15,23 +15,43 @@ jobs:
         with:
           node-version: '18'
       
-      # Build traduttore app
-      - name: Build traduttore
-        run: |
-          cd traduttore
-          npm install
-          npm run build
-      
       # Prepare deployment directory
       - name: Prepare deployment
         run: |
           mkdir -p deploy
-          # Copy original index.html to root
-          cp index.html deploy/
+          mkdir -p deploy/traduttore
+          # Copy root files
+          cp index.html deploy/index.html
           cp CNAME deploy/
           cp .nojekyll deploy/
-          # Copy traduttore build
-          cp -r traduttore/dist/* deploy/traduttore/
+          
+          # Copy all app directories
+          cp -r stellar deploy/ || true
+          cp -r giocosci deploy/ || true
+          cp -r turni deploy/ || true
+          cp -r missione deploy/ || true
+          cp -r dialetti deploy/ || true
+          cp -r pwa-object-recognition deploy/ || true
+          cp -r ristorantiebar deploy/ || true
+          cp -r scuola deploy/ || true
+          cp -r soccer deploy/ || true
+          cp -r assets deploy/ || true
+          
+          # Copy other static files
+          cp guides.html deploy/ || true
+          cp guide-apps.html deploy/ || true
+          cp install.html deploy/ || true
+          cp privacy-policy.html deploy/ || true
+          cp cookie-policy.html deploy/ || true
+          
+          # Copy traduttore build (use existing dist if available)
+          mkdir -p deploy/traduttore
+          if [ -d "traduttore/dist" ]; then
+            cp -r traduttore/dist/* deploy/traduttore/ || true
+          fi
+          
+          # Ensure root index.html is preserved
+          cp index.html deploy/index.html
       
       # Deploy to gh-pages
       - name: Deploy to GitHub Pages
