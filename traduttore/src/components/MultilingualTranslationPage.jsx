@@ -289,7 +289,33 @@ export default function MultilingualTranslationPage() {
         </div>
       </div>
 
-      <div className="translate-container">
+      {/* Selezione Lingue se non passate via URL */}
+      {selectedLangs.length === 0 && (
+        <div className="translate-container">
+          <div className="translate-input-section language-selector">
+            <h2>Seleziona le lingue</h2>
+            <p>Scegli le lingue in cui tradurre il testo italiano</p>
+            <div className="languages-grid">
+              {Object.entries(LANGUAGES_MAP).map(([code, config]) => (
+                <button
+                  key={code}
+                  className="language-button"
+                  onClick={() => {
+                    const selected = [code]
+                    setSelectedLangs(selected)
+                    window.history.pushState({}, '', `?langs=${selected.join(',')}`)
+                  }}
+                >
+                  <span className="lang-emoji">{config.emoji}</span>
+                  <span className="lang-name">{config.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="translate-container" style={{ display: selectedLangs.length === 0 ? 'none' : 'block' }}>
         {/* Input Section */}
         <div className="translate-input-section">
           <label className="input-label">Testo italiano</label>
