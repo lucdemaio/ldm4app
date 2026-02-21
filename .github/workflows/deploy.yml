@@ -1,0 +1,62 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      # Prepare deployment directory
+      - name: Prepare deployment
+        run: |
+          mkdir -p deploy
+          mkdir -p deploy/traduttore
+          # Copy root files
+          cp index.html deploy/index.html
+          cp CNAME deploy/
+          cp .nojekyll deploy/
+          
+          # Copy all app directories
+          cp -r stellar deploy/ || true
+          cp -r giocosci deploy/ || true
+          cp -r turni deploy/ || true
+          cp -r missione deploy/ || true
+          cp -r dialetti deploy/ || true
+          cp -r pwa-object-recognition deploy/ || true
+          cp -r ristorantiebar deploy/ || true
+          cp -r scuola deploy/ || true
+          cp -r soccer deploy/ || true
+          cp -r assets deploy/ || true
+          
+          # Copy other static files
+          cp guides.html deploy/ || true
+          cp guide-apps.html deploy/ || true
+          cp install.html deploy/ || true
+          cp privacy-policy.html deploy/ || true
+          cp cookie-policy.html deploy/ || true
+          
+          # Copy traduttore build (use existing dist if available)
+          mkdir -p deploy/traduttore
+          if [ -d "traduttore/dist" ]; then
+            cp -r traduttore/dist/* deploy/traduttore/ || true
+          fi
+          
+          # Ensure root index.html is preserved
+          cp index.html deploy/index.html
+      
+      # Deploy to gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          cname: www.ldm4app.com
