@@ -9,11 +9,16 @@ export default defineConfig(({ command }) => ({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
-      strategies: 'generateSW',
+      injectRegister: false,
+      strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.js',
       includeAssets: ['favicon.svg', 'pwa-192x192.svg', 'pwa-512x512.svg'],
+      injectManifest: {
+        // DISABLED: Don't precache anything to avoid caching old files
+        // globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}']
+        globPatterns: []  // Empty - no precaching
+      },
       manifest: {
         name: 'Traduzioni Ldm4app',
         short_name: 'Ldm4app',
