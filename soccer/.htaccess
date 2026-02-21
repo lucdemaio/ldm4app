@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Permetti tutte le richieste HTTP (GET, POST, PUT, DELETE, OPTIONS)
+  # verso il proxy /proxy/* alla radice del sito
+  RewriteCond %{REQUEST_URI} ^/proxy/ [OR]
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Permetti richieste OPTIONS per CORS preflight
+  RewriteCond %{REQUEST_METHOD} ^OPTIONS$ [NC]
+  RewriteRule ^ - [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Consenti CORS da tutti i domini
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, HEAD"
+  Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+  Header set Access-Control-Max-Age "3600"
+</IfModule>

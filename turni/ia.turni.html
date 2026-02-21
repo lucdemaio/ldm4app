@@ -1,0 +1,1111 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IA Turni — In-browser Phi-3-mini-4k-instruct (WebLLM)</title>
+  <!-- Usa lo stesso stylesheet principale dell'app per uniformità -->
+  <link rel="stylesheet" href="./shifts-style.css">
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#6ee7b7;--muted:#9ca3af;--glass:rgba(255,255,255,0.03)}
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#071029 0%,#0b1220 100%);color:#e6edf3;margin:0;padding:28px;}
+    .wrap{max-width:980px;margin:0 auto}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    h1{font-size:20px;margin:0}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 6px 18px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    .controls{display:flex;gap:10px;flex-wrap:wrap}
+    input[type=text], textarea{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:8px;color:var(--muted);min-width:320px}
+    button{background:var(--accent);border:none;padding:10px 14px;border-radius:8px;color:#042019;font-weight:600;cursor:pointer}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    #downloadProgress{width:100%;height:12px;margin-top:8px;background:var(--glass);border-radius:6px}
+    .status{font-size:13px;color:var(--muted);margin-top:8px}
+    /* chat */
+    #chatWrap{display:grid;grid-template-columns:1fr 360px;gap:14px}
+    .chatPanel{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));padding:12px;border-radius:10px;min-height:420px}
+    #messages{height:420px;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
+    .msg{padding:10px;border-radius:8px;max-width:88%}
+    .user{align-self:flex-end;background:linear-gradient(180deg,#062b1f 0%,#08322a 100%);border:1px solid rgba(255,255,255,0.03)}
+    .assistant{align-self:flex-start;background:linear-gradient(180deg,#071334 0%,#081a41 100%);border:1px solid rgba(255,255,255,0.03)}
+    .controlsRow{display:flex;gap:8px;align-items:center;margin-top:8px}
+    #prompt{width:100%;min-height:72px;background:transparent;border:1px solid rgba(255,255,255,0.05);padding:8px;border-radius:8px;color:#e6edf3}
+    .meta{font-size:13px;color:var(--muted)}
+    pre#contextArea{background:#021226;padding:8px;border-radius:6px;height:150px;overflow:auto;color:#cfe7ff}
+    footer{margin-top:20px;color:var(--muted);font-size:13px}
+    .small{font-size:12px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <h1>IA Turni — Phi-3-mini-4k-instruct (in-browser)</h1>
+        <a href="index.html" target="_top" class="btn btn-outline" style="font-size:13px;padding:6px 10px;">← Torna</a>
+      </div>
+      <div class="small">Provider remoto: <strong>Gemini</strong> (inserisci la API key Gemini / Google Generative API nel campo sottostante)</div>
+    </header>
+
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <strong>AI Provider</strong>
+          <div class="meta">Usa il provider Gemini (Google Generative) — inserisci la API key Gemini per abilitare l'integrazione con il gestionale.</div>
+        </div>
+        <div id="backendIndicator" class="meta">Provider remoto</div>
+      </div>
+
+        <div style="margin-top:12px" class="controls">
+        <label class="meta" style="margin-right:8px">Provider</label>
+        <div class="meta" style="padding:8px;border-radius:8px;background:transparent;color:var(--muted);min-width:160px">Gemini (Google / proxy)</div>
+
+        <input id="geminiApiKey" type="text" placeholder="Gemini (Google) API key" />
+        <input id="proxyUrlInput" type="text" placeholder="Proxy URL (opzionale) — es. /proxy/gemini o https://www.ldm4app.com/turni/proxy/gemini" style="min-width:320px" />
+        <button id="btnSaveKeys">Salva chiavi</button>
+        <button id="btnVerifyKeys" class="ghost">Verifica chiave</button>
+        <button id="btnTestProxy" class="ghost">Test Proxy</button>
+        <button id="btnTestTurniProxy" class="ghost">Test /turni/proxy/gemini</button>
+        <button id="btnShowProxyLog" class="ghost">Mostra diagnostica</button>
+        <button id="btnSaveKeysNoVerify" class="ghost">Salva senza verifica</button>
+        <button id="btnClearKeys" class="ghost">Cancella chiavi</button>
+      </div>
+
+      <div style="margin-top:8px" class="small">Provider selezionato: <strong id="selectedProvider">Gemini</strong></div>
+      <div id="verifyStatus" class="small" style="margin-top:6px;color:#9ca3af"></div>
+      <div id="proxyTestOutput" class="small" style="margin-top:6px;color:#93c5fd"></div>
+
+      <div style="margin-top:8px" class="small">
+        Nota: le chiavi sono memorizzate solo in locale (localStorage). Le chiamate a provider esterni richiedono che il browser/endpoint supporti CORS. Se il server ospitante espone un proxy come <code>/proxy/gemini</code> (come avviene su <code>www.ldm4app.com/turni</code>) verrà rilevato e usato automaticamente. In alternativa, imposta manualmente il <em>Proxy URL</em> qui sopra.
+      </div>
+
+      <div id="providerError" class="small" style="margin-top:8px;color:#fb7185"></div>
+    </section>
+
+    <section id="chatWrap">
+      <div class="chatPanel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <strong>Chat</strong>
+          <div class="meta">Stream in tempo reale · Token streaming supportato</div>
+        </div>
+        <div id="messages"></div>
+
+        <!-- Action suggestion card (mostrata se l'IA propone una action JSON) -->
+        <div id="actionCard" class="card" style="display:none;margin-top:10px;">
+          <strong>Azione proposta dall'IA</strong>
+          <div id="actionBody" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
+          <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end;">
+            <button id="btnSendToApp" class="btn btn-primary">Proponi all'app</button>
+            <button id="btnExecuteNow" class="btn btn-warning">Esegui</button>
+            <button id="btnDismissAction" class="btn btn-secondary">Ignora</button>
+          </div>
+        </div>
+
+        <div style="margin-top:10px">
+          <div class="controlsRow">
+            <textarea id="prompt" placeholder="Inserisci il prompt qui..."></textarea>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button id="btnSend">Invia</button>
+              <button id="btnInjectContext" class="ghost">Inietta contestoTurni</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <strong>Contesto & impostazioni</strong>
+        <div class="small" style="margin-top:8px">Variabile <code>contestoTurni</code> (inserisci qui i dati JSON dei turni del gestionale)</div>
+        <pre id="contextArea" contenteditable="true">{
+  "turni": [
+    { "nome": "Mario", "giorno": "Lun", "orario": "08:00-16:00" }
+  ]
+}</pre>
+
+        <div style="margin-top:10px" class="small">Impostazioni provider: usa <code>Gemini</code> (Google Generative) e salva la API key. L'IA userà la chiave per rispondere e proporre azioni al gestionale.</div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="small">Le API key vengono memorizzate solo in locale. Provider: <strong>Gemini</strong> — salva la chiave e usa la chat per inviare comandi al gestionale.</div>
+    </footer>
+  </div>
+
+  <script type="module">
+  // ==========================
+  // SETTINGS — provider remoto (Gemini)
+  // ==========================
+  const $ = id => document.getElementById(id);
+  const messagesEl = $('messages');
+  const promptInput = $('prompt');
+  const btnSend = $('btnSend');
+  const contextArea = $('contextArea');
+  const btnInjectContext = $('btnInjectContext');
+
+  // Provider UI (Gemini only — provider selector removed)
+  const geminiApiKeyInput = $('geminiApiKey');
+  const proxyUrlInput = $('proxyUrlInput');
+  const btnSaveKeys = $('btnSaveKeys');
+  const btnVerifyKeys = $('btnVerifyKeys');
+  const btnClearKeys = $('btnClearKeys');
+  const selectedProviderLabel = document.getElementById('selectedProvider');
+
+  // Proxy candidates (user configurable + same‑origin + production + localhost)
+  function getProxyCandidates() {
+    const list = [];
+    const user = (proxyUrlInput && proxyUrlInput.value && proxyUrlInput.value.trim()) || localStorage.getItem('proxy_url') || '';
+    if (user) list.push(user);
+
+    // common same-origin locations (try variants used in different deployments)
+    // generic proxy candidates for Gemini
+    list.push('/proxy/gemini');
+    list.push('/turni/proxy/gemini');
+    list.push('/scuola/proxy/gemini');
+    list.push('/api/proxy/gemini');
+
+    // production / hosting variants (ldm4app.com)
+    list.push('https://www.ldm4app.com/proxy/gemini');
+    list.push('https://www.ldm4app.com/turni/proxy/gemini');
+    list.push('https://www.ldm4app.com/scuola/proxy/gemini');
+    list.push('https://www.ldm4app.com/api/proxy/gemini');
+
+    // developer localhost fallbacks
+    list.push('http://localhost:3000/proxy/gemini');
+    list.push('http://127.0.0.1:3000/proxy/gemini');
+
+    // dedupe and return
+    return Array.from(new Set(list.filter(Boolean)));
+  }
+
+  // Variabile che puoi popolare con i dati dei turni (inserita nel prompt di sistema)
+  let contestoTurni = null; // aggiornato da #contextArea quando premi "Inietta contestoTurni"
+
+  // --- gestione chiavi in localStorage (solo locale) ---
+  function sanitizeKey(v) { return (v || '').replace(/\s+/g, ''); }
+
+  function loadKeysFromStorage() {
+    const k = (localStorage.getItem('gemini_api_key') || '').replace(/\s+/g, '');
+    const p = (localStorage.getItem('proxy_url') || '').trim();
+    if (geminiApiKeyInput) geminiApiKeyInput.value = k;
+    if (proxyUrlInput) proxyUrlInput.value = p;
+    if (selectedProviderLabel) selectedProviderLabel.textContent = 'Gemini';
+  }
+
+  function saveKeysToStorage() {
+    if (geminiApiKeyInput) {
+      const s2 = sanitizeKey(geminiApiKeyInput.value);
+      geminiApiKeyInput.value = s2;
+      localStorage.setItem('gemini_api_key', s2);
+    }
+    if (proxyUrlInput) {
+      const pv = (proxyUrlInput.value || '').trim();
+      proxyUrlInput.value = pv;
+      if (pv) localStorage.setItem('proxy_url', pv); else localStorage.removeItem('proxy_url');
+    }
+
+    alert('Chiavi salvate in localStorage (solo locale)');
+
+    if (getSelectedProvider() === 'gemini') verifyProviderKey();
+  }
+
+  function clearKeysFromStorage() {
+    localStorage.removeItem('gemini_api_key');
+    localStorage.removeItem('proxy_url');
+    if (geminiApiKeyInput) geminiApiKeyInput.value = '';
+    if (proxyUrlInput) proxyUrlInput.value = '';
+    alert('Chiavi rimosse');
+  }
+
+  function getSelectedProvider() {
+    return 'gemini';
+  }
+
+  // --- chiamate ai provider remoti ---
+  // Provider principale: Gemini (Google Generative). OpenAI fallback supported.
+
+
+  async function callGeminiAPI(promptText) {
+    const key = (geminiApiKeyInput && geminiApiKeyInput.value.trim()) || localStorage.getItem('gemini_api_key');
+    if (!key) throw new Error('Gemini API key mancante');
+
+    const providerErrorEl = document.getElementById('providerError');
+    const verifyStatusEl = document.getElementById('verifyStatus');
+    if (providerErrorEl) providerErrorEl.textContent = '';
+    if (verifyStatusEl) { verifyStatusEl.textContent = ''; verifyStatusEl.style.color = '#9ca3af'; }
+
+    // helper: fetch with timeout
+    function fetchWithTimeout(url, opts = {}, timeout = 7000) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      opts.signal = controller.signal;
+      return fetch(url, opts).finally(() => clearTimeout(id));
+    }
+
+    // 2) PROXY: prova varianti di path e formato per compatibilità con diversi server proxy
+    const proxies = getProxyCandidates();
+    const attemptLog = [];
+
+    const pathSuffixes = ['', '/generate', '/v1/generate'];
+    const variants = [
+      { name: 'body-only', useAuthHeader: false, putKeyInBody: false },
+      { name: 'auth-header', useAuthHeader: true, putKeyInBody: false },
+      { name: 'key-in-body', useAuthHeader: false, putKeyInBody: true },
+      { name: 'GET-query', useAuthHeader: false, putKeyInBody: false, useGet: true }
+    ];
+
+    for (const proxyBase of proxies) {
+      if (!proxyBase) continue;
+      for (const suffix of pathSuffixes) {
+        const url = (proxyBase.endsWith('/') && suffix.startsWith('/')) ? proxyBase.slice(0, -1) + suffix : proxyBase + suffix;
+        for (const v of variants) {
+          try {
+            if (v.useGet) {
+              const probeUrl = url + (url.includes('?') ? '&' : '?') + 'prompt=' + encodeURIComponent(promptText.slice(0, 200));
+              const r = await fetchWithTimeout(probeUrl, { method: 'GET' }, 3000);
+              attemptLog.push({ url: probeUrl, variant: v.name, status: r.status });
+              if (r.ok) {
+                const txt = await r.text();
+                if (verifyStatusEl) { verifyStatusEl.style.color = '#10b981'; verifyStatusEl.textContent = `Usando proxy (GET): ${url}`; }
+                let parsed = null; try { parsed = JSON.parse(txt); } catch (e) { parsed = null; }
+                if (parsed) return parsed.output || parsed.text || parsed.result || parsed.data?.text || parsed.choices?.[0]?.text || txt;
+                return txt;
+              }
+              continue;
+            }
+
+            const gemBody = { model: 'models/gemini-2.5-flash', prompt: promptText, max_tokens: 800 };
+            const bodyToSend = v.putKeyInBody ? Object.assign({ key }, gemBody) : gemBody;
+            const opts = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(bodyToSend) };
+            if (v.useAuthHeader) opts.headers.Authorization = 'Bearer ' + key;
+
+            const r = await fetchWithTimeout(url, opts, 5000);
+            attemptLog.push({ url, variant: v.name, status: r.status });
+
+            if (r.ok) {
+              const contentType = (r.headers.get('content-type') || '').toLowerCase();
+              const txt = await r.text();
+
+              // server returned an HTML page (index.html) — treat as invalid proxy
+              if (contentType.includes('text/html') || txt.trim().startsWith('<!DOCTYPE') || txt.trim().startsWith('<html')) {
+                attemptLog.push({ url, variant: v.name, status: r.status, bodySnippet: txt.slice(0,300), html: true });
+                console.warn('Proxy', url, 'returned HTML (likely not a proxy endpoint)');
+                if (providerErrorEl) providerErrorEl.innerHTML = `Proxy ${url} ha risposto con HTML (probabile route non valida). Controlla il <code>Proxy URL</code> sul server o inserisci manualmente un Proxy valido.`;
+                continue;
+              }
+
+              let parsed = null; try { parsed = JSON.parse(txt); } catch (e) { parsed = null; }
+              if (verifyStatusEl) { verifyStatusEl.style.color = '#10b981'; verifyStatusEl.textContent = `Usando proxy: ${url} (${v.name})`; }
+              if (parsed) return parsed.output || parsed.text || parsed.result || parsed.data?.text || (parsed.choices?.[0]?.message?.content) || parsed.choices?.[0]?.text || txt;
+              return txt;
+            }
+
+            if (r.status === 405) {
+              // metodo non consentito: prova variante successiva
+              console.warn('Proxy', url, 'returned 405 for variant', v.name);
+              continue;
+            }
+
+            const ptxt = await r.text();
+            console.warn('Proxy', url, 'responded with', r.status, ptxt);
+          } catch (proxyErr) {
+            attemptLog.push({ url, variant: v.name, error: proxyErr && proxyErr.message });
+            console.warn('Proxy', url, 'request failed:', proxyErr && proxyErr.message);
+          }
+        }
+      }
+    }
+
+    const diag = attemptLog.map(a => `${a.url} [${a.variant}] -> ${a.status || a.error || 'no-response'}`).slice(0,8).join('; ');
+    // esponi l'ultimo log per la diagnostica UI
+    window._lastProxyAttemptLog = attemptLog.slice();
+
+    // Fallback: prova endpoint OpenAI-compatible
+    try {
+      const url2 = 'https://api.openai.com/v1/chat/completions';
+      const body2 = { model: 'gpt-4o-mini', messages: [{ role: 'user', content: promptText }], temperature: 0.2, max_tokens: 800 };
+      const r2 = await fetchWithTimeout(url2, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key }, body: JSON.stringify(body2) }, 8000);
+      if (!r2.ok) {
+        const txt = await r2.text();
+        let parsed2 = null; try { parsed2 = JSON.parse(txt); } catch (e) { parsed2 = null; }
+        if (r2.status === 401) {
+          const humanMsg = 'Chiave OpenAI non valida (401). Controlla la tua chiave su platform.openai.com.';
+          if (providerErrorEl) providerErrorEl.innerHTML = `${humanMsg} <a href="https://platform.openai.com/account/api-keys" target="_blank" rel="noopener">Apri OpenAI API keys</a>`;
+          throw new Error(humanMsg + (parsed2?.error?.message ? ' — ' + parsed2.error.message : ''));
+        }
+        throw new Error(`Gemini/OpenAI fallback error ${r2.status}: ${txt}`);
+      }
+      const j2 = await r2.json();
+      return j2.choices?.[0]?.message?.content || j2.choices?.[0]?.text || '';
+    } catch (err) {
+      if (providerErrorEl && err && err.message) providerErrorEl.textContent = err.message;
+      throw new Error('Proxy Gemini e fallback OpenAI non disponibili: ' + (err.message || err));
+    }
+  }
+
+  // wrapper che costruisce il prompt di sistema (includo contestoTurni) e chiama il provider scelto
+  async function getCompletionFromProvider(systemPrompt, historyMessages, userText) {
+    const provider = getSelectedProvider();
+    const contestoStr = contestoTurni ? `\n\nContestoTurni: ${JSON.stringify(contestoTurni)}` : '';
+    const combined = `${systemPrompt}\n\n${historyMessages.map(m => m.role + ': ' + (m.content || '')).join('\n')}\nuser: ${userText}${contestoStr}`;
+
+    if (provider === 'gemini') return await callGeminiAPI(combined);
+    throw new Error('Provider non supportato: ' + provider);
+  }
+
+  // Carica chiavi all'avvio
+  loadKeysFromStorage();
+
+  // Verifica provider: test leggero della chiave selezionata
+  async function verifyProviderKey() {
+    const btn = document.getElementById('btnVerifyKeys');
+    const providerErrorEl = document.getElementById('providerError');
+    const verifyStatusEl = document.getElementById('verifyStatus');
+    if (providerErrorEl) providerErrorEl.textContent = '';
+    if (verifyStatusEl) { verifyStatusEl.style.color = '#9ca3af'; verifyStatusEl.textContent = 'Verifica in corso...'; }
+    if (btn) btn.disabled = true;
+    try {
+      const prov = getSelectedProvider();
+      if (prov === 'gemini') {
+        await callGeminiAPI('Verifica chiave (test, rispondi con ok)');
+      } else {
+        throw new Error('Provider non supportato per verifica: ' + prov);
+      }
+      if (verifyStatusEl) { verifyStatusEl.style.color = '#10b981'; verifyStatusEl.textContent = 'Chiave valida e provider raggiungibile ✓'; }
+      if (providerErrorEl) providerErrorEl.textContent = '';
+      return true;
+    } catch (err) {
+      if (verifyStatusEl) { verifyStatusEl.style.color = '#fb7185'; verifyStatusEl.textContent = 'Verifica fallita: ' + (err.message || err); }
+      if (providerErrorEl && err && err.message) providerErrorEl.textContent = err.message;
+      return false;
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  }
+
+  // --- helper UI / diagnostics ---
+  function escapeHtml(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  async function testProxyUrl() {
+    const out = document.getElementById('proxyTestOutput');
+    const userProxy = (proxyUrlInput && proxyUrlInput.value && proxyUrlInput.value.trim()) || localStorage.getItem('proxy_url') || '';
+    if (!out) return;
+    if (!userProxy) { out.style.color = '#fb7185'; out.textContent = 'Inserisci un Proxy URL prima del test.'; return; }
+
+    out.style.color = '#9ca3af';
+    out.textContent = `Eseguo diagnostica proxy per: ${userProxy} ...`;
+
+    const key = (geminiApiKeyInput && geminiApiKeyInput.value.trim()) || localStorage.getItem('gemini_api_key') || '';
+    const proxies = Array.from(new Set([userProxy, ...getProxyCandidates()]));
+    const pathSuffixes = ['', '/generate', '/v1/generate'];
+    const attemptLog = [];
+
+    // local fetchWithTimeout helper
+    const fetchWithTimeoutLocal = (url, opts = {}, timeout = 5000) => {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      opts.signal = controller.signal;
+      return fetch(url, opts).finally(() => clearTimeout(id));
+    };
+
+    const probeBody = { model: 'models/gemini-2.5-flash', prompt: 'ping', max_tokens: 1 };
+    const variants = [
+      { name: 'body-only', useGet: false, requiresKey: false },
+      { name: 'auth-header', useGet: false, requiresKey: true },
+      { name: 'key-in-body', useGet: false, requiresKey: true },
+      { name: 'GET-query', useGet: true, requiresKey: false }
+    ];
+
+    for (const base of proxies) {
+      for (const suffix of pathSuffixes) {
+        const url = (base.endsWith('/') && suffix.startsWith('/')) ? base.slice(0, -1) + suffix : base + suffix;
+        for (const v of variants) {
+          if (v.requiresKey && !key) { attemptLog.push({ url, variant: v.name, status: 'skipped-no-key' }); continue; }
+          try {
+            if (v.useGet) {
+              const probeUrl = url + (url.includes('?') ? '&' : '?') + 'prompt=' + encodeURIComponent('ping');
+              const r = await fetchWithTimeoutLocal(probeUrl, { method: 'GET' }, 3000);
+              const txt = await r.text().catch(() => '');
+              const ct = (r.headers && r.headers.get && r.headers.get('content-type')) || '';
+              const isHtml = ct.includes('text/html') || (txt && (txt.trim().startsWith('<!DOCTYPE') || txt.trim().startsWith('<html')));
+              attemptLog.push({ url: probeUrl, variant: v.name, status: r.status, contentType: ct, bodySnippet: txt.slice(0,300), html: isHtml });
+              if (r.ok && !isHtml) {
+                out.style.color = '#10b981';
+                out.innerHTML = `Proxy risponde (GET): <code>${escapeHtml(probeUrl)}</code> — status ${r.status}`;
+                window._lastProxyAttemptLog = attemptLog;
+                return;
+              }
+              continue;
+            }
+
+            // POST variants
+            const headers = { 'Content-Type': 'application/json' };
+            if (v.name === 'auth-header' && key) headers.Authorization = 'Bearer ' + key;
+            const bodyObj = Object.assign({}, probeBody);
+            if (v.name === 'key-in-body' && key) bodyObj.key = key;
+            const r = await fetchWithTimeoutLocal(url, { method: 'POST', headers, body: JSON.stringify(bodyObj) }, 5000);
+            const txt = await r.text().catch(() => '');
+            const ct = (r.headers && r.headers.get && r.headers.get('content-type')) || '';
+            const isHtml = ct.includes('text/html') || (txt && (txt.trim().startsWith('<!DOCTYPE') || txt.trim().startsWith('<html')));
+            attemptLog.push({ url, variant: v.name, status: r.status, contentType: ct, bodySnippet: txt.slice(0,300), html: isHtml });
+
+            if (r.ok && !isHtml) {
+              out.style.color = '#10b981';
+              out.innerHTML = `Proxy funzionante: <code>${escapeHtml(url)}</code> (variant: ${v.name}) — status ${r.status}<br/><pre style="max-height:220px;overflow:auto">${escapeHtml(txt.slice(0,2000))}</pre>`;
+              window._lastProxyAttemptLog = attemptLog;
+              return;
+            }
+
+            // 405 + HTML likely means wrong route (served index.html)
+            if (r.status === 405 || isHtml) {
+              // continue trying other variants/paths
+              continue;
+            }
+          } catch (err) {
+            attemptLog.push({ url, variant: v.name, error: err && err.message });
+          }
+        }
+      }
+    }
+
+    // nessun proxy compatibile trovato
+    window._lastProxyAttemptLog = attemptLog;
+    out.style.color = '#fb7185';
+    const lines = attemptLog.map(a => {
+      const st = a.status || a.error || 'no-response';
+      const snippet = a.bodySnippet ? `<div style="margin-top:6px"><pre style="max-height:120px;overflow:auto">${escapeHtml(a.bodySnippet)}</pre></div>` : '';
+      const htmlFlag = a.html ? ' <strong style="color:#ef4444">[HTML]</strong>' : '';
+      return `<div style="margin-bottom:8px"><code>${escapeHtml(a.url || '')}</code> — <em>${escapeHtml(a.variant || '')}</em> → <strong>${escapeHtml(String(st))}</strong>${htmlFlag}${snippet}</div>`;
+    }).join('');
+
+    out.innerHTML = `<div style="max-height:340px;overflow:auto">${lines}</div><div style="margin-top:8px;color:#f59e0b">Suggerimenti: assicurati che il server esponga un endpoint POST JSON su <code>/proxy/gemini</code> (o prova <code>/turni/proxy/gemini</code>); se il proxy risponde con HTML significa che l'URL punta a una pagina (index.html) e non a un proxy API.</div>`;
+  }
+  // Test specific production turni proxy (/turni/proxy/gemini)
+  async function testTurniProxy() {
+    const out = document.getElementById('proxyTestOutput');
+    const url = '/turni/proxy/gemini';
+    if (!out) return;
+    out.style.color = '#9ca3af';
+    out.textContent = `Eseguo test rapido su: ${url} ...`;
+
+    const key = (geminiApiKeyInput && geminiApiKeyInput.value.trim()) || localStorage.getItem('gemini_api_key') || '';
+    const attemptLog = [];
+    const fetchWithTimeoutLocal = (u, opts = {}, timeout = 5000) => {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      opts.signal = controller.signal;
+      return fetch(u, opts).finally(() => clearTimeout(id));
+    };
+
+    const probeBody = { model: 'models/gemini-2.5-flash', prompt: 'ping', max_tokens: 1 };
+    const variants = [
+      { name: 'body-only', useGet: false, requiresKey: false },
+      { name: 'auth-header', useGet: false, requiresKey: true },
+      { name: 'key-in-body', useGet: false, requiresKey: true },
+      { name: 'GET-query', useGet: true, requiresKey: false }
+    ];
+
+    for (const v of variants) {
+      try {
+        if (v.useGet) {
+          const probeUrl = url + '?prompt=ping';
+          const r = await fetchWithTimeoutLocal(probeUrl, { method: 'GET' }, 3000);
+          const txt = await r.text().catch(() => '');
+          const ct = (r.headers && r.headers.get && r.headers.get('content-type')) || '';
+          const isHtml = ct.includes('text/html') || (txt && (txt.trim().startsWith('<!DOCTYPE') || txt.trim().startsWith('<html')));
+          attemptLog.push({ url: probeUrl, variant: v.name, status: r.status, contentType: ct, bodySnippet: txt.slice(0,300), html: isHtml });
+          if (r.ok && !isHtml) {
+            out.style.color = '#10b981';
+            out.innerHTML = `Proxy /turni/proxy/gemini risponde (GET): status ${r.status}<pre style="max-height:220px;overflow:auto">${escapeHtml(txt.slice(0,2000))}</pre>`;
+            window._lastProxyAttemptLog = attemptLog;
+            return;
+          }
+          continue;
+        }
+
+        if (v.requiresKey && !key) { attemptLog.push({ url, variant: v.name, status: 'skipped-no-key' }); continue; }
+        const headers = { 'Content-Type': 'application/json' };
+        if (v.name === 'auth-header' && key) headers.Authorization = 'Bearer ' + key;
+        const bodyObj = Object.assign({}, probeBody);
+        if (v.name === 'key-in-body' && key) bodyObj.key = key;
+        const r = await fetchWithTimeoutLocal(url, { method: 'POST', headers, body: JSON.stringify(bodyObj) }, 5000);
+        const txt = await r.text().catch(() => '');
+        const ct = (r.headers && r.headers.get && r.headers.get('content-type')) || '';
+        const isHtml = ct.includes('text/html') || (txt && (txt.trim().startsWith('<!DOCTYPE') || txt.trim().startsWith('<html')));
+        attemptLog.push({ url, variant: v.name, status: r.status, contentType: ct, bodySnippet: txt.slice(0,300), html: isHtml });
+
+        if (r.ok && !isHtml) {
+          out.style.color = '#10b981';
+          out.innerHTML = `Proxy /turni/proxy/gemini funzionante (variant: ${v.name}) — status ${r.status}<br/><pre style="max-height:220px;overflow:auto">${escapeHtml(txt.slice(0,2000))}</pre>`;
+          window._lastProxyAttemptLog = attemptLog;
+          return;
+        }
+
+        if (r.status === 405 || isHtml) {
+          continue;
+        }
+      } catch (err) {
+        attemptLog.push({ url, variant: v.name, error: err && err.message });
+      }
+    }
+
+    window._lastProxyAttemptLog = attemptLog;
+    out.style.color = '#fb7185';
+    out.innerHTML = `<div>Nessun endpoint /turni/proxy/gemini raggiungibile. Controlla la configurazione nginx/systemd sul server.</div><div style="margin-top:8px;color:#f59e0b">Dettagli: ${attemptLog.map(a => `${a.variant} → ${a.status||a.error||'no-response'}`).join('; ')}</div>`;
+  }
+  // Mostra la diagnostica degli ultimi tentativi proxy
+  function showProxyDiagnostics() {
+    const out = document.getElementById('proxyTestOutput');
+    const log = window._lastProxyAttemptLog || [];
+    if (!out) return;
+    if (!log.length) { out.style.color = '#f59e0b'; out.textContent = 'Nessun tentativo di proxy registrato. Esegui prima Verifica chiave.'; return; }
+    out.style.color = '#93c5fd';
+    const html = log.map((a, i) => {
+      const st = a.status || a.error || 'no-response';
+      const body = a.bodySnippet ? `<div style="margin-top:6px"><pre style="max-height:120px;overflow:auto">${escapeHtml(a.bodySnippet)}</pre></div>` : '';
+      return `<div style="margin-bottom:8px"><strong>#${i+1}</strong> <code>${escapeHtml(a.url || '')}</code> — <em>${escapeHtml(a.variant || '')}</em> → <strong>${escapeHtml(String(st))}</strong>${a.html ? ' <span style="color:#ef4444">[HTML]</span>' : ''}${body}</div>`;
+    }).join('');
+    out.innerHTML = `<div style="max-height:320px;overflow:auto">${html}</div>`;
+  }
+  function saveKeysNoVerify() {
+    if (geminiApiKeyInput) {
+      const s2 = sanitizeKey(geminiApiKeyInput.value);
+      geminiApiKeyInput.value = s2;
+      localStorage.setItem('gemini_api_key', s2);
+    }
+    if (proxyUrlInput) {
+      const pv = (proxyUrlInput.value || '').trim();
+      proxyUrlInput.value = pv;
+      if (pv) localStorage.setItem('proxy_url', pv); else localStorage.removeItem('proxy_url');
+    }
+    alert('Chiavi salvate in localStorage (senza verifica)');
+  }
+
+  // ------------------
+  // IndexedDB helper
+  // ------------------
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('webllm-model-store', 1);
+      req.onupgradeneeded = ev => {
+        const db = ev.target.result;
+        if (!db.objectStoreNames.contains('files')) db.createObjectStore('files', { keyPath: 'key' });
+        if (!db.objectStoreNames.contains('manifests')) db.createObjectStore('manifests', { keyPath: 'modelId' });
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function idbPutFile(modelId, filename, blob) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('files', 'readwrite');
+      tx.objectStore('files').put({ key: modelId + '|' + filename, blob });
+      tx.oncomplete = () => res();
+      tx.onerror = () => rej(tx.error);
+    });
+  }
+
+  async function idbGetFile(modelId, filename) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('files', 'readonly');
+      const r = tx.objectStore('files').get(modelId + '|' + filename);
+      r.onsuccess = () => res(r.result?.blob || null);
+      r.onerror = () => rej(r.error);
+    });
+  }
+
+  async function idbPutManifest(modelId, files) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('manifests', 'readwrite');
+      tx.objectStore('manifests').put({ modelId, files, createdAt: Date.now() });
+      tx.oncomplete = () => res();
+      tx.onerror = () => rej(tx.error);
+    });
+  }
+
+  async function idbGetManifest(modelId) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('manifests', 'readonly');
+      const r = tx.objectStore('manifests').get(modelId);
+      r.onsuccess = () => res(r.result || null);
+      r.onerror = () => rej(r.error);
+    });
+  }
+
+  async function idbDeleteModel(modelId) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction(['manifests', 'files'], 'readwrite');
+      tx.objectStore('manifests').delete(modelId);
+      const filesStore = tx.objectStore('files');
+      // delete all with prefix modelId|
+      const req = filesStore.openCursor();
+      req.onsuccess = () => {
+        const cursor = req.result;
+        if (!cursor) return; // done
+        if (cursor.key.startsWith(modelId + '|')) {
+          cursor.delete();
+        }
+        cursor.continue();
+      };
+      tx.oncomplete = () => res();
+      tx.onerror = () => rej(tx.error);
+    });
+  }
+
+  async function isModelCached(modelId) {
+    const m = await idbGetManifest(modelId);
+    return !!m;
+  }
+
+  // ------------------
+  // Service Worker registration (serves /local-models/ from IndexedDB)
+  // ------------------
+  async function ensureServiceWorker() {
+    if (!('serviceWorker' in navigator)) return false;
+    // register using relative path so scope matches current directory (works when app is served under /turni/)
+    const swUrl = new URL('sw-webllm.js', location.href).href;
+    try {
+      const reg = await navigator.serviceWorker.register('./sw-webllm.js', { type: 'module' });
+      // wait until active
+      if (!reg.active) {
+        await new Promise(resolve => {
+          const onState = () => {
+            if (reg.active) {
+              resolve();
+            }
+          };
+          reg.addEventListener('updatefound', onState);
+          setTimeout(resolve, 2000);
+        });
+      }
+      return true;
+    } catch (err) {
+      console.warn('SW registration failed for', swUrl, err);
+      // more helpful message for the user / deployer
+      progressLabel.textContent = `Service worker non registrato: ${swUrl} (verifica che il file esista sul server e sia raggiungibile)`;
+      return false;
+    }
+  }
+
+  // ------------------
+  // Fetch with progress helper
+  // ------------------
+  async function fetchWithProgress(url, onProgress) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status + ' for ' + url);
+    const reader = resp.body.getReader();
+    const contentLength = Number(resp.headers.get('Content-Length')) || 0;
+    let received = 0;
+    const chunks = [];
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      received += value.byteLength || value.length || 0;
+      if (contentLength && onProgress) onProgress(received, contentLength);
+    }
+    return new Blob(chunks);
+  }
+
+  // ------------------
+  // Download model files -> store in IndexedDB + manifest
+  // ------------------
+  async function downloadAndCacheModel(baseUrl, modelId, fileList, onProgress) {
+    // baseUrl should end with '/'
+    if (!baseUrl.endsWith('/')) baseUrl += '/';
+
+    // Build initial set and ensure model.json
+    const filesSet = new Set((fileList || []).map(f => f.replace(/^\/+/, '')));
+    filesSet.add(MODEL_ENTRY_FILE);
+
+    // Optional files that should NOT abort the whole download if missing
+    const optionalFiles = new Set([
+      'resolve/main/mlc-chat-config.json',
+      'resolve/gh-pages/mlc-chat-config.json'
+    ]);
+
+    // Helper: normalize discovered paths to be relative to baseUrl
+    function normalizeDiscoveredPath(s) {
+      if (!s) return null;
+      if (/^https?:\/\//.test(s)) {
+        if (s.startsWith(baseUrl)) return s.slice(baseUrl.length).replace(/^\/+/, '');
+        return null;
+      }
+      return s.replace(/^\/+/, '');
+    }
+
+    // Download model.json first (required)
+    progressLabel.textContent = `Scaricando ${MODEL_ENTRY_FILE}...`;
+    const downloadedFiles = [];
+    try {
+      const entryBlob = await fetchWithProgress(baseUrl + MODEL_ENTRY_FILE, (loaded, total) => {
+        const filePct = total ? Math.round((loaded / total) * 100) : 0;
+        progressEl.value = filePct;
+      });
+      await idbPutFile(modelId, MODEL_ENTRY_FILE, entryBlob);
+      downloadedFiles.push(MODEL_ENTRY_FILE);
+
+      // parse model.json to discover referenced files
+      try {
+        const txt = await entryBlob.text();
+        const parsed = JSON.parse(txt);
+        (function walk(obj) {
+          if (!obj) return;
+          if (typeof obj === 'string') {
+            const path = normalizeDiscoveredPath(obj);
+            if (path && /\.(json|wasm|safetensors|msgpack|bin|pt|index|txt|model)$/i.test(path)) filesSet.add(path);
+            if (path && path.includes('resolve/')) filesSet.add(path);
+          } else if (Array.isArray(obj)) obj.forEach(walk);
+          else if (typeof obj === 'object') Object.values(obj).forEach(walk);
+        })(parsed);
+      } catch (e) {
+        console.warn('Impossibile parsare model.json per discovery file:', e);
+      }
+    } catch (err) {
+      progressLabel.textContent = `Errore: model.json non trovato o non leggibile (${err.message || err})`;
+      throw err;
+    }
+
+    // Probe optional resolve/ paths (main + gh-pages)
+    for (const candidate of ['resolve/main/mlc-chat-config.json','resolve/gh-pages/mlc-chat-config.json']) {
+      try {
+        const r = await fetch(baseUrl + candidate, { method: 'HEAD' });
+        if (r.ok) filesSet.add(candidate);
+      } catch (_) { /* ignore */ }
+    }
+
+    const allFiles = Array.from(filesSet);
+    const totalFiles = allFiles.length;
+    let idx = 0;
+    const skipped = [];
+
+    for (const fnameRaw of allFiles) {
+      const fname = fnameRaw.replace(/^\/+/, '');
+      if (fname === MODEL_ENTRY_FILE) { idx++; progressEl.value = Math.round((idx / totalFiles) * 100); continue; }
+      const url = baseUrl + fname;
+      progressLabel.textContent = `Scaricando ${fname}...`;
+      try {
+        const blob = await fetchWithProgress(url, (loaded, total) => {
+          const filePct = total ? Math.round((loaded / total) * 100) : 0;
+          const overallPct = Math.round(((idx + filePct / 100) / totalFiles) * 100);
+          progressEl.value = overallPct;
+        });
+        await idbPutFile(modelId, fname, blob);
+        downloadedFiles.push(fname);
+        idx++;
+        progressEl.value = Math.round((idx / totalFiles) * 100);
+        progressLabel.textContent = `Scaricati ${idx}/${totalFiles} file`;
+      } catch (err) {
+        const isOptional = optionalFiles.has(fname);
+        console.warn('Errore download', url, err, 'optional=', isOptional);
+        if (isOptional) {
+          skipped.push(fname);
+          progressLabel.textContent = `File opzionale mancante: ${fname} — continuo`;
+          continue; // do not abort on optional file missing
+        }
+        progressLabel.textContent = `Errore scaricamento: ${fname}`;
+        throw new Error(`Impossibile scaricare ${fname}: ${err.message || err}`);
+      }
+    }
+
+    // Save manifest with only the files actually downloaded
+    await idbPutManifest(modelId, downloadedFiles);
+
+    if (skipped.length) {
+      progressLabel.textContent = `Download completato (file opzionali mancanti: ${skipped.join(', ')})`;
+    } else {
+      progressLabel.textContent = 'Download completato e salvato in IndexedDB';
+    }
+  }
+
+  // ------------------
+  // Init WebLLM engine (uses CreateMLCEngine + appConfig pointing to local SW-served path)
+  // ------------------
+  function initProgressCallback(p) {
+    // p is object with {stage, percent} (WebLLM will call it during model init)
+    try {
+      const perc = Math.round((p?.percent || 0) * 100);
+      engineStatus.textContent = `Engine: inizializzazione ${p?.stage || ''} ${perc}%`;
+    } catch (e) { /* ignore */ }
+  }
+
+  async function initEngineUsingLocal(modelId) {
+    const localBase = `${location.origin}${LOCAL_MODEL_PREFIX}${modelId}/`;
+    engineStatus.textContent = 'Engine: inizializzo (local)';
+
+    // verify that manifest + files are present in IndexedDB before initializing
+    const manifest = await idbGetManifest(modelId);
+    if (!manifest || !Array.isArray(manifest.files) || manifest.files.length === 0) {
+      throw new Error('Modello non trovato in IndexedDB. Esegui prima Scarica e Inizializza AI.');
+    }
+    const missing = [];
+    for (const f of manifest.files) {
+      const blob = await idbGetFile(modelId, f);
+      if (!blob) missing.push(f);
+    }
+    if (missing.length) {
+      throw new Error('File mancanti in IndexedDB: ' + missing.join(', '));
+    }
+
+    // common file that WebLLM may request; check both main and gh-pages variants and warn if none present
+    const chatCfgCandidates = ['resolve/main/mlc-chat-config.json','resolve/gh-pages/mlc-chat-config.json'];
+    let chatCfgFound = null;
+    for (const p of chatCfgCandidates) {
+      if (manifest.files.includes(p)) { chatCfgFound = p; break; }
+      const blob = await idbGetFile(modelId, p);
+      if (blob) { chatCfgFound = p; break; }
+    }
+    if (!chatCfgFound) {
+      console.warn('mlc-chat-config.json non presente nella cache in nessuna variante — procederò con impostazioni default.');
+      progressLabel.textContent = 'Attenzione: mlc-chat-config.json non presente (main/gh-pages) — l\'engine procederà con impostazioni di default.';
+    } else {
+      console.log('Found chat config in cache:', chatCfgFound);
+    }
+
+    // appConfig punta al percorso locale servito dal Service Worker
+    const appConfig = {
+      model_list: [
+        {
+          model: localBase, // SW risponderà per /local-models/{modelId}/{file}
+          model_id: modelId,
+          // Se il runtime wasm è un file separato (model.wasm) indicarlo qui (assicurati sia incluso in MODEL_FILES)
+          model_lib: localBase + 'model.wasm'
+        }
+      ]
+    };
+
+    // CreateMLCEngine sceglierà WebGPU se disponibile, altrimenti WASM
+    try {
+      engine = await webllm.CreateMLCEngine(modelId, { appConfig, initProgressCallback });
+      engineStatus.textContent = 'Engine: pronto (local)';
+      return engine;
+    } catch (err) {
+      console.error('CreateMLCEngine failed', err);
+      progressLabel.textContent = `Engine init fallita: ${err.message || err}. Verifica che tutti i file (es. mlc-chat-config.json, model.wasm, pesi) siano presenti nella directory del modello e riprova.`;
+      throw err;
+    }
+  }
+
+  async function initEngineUsingRemote(remoteUrl) {
+    engineStatus.textContent = 'Engine: inizializzo (remote)';
+    // Se non vuoi che venga salvato in IndexedDB, puoi caricarlo direttamente dall'URL remoto
+    engine = await webllm.CreateMLCEngine(MODEL_ID, { initProgressCallback });
+    // Nota: CreateMLCEngine può caricare modelli predefiniti; per modelli custom occorre passare appConfig (vedi initEngineUsingLocal)
+    engineStatus.textContent = 'Engine: pronto (remote)';
+    return engine;
+  }
+
+  // ------------------
+  // Chat / streaming
+  // ------------------
+  let chatHistory = [];
+
+  function appendMessage(role, text) {
+    const el = document.createElement('div');
+    el.className = 'msg ' + (role === 'user' ? 'user' : 'assistant');
+    el.textContent = text;
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return el;
+  }
+
+  // Extract first JSON object from text (simple heuristic)
+  function extractJsonFromText(text) {
+    if (!text) return null;
+    const first = text.indexOf('{');
+    const last = text.lastIndexOf('}');
+    if (first === -1 || last === -1 || last <= first) return null;
+    const substr = text.slice(first, last + 1);
+    try { return JSON.parse(substr); } catch (e) { return null; }
+  }
+
+  // Send command to parent app (iframe -> parent) and wait for response
+  function sendAppCommand(commandObj, timeout = 10000) {
+    return new Promise((resolve, reject) => {
+      if (!window.parent) return reject(new Error('Nessun parent disponibile'));
+      const requestId = 'ia_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+      function onMsg(ev) {
+        if (ev.origin !== location.origin) return;
+        const d = ev.data || {};
+        if (d && d.source === 'index' && d.requestId === requestId) {
+          window.removeEventListener('message', onMsg);
+          resolve(d);
+        }
+      }
+      window.addEventListener('message', onMsg);
+      window.parent.postMessage({ source: 'ia.turni', requestId, command: commandObj.action, payload: commandObj.payload || {} }, location.origin);
+      setTimeout(() => { window.removeEventListener('message', onMsg); reject(new Error('Timeout risposta app')); }, timeout);
+    });
+  }
+
+  function showActionCard(actionObj) {
+    const card = document.getElementById('actionCard');
+    const body = document.getElementById('actionBody');
+    card.style.display = 'block';
+    body.textContent = JSON.stringify(actionObj, null, 2);
+
+    const btnSend = document.getElementById('btnSendToApp');
+    const btnExec = document.getElementById('btnExecuteNow');
+    const btnDismiss = document.getElementById('btnDismissAction');
+
+    btnSend.onclick = async () => {
+      try {
+        btnSend.disabled = true;
+        const res = await sendAppCommand(actionObj);
+        alert('Risposta app: ' + (res.status || res.error || res));
+      } catch (err) {
+        alert('Errore invio all\'app: ' + err.message);
+      } finally { btnSend.disabled = false; }
+    };
+
+    btnExec.onclick = async () => {
+      if (!confirm('Confermi esecuzione dell\'azione proposta dall\'IA nella tua app?')) return;
+      try {
+        btnExec.disabled = true;
+        const res = await sendAppCommand(actionObj);
+        alert('Esecuzione: ' + (res.status || res.error || res));
+      } catch (err) {
+        alert('Errore esecuzione: ' + err.message);
+      } finally { btnExec.disabled = false; }
+    };
+
+    btnDismiss.onclick = () => { card.style.display = 'none'; body.textContent = ''; };
+  }
+
+  async function sendMessage() {
+    const text = promptInput.value.trim();
+    if (!text) return;
+    // Verifica che sia selezionato un provider e ci sia la relativa API key
+    const _provider = getSelectedProvider();
+    if (_provider === 'gemini' && !((geminiApiKeyInput && geminiApiKeyInput.value.trim()) || localStorage.getItem('gemini_api_key'))) return alert('Inserisci la Gemini API key nel pannello impostazioni');
+
+    appendMessage('user', text);
+    promptInput.value = '';
+
+    // System prompt: include protocol for action-calling (model should return pure JSON when it wants to request an action)
+    const systemMsg = {
+      role: 'system',
+      content: `Sei un assistente per la gestione dei turni. Usa i dati in contestoTurni per rispondere. Se devi richiedere al gestionale di eseguire un'azione, PRODUCI SOLTANTO un oggetto JSON con la forma {"action":"<nome>", "payload":{...}} e nient'altro.
+Azioni supportate (usare esattamente questi nomi):
+- "updateShift": payload { employeeId, dayIndex, newShift }
+- "addEmployee": payload { id, name, role }
+- "removeEmployee": payload { id }
+- "addTimeSlot": payload { start, end }
+- "generateAllShifts": payload {} (nessun campo richiesto)
+- "exportPDF": payload { title }
+- "openSection": payload { section }
+Esempio valido: {"action":"updateShift","payload":{"employeeId":"EMP001","dayIndex":1,"newShift":"T2"}}.`
+    };
+
+    const messages = [systemMsg, ...chatHistory, { role: 'user', content: text }];
+
+    try {
+      const systemPrompt = systemMsg.content;
+      const assistantText = await getCompletionFromProvider(systemPrompt, chatHistory, text);
+      appendMessage('assistant', assistantText || '(risposta vuota)');
+      chatHistory.push({ role: 'user', content: text }, { role: 'assistant', content: assistantText });
+
+      // If assistant returned a JSON action, show the action card so user can propose/execute it
+      const parsed = extractJsonFromText(assistantText);
+      if (parsed && parsed.action) {
+        showActionCard(parsed);
+      }
+    } catch (err) {
+      console.error('Generation error', err);
+      appendMessage('assistant', 'Errore: ' + (err.message || err));
+    }
+  }
+
+  // ------------------
+  // UI handlers
+  // ------------------
+  btnSend.addEventListener('click', sendMessage);
+  promptInput.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) sendMessage(); });
+
+  btnInjectContext.addEventListener('click', () => {
+    try {
+      contestoTurni = JSON.parse(contextArea.textContent || contextArea.innerText || '{}');
+      alert('contestoTurni aggiornato — verrà incluso nel prompt di sistema alla prossima richiesta');
+    } catch (err) {
+      alert('JSON non valido: ' + err.message);
+    }
+  });
+
+  // --- gestione UI chiavi provider ---
+  // sanitize gemini key while typing / on paste to remove accidental spaces
+  geminiApiKeyInput?.addEventListener('input', (e) => {
+    const v = (e.target.value || '').replace(/\s+/g, '');
+    if (v !== e.target.value) e.target.value = v;
+  });
+  geminiApiKeyInput?.addEventListener('paste', (ev) => {
+    ev.preventDefault();
+    const raw = (ev.clipboardData || window.clipboardData).getData('text') || '';
+    const cleaned = raw.replace(/\s+/g, '');
+    document.execCommand('insertText', false, cleaned);
+  });
+
+  btnSaveKeys?.addEventListener('click', saveKeysToStorage);
+  btnVerifyKeys?.addEventListener('click', verifyProviderKey);
+  btnTestProxy?.addEventListener('click', testProxyUrl);
+  btnTestTurniProxy?.addEventListener('click', testTurniProxy);
+  btnShowProxyLog?.addEventListener('click', showProxyDiagnostics);
+  btnSaveKeysNoVerify?.addEventListener('click', saveKeysNoVerify);
+  btnClearKeys?.addEventListener('click', clearKeysFromStorage);
+
+  // --- auto-preset del proxy basato su dominio ---
+  function autoPresetProxyByDomain() {
+    // If the current path is /turni (or the app is served under /turni), prefer /turni/proxy/gemini
+    try {
+      const path = window.location.pathname || '/';
+      const host = window.location.hostname || '';
+      if (host.includes('ldm4app.com') && path.startsWith('/turni')) {
+const turniProxy = 'https://www.ldm4app.com/turni/proxy/gemini';
+      if (proxyUrlInput && !proxyUrlInput.value) {
+        proxyUrlInput.value = turniProxy;
+        localStorage.setItem('proxy_url', turniProxy);
+        console.log('Auto-impostato proxy production (turni): ' + turniProxy);
+        return;
+      }
+    }
+
+    // If hosted on ldm4app.com but not under /turni, fall back to site-level proxy
+    if (host.includes('ldm4app.com')) {
+      const productionProxy = 'https://www.ldm4app.com/turni/proxy/gemini';
+        if (proxyUrlInput && !proxyUrlInput.value) {
+          proxyUrlInput.value = productionProxy;
+          localStorage.setItem('proxy_url', productionProxy);
+          console.log('Auto-impostato proxy production: ' + productionProxy);
+          return;
+        }
+      }
+
+      // Default: same-origin proxy under the app root (works for deployments that expose /turni/proxy or /proxy)
+      if (proxyUrlInput && !proxyUrlInput.value) {
+        // prefer /turni/proxy when current path contains /turni
+        if (path.startsWith('/turni')) {
+          proxyUrlInput.value = '/turni/proxy/gemini';
+          localStorage.setItem('proxy_url', '/turni/proxy/gemini');
+        } else {
+          proxyUrlInput.value = '/proxy/gemini';
+          localStorage.setItem('proxy_url', '/proxy/gemini');
+        }
+        console.log('Auto-impostato proxy same-origin: ' + proxyUrlInput.value);
+      }
+    } catch (e) {
+      console.warn('autoPresetProxyByDomain failed', e);
+    }
+  }
+
+  // ricarica chiavi (già invocata sopra ma garantisco inizializzazione)
+  loadKeysFromStorage();
+
+  // Auto-preset basato su dominio
+  autoPresetProxyByDomain();
+
+  // expose contestoTurni globally per debug rapido
+  window.contestoTurni = contestoTurni;
+  window.sendMessage = sendMessage; // funzione richiesta dall'utente
+  </script>
+</body>
+</html>

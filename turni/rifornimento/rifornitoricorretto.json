@@ -1,0 +1,168 @@
+{
+  "titolo": "RIFORNITORI DRO",
+  "fasce": [
+    "08:00",
+    "15:30",
+    "18:00"
+  ],
+  "fasceCustom": [],
+  "settimana": "2025-W52",
+  "ultimaRotazione": {},
+  "statiOperativi": [
+    "Riposo",
+    "Magazzino",
+    "Ufficio",
+    "Ferie"
+  ],
+  "gruppoRotazioni": {
+    "Rifornitori Dro/No ore 8:00": "T2-T3",
+    "Rifornitori Dro/Solo ore 18:00": "T3"
+  },
+  "assenze": {},
+  "personale": [
+    {
+      "codice": "179147",
+      "nome": "Amadei Nicolò",
+      "mansione": "Rifornitori Dro",
+      "sottogruppo": "",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-179147-amadei-nicolo",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164391",
+      "nome": "Andoh Sopie Marie",
+      "mansione": "Rifornitori Dro",
+      "sottogruppo": "",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164391-andoh-sopie-marie",
+      "genere": "Donna"
+    },
+    {
+      "codice": "169874",
+      "nome": "Bianchi Karina",
+      "mansione": "Rifornitori Dro",
+      "sottogruppo": "",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-169874-bianchi-karina",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164298",
+      "nome": "Gamba Davide",
+      "mansione": "Rifornitori Dro",
+      "sottogruppo": "",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164298-gamba-davide",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164368",
+      "nome": "Kaakyire Yeboah Asuamah",
+      "mansione": "Rifornitori Dro",
+      "sottogruppo": "Solo ore 18:00",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164368-kaakyire-yeboah-asuamah",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "172249",
+      "nome": "Koomson Sarah",
+      "mansione": "Rifornitori Dro",
+      "sottogruppo": "No ore 8:00",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-172249-koomson-sarah",
+      "genere": "Donna"
+    },
+    {
+      "codice": "173533",
+      "nome": "Nembrini Simone",
+      "mansione": "Rifornitori Dro",
+      "sottogruppo": "",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-173533-nembrini-simone",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164411",
+      "nome": "Sollecito Margherita",
+      "mansione": "Rifornitori Dro",
+      "sottogruppo": "",
+      "ore": "33.20",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164411-sollecito-margherita",
+      "genere": "Donna"
+    }
+  ]
+}

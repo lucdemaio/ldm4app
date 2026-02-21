@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA — Chat · LDM4APP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg,#0a0e27 0%,#1a1f3a 100%); color: #fff; }
+        h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; }
+        .glass-card{ background: rgba(255,255,255,0.04); backdrop-filter: blur(16px); border-radius: 20px; border:1px solid rgba(255,255,255,0.06); }
+        .btn-primary{ background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); padding: 0.5rem 1.5rem; border: none; border-radius: 999px; color: white; font-weight: 600; cursor: pointer; }
+        .btn-secondary{ background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); padding: 0.5rem 1rem; border-radius: 999px; color: white; cursor: pointer; }
+        .link-ghost { color: #00d4ff; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-black/30 backdrop-blur">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold text-white">LDM4APP</div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <li><a href="index.html" class="text-gray-300 hover:text-cyan-400 transition">Home</a></li>
+                    <li><a href="ia.html" class="text-cyan-400 font-semibold">Intelligenza Artificiale</a></li>
+                    <li><a href="sviluppatori.html" class="text-yellow-300 hover:text-cyan-400 transition">Giochi</a></li>
+                </ul>
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+            <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm">
+                <li><a href="index.html" class="text-gray-300 hover:text-cyan-400">Home</a></li>
+                <li><a href="ia.html" class="text-cyan-400">IA</a></li>
+                <li><a href="sviluppatori.html" class="text-yellow-300">Giochi</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="min-h-screen flex items-center justify-center pt-20">
+        <div class="container mx-auto px-6 text-center max-w-3xl">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">Intelligenza Artificiale — Chat</h1>
+            <p class="text-xl text-gray-300 mb-8">Parla con l'IA usando modelli cloud gratuiti. Niente installazioni, niente costi, niente complicazioni.</p>
+            <div class="glass-card p-8 text-left">
+                <h2 class="text-3xl font-bold mb-6">📚 Come Funziona l'IA?</h2>
+                
+                <div class="space-y-6 text-gray-300">
+                    <div>
+                        <h3 class="text-xl font-semibold text-cyan-400 mb-2">🧠 Cosa è un Modello AI?</h3>
+                        <p>Un modello di intelligenza artificiale è un "cervello digitale" allenato su miliardi di parole. Impara a riconoscere pattern e significati, permettendogli di generare risposte coerenti alle tue domande.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold text-cyan-400 mb-2">⚙️ Come Lavora?</h3>
+                        <p>Quando fai una domanda:</p>
+                        <ol class="list-decimal ml-6 space-y-2 mt-2 text-sm">
+                            <li><strong>Legge le parole</strong> - Converte il testo in numeri che comprende</li>
+                            <li><strong>Applica logica</strong> - Usa reti neurali per analizzare il significato</li>
+                            <li><strong>Genera risposta</strong> - Predice parola dopo parola, una alla volta</li>
+                            <li><strong>Ritorna il risultato</strong> - Ti mostra il testo completo</li>
+                        </ol>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold text-cyan-400 mb-2">🎯 Cosa Puoi Fare?</h3>
+                        <ul class="list-disc ml-6 space-y-2 text-sm">
+                            <li>✅ <strong>Fai domande</strong> - Su qualsiasi argomento</li>
+                            <li>✅ <strong>Chiedi traduzioni</strong> - In qualsiasi lingua</li>
+                            <li>✅ <strong>Scrivi codice</strong> - Python, JavaScript, SQL, etc.</li>
+                            <li>✅ <strong>Analizza testi</strong> - Riassunti, sentiment analysis</li>
+                            <li>✅ <strong>Brainstorming</strong> - Idee creative, scenari</li>
+                            <li>✅ <strong>Impara</strong> - Spiegazioni semplici di concetti complessi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GUIDA COMPLETA GROQ API -->
+    <section class="container mx-auto px-6 py-12 max-w-4xl">
+        <div class="glass-card p-8 mb-12 border-l-4 border-blue-400">
+            <h2 class="text-3xl font-bold mb-6 text-cyan-400">🔑 Guida Completa: Come Ottenere la Chiave Groq API</h2>
+            
+            <div class="space-y-8 text-gray-300">
+                
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-blue-300 mb-4">⚡ Perché Groq?</h3>
+                    <ul class="list-disc ml-6 space-y-2 text-sm">
+                        <li><strong>Rapidissimo</strong> - Risposte in millisecondi</li>
+                        <li><strong>Gratis</strong> - Tier gratuito generoso (5000 richieste/mese)</li>
+                        <li><strong>Affidabile</strong> - API stabile e ben documentata</li>
+                        <li><strong>Integrato</strong> - Funziona con tutti i nostri gestioni</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold text-cyan-400 mb-4">📋 Step-by-Step: Registrazione Groq</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Step 1 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-cyan-500/30 border border-cyan-500">
+                                    <span class="text-cyan-400 font-bold">1</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-white mb-2">Apri il sito Groq</h4>
+                                <p class="mb-3">Vai a <strong><a href="https://console.groq.com" class="link-ghost" target="_blank">console.groq.com</a></strong></p>
+                                <div class="bg-black/40 rounded border border-gray-700 p-3 text-sm">
+                                    Clicca questo link per aprire la console Groq →
+                                    <pre class="mt-2 text-cyan-300 overflow-x-auto"><code>https://console.groq.com</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-cyan-500/30 border border-cyan-500">
+                                    <span class="text-cyan-400 font-bold">2</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-white mb-2">Crea un account (se non lo hai)</h4>
+                                <p class="mb-3">Se non hai un account Groq:</p>
+                                <ul class="list-disc ml-6 space-y-1 text-sm">
+                                    <li>Clicca <strong>"Sign Up"</strong> o <strong>"Create Account"</strong></li>
+                                    <li>Scegli il metodo (Email, Google, GitHub)</li>
+                                    <li>Completa la verifica email (controlla spam se non arriva)</li>
+                                    <li>Accedi alla console</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-cyan-500/30 border border-cyan-500">
+                                    <span class="text-cyan-400 font-bold">3</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-white mb-2">Accedi alla sezione API Keys</h4>
+                                <p class="mb-3">Una volta loggato:</p>
+                                <ul class="list-disc ml-6 space-y-1 text-sm">
+                                    <li>Nel menu a sinistra, cerca <strong>"API Keys"</strong> o <strong>"Keys"</strong></li>
+                                    <li>Oppure vai direttamente a: <a href="https://console.groq.com/keys" class="link-ghost" target="_blank">console.groq.com/keys</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-cyan-500/30 border border-cyan-500">
+                                    <span class="text-cyan-400 font-bold">4</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-white mb-2">Crea una nuova API Key</h4>
+                                <p class="mb-3">Nella pagina API Keys:</p>
+                                <ul class="list-disc ml-6 space-y-1 text-sm">
+                                    <li>Clicca il bottone <strong>"+ Create API Key"</strong> (di solito blu/verde in alto)</li>
+                                    <li>Dai un nome descrittivo, ad es: <code>"ldm4app-my-groq-key"</code> o <code>"personal-key"</code></li>
+                                    <li>Clicca <strong>"Create"</strong> o <strong>"Generate"</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-cyan-500/30 border border-cyan-500">
+                                    <span class="text-cyan-400 font-bold">5</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-white mb-2">Copia la chiave</h4>
+                                <p class="mb-3"><strong>⚠️ IMPORTANTE:</strong></p>
+                                <div class="bg-yellow-900/20 border border-yellow-600/30 rounded p-3 space-y-2 text-sm">
+                                    <p>La nuova API Key sarà visualizzata <strong>una sola volta</strong>!</p>
+                                    <p>👉 Clicca il bottone <strong>"Copy"</strong> o seleziona il testo intero e copia con Ctrl+C</p>
+                                    <p class="text-yellow-300">Se la perdi, dovrai crearne una nuova (è facile, ma non la potrai recuperare)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-cyan-500/30 border border-cyan-500">
+                                    <span class="text-cyan-400 font-bold">6</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-white mb-2">Incolla la chiave su LDM4APP</h4>
+                                <p class="mb-3">Torna a questa pagina e:</p>
+                                <ul class="list-disc ml-6 space-y-2 text-sm">
+                                    <li>Scorri in basso fino al riquadro <strong>"⭐⭐ Groq (consigliato)"</strong></li>
+                                    <li>Nel campo con label <strong>"Groq API Key"</strong>, incolla la chiave (Ctrl+V)</li>
+                                    <li>✅ La chiave è salvata localmente (solo nel tuo browser)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 7 -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-10 w-10 rounded-full bg-cyan-500/30 border border-cyan-500">
+                                    <span class="text-cyan-400 font-bold">7</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-semibold text-white mb-2">Prova l'IA!</h4>
+                                <p class="mb-3">Scrivi una domanda nel riquadro "Domanda" e clicca "Chiedi"</p>
+                                <div class="bg-green-900/20 border border-green-600/30 rounded p-3 text-sm">
+                                    <strong>✨ Primo test consigliato:</strong>
+                                    <pre class="mt-2 text-green-300"><code>"Ciao! Dimostrami che sei connesso e veloce 🚀"</code></pre>
+                                    <p class="mt-2">Dovresti ricevere una risposta in meno di 1 secondo!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-green-300 mb-4">✅ Verifiche e Troubleshooting</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><strong>❓ La chiave non funziona?</strong> → Ricopia dalla console Groq (potrebbe avere spazi extra)</li>
+                        <li><strong>❓ Errore "Invalid API Key"?</strong> → Ricrea una nuova key nella console</li>
+                        <li><strong>❓ Status mostra "errore"?</strong> → Controlla la console del browser (F12) per dettagli</li>
+                        <li><strong>❓ Vuoi usare il proxy?</strong> → Se il server è configurato, la chiave non serve (proxy usa la sua key)</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-cyan-500 bg-cyan-900/10 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-cyan-300 mb-3">🔒 Sicurezza & Privacy</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>✅ La tua API key è salvata <strong>solo nel tuo browser</strong> (localStorage)</li>
+                        <li>✅ Non viene mai inviata a server terzi di LDM4APP</li>
+                        <li>✅ Se usi un dispositivo pubblico, ricordati di cancellarla ({F12 → Application → Storage})</li>
+                        <li>✅ Puoi disabilitare/rigenerare la key dalla console Groq in qualsiasi momento</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+        <section class="glass-card p-8 mb-12">
+            <h2 class="text-3xl font-bold mb-6">💬 Chiedi all'IA</h2>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Main Q/A column -->
+                <div class="md:col-span-2 space-y-6">
+                    <div class="glass-card p-6">
+                        <label class="text-sm text-gray-400 block mb-2 font-semibold">Domanda</label>
+                        <textarea id="prompt-input" rows="8" class="w-full bg-black/30 border border-gray-700 rounded-lg p-4 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 resize-y" placeholder="Chiedi quello che vuoi..."></textarea>
+
+                        <div class="flex gap-3 mt-4 flex-wrap">
+                            <button id="ask-btn" class="btn-primary">Chiedi</button>
+                            <button id="clear-chat" class="btn-secondary">Pulisci Chat</button>
+                            <div class="text-sm text-gray-400 ml-auto">Status: <span id="server-status" class="text-cyan-400">pronto</span></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-4">
+                        <h3 class="font-semibold text-lg mb-3">💭 Risposta</h3>
+                        <div id="chat-area" class="max-h-[65vh] md:max-h-[50vh] overflow-y-auto text-sm space-y-2" style="min-height:260px"></div>
+                    </div>
+                </div>
+
+                <!-- Sidebar: API Keys -->
+                <aside class="md:col-span-1">
+                    <h3 class="text-lg font-semibold text-gray-200 mb-4">🔑 Chiavi API</h3>
+
+                    <div class="glass-card p-5 mb-4 border-l-4 border-blue-500 hover:border-blue-400 transition">
+                        <label class="text-sm text-gray-300 font-semibold block mb-2">⭐⭐ Groq (consigliato)</label>
+                        <input type="password" id="groq-api-key" placeholder="Inserisci API key Groq" class="w-full bg-black/30 border border-gray-700 rounded px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500" />
+                        <p class="text-xs text-gray-400 mt-2">Ottieni GRATIS: <a class="link-ghost" href="https://console.groq.com/keys" target="_blank">groq.com/keys</a></p>
+                    </div>
+
+                    <div class="glass-card p-5 mb-4 border-l-4 border-green-500 hover:border-green-400 transition">
+                        <label class="text-sm text-gray-300 font-semibold block mb-2">⭐ Google Gemini</label>
+                        <input type="password" id="gemini-api-key" placeholder="Inserisci API key Google Gemini" class="w-full bg-black/30 border border-gray-700 rounded px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500" />
+                        <p class="text-xs text-gray-400 mt-2">Ottieni GRATIS: <a class="link-ghost" href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></p>
+                    </div>
+
+                    <div class="mt-4 bg-cyan-500/10 border border-cyan-500/30 p-3 rounded-lg text-sm text-gray-200">
+                        <strong>Nota:</strong> Groq e Google Gemini sono i provider raccomandati su questa pagina; entrambi offrono tier gratuiti per uso personale/educativo. Per sicurezza, puoi usare il proxy server (se configurato) per non esporre le chiavi lato client.
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black/50 border-t border-gray-800 py-8 mt-16">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            © 2026 LDM4APP — IA · <a href="#" class="hover:text-cyan-400">Privacy</a> · <a href="#" class="hover:text-cyan-400">Termini</a>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
+
+        // ----- Chat UI Logic -----
+        document.getElementById('ask-btn').addEventListener('click', async ()=>{
+            const prompt = document.getElementById('prompt-input').value.trim();
+            if (!prompt) return alert('Inserisci una domanda.');
+            appendChat('user', prompt);
+            setAskStatus('in esecuzione...');
+            try{
+                const respText = await performInference(prompt);
+                appendChat('bot', respText);
+                setAskStatus('ok');
+                document.getElementById('prompt-input').value = '';
+            }catch(err){
+                appendChat('bot', `❌ Errore: ${err.message}`);
+                setAskStatus('errore');
+            }
+        });
+
+        document.getElementById('clear-chat').addEventListener('click', ()=>{
+            document.getElementById('chat-area').innerHTML = '';
+            setAskStatus('pronto');
+        });
+
+        function appendChat(who, text){
+            const area = document.getElementById('chat-area');
+            const el = document.createElement('div');
+            el.className = who==='user' 
+                ? 'p-3 rounded-lg bg-blue-900/40 border border-blue-700/40 text-sm text-white' 
+                : 'p-3 rounded-lg bg-green-900/30 border border-green-700/30 text-sm text-gray-100';
+            el.innerHTML = '<strong>' + (who==='user'? '👤 Tu: ' : '🤖 IA: ') + '</strong> ' + text.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            area.appendChild(el);
+            area.scrollTop = area.scrollHeight;
+        }
+
+        function setAskStatus(s){
+            document.getElementById('server-status').textContent = s;
+        }
+
+        async function performInference(prompt){
+            // Priority: Groq > Gemini > Demo
+            
+            // Try Groq FIRST (proxy preferred, then direct)
+            const groqKey = document.getElementById('groq-api-key').value.trim();
+
+            // 1) Try server proxy if available
+            try{
+                const proxyResp = await fetchWithTimeout('/proxy/groq', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt })
+                }, 5000);
+                if (proxyResp.ok){
+                    const pj = await proxyResp.json();
+                    setAskStatus('⚡ Groq (proxy)');
+                    return pj.text || pj.result || '';
+                } else {
+                    console.debug('Groq proxy returned', proxyResp.status);
+                }
+            }catch(err){ console.debug('Groq proxy not available:', err.message); }
+
+            // 2) Fallback to direct client-side call if user provided a Groq key
+            if (groqKey){
+                try{
+                    console.log('🚀 Trying Groq (direct)...');
+                    const groqResp = await fetchWithTimeout('https://api.groq.com/openai/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${groqKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            model: 'llama-3.1-8b-instant',
+                            messages: [
+                                { role: 'system', content: 'Tu sei un assistente utile. Rispondi in modo conciso e chiaro.' },
+                                { role: 'user', content: prompt }
+                            ],
+                            max_tokens: 500,
+                            temperature: 0.8
+                        })
+                    }, 20000);
+                    if (groqResp.ok){
+                        const groqData = await groqResp.json();
+                        setAskStatus('⚡ Groq - Llama 3.1 (Ultra-veloce)');
+                        if (groqData.choices && groqData.choices[0] && groqData.choices[0].message && groqData.choices[0].message.content){
+                            return groqData.choices[0].message.content;
+                        }
+                    }
+                }catch(e){ console.debug('Groq error:', e.message); }
+            }
+
+            // Try Gemini second — server proxy first, then client-side key (discovery + fallbacks)
+            // 1) Try server proxy (no client key required)
+            try{
+                const proxyResp = await fetchWithTimeout('/proxy/gemini', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt })
+                }, 5000);
+                if (proxyResp.ok){
+                    const pj = await proxyResp.json();
+                    setAskStatus(`🎯 Google Gemini (proxy ${pj.model || ''})`);
+                    return pj.text || pj.result || '';
+                } else {
+                    console.debug('Gemini proxy returned', proxyResp.status);
+                }
+            }catch(err){ console.debug('Gemini proxy not available:', err.message); }
+
+            // 2) If proxy not available, fall back to client-side Gemini using API key
+            const geminiKey = document.getElementById('gemini-api-key').value.trim();
+            if (geminiKey){
+                try{
+                    console.log('🚀 Trying Gemini (discovery)...');
+
+                    // list available models (best-effort)
+                    let availableModels = [];
+                    try{
+                        const listResp = await fetchWithTimeout(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(geminiKey)}`, { method: 'GET' }, 8000);
+                        if (listResp.ok){
+                            const listJson = await listResp.json();
+                            availableModels = (listJson.models || []).map(m => m.name).filter(Boolean);
+                        } else {
+                            console.debug('ListModels failed for Gemini key:', listResp.status);
+                        }
+                    }catch(listErr){ console.debug('ListModels error:', listErr.message); }
+
+                    // preferred order (pick first available)
+                    const preferred = ['models/gemini-2.5-pro','models/gemini-pro-latest','models/gemini-flash-latest','models/gemini-2.5-flash','models/gemini-1.5-flash'];
+                    const modelResource = preferred.find(m => availableModels.includes(m)) || availableModels[0] || 'models/gemini-2.5-pro';
+
+                    setAskStatus(`🎯 Google Gemini (${modelResource.replace('models/','')})`);
+
+                    // try generateContent, fallback to generateText when needed
+                    const contentEndpoint = `https://generativelanguage.googleapis.com/v1beta/${modelResource}:generateContent?key=${encodeURIComponent(geminiKey)}`;
+                    const contentResp = await fetchWithTimeout(contentEndpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.8, maxOutputTokens: 500 } })
+                    }, 20000);
+
+                    if (contentResp.ok){
+                        const geminiData = await contentResp.json();
+                        const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || geminiData.output?.[0]?.content || '';
+                        if (text) return text;
+                    } else {
+                        const errText = await contentResp.text();
+
+                        if (contentResp.status === 404){
+                            if (availableModels.length) throw new Error(`Modello ${modelResource} non disponibile. Modelli disponibili: ${availableModels.join(', ')}`);
+                            throw new Error(`Modello ${modelResource} non disponibile (404).`);
+                        }
+
+                        if (contentResp.status === 400 || /not supported for generateContent|unsupported/i.test(errText)){
+                            const textEndpoint = `https://generativelanguage.googleapis.com/v1beta/${modelResource}:generateText?key=${encodeURIComponent(geminiKey)}`;
+                            const textResp = await fetchWithTimeout(textEndpoint, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ prompt: { text: prompt }, maxOutputTokens: 500 })
+                            }, 20000);
+                            if (textResp.ok){
+                                const tJson = await textResp.json();
+                                const tText = tJson.candidates?.[0]?.content?.parts?.[0]?.text || tJson.output?.[0]?.content || JSON.stringify(tJson);
+                                return tText;
+                            }
+                        }
+
+                        throw new Error(`Gemini API error ${contentResp.status}: ${errText}`);
+                    }
+
+                }catch(e){ console.debug('Gemini error:', e.message); }
+            }
+
+            // Demo fallback
+            setAskStatus('📋 Demo (nessuna API key)');
+            return `\n**[RISPOSTA DEMO]**\n\nPer risposte vere, inserisci una chiave Groq o Gemini nei campi sopra.\n\nLa tua domanda era:\n> "${prompt}"\n\nUna volta inserita una chiave, questa risposta sarà sostituita da una vera risposta dell'IA.`;
+        }
+
+        // Helper: fetch with timeout
+        async function fetchWithTimeout(resource, options = {}, timeout = 6000){
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeout);
+            try{
+                const resp = await fetch(resource, {...options, signal: controller.signal});
+                clearTimeout(id);
+                return resp;
+            }catch(e){
+                clearTimeout(id);
+                throw e;
+            }
+        }
+    </script>
+</body>
+</html>

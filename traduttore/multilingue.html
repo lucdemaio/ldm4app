@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    
+    <script>
+      window.__MULTILINGUE_VERSION__ = 'v1';
+      console.log('[MULTILINGUE HEAD] Versione multilingue caricata');
+    </script>
+    
+    <script>
+      console.log('[MULTILINGUE HTML FIRST] EMERGENCY CACHE CLEAR START')
+      
+      if (typeof caches !== 'undefined') {
+        caches.keys().then((names) => {
+          console.log('[MULTILINGUE HTML] deleting caches:', names)
+          names.forEach(name => caches.delete(name))
+        })
+      }
+      
+      if (typeof navigator !== 'undefined' && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+          console.log('[MULTILINGUE HTML] unregistering SWs:', regs.length)
+          regs.forEach(reg => reg.unregister())
+        })
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="pwa-192x192.svg">
+    <title>Traduzioni Multilingue - Ldm4app</title>
+    <script>
+      console.log('[MULTILINGUE HTML] multilingue.html loaded, about to load React app')
+      window.DEBUG = true
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main-multilingue.jsx"></script>
+  </body>
+</html>

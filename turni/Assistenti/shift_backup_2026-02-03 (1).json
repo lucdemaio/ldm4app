@@ -1,0 +1,452 @@
+{
+  "employees": [
+    {
+      "id": "emp-164422-1767939909913-0",
+      "code": "164422",
+      "name": "Baroni Manuela",
+      "department": "Assistente",
+      "subgroup": "2",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "Riposo",
+        "06:00 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 7
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-61601-1767939909913-1",
+      "code": "61601",
+      "name": "Costantino Stefano",
+      "department": "Assistente",
+      "subgroup": "affiancamento",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "06:00 - 13:00",
+        "visita medica",
+        "06:00 - 13:00",
+        "Riposo",
+        "06:00 - 13:00",
+        "06:00 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 34.5,
+        "shifts": 7
+      },
+      "lastShift": "09:00 - 16:30"
+    },
+    {
+      "id": "emp-180267-1767939909913-2",
+      "code": "180267",
+      "name": "D'Ambrosio Antonio",
+      "department": "Assistente",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "Riposo",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 44,
+        "shifts": 7
+      },
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "1770108189933",
+      "code": "179027",
+      "name": "Daescu David",
+      "department": "Assistente",
+      "subgroup": "Affiancamento",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "Riposo",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 7
+      },
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-163846-1767939909913-3",
+      "code": "163846",
+      "name": "Diallo Mouhamed",
+      "department": "Assistente",
+      "subgroup": "3",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 7
+      },
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-166502-1767939909913-4",
+      "code": "166502",
+      "name": "Flores Joe Marie",
+      "department": "Assistente",
+      "subgroup": "3",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "09:00 - 16:30",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "Riposo"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 7
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-164423-1767939909913-5",
+      "code": "164423",
+      "name": "Gaget Vanessa Marie",
+      "department": "Assistente",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "☕ Riposo",
+        "06:00 - 13:00",
+        "perm. sindacale",
+        "perm. sindacale",
+        "06:00 - 13:00",
+        "06:00 - 13:00",
+        "06:00 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 28,
+        "shifts": 7
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164380-1767939909913-6",
+      "code": "164380",
+      "name": "Lundang Krishna",
+      "department": "Assistente",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 7
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-92879-1767939909913-7",
+      "code": "92879",
+      "name": "Luvarà Luca",
+      "department": "Assistente",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "Permesso"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 32.5,
+        "shifts": 7
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164396-1767939909913-8",
+      "code": "164396",
+      "name": "Navarro Jhoseline",
+      "department": "Assistente",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 7
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164424-1767939909913-9",
+      "code": "164424",
+      "name": "Neagoe Mihaela Alexandra",
+      "department": "Assistente",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        1,
+        2,
+        3
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "06:00 - 13:00",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "☕ Riposo"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 44.5,
+        "shifts": 7
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164413-1767939909913-11",
+      "code": "164413",
+      "name": "Santos Ventura",
+      "department": "Assistente",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "Riposo",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30",
+        "09:00 - 16:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 45,
+        "shifts": 7
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-173657-1767939909913-12",
+      "code": "173657",
+      "name": "Simeone Matias",
+      "department": "Assistente",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "schedule": [
+        "☕ Riposo",
+        "corso",
+        "corso",
+        "Ferie",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 19.5,
+        "shifts": 7
+      },
+      "lastShift": "13:00 - 20:00"
+    }
+  ],
+  "config": {
+    "currentWeek": "2026-W07",
+    "holidays": [],
+    "timeSlots": [
+      "00:00 - 06:30",
+      "06:00 - 13:00",
+      "09:00 - 16:30",
+      "13:00 - 20:00",
+      "17:00 - 00:00"
+    ],
+    "customStates": [
+      "visita medica",
+      "perm. sindacale",
+      "corso"
+    ],
+    "departmentRotations": {
+      "Assistente|Affiancamento": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5"
+      ],
+      "Assistente|affiancamento": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5"
+      ]
+    },
+    "distributionPerShift": [],
+    "rotationOffset": 2
+  },
+  "metadata": {
+    "exportDate": "2026-02-03T09:36:24.960Z",
+    "version": "2.1",
+    "employeeCount": 13,
+    "timeSlotsCount": 5,
+    "customStatesCount": 3
+  }
+}

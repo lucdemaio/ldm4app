@@ -1,0 +1,97 @@
+{
+  "titolo": "RICEVITORI",
+  "fasce": [
+    "00:30",
+    "05:00",
+    "12:00",
+    "18:00"
+  ],
+  "fasceCustom": [],
+  "settimana": "2026-W01",
+  "ultimaRotazione": {},
+  "statiOperativi": [
+    "Riposo",
+    "Magazzino",
+    "Ufficio",
+    "Ferie",
+    "Congedo"
+  ],
+  "gruppoRotazioni": {
+    "Ricevitori/solo notte": "T1"
+  },
+  "assenze": {},
+  "personale": [
+    {
+      "codice": "164326",
+      "nome": "Abad Ramil",
+      "mansione": "Ricevitori",
+      "sottogruppo": "",
+      "ore": "37.5",
+      "turni": [
+        "Riposo",
+        "18:00 - 0:15",
+        "18:00 - 0:15",
+        "18:00 - 0:15",
+        "18:00 - 0:15",
+        "18:00 - 0:15",
+        "18:00 - 0:15"
+      ],
+      "idRiga": "persona-164326-abad-ramil",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164401",
+      "nome": "Panganiban Jhon Jhon",
+      "mansione": "Ricevitori",
+      "sottogruppo": "",
+      "ore": "37.5",
+      "turni": [
+        "18:00 - 0:15",
+        "18:00 - 0:15",
+        "18:00 - 0:15",
+        "18:00 - 0:15",
+        "Riposo",
+        "18:00 - 0:15",
+        "18:00 - 0:15"
+      ],
+      "idRiga": "persona-164401-panganiban-jhon-jhon",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164365",
+      "nome": "Khan Riaz",
+      "mansione": "Ricevitori",
+      "sottogruppo": "",
+      "ore": "40",
+      "turni": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "idRiga": "persona-164365-khan-riaz",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164419",
+      "nome": "Trinidad Edwin",
+      "mansione": "Ricevitori",
+      "sottogruppo": "solo notte",
+      "ore": "37.5",
+      "turni": [
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "Riposo",
+        "00:30 - 6:45"
+      ],
+      "idRiga": "persona-164419-trinidad-edwin",
+      "genere": "Uomo"
+    }
+  ]
+}

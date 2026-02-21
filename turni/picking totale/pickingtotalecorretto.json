@@ -1,0 +1,1028 @@
+{
+  "titolo": "PiCKING 1",
+  "fasce": [
+    "00:30",
+    "06:00",
+    "09:00",
+    "15:00"
+  ],
+  "fasceCustom": [],
+  "settimana": "2026-W02",
+  "ultimaRotazione": {
+    "164367": "00:30 - 7:10",
+    "164394": "09:00 - 15:15",
+    "164402": "15:00 - 21:15",
+    "164404": "00:30 - 6:45",
+    "171579": "00:30 - 7:10",
+    "171587": "00:30 - 7:10",
+    "177069": "09:00 - 15:40",
+    "177072": "06:00 - 12:40",
+    "180008": "00:30 - 7:10",
+    "180088": "00:30 - 7:10",
+    "180471": "00:30 - 7:10",
+    "180667": "00:30 - 7:10",
+    "180668": "15:00 - 21:40",
+    "180671": "00:30 - 7:10",
+    "181146": "00:30 - 7:10"
+  },
+  "statiOperativi": [
+    "Riposo",
+    "Magazzino",
+    "Ufficio",
+    "Ferie"
+  ],
+  "gruppoRotazioni": {},
+  "assenze": {},
+  "personale": [
+    {
+      "codice": "164339",
+      "nome": "Adou Agnini Bra",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164339-adou-agnini-bra",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "179737",
+      "nome": "Alongi Sofia",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-179737-alongi-sofia",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164394",
+      "nome": "Angulo Romina Fabiana",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "31.15",
+      "turni": [
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "Riposo",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "Riposo"
+      ],
+      "idRiga": "persona-164394-angulo-romina-fabiana",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164389",
+      "nome": "Aouane Brahim",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164389-aouane-brahim",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180088",
+      "nome": "Arizzi Roberto",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "Riposo",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-180088-arizzi-roberto",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "181146",
+      "nome": "Auletta Crescenzo",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "Riposo"
+      ],
+      "idRiga": "persona-181146-auletta-crescenzo",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180466",
+      "nome": "Barzaghi Yulia",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180466-barzaghi-yulia",
+      "genere": "Donna"
+    },
+    {
+      "codice": "180317",
+      "nome": "Boland Matteo",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180317-boland-matteo",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180668",
+      "nome": "Calcagno Arianna",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "15:00 - 21:40",
+        "15:00 - 21:40",
+        "15:00 - 21:40",
+        "Riposo",
+        "15:00 - 21:40",
+        "15:00 - 21:40",
+        "15:00 - 21:40"
+      ],
+      "idRiga": "persona-180668-calcagno-arianna",
+      "genere": "Donna"
+    },
+    {
+      "codice": "180671",
+      "nome": "Camozzi Elisa",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "Riposo",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-180671-camozzi-elisa",
+      "genere": "Donna"
+    },
+    {
+      "codice": "177771",
+      "nome": "Cisse Mame Diarra",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-177771-cisse-mame-diarra",
+      "genere": "Donna"
+    },
+    {
+      "codice": "180672",
+      "nome": "Compaore Moussa",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180672-compaore-moussa",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "171714",
+      "nome": "Cortesi Arianna",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-171714-cortesi-arianna",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164336",
+      "nome": "Cosme Valencia Johan",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "31.15",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164336-cosme-valencia-johan",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164348",
+      "nome": "David Marielen",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164348-david-marielen",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164254",
+      "nome": "De Ocampo Perry John",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "33.20",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164254-de-ocampo-perry-john",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164349",
+      "nome": "Devi Neelam",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164349-devi-neelam",
+      "genere": "Donna"
+    },
+    {
+      "codice": "171579",
+      "nome": "Di Frisco Salvatore",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "Riposo",
+        "00:30 - 7:10",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-171579-di-frisco-salvatore",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180935",
+      "nome": "Dipinto Simone",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180935-dipinto-simone",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180936",
+      "nome": "Draghi Marco",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180936-draghi-marco",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180929",
+      "nome": "Ehis Kelvin",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180929-ehis-kelvin",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "179320",
+      "nome": "Esposito Andrea",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-179320-esposito-andrea",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164352",
+      "nome": "Fandarac Mitica",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164352-fandarac-mitica",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164353",
+      "nome": "Ferjani Najwa",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164353-ferjani-najwa",
+      "genere": "Donna"
+    },
+    {
+      "codice": "177069",
+      "nome": "Guerini Roberto",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "09:00 - 15:40",
+        "Riposo",
+        "09:00 - 15:40",
+        "09:00 - 15:40",
+        "09:00 - 15:40",
+        "09:00 - 15:40",
+        "09:00 - 15:40"
+      ],
+      "idRiga": "persona-177069-guerini-roberto",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164367",
+      "nome": "Kakadje Chiadon Raymonde",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "33.20",
+      "turni": [
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "Riposo",
+        "Riposo",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-164367-kakadje-chiadon-raymonde",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164340",
+      "nome": "Kaur Jaswinder",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164340-kaur-jaswinder",
+      "genere": "Donna"
+    },
+    {
+      "codice": "180008",
+      "nome": "Matarangolo Antonio",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "Riposo"
+      ],
+      "idRiga": "persona-180008-matarangolo-antonio",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180477",
+      "nome": "Mieniailova Mariia",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180477-mieniailova-mariia",
+      "genere": "Donna"
+    },
+    {
+      "codice": "171587",
+      "nome": "Mihai Alexandru Constantin",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "Riposo",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-171587-mihai-alexandru-constantin",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "181272",
+      "nome": "Nascimento De Olivera Daniel",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-181272-nascimento-de-olivera-daniel",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164342",
+      "nome": "Ododi Hortense",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "33.20",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164342-ododi-hortense",
+      "genere": "Donna"
+    },
+    {
+      "codice": "180669",
+      "nome": "Okyere Rosemond",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180669-okyere-rosemond",
+      "genere": "Donna"
+    },
+    {
+      "codice": "181145",
+      "nome": "Olivotto Mirko",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-181145-olivotto-mirko",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164392",
+      "nome": "Ondua Josephine Ruphine",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164392-ondua-josephine-ruphine",
+      "genere": "Donna"
+    },
+    {
+      "codice": "171532",
+      "nome": "Osarunmwense Joy",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "33.20",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-171532-osarunmwense-joy",
+      "genere": "Donna"
+    },
+    {
+      "codice": "172144",
+      "nome": "Panganiban Adonna",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "33.20",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-172144-panganiban-adonna",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164402",
+      "nome": "Penheiro Angela",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "31.15",
+      "turni": [
+        "Riposo",
+        "15:00 - 21:15",
+        "15:00 - 21:15",
+        "Riposo",
+        "15:00 - 21:15",
+        "15:00 - 21:15",
+        "15:00 - 21:15"
+      ],
+      "idRiga": "persona-164402-penheiro-angela",
+      "genere": "Donna"
+    },
+    {
+      "codice": "179023",
+      "nome": "Porta Naar Giuliano",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-179023-porta-naar-giuliano",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164404",
+      "nome": "Pozzi Ilaria",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "37.5",
+      "turni": [
+        "Riposo",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45"
+      ],
+      "idRiga": "persona-164404-pozzi-ilaria",
+      "genere": "Donna"
+    },
+    {
+      "codice": "176999",
+      "nome": "Prokh Antonina",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-176999-prokh-antonina",
+      "genere": "Donna"
+    },
+    {
+      "codice": "180471",
+      "nome": "Pulvirenti Cristina",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "Riposo",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-180471-pulvirenti-cristina",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164407",
+      "nome": "Rani Reena",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164407-rani-reena",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164405",
+      "nome": "Romeo Livia",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "31.15",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164405-romeo-livia",
+      "genere": "Donna"
+    },
+    {
+      "codice": "179452",
+      "nome": "Ronzoni Alessandro",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-179452-ronzoni-alessandro",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180662",
+      "nome": "Rota Stephanie",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "33.20",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180662-rota-stephanie",
+      "genere": "Donna"
+    },
+    {
+      "codice": "164412",
+      "nome": "Sangapala Arachchige Don",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "33.20",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164412-sangapala-arachchige-don",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180933",
+      "nome": "Sarjo Famara",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180933-sarjo-famara",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "171537",
+      "nome": "Serwaa Maame Ama",
+      "mansione": "Picking",
+      "sottogruppo": "3",
+      "ore": "33.20",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-171537-serwaa-maame-ama",
+      "genere": "Donna"
+    },
+    {
+      "codice": "180663",
+      "nome": "Sorrentino Mario",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-180663-sorrentino-mario",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164416",
+      "nome": "Sylla Hakourou",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164416-sylla-hakourou",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164454",
+      "nome": "Tua Stefano",
+      "mansione": "Picking",
+      "sottogruppo": "2",
+      "ore": "37.5",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-164454-tua-stefano",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "180667",
+      "nome": "Uzama Dennis",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "Riposo",
+        "00:30 - 7:10",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-180667-uzama-dennis",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "177072",
+      "nome": "Villegas Moncada Fernandes",
+      "mansione": "Picking",
+      "sottogruppo": "1",
+      "ore": "40",
+      "turni": [
+        "06:00 - 12:40",
+        "06:00 - 12:40",
+        "06:00 - 12:40",
+        "06:00 - 12:40",
+        "Riposo",
+        "06:00 - 12:40",
+        "06:00 - 12:40"
+      ],
+      "idRiga": "persona-177072-villegas-moncada-fernandes",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "179144",
+      "nome": "Ziminiani Mattia",
+      "mansione": "Picking",
+      "sottogruppo": "4",
+      "ore": "40",
+      "turni": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "idRiga": "persona-179144-ziminiani-mattia",
+      "genere": "Uomo"
+    }
+  ]
+}

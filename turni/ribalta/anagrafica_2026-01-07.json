@@ -1,0 +1,115 @@
+{
+  "exportDate": "2026-01-07T11:40:30.978Z",
+  "version": "2.0",
+  "employeeCount": 18,
+  "employees": [
+    {
+      "code": "164344",
+      "name": "Adams Yaw Mustapha",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "172247",
+      "name": "Ait Moha Youssef",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "171837",
+      "name": "Akiwumi Daniel Papanii",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "164379",
+      "name": "Aliemeke Chuks",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "172254",
+      "name": "Bandaogo Ibrahim",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "180006",
+      "name": "Ceisvili Suliko",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "164346",
+      "name": "Daran Ifeanyi Robert",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "164340",
+      "name": "Debrah Moustapha",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "171798",
+      "name": "Diakite Fantamadi",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "176993",
+      "name": "F Tengbeh Mustapha",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "164388",
+      "name": "Imuetinyan Donald",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "171548",
+      "name": "Kamissoko Taoulè",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "177074",
+      "name": "Karim Matinu",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "164370",
+      "name": "Kings Henrino",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "164397",
+      "name": "Nwadozie Sunday",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "178912",
+      "name": "Tassetti Claudio",
+      "department": "Ribalta",
+      "subgroup": ""
+    },
+    {
+      "code": "164345",
+      "name": "Dramè Seckou",
+      "department": "Ribalta",
+      "subgroup": "solo 4 e 10"
+    },
+    {
+      "code": "164372",
+      "name": "Ikponmwosa Osawaru",
+      "department": "Ribalta",
+      "subgroup": "solo 4 e 10"
+    }
+  ]
+}

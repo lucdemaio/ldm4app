@@ -1,0 +1,128 @@
+{
+  "titolo": "Ribalta Picking",
+  "fasce": [
+    "00:30",
+    "09:00"
+  ],
+  "fasceCustom": [],
+  "settimana": "2026-W02",
+  "ultimaRotazione": {},
+  "statiOperativi": [
+    "Riposo",
+    "Magazzino",
+    "Ufficio",
+    "Ferie"
+  ],
+  "gruppoRotazioni": {},
+  "assenze": {},
+  "personale": [
+    {
+      "codice": "173644",
+      "nome": "Castagna David",
+      "mansione": "Ribalta Picking",
+      "sottogruppo": "",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "Riposo",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-173644-castagna-david",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164366",
+      "nome": "Ekhator Emmanuel",
+      "mansione": "Ribalta Picking",
+      "sottogruppo": "",
+      "ore": "37.5",
+      "turni": [
+        "09:00 - 15:15",
+        "Riposo",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15"
+      ],
+      "idRiga": "persona-164366-ekhator-emmanuel",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164361",
+      "nome": "Jimenez Gustavo",
+      "mansione": "Ribalta Picking",
+      "sottogruppo": "",
+      "ore": "40",
+      "turni": [
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "Riposo",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10",
+        "00:30 - 7:10"
+      ],
+      "idRiga": "persona-164361-jimenez-gustavo",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "166505",
+      "nome": "Kennedy Monday",
+      "mansione": "Ribalta Picking",
+      "sottogruppo": "",
+      "ore": "37.5",
+      "turni": [
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "00:30 - 6:45",
+        "Riposo",
+        "00:30 - 6:45",
+        "00:30 - 6:45"
+      ],
+      "idRiga": "persona-166505-kennedy-monday",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "164382",
+      "nome": "Madbor Anayet",
+      "mansione": "Ribalta Picking",
+      "sottogruppo": "",
+      "ore": "37.5",
+      "turni": [
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "Riposo",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15"
+      ],
+      "idRiga": "persona-164382-madbor-anayet",
+      "genere": "Uomo"
+    },
+    {
+      "codice": "166503",
+      "nome": "Ojo Timothy",
+      "mansione": "Ribalta Picking",
+      "sottogruppo": "",
+      "ore": "37.5",
+      "turni": [
+        "09:00 - 15:15",
+        "Riposo",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15",
+        "09:00 - 15:15"
+      ],
+      "idRiga": "persona-166503-ojo-timothy",
+      "genere": "Uomo"
+    }
+  ]
+}

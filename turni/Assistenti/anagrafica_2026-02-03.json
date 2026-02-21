@@ -1,0 +1,245 @@
+{
+  "exportDate": "2026-02-03T09:02:05.634Z",
+  "version": "2.0",
+  "employeeCount": 13,
+  "employees": [
+    {
+      "id": "emp-164422-1767939909913-0",
+      "code": "164422",
+      "name": "Baroni Manuela",
+      "department": "Freschi",
+      "subgroup": "",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-61601-1767939909913-1",
+      "code": "61601",
+      "name": "Costantino Stefano",
+      "department": "Assistente",
+      "subgroup": "",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "09:00 - 16:30"
+    },
+    {
+      "id": "emp-180267-1767939909913-2",
+      "code": "180267",
+      "name": "D'Ambrosio Antonio",
+      "department": "Assistente",
+      "subgroup": "",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "1770108189933",
+      "code": "179027",
+      "name": "Daescu David",
+      "department": "Assistente",
+      "subgroup": "",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-163846-1767939909913-3",
+      "code": "163846",
+      "name": "Diallo Mouhamed",
+      "department": "Freschi",
+      "subgroup": "",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-166502-1767939909913-4",
+      "code": "166502",
+      "name": "Flores Joe Marie",
+      "department": "Drogheria",
+      "subgroup": "",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-164423-1767939909913-5",
+      "code": "164423",
+      "name": "Gaget Vanessa Marie",
+      "department": "Drogheria",
+      "subgroup": "",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164380-1767939909913-6",
+      "code": "164380",
+      "name": "Lundang Krishna",
+      "department": "Freschi",
+      "subgroup": "",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-92879-1767939909913-7",
+      "code": "92879",
+      "name": "Luvarà Luca",
+      "department": "Assistente",
+      "subgroup": "No chiusura",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164396-1767939909913-8",
+      "code": "164396",
+      "name": "Navarro Jhoseline",
+      "department": "Drogheria",
+      "subgroup": "",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164424-1767939909913-9",
+      "code": "164424",
+      "name": "Neagoe Mihaela Alexandra",
+      "department": "Drogheria",
+      "subgroup": "",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        1,
+        2,
+        3
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164413-1767939909913-11",
+      "code": "164413",
+      "name": "Santos Ventura",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-173657-1767939909913-12",
+      "code": "173657",
+      "name": "Simeone Matias",
+      "department": "Assistente",
+      "subgroup": "",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "customStart": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "currentDepartmentIndex": 0,
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    }
+  ]
+}
