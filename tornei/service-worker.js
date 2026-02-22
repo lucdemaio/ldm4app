@@ -23,8 +23,20 @@ async function onInstall(event) {
     const assetsRequests = self.assetsManifest.assets
         .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
         .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
-        .map(asset => new Request(asset.url, { integrity: asset.hash, cache: 'no-cache' }));
-    await caches.open(cacheName).then(cache => cache.addAll(assetsRequests));
+        .map(asset => new Request(asset.url, { cache: 'no-cache' }));
+    
+    // Cache assets one by one, ignoring failures
+    const cache = await caches.open(cacheName);
+    for (const request of assetsRequests) {
+        try {
+            const response = await fetch(request);
+            if (response.ok) {
+                await cache.put(request, response);
+            }
+        } catch (e) {
+            console.warn('Failed to cache asset:', request.url, e);
+        }
+    }
 }
 
 async function onActivate(event) {
