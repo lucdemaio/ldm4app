@@ -36,30 +36,30 @@ function renderDashboard(container){
       <div class="app-card p-6 rounded-2xl glass-card col-span-2 lg:col-span-2 transition-all duration-300">
         <div class="flex items-start justify-between">
           <div>
-            <h2 class="text-2xl font-semibold text-slate-100">Dashboard Principale</h2>
-            <p class="text-sm text-slate-400 mt-1">Panoramica — moduli principali in stile Bento Grid e Glassmorphism.</p>
+            <h2 class="text-2xl font-semibold text-slate-800">Dashboard Principale</h2>
+            <p class="text-sm text-slate-600 mt-1">Panoramica — moduli principali in stile Bento Grid e Glassmorphism.</p>
           </div>
-          <div class="text-sm text-slate-400">Ultimo accesso: oggi</div>
+          <div class="text-sm text-slate-600">Ultimo accesso: oggi</div>
         </div>
 
 
 
         <div class="mt-6">
           <div class="p-4 rounded-2xl border border-[rgba(255,255,255,0.04)] bg-[rgba(255,255,255,0.02)] shadow-inset">
-            <div class="text-sm text-slate-300">Attività recenti</div>
-            <ul class="mt-3 text-xs text-slate-400 space-y-2">
-              <li>IA: spiegazione equazione differenziale — <span class="text-slate-200">Completata</span></li>
-              <li>Code Tutor: revisione snippet JS — <span class="text-slate-200">In attesa</span></li>
+            <div class="text-sm text-slate-700">Attività recenti</div>
+            <ul class="mt-3 text-xs text-slate-600 space-y-2">
+              <li>IA: spiegazione equazione differenziale — <span class="text-slate-700">Completata</span></li>
+              <li>Code Tutor: revisione snippet JS — <span class="text-slate-700">In attesa</span></li>
             </ul>
           </div>
         </div>
       </div>
 
       <aside class="app-card p-6 rounded-2xl glass-card col-span-2 lg:col-span-2 transition-all duration-300">
-        <h4 class="text-sm text-slate-300">Guida rapida — Google AI Studio</h4>
-        <div class="mt-3 text-sm text-slate-400">
+        <h4 class="text-sm text-slate-700">Guida rapida — Google AI Studio</h4>
+        <div class="mt-3 text-sm text-slate-600">
           <strong>Guida rapida (passaggi)</strong>
-          <ol class="mt-2 pl-4 list-decimal text-sm text-slate-400">
+          <ol class="mt-2 pl-4 list-decimal text-sm text-slate-600">
             <li>Apri <a href="https://aistudio.google.com/app/" target="_blank" rel="noopener noreferrer" class="underline text-neon-blue">Google AI Studio</a> e accedi con il tuo account Google (crea un account se non ne hai uno).</li>
             <li>Seleziona o crea un <strong>Project</strong> (in alto a sinistra / selettore progetto).</li>
             <li>Abilita l'API <em>Generative Language</em> dal pannello <em>APIs &amp; Services</em> (Library) se non è già attiva.</li>
@@ -67,7 +67,7 @@ function renderDashboard(container){
             <li>Copia la stringa della API Key (la incollerai in <strong>IA Tutor</strong> qui nell'app). Per test rimuovi temporaneamente le restrizioni; in produzione aggiungi restrizioni HTTP o IP e usa un proxy per non esporla lato client.</li>
             <li>Assicurati che il billing del progetto sia attivo (necessario per usare i modelli generativi).</li>
           </ol>
-          <div class="mt-3 text-xs text-slate-400">Dopo aver creato la chiave: torna su <strong>IA Tutor</strong>, incolla la key e premi <strong>Configura IA</strong>. Per la produzione raccomandiamo un proxy server per tenere la chiave al sicuro.</div>
+          <div class="mt-3 text-xs text-slate-600">Dopo aver creato la chiave: torna su <strong>IA Tutor</strong>, incolla la key e premi <strong>Configura IA</strong>. Per la produzione raccomandiamo un proxy server per tenere la chiave al sicuro.</div>
         </div>
         <div class="mt-4 grid grid-cols-1 gap-3">
           <a href="https://aistudio.google.com/app/" target="_blank" rel="noopener noreferrer" class="w-full inline-flex justify-center items-center px-3 py-2 rounded-xl bg-neon-blue text-black font-semibold transition-all duration-300 hover:brightness-105">Apri Google AI Studio</a>
@@ -89,14 +89,14 @@ function renderAiTutor(container){
       <div class="flex items-start justify-between gap-4">
         <div>
           <h2 class="text-2xl font-semibold">IA Tutor</h2>
-          <p class="text-sm text-slate-400 mt-1">Inserisci la tua Google Gemini API Key per abilitare il tutor.</p>
+          <p class="text-sm text-slate-600 mt-1">Inserisci la tua Google Gemini API Key per abilitare il tutor.</p>
         </div>
-        <div class="text-xs text-slate-300">Regole: LaTeX per matematica, codice commentato, Mermaid per schemi.</div>
+        <div class="text-xs text-slate-700">Regole: LaTeX per matematica, codice commentato, Mermaid per schemi.</div>
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1 p-4 rounded-xl bg-white/3">
-          <label class="block text-xs text-slate-300">Google Gemini API Key</label>
+          <label class="block text-xs text-slate-700">Google Gemini API Key</label>
           <input id="api-key-input" type="password" placeholder="Inserisci API Key" class="mt-2 input-glass w-full px-3 py-2 rounded-lg text-sm outline-none" />
 
           <div class="mt-3 flex gap-2 items-center">
@@ -106,18 +106,18 @@ function renderAiTutor(container){
           </div>
 
           <div class="mt-3">
-            <label class="block text-xs text-slate-300">Modello selezionato</label>
+            <label class="block text-xs text-slate-700">Modello selezionato</label>
             <div class="flex gap-2 items-center mt-2">
               <select id="model-select" class="input-glass px-3 py-2 rounded-lg text-sm w-full">
                 <option value="">(configura la key per caricare i modelli)</option>
               </select>
-              <button id="list-models-btn" class="ml-2 text-xs underline text-slate-400">Verifica modelli</button>
+              <button id="list-models-btn" class="ml-2 text-xs underline text-slate-600">Verifica modelli</button>
             </div>
-            <div class="mt-2 text-xs text-slate-400">Seleziona un modello disponibile (predefinito consigliato: <code>gemini-2.5-pro</code> se presente).</div>
+            <div class="mt-2 text-xs text-slate-600">Seleziona un modello disponibile (predefinito consigliato: <code>gemini-2.5-pro</code> se presente).</div>
           </div>
 
-          <div class="mt-4 text-xs text-slate-400"><strong>Come ottenere la API Key (breve guida)</strong>
-            <ol class="mt-2 pl-4 list-decimal text-xs text-slate-400">
+          <div class="mt-4 text-xs text-slate-600"><strong>Come ottenere la API Key (breve guida)</strong>
+            <ol class="mt-2 pl-4 list-decimal text-xs text-slate-600">
               <li>Apri <a href="https://aistudio.google.com/app/" target="_blank" rel="noopener noreferrer" class="underline">Google AI Studio</a> e accedi o crea un account Google.</li>
               <li>Seleziona/crea un progetto, abilita <em>Generative Language API</em> (Library).</li>
               <li>Vai in <strong>Credentials</strong> e clicca <em>Generate API keys</em> (o Create credentials → API key).</li>
@@ -225,21 +225,21 @@ function renderCodeTutor(container){
       <div class="flex items-start justify-between gap-4">
         <div>
           <h2 class="text-2xl font-semibold">Code Tutor — Scrivi & Spiega</h2>
-          <p class="text-sm text-slate-400 mt-1">Inserisci codice, scegli il linguaggio e chiedi una spiegazione dettagliata e commentata.</p>
+          <p class="text-sm text-slate-600 mt-1">Inserisci codice, scegli il linguaggio e chiedi una spiegazione dettagliata e commentata.</p>
         </div>
-        <div class="text-xs text-slate-300">Esempi disponibili: Python, JavaScript, HTML</div>
+        <div class="text-xs text-slate-700">Esempi disponibili: Python, JavaScript, HTML</div>
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1 p-4 rounded-xl bg-white/3">
-          <label class="block text-xs text-slate-300">Linguaggio</label>
+          <label class="block text-xs text-slate-700">Linguaggio</label>
           <select id="code-lang" class="mt-2 input-glass w-full px-3 py-2 rounded-lg text-sm outline-none">
             <option value="python">Python</option>
             <option value="javascript">JavaScript</option>
             <option value="html">HTML</option>
           </select>
 
-          <div class="mt-4 text-xs text-slate-300">Esempi rapidi</div>
+          <div class="mt-4 text-xs text-slate-700">Esempi rapidi</div>
           <div class="mt-3 flex flex-col gap-2">
             <button class="example-btn input-glass px-3 py-2 rounded-lg text-sm text-left" data-lang="python">Esempio Python — Fibonacci</button>
             <button class="example-btn input-glass px-3 py-2 rounded-lg text-sm text-left" data-lang="javascript">Esempio JS — Closure</button>
@@ -248,7 +248,7 @@ function renderCodeTutor(container){
 
           <div class="mt-6">
             <button id="explain-code-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg">Spiega il codice</button>
-            <div class="mt-2 text-xs text-slate-400">L'IA fornirà codice commentato, spiegazioni e una sezione "Concetti Fondamentali".</div>
+            <div class="mt-2 text-xs text-slate-600">L'IA fornirà codice commentato, spiegazioni e una sezione "Concetti Fondamentali".</div>
             <div class="mt-3 flex gap-2">
               <button id="export-code-pdf" class="input-glass px-3 py-1 rounded text-xs">Esporta PDF</button>
               <button id="poster-code-svg" class="input-glass px-3 py-1 rounded text-xs">Locandina (SVG)</button>
@@ -259,7 +259,7 @@ function renderCodeTutor(container){
         </div>
 
         <div class="lg:col-span-2 p-4 rounded-xl bg-white/3 flex flex-col">
-          <label class="block text-xs text-slate-300">Codice</label>
+          <label class="block text-xs text-slate-700">Codice</label>
           <textarea id="code-input" class="input-glass mt-2 w-full h-48 p-3 rounded-xl text-sm font-mono" placeholder="Incolla qui il codice da spiegare..."></textarea>
 
           <div class="mt-4 flex gap-3">
@@ -290,7 +290,7 @@ function renderCodeTutor(container){
     const prompt = `${instruction}\n\nCodice:\n\n${code}`;
 
     const outputEl = document.getElementById('explain-output');
-    outputEl.innerHTML = '<div class="text-sm text-slate-400">Sto interrogando il tutor IA…</div>';
+    outputEl.innerHTML = '<div class="text-sm text-slate-600">Sto interrogando il tutor IA…</div>';
     try{
       const resp = await chiediAiutoIA(prompt);
       // render response (supports mermaid/code fences/LaTeX via existing helpers)
@@ -343,14 +343,14 @@ function renderExcelTutor(container){
       <div class="flex items-start justify-between gap-4">
         <div>
           <h2 class="text-2xl font-semibold">Excel Tutor</h2>
-          <p class="text-sm text-slate-400 mt-1">Usa l'IA per scrivere formule, spiegare funzioni e trasformare CSV in tabelle Excel.</p>
+          <p class="text-sm text-slate-600 mt-1">Usa l'IA per scrivere formule, spiegare funzioni e trasformare CSV in tabelle Excel.</p>
         </div>
-        <div class="text-xs text-slate-400">Suggerimenti: incolla dati CSV, chiedi formule, ottieni spiegazioni passo‑passo.</div>
+        <div class="text-xs text-slate-600">Suggerimenti: incolla dati CSV, chiedi formule, ottieni spiegazioni passo‑passo.</div>
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1 p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.03)]">
-          <label class="block text-xs text-slate-300">Esempi rapidi</label>
+          <label class="block text-xs text-slate-700">Esempi rapidi</label>
           <div class="mt-3 flex flex-col gap-2">
             <button class="excel-example input-glass px-3 py-2 rounded-lg text-sm text-left" data-sample="sum">Formula SUM / range</button>
             <button class="excel-example input-glass px-3 py-2 rounded-lg text-sm text-left" data-sample="vlookup">Esempio VLOOKUP</button>
@@ -358,19 +358,19 @@ function renderExcelTutor(container){
           </div>
 
           <div class="mt-4">
-            <label class="block text-xs text-slate-300">Carica CSV (opzionale)</label>
+            <label class="block text-xs text-slate-700">Carica CSV (opzionale)</label>
             <input id="excel-csv-file" type="file" accept=".csv,text/csv" class="mt-2 text-xs" />
             <button id="preview-csv" class="mt-3 w-full bg-cyber-purple text-white px-3 py-2 rounded-lg">Anteprima CSV</button>
           </div>
 
           <div class="mt-4">
             <button id="explain-excel-btn" class="w-full bg-neon-blue text-black px-3 py-2 rounded-lg">Spiega / Genera Formula</button>
-            <div class="mt-2 text-xs text-slate-400">L'IA produrrà la formula richiesta, una spiegazione passo‑passo e una sezione "Concetti Fondamentali".</div>
+            <div class="mt-2 text-xs text-slate-600">L'IA produrrà la formula richiesta, una spiegazione passo‑passo e una sezione "Concetti Fondamentali".</div>
           </div>
         </div>
 
         <div class="lg:col-span-2 p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.03)] flex flex-col" style="min-height:320px;">
-          <label class="block text-xs text-slate-300">Dati / Richiesta</label>
+          <label class="block text-xs text-slate-700">Dati / Richiesta</label>
           <textarea id="excel-input" class="input-glass mt-2 w-full h-40 p-3 rounded-xl text-sm font-mono" placeholder="Incolla CSV o descrivi il problema (es. 'calcola somma condizionale per colonna B')"></textarea>
 
           <div class="mt-3 flex gap-3">
@@ -378,13 +378,13 @@ function renderExcelTutor(container){
             <button id="clear-excel" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-xl">Pulisci</button>
           </div>
 
-          <div id="excel-preview" class="mt-4 overflow-auto p-3 rounded-xl bg-[rgba(0,0,0,0.15)] text-xs text-slate-300" style="max-height:220px"></div>
+          <div id="excel-preview" class="mt-4 overflow-auto p-3 rounded-xl bg-[rgba(0,0,0,0.15)] text-xs text-slate-700" style="max-height:220px"></div>
         </div>
       </div>
 
       <div class="mt-6 app-card p-4 rounded-2xl bg-[rgba(255,255,255,0.01)] border border-[rgba(255,255,255,0.03)]">
         <div class="flex items-center justify-between">
-          <h4 class="text-sm text-slate-300">Risposta IA</h4>
+          <h4 class="text-sm text-slate-700">Risposta IA</h4>
           <div class="flex gap-2 text-xs">
             <button id="export-excel-pdf" class="input-glass px-3 py-1 rounded">Esporta PDF</button>
             <button id="poster-excel-svg" class="input-glass px-3 py-1 rounded">Locandina (SVG)</button>
@@ -434,7 +434,7 @@ function renderExcelTutor(container){
     const prompt = `${instruction}\n\nRichiesta utente:\n${text}`;
 
     const out = document.getElementById('excel-output');
-    out.innerHTML = '<div class="text-sm text-slate-400">Interrogando il tutor IA…</div>';
+    out.innerHTML = '<div class="text-sm text-slate-600">Interrogando il tutor IA…</div>';
     try{
       const resp = await chiediAiutoIA(prompt);
       out.innerHTML = renderTextAsHtml(resp);
@@ -469,10 +469,10 @@ function renderExcelTutor(container){
 function csvToHtmlTable(csv){
   try{
     const rows = csv.trim().split('\n').map(r=>r.split(','));
-    let html = '<div class="overflow-auto"><table class="w-full text-xs"><thead><tr class="text-slate-300">';
+    let html = '<div class="overflow-auto"><table class="w-full text-xs"><thead><tr class="text-slate-700">';
     rows[0].forEach(h=> html += `<th class="px-2 py-1 text-left">${escapeHtml(h)}</th>`);
     html += '</tr></thead><tbody>';
-    rows.slice(1).forEach(r=>{ html += '<tr class="text-slate-400">'; r.forEach(c=> html += `<td class="px-2 py-1">${escapeHtml(c)}</td>`); html += '</tr>'; });
+    rows.slice(1).forEach(r=>{ html += '<tr class="text-slate-600">'; r.forEach(c=> html += `<td class="px-2 py-1">${escapeHtml(c)}</td>`); html += '</tr>'; });
     html += '</tbody></table></div>';
     return html;
   }catch(e){ return '<div class="text-xs text-red-400">Errore nella lettura del CSV</div>' }
@@ -845,14 +845,14 @@ function renderMatematica(container){
       <div class="flex items-start justify-between gap-4">
         <div>
           <h2 class="text-2xl font-semibold">Matematica — Calcoli & Formule</h2>
-          <p class="text-sm text-slate-400 mt-1">Inserisci un problema matematico o una formula; l'IA risponderà usando LaTeX e spiegazioni passo‑passo.</p>
+          <p class="text-sm text-slate-600 mt-1">Inserisci un problema matematico o una formula; l'IA risponderà usando LaTeX e spiegazioni passo‑passo.</p>
         </div>
-        <div class="text-xs text-slate-300">Usa LaTeX per le formule e troverai equazioni pronte da copiare.</div>
+        <div class="text-xs text-slate-700">Usa LaTeX per le formule e troverai equazioni pronte da copiare.</div>
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1 p-4 rounded-xl bg-white/3">
-          <label class="block text-xs text-slate-300">Richiesta (es. "Dimostra che..." o "Risolvere ∫ e^x / x dx")</label>
+          <label class="block text-xs text-slate-700">Richiesta (es. "Dimostra che..." o "Risolvere ∫ e^x / x dx")</label>
           <textarea id="math-input" class="input-glass mt-2 w-full h-36 p-3 rounded-lg text-sm" placeholder="Scrivi qui il problema matematico..."></textarea>
 
           <div class="mt-3 flex gap-2">
@@ -860,12 +860,12 @@ function renderMatematica(container){
             <button id="clear-math" class="ml-2 bg-red-600 text-white px-3 py-2 rounded-lg">Pulisci</button>
           </div>
 
-          <div class="mt-3 text-xs text-slate-400">L'IA userà LaTeX per formattare le formule e fornirà una spiegazione passo‑passo.</div>
+          <div class="mt-3 text-xs text-slate-600">L'IA userà LaTeX per formattare le formule e fornirà una spiegazione passo‑passo.</div>
         </div>
 
         <div class="lg:col-span-2 p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.03)] flex flex-col" style="min-height:280px;">
           <div class="flex items-center justify-between mb-3">
-            <div class="text-sm text-slate-300">Risposta IA</div>
+            <div class="text-sm text-slate-700">Risposta IA</div>
             <div class="flex gap-2 text-xs">
               <button id="export-math-pdf" class="input-glass px-3 py-1 rounded">Esporta PDF</button>
               <button id="poster-math-svg" class="input-glass px-3 py-1 rounded">Locandina (SVG)</button>
@@ -887,7 +887,7 @@ function renderMatematica(container){
     const out = document.getElementById('math-output');
     if(!prompt) return alert('Inserisci prima il problema o la formula.');
     if(!googleApiKey) return alert('Configura prima la Google Gemini API Key nel modulo IA Tutor.');
-    out.innerHTML = '<div class="text-sm text-slate-400">Sto interrogando il tutor IA…</div>';
+    out.innerHTML = '<div class="text-sm text-slate-600">Sto interrogando il tutor IA…</div>';
     try{
       const instruction = `Sei un tutor di matematica. Rispondi con spiegazioni chiare, usa LaTeX per tutte le formule, mostra i passaggi e termina con una sezione "Concetti Fondamentali".`;
       const resp = await chiediAiutoIA(instruction + '\n\n' + prompt);
@@ -921,14 +921,14 @@ function renderSintesi(container){
       <div class="flex items-start justify-between gap-4">
         <div>
           <h2 class="text-2xl font-semibold">Sintesi — Riassumi testi</h2>
-          <p class="text-sm text-slate-400 mt-1">Incolla un testo lungo e chiedi all'IA una sintesi in punti, un abstract o una versione per la scuola.</p>
+          <p class="text-sm text-slate-600 mt-1">Incolla un testo lungo e chiedi all'IA una sintesi in punti, un abstract o una versione per la scuola.</p>
         </div>
-        <div class="text-xs text-slate-300">Scegli il tipo di sintesi all'invio.</div>
+        <div class="text-xs text-slate-700">Scegli il tipo di sintesi all'invio.</div>
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1 p-4 rounded-xl bg-white/3">
-          <label class="block text-xs text-slate-300">Tipo di sintesi</label>
+          <label class="block text-xs text-slate-700">Tipo di sintesi</label>
           <select id="sintesi-mode" class="mt-2 input-glass w-full px-3 py-2 rounded-lg text-sm outline-none">
             <option value="short">Breve (3 punti)</option>
             <option value="detailed">Dettagliata</option>
@@ -937,7 +937,7 @@ function renderSintesi(container){
 
           <div class="mt-4">
             <button id="sintesi-send" class="w-full bg-neon-blue text-black px-3 py-2 rounded-lg">Genera sintesi</button>
-            <div class="mt-2 text-xs text-slate-400">L'IA produrrà la sintesi richiesta. Puoi poi esportarla o condividerla.</div>
+            <div class="mt-2 text-xs text-slate-600">L'IA produrrà la sintesi richiesta. Puoi poi esportarla o condividerla.</div>
             <div class="mt-3 flex gap-2">
               <button id="export-sintesi-pdf" class="input-glass px-3 py-1 rounded text-xs">Esporta PDF</button>
               <button id="poster-sintesi-svg" class="input-glass px-3 py-1 rounded text-xs">Locandina (SVG)</button>
@@ -948,7 +948,7 @@ function renderSintesi(container){
         </div>
 
         <div class="lg:col-span-2 p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.03)] flex flex-col" style="min-height:280px;">
-          <label class="block text-xs text-slate-300">Testo da sintetizzare</label>
+          <label class="block text-xs text-slate-700">Testo da sintetizzare</label>
           <textarea id="sintesi-input" class="input-glass mt-2 w-full h-48 p-3 rounded-xl text-sm" placeholder="Incolla qui il testo lungo..."></textarea>
           <div id="sintesi-output" class="mt-4 overflow-auto p-3 rounded-xl bg-black/20 text-xs" style="max-height:300px"></div>
         </div>
@@ -964,7 +964,7 @@ function renderSintesi(container){
     const out = document.getElementById('sintesi-output');
     if(!txt) return alert('Incolla prima il testo da sintetizzare.');
     if(!googleApiKey) return alert('Configura prima la Google Gemini API Key nel modulo IA Tutor.');
-    out.innerHTML = '<div class="text-sm text-slate-400">Sto interrogando il tutor IA…</div>';
+    out.innerHTML = '<div class="text-sm text-slate-600">Sto interrogando il tutor IA…</div>';
     try{
       const instruction = mode === 'short' ? 'Fornisci una sintesi in 3 punti chiari.' : (mode === 'school' ? 'Scrivi una versione sintetica adatta a studenti.' : 'Fornisci una sintesi dettagliata, evidenziando i punti chiave.');
       const resp = await chiediAiutoIA(instruction + '\n\n' + txt);
@@ -989,26 +989,26 @@ function renderSchemi(container){
       <div class="flex items-start justify-between gap-4">
         <div>
           <h2 class="text-2xl font-semibold">Schemi — Genera diagrammi (Mermaid)</h2>
-          <p class="text-sm text-slate-400 mt-1">Chiedi all'IA di generare uno schema; l'output in Mermaid verrà renderizzato e potrai scaricarlo.</p>
+          <p class="text-sm text-slate-600 mt-1">Chiedi all'IA di generare uno schema; l'output in Mermaid verrà renderizzato e potrai scaricarlo.</p>
         </div>
-        <div class="text-xs text-slate-400">Suggerimento: chiedi "Genera un diagramma mermaid che mostri..."</div>
+        <div class="text-xs text-slate-600">Suggerimento: chiedi "Genera un diagramma mermaid che mostri..."</div>
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-1 p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.03)]">
-          <label class="block text-xs text-slate-300">Prompt per IA</label>
+          <label class="block text-xs text-slate-700">Prompt per IA</label>
           <textarea id="schemi-prompt" class="input-glass mt-2 w-full h-36 p-3 rounded-lg text-sm" placeholder="Esempio: 'Genera un diagramma mermaid che mostra i principali componenti di un circuito elettrico e le loro connessioni'" ></textarea>
           <div class="mt-3 flex gap-2">
             <button id="generate-schema-btn" class="flex-1 bg-neon-blue text-black px-3 py-2 rounded-lg">Genera con IA</button>
             <button id="render-local-btn" class="ml-2 bg-emerald-500 text-white px-3 py-2 rounded-lg">Render locale</button>
           </div>
 
-          <div class="mt-3 text-xs text-slate-400">L'IA cercherà di rispondere con un blocco \`\`\`mermaid\`\`\` contenente solo il diagramma. In mancanza di blocco, cercheremo parole chiave.</div>
+          <div class="mt-3 text-xs text-slate-600">L'IA cercherà di rispondere con un blocco \`\`\`mermaid\`\`\` contenente solo il diagramma. In mancanza di blocco, cercheremo parole chiave.</div>
         </div>
 
         <div class="lg:col-span-2 p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.03)] flex flex-col" style="min-height:320px;">
           <div class="flex items-center justify-between mb-3">
-            <div class="text-sm text-slate-300">Anteprima schema</div>
+            <div class="text-sm text-slate-700">Anteprima schema</div>
             <div class="flex gap-2 text-xs">
               <button id="copy-mermaid" class="input-glass px-3 py-1 rounded">Copia Mermaid</button>
               <button id="download-svg" class="input-glass px-3 py-1 rounded">Scarica SVG</button>
@@ -1081,7 +1081,7 @@ function renderSchemi(container){
     const fullPrompt = `${instruction}\n\nPrompt utente: ${prompt}`;
 
     const out = document.getElementById('schema-output');
-    out.innerHTML = '<div class="text-xs text-slate-400">Interrogando l\'IA per generare Mermaid…</div>';
+    out.innerHTML = '<div class="text-xs text-slate-600">Interrogando l\'IA per generare Mermaid…</div>';
     try{
       const resp = await chiediAiutoIA(fullPrompt);
       // insert raw response and extract mermaid
