@@ -166,6 +166,11 @@
                 <i data-lucide="bar-chart-2"></i>
                 <span data-i18n="Report">Report</span>
             </button>
+
+            <button class="nav-btn nav-item" onclick="showView('ai')">
+                <i data-lucide="cpu"></i>
+                <span>🤖 AI Trainer</span>
+            </button>
         </nav>
 
         <!-- User Actions -->
@@ -547,6 +552,25 @@
             </div>
         </section>
 
+        <!-- Sezione AI Trainer -->
+        <section id="ai-section" class="app-section">
+            <div class="section-header">
+                <h2>🤖 AI Soccer Trainer</h2>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="background: #f5f5f5; border-radius: 8px; padding: 15px; max-height: 400px; overflow-y: auto; border: 1px solid #ddd;">
+                    <div id="soccer-ai-chat-log" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="color: #666; font-size: 12px; text-align: center;">Apri la chat per ricevere suggerimenti dall'IA</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="soccer-ai-input" placeholder="Chiedi suggerimenti all'IA (formazione, atleti, statistiche...)" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    <button id="soccer-ai-send" onclick="if(typeof SoccerAI!=='undefined'&&typeof SoccerAI.sendMessage==='function'){SoccerAI.sendMessage();}" style="padding: 10px 20px; background: #1e40af; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Invia</button>
+                </div>
+                <div id="soccer-ai-status" style="font-size: 12px; color: #666; text-align: center; min-height: 20px;"></div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Bottom Navigation Bar -->
@@ -666,6 +690,7 @@
     <script src="assets/js/modern-navbar.js" defer></script>
     <script src="assets/js/navbar-fixes.js" defer></script>
     <script src="assets/js/calendar.js?v=20260204" defer></script>
+    <script src="assets/js/ai-soccer.js" defer></script>
     <script src="assets/js/ui.js" defer></script>
     <script src="assets/js/app.js" defer></script>
     <!-- Script per registrazione SW locale su /soccer/ e utility site -->
