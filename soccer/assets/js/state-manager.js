@@ -535,5 +535,7 @@ class StateManager {
     }
 }
 
-// Istanza globale
+// Istanza globale - DEVE essere su window per essere accessibile agli script inline
 const appState = new StateManager();
+window.appState = appState;  // ✅ RENDI DISPONIBILE GLOBALMENTE
+console.log('✅ appState esposto globalmente:', window.appState);
