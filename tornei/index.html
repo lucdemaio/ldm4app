@@ -27,12 +27,6 @@
         <div class="loading-progress-text"></div>
     </div>
 
-    <script>
-      console.log('=== TORNEI APP LOADING ===');
-      console.log('[Index] Current URL:', window.location.href);
-      console.log('[Index] Base href:', document.querySelector('base')?.getAttribute('href'));
-    </script>
-
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
@@ -320,64 +314,62 @@
     </div>
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-    <script>
-      console.log('=== Blazor.webassembly.js ABOUT TO LOAD ===');
-    </script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
-      console.log('=== Blazor.webassembly.js LOADED ===');
-      // Blazor auto-starts when the script loads - do not call Blazor.start() manually
-      console.log('[Blazor] ✓ Auto-initialization in progress...');
+      if('serviceWorker' in navigator){
+        (async ()=>{
+          try{
+            // In development (localhost / 127.*) avoid registering the SW to prevent stale caches from blocking debugging.
+            const host = location.hostname;
+            if(host === 'localhost' || host.startsWith('127.') || host === '::1'){
+              console.log('Skipping Service Worker registration on local host for debug');
+              // Also unregister any existing SWs for cleanliness
+              const regs = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(regs.map(r => r.unregister()));
+              return;
+            }
+
+            const base = document.querySelector('base')?.getAttribute('href') || '/';
+            // Only register when current path is within base
+            if(location.pathname.startsWith(base)){
+              await navigator.serviceWorker.register('service-worker.js');
+              console.log('Service worker registered for base', base);
+            } else {
+              // Unregister SWs that don't match the base (avoid cross-scope intercept)
+              const regs = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(regs.map(r => {
+                if(r.scope && !r.scope.startsWith(location.origin + base)){
+                  console.log('Unregistering SW with scope', r.scope);
+                  return r.unregister();
+                }
+                return Promise.resolve(true);
+              }));
+            }
+          }catch(e){ console.warn('SW registration check failed', e); }
+        })();
+      }
     </script>
-    
+
     <!-- SPA Redirect Handler: restore the original URL after Blazor loads -->
     <script>
-      console.log('=== index.html SPA Redirect Handler LOADED ===');
-      
       (function(){
-        console.log('[SPA] Checking localStorage for redirect...');
-        
         var redirectPath = localStorage.getItem('spa-redirect-path');
         var redirectTime = localStorage.getItem('spa-redirect-time');
         
-        console.log('[SPA] redirectPath:', redirectPath);
-        console.log('[SPA] redirectTime:', redirectTime);
+        // Clear immediately to prevent infinite loops
+        localStorage.removeItem('spa-redirect-path');
+        localStorage.removeItem('spa-redirect-time');
         
         if(redirectPath && redirectTime){
-          console.log('[SPA] ✓ Found redirect data in localStorage');
-          
-          // Clear immediately to prevent loops
-          localStorage.removeItem('spa-redirect-path');
-          localStorage.removeItem('spa-redirect-time');
-          console.log('[SPA] ✓ Cleared localStorage');
-          
-          // Verify redirect is recent (not older than 30 seconds) to allow time for Blazor to load online
           var age = Date.now() - parseInt(redirectTime);
-          console.log('[SPA] Age of redirect:', age, 'ms (max: 30000ms)');
-          
+          // Only apply redirect if it's recent (within 30 seconds)
           if(age < 30000){
-            console.log('[SPA] ✓ Redirect is recent enough');
-            
-            // Don't apply redirect if this is the home page (avoid interfering with dashboard)
-            var isHomePage = redirectPath === '/tornei/' || redirectPath === '/tornei/index.html';
-            
-            if(!isHomePage){
-              console.log('[SPA] ✓ NOT home page - applying redirect to:', redirectPath);
-              // Use history.replaceState to change the URL without navigation
-              // This makes Blazor's router see the original path
+            // Don't redirect if we're already at home page
+            if(redirectPath !== '/tornei/' && redirectPath !== '/tornei/index.html' && redirectPath !== '/tornei'){
               window.history.replaceState(null, '', redirectPath);
-              console.log('[SPA] ✓ URL changed in browser history');
-            } else {
-              console.log('[SPA] ✗ Home page detected - skipping redirect');
             }
-          } else {
-            console.log('[SPA] ✗ Redirect too old (', age, 'ms) - discarding');
           }
-        } else {
-          console.log('[SPA] ✗ No redirect data found in localStorage');
         }
-        
-        console.log('[SPA] Current URL:', location.pathname);
       })();
     </script>
 </body>
