@@ -22,6 +22,7 @@
     console.log('[404 Handler] Redirecting to index.html. Original path:', fullPath);
     
     // Save the original request so index.html can navigate to it
+    // Increased timeout to 30 seconds to account for Blazor loading time and network latency
     localStorage.setItem('spa-redirect-path', fullPath);
     localStorage.setItem('spa-redirect-time', Date.now());
     

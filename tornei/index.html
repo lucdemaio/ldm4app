@@ -361,9 +361,9 @@
           localStorage.removeItem('spa-redirect-path');
           localStorage.removeItem('spa-redirect-time');
           
-          // Verify redirect is recent (not older than 10 seconds)
+          // Verify redirect is recent (not older than 30 seconds) to allow time for Blazor to load online
           var age = Date.now() - parseInt(redirectTime);
-          if(age < 10000){
+          if(age < 30000){
             // Don't apply redirect if this is the home page (avoid interfering with dashboard)
             var isHomePage = redirectPath === '/tornei/' || redirectPath === '/tornei/index.html';
             
