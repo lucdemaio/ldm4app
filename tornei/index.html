@@ -319,13 +319,23 @@
       if('serviceWorker' in navigator){
         (async ()=>{
           try{
+            const isLocalhost = location.hostname === 'localhost' || location.hostname.startsWith('127.');
+            
+            // On localhost, unregister any SWs to avoid cache issues
+            if(isLocalhost){
+              const regs = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(regs.map(r => r.unregister()));
+              console.log('Service Worker disabled on localhost');
+              return;
+            }
+            
+            // On production (GitHub Pages), register Service Worker
             const base = document.querySelector('base')?.getAttribute('href') || '/';
-            // Register Service Worker for all environments (including localhost)
             if(location.pathname.startsWith(base)){
               await navigator.serviceWorker.register('service-worker.js');
               console.log('Service worker registered for base', base);
             }
-          }catch(e){ console.warn('SW registration failed:', e); }
+          }catch(e){ console.warn('SW registration check failed:', e); }
         })();
       }
     </script>
