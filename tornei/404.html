@@ -1,22 +1,21 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>Page not found</title>
+<title>Redirecting...</title>
 <script>
-  // GitHub Pages / static host SPA fallback for /tornei/*
-  (function(){
-    try{
-      var path = location.pathname + location.search + location.hash;
-      // If request was for a SPA path under /tornei/, redirect to the app root with original path encoded
-      if(path.startsWith('/tornei/')){
-        location.replace('/tornei/?p=' + encodeURIComponent(path));
-      }else{
-        // fallback: go to site root
-        location.replace('/');
-      }
-    }catch(e){
-      // If anything fails, go to root
-      location.replace('/');
-    }
-  })();
+  // GitHub Pages SPA fallback for Blazor WebAssembly
+  // When a non-existent route is accessed, save it and redirect to index.html
+  // index.html will then navigate Blazor to the requested route
+  
+  var path = location.pathname;
+  var hash = location.hash;
+  var search = location.search;
+  
+  if(path.startsWith('/tornei/') && path !== '/tornei/index.html' && path !== '/tornei/'){
+    // Save the original request to localStorage so index.html can navigate to it
+    localStorage.setItem('spa-redirect-path', path + search + hash);
+    localStorage.setItem('spa-redirect-time', Date.now());
+    // Redirect to index.html
+    location.replace('/tornei/index.html' + search + hash);
+  }
 </script>
-<body>If you are not redirected automatically, <a href="/tornei/">click here to open the app</a>.</body>
+<body>Redirecting...</body>

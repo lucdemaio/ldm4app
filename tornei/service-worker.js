@@ -24,7 +24,26 @@ async function onInstall(event) {
         .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
         .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
         .map(asset => new Request(asset.url, { cache: 'no-cache' }));
-    await caches.open(cacheName).then(cache => cache.addAll(assetsRequests));
+    
+    try {
+        const cache = await caches.open(cacheName);
+        // Add assets one by one with error handling instead of using addAll
+        for (const request of assetsRequests) {
+            try {
+                const response = await fetch(request);
+                if (response.ok) {
+                    await cache.put(request, response);
+                } else {
+                    console.warn(`Failed to cache ${request.url}: ${response.status}`);
+                }
+            } catch (err) {
+                console.warn(`Error caching ${request.url}:`, err);
+                // Continue with other assets even if one fails
+            }
+        }
+    } catch (err) {
+        console.error('Error during service worker install:', err);
+    }
 }
 
 async function onActivate(event) {

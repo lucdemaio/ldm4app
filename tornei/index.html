@@ -349,6 +349,28 @@
         })();
       }
     </script>
+    
+    <!-- SPA Redirect Handler: restore the original URL after Blazor loads -->
+    <script>
+      (function(){
+        var redirectPath = localStorage.getItem('spa-redirect-path');
+        var redirectTime = localStorage.getItem('spa-redirect-time');
+        
+        if(redirectPath && redirectTime){
+          // Clear immediately to prevent reloops
+          localStorage.removeItem('spa-redirect-path');
+          localStorage.removeItem('spa-redirect-time');
+          
+          // Verify redirect is not stale (older than 10 seconds)
+          var age = Date.now() - parseInt(redirectTime);
+          if(age < 10000){
+            // Use history.replaceState to change the URL without navigation
+            // This makes Blazor's router see the original path
+            window.history.replaceState(null, '', redirectPath);
+          }
+        }
+      })();
+    </script>
 </body>
 
 </html>
