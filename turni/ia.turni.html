@@ -185,7 +185,7 @@
             <div class="ia-info-box">
                 <h2 style="margin: 0 0 10px 0; font-size: 18px;">🤖 Assistente Intelligente Turni</h2>
                 <p style="margin: 0; font-size: 13px; line-height: 1.6;">
-                    Gestisci i turni e i dipendenti usando comandi naturali. Usa Groq o Google Gemini per aggiungere dipendenti, 
+                    Gestisci i turni e i dipendenti usando comandi naturali. Usa Groq (veloce) o Hugging Face (gratuito) per aggiungere dipendenti, 
                     assegnare turni, gestire ferie, e molto altro. Le modifiche verranno applicate al gestionale in tempo reale.
                 </p>
             </div>
@@ -204,15 +204,16 @@
                     <p id="groq-status-turni" style="font-size: 12px; color: #64748b; margin-top: 5px; text-align: center;">Status: Non configurato</p>
                 </div>
                 
-                <!-- Gemini Key -->
+                <!-- Hugging Face Key -->
                 <div class="ia-key-input-group">
-                    <label for="gemini-api-key">🔮 Google Gemini API Key</label>
-                    <input type="password" id="gemini-api-key" placeholder="Inserisci la tua Google Gemini API Key">
+                    <label for="hf-api-key">🤗 Hugging Face Token (Gratis)</label>
+                    <input type="password" id="hf-api-key" placeholder="Inserisci il tuo Hugging Face User Access Token">
                     <div class="ia-buttons">
-                        <button class="btn btn-primary" onclick="saveGeminiKeyTurni()" style="flex: 1;">✓ Salva</button>
-                        <button class="btn btn-danger" onclick="removeGeminiKeyTurni()" style="flex: 1;">✕ Rimuovi</button>
+                        <button class="btn btn-warning" onclick="saveHFKeyTurni()" style="flex: 1;">✓ Salva</button>
+                        <button class="btn btn-danger" onclick="removeHFKeyTurni()" style="flex: 1;">✕ Rimuovi</button>
                     </div>
-                    <p id="gemini-status-turni" style="font-size: 12px; color: #64748b; margin-top: 5px; text-align: center;">Status: Non configurato</p>
+                    <p id="hf-status-turni" style="font-size: 12px; color: #64748b; margin-top: 5px; text-align: center;">Status: Non configurato</p>
+                    <p style="font-size: 11px; color: #999; margin-top: 3px; font-style: italic;">Come cercare il token: https://huggingface.co → Avatar (top-right) → Settings → Access Tokens → Crea token</p>
                 </div>
             </div>
             
@@ -226,7 +227,7 @@
                         <input type="radio" name="ai-provider-turni" value="groq" checked> 🚀 Groq (Veloce)
                     </label>
                     <label>
-                        <input type="radio" name="ai-provider-turni" value="gemini"> 🔮 Google Gemini
+                        <input type="radio" name="ai-provider-turni" value="huggingface"> 🤗 Hugging Face
                     </label>
                 </div>
                 <p id="app-state-status-turni" style="font-size: 12px; color: #64748b; text-align: center; margin-top: 10px;">appState: Checking...</p>
@@ -458,27 +459,27 @@
             }
         }
 
-        function saveGeminiKeyTurni() {
-            const key = document.getElementById('gemini-api-key').value.trim();
+        function saveHFKeyTurni() {
+            const key = document.getElementById('hf-api-key').value.trim();
             if (!key) {
-                alert('Inserisci una chiave API Google Gemini valida');
+                alert('Inserisci un token Hugging Face valido');
                 return;
             }
             try {
-                localStorage.setItem('gemini_api_key_turni', key);
-                document.getElementById('gemini-status-turni').textContent = '✅ Chiave salvata';
-                alert('Chiave Google Gemini salvata!');
+                localStorage.setItem('hf_api_key_turni', key);
+                document.getElementById('hf-status-turni').textContent = '✅ Token salvato';
+                alert('Token Hugging Face salvato!');
             } catch (e) {
                 alert('Errore: ' + e.message);
             }
         }
 
-        function removeGeminiKeyTurni() {
+        function removeHFKeyTurni() {
             try {
-                localStorage.removeItem('gemini_api_key_turni');
-                document.getElementById('gemini-api-key').value = '';
-                document.getElementById('gemini-status-turni').textContent = '❌ Chiave rimossa';
-                alert('Chiave Google Gemini rimossa.');
+                localStorage.removeItem('hf_api_key_turni');
+                document.getElementById('hf-api-key').value = '';
+                document.getElementById('hf-status-turni').textContent = '❌ Token rimosso';
+                alert('Token Hugging Face rimosso.');
             } catch (e) {
                 alert('Errore: ' + e.message);
             }
@@ -528,10 +529,10 @@
             const provider = document.querySelector('input[name="ai-provider-turni"]:checked')?.value || 'groq';
             let apiKey;
             
-            if (provider === 'gemini') {
-                apiKey = localStorage.getItem('gemini_api_key_turni');
+            if (provider === 'huggingface') {
+                apiKey = localStorage.getItem('hf_api_key_turni');
                 if (!apiKey) {
-                    alert('Configura la chiave Google Gemini prima');
+                    alert('Configura il token Hugging Face prima. Registrati su https://huggingface.co, vai a Settings → Access Tokens e crea un nuovo token');
                     return;
                 }
             } else {
@@ -549,14 +550,17 @@
             try {
                 let aiResponse;
                 
-                if (provider === 'gemini') {
-                    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=' + apiKey, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [{
-                                    text: `Tu sei un ESECUTORE DI COMANDI per un gestionale turni.
+                if (provider === 'huggingface') {
+                    const response = await fetch(
+                        'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1',
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': 'Bearer ' + apiKey,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                inputs: `Tu sei un ESECUTORE DI COMANDI per un gestionale turni.
 COMANDI DISPONIBILI:
 1. {"action": "addEmployee", "data": {"name": "Marco Rossi", "department": "Vendite"}}
 2. {"action": "assignShift", "data": {"employeeName": "Marco Rossi", "day": "Lunedì", "shiftCode": "Mattina"}}
@@ -565,19 +569,18 @@ COMANDI DISPONIBILI:
 
 REGOLA ASSOLUTA: Rispondi SEMPRE con JSON valido come primo elemento, poi puoi aggiungere testo descrittivo.
 
-Comando utente: ${prompt}`
-                                }]
-                            }],
-                            generationConfig: { temperature: 0.3, maxOutputTokens: 1000 }
-                        })
-                    });
+Comando utente: ${prompt}`,
+                                parameters: { max_length: 500, temperature: 0.3 }
+                            })
+                        }
+                    );
 
                     if (!response.ok) {
                         const errorText = await response.text();
-                        throw new Error('Gemini API Error ' + response.status + ': ' + errorText);
+                        throw new Error('Hugging Face API Error ' + response.status + ': ' + errorText);
                     }
                     const data = await response.json();
-                    aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Nessuna risposta';
+                    aiResponse = data[0]?.generated_text || data.result || 'Nessuna risposta';
                 } else {
                     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                         method: 'POST',
