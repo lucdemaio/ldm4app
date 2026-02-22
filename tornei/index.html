@@ -4,10 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< HEAD
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' http: https: ws:;">
-=======
->>>>>>> 864310ad9a57111b0d674f025b9b8724f87cdd58
     <title>GestionaleTorneiWeb</title>
     <base href="./" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
@@ -318,7 +315,6 @@
     </div>
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-<<<<<<< HEAD
     <script src="js/vendor/jspdf.umd.min.js"></script>
     <script src="js/pdf-generator.js"></script>
     <script src="js/vendor/qrcode.min.js"></script>
@@ -469,29 +465,26 @@
                 } catch (e) { }
             })();
         })();
-=======
-    <script src="_framework/blazor.webassembly.js"></script>
+    </script>
+    
+    <!-- Service Worker Registration -->
     <script>
       if('serviceWorker' in navigator){
         (async ()=>{
           try{
-            // In development (localhost / 127.*) avoid registering the SW to prevent stale caches from blocking debugging.
             const host = location.hostname;
             if(host === 'localhost' || host.startsWith('127.') || host === '::1'){
               console.log('Skipping Service Worker registration on local host for debug');
-              // Also unregister any existing SWs for cleanliness
               const regs = await navigator.serviceWorker.getRegistrations();
               await Promise.all(regs.map(r => r.unregister()));
               return;
             }
 
             const base = document.querySelector('base')?.getAttribute('href') || '/';
-            // Only register when current path is within base
             if(location.pathname.startsWith(base)){
               await navigator.serviceWorker.register('service-worker.js');
               console.log('Service worker registered for base', base);
             } else {
-              // Unregister SWs that don't match the base (avoid cross-scope intercept)
               const regs = await navigator.serviceWorker.getRegistrations();
               await Promise.all(regs.map(r => {
                 if(r.scope && !r.scope.startsWith(location.origin + base)){
@@ -504,7 +497,6 @@
           }catch(e){ console.warn('SW registration check failed', e); }
         })();
       }
->>>>>>> 864310ad9a57111b0d674f025b9b8724f87cdd58
     </script>
 </body>
 
