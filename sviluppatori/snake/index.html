@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snake Game</title>
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+<div class="container">
+	<div id="overlay">
+		Your Final Score: <span id="final_score"></span>
+		<br>
+		<a onClick="window.location.reload()" href="#">Click To Play Again</a>
+	</div>
+	<canvas id="canvas" width="600" height="450">
+		Sorry, this browser does not support the canvas element
+	</canvas>
+	<!-- Mobile touch controls (visible on small screens) -->
+	<div class="touch-controls" id="touchControls" aria-hidden="false">
+		<button id="btn-up" class="touch-btn" aria-label="up">▲</button>
+		<div class="touch-row">
+			<button id="btn-left" class="touch-btn" aria-label="left">◀</button>
+			<button id="btn-down" class="touch-btn" aria-label="down">▼</button>
+			<button id="btn-right" class="touch-btn" aria-label="right">▶</button>
+		</div>
+	</div>
+	<div id="stats">
+		<div id="score"></div>
+		<div id="high_score"></div>
+		<button onclick="resetScore()" id="reset_score">Reset High Score</button>
+	</div>
+</div>
+
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript" crossorigin="anonymous"></script>
+<!-- Main JS -->
+<script src="script.js"></script>
+</body>
+</html>
