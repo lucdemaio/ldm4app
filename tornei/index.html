@@ -316,36 +316,19 @@
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
+      // TEMPORARILY DISABLE SERVICE WORKER FOR TESTING SPA ROUTING
+      // The SW may be causing caching issues with the redirect mechanism
       if('serviceWorker' in navigator){
         (async ()=>{
           try{
-            // In development (localhost / 127.*) avoid registering the SW to prevent stale caches from blocking debugging.
-            const host = location.hostname;
-            if(host === 'localhost' || host.startsWith('127.') || host === '::1'){
-              console.log('Skipping Service Worker registration on local host for debug');
-              // Also unregister any existing SWs for cleanliness
-              const regs = await navigator.serviceWorker.getRegistrations();
-              await Promise.all(regs.map(r => r.unregister()));
-              return;
-            }
-
-            const base = document.querySelector('base')?.getAttribute('href') || '/';
-            // Only register when current path is within base
-            if(location.pathname.startsWith(base)){
-              await navigator.serviceWorker.register('service-worker.js');
-              console.log('Service worker registered for base', base);
-            } else {
-              // Unregister SWs that don't match the base (avoid cross-scope intercept)
-              const regs = await navigator.serviceWorker.getRegistrations();
-              await Promise.all(regs.map(r => {
-                if(r.scope && !r.scope.startsWith(location.origin + base)){
-                  console.log('Unregistering SW with scope', r.scope);
-                  return r.unregister();
-                }
-                return Promise.resolve(true);
-              }));
-            }
-          }catch(e){ console.warn('SW registration check failed', e); }
+            // Unregister any existing Service Workers to prevent caching issues
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(r => {
+              console.log('Unregistering Service Worker:', r.scope);
+              return r.unregister();
+            }));
+            console.log('All Service Workers unregistered for SPA routing testing');
+          }catch(e){ console.warn('SW unregister attempt failed', e); }
         })();
       }
     </script>
