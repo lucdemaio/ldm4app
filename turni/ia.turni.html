@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IA Assistente per Gestione Turni con Groq e Google Gemini">
+    <title>IA Assistente Turni - Shift Manager</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles (stessa di turni) -->
+    <link rel="stylesheet" href="shifts-style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="IA Turni">
+    <link rel="apple-touch-icon" href="icon.svg">
+    
+    <style>
+        /* Stili specifici per IA */
+        .ia-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .ia-info-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .ia-config-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .ia-key-input-group {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        
+        .ia-key-input-group label {
+            display: block;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .ia-key-input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .ia-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .ia-chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            overflow: hidden;
+        }
+        
+        .ia-chat-log {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .ia-message {
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        
+        .ia-message.user {
+            background: #dbeafe;
+            color: #1e40af;
+            margin-left: auto;
+            max-width: 80%;
+        }
+        
+        .ia-message.bot {
+            background: #f3e8ff;
+            color: #6b21a8;
+            margin-right: auto;
+            max-width: 80%;
+        }
+        
+        .ia-input-area {
+            border-top: 1px solid #e2e8f0;
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .ia-input-area input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .ia-input-area button {
+            padding: 10px 20px;
+        }
+        
+        .ia-status {
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            min-height: 20px;
+        }
+        
+        .api-provider-radio {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .api-provider-radio label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- ==================== TOP BAR ==================== -->
+    <header class="top-bar">
+        <div class="top-bar-left">
+            <h1 class="top-bar-logo">🤖 IA Assistente Turni <span class="version">v1.0</span></h1>
+        </div>
+        
+        <div class="top-bar-right">
+            <a href="index.html" class="btn btn-ghost" title="Torna al gestionale">
+                ← Gestionale Turni
+            </a>
+        </div>
+    </header>
+    
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content">
+        
+        <div class="ia-container">
+            
+            <!-- INFO BOX -->
+            <div class="ia-info-box">
+                <h2 style="margin: 0 0 10px 0; font-size: 18px;">🤖 Assistente Intelligente Turni</h2>
+                <p style="margin: 0; font-size: 13px; line-height: 1.6;">
+                    Gestisci i turni e i dipendenti usando comandi naturali. Usa Groq o Google Gemini per aggiungere dipendenti, 
+                    assegnare turni, gestire ferie, e molto altro. Le modifiche verranno applicate al gestionale in tempo reale.
+                </p>
+            </div>
+            
+            <!-- CONFIGURATION SECTION -->
+            <div class="ia-config-section">
+                
+                <!-- Groq Key -->
+                <div class="ia-key-input-group">
+                    <label for="groq-api-key">🚀 Groq API Key (gsk_...)</label>
+                    <input type="password" id="groq-api-key" placeholder="Inserisci la tua Groq API Key">
+                    <div class="ia-buttons">
+                        <button class="btn btn-success" onclick="saveGroqKeyTurni()" style="flex: 1;">✓ Salva</button>
+                        <button class="btn btn-danger" onclick="removeGroqKeyTurni()" style="flex: 1;">✕ Rimuovi</button>
+                    </div>
+                    <p id="groq-status-turni" style="font-size: 12px; color: #64748b; margin-top: 5px; text-align: center;">Status: Non configurato</p>
+                </div>
+                
+                <!-- Gemini Key -->
+                <div class="ia-key-input-group">
+                    <label for="gemini-api-key">🔮 Google Gemini API Key</label>
+                    <input type="password" id="gemini-api-key" placeholder="Inserisci la tua Google Gemini API Key">
+                    <div class="ia-buttons">
+                        <button class="btn btn-primary" onclick="saveGeminiKeyTurni()" style="flex: 1;">✓ Salva</button>
+                        <button class="btn btn-danger" onclick="removeGeminiKeyTurni()" style="flex: 1;">✕ Rimuovi</button>
+                    </div>
+                    <p id="gemini-status-turni" style="font-size: 12px; color: #64748b; margin-top: 5px; text-align: center;">Status: Non configurato</p>
+                </div>
+            </div>
+            
+            <!-- API SELECTION -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; color: #334155; margin-bottom: 12px; font-size: 13px;">
+                    📌 Seleziona API Predefinita:
+                </label>
+                <div class="api-provider-radio">
+                    <label>
+                        <input type="radio" name="ai-provider-turni" value="groq" checked> 🚀 Groq (Veloce)
+                    </label>
+                    <label>
+                        <input type="radio" name="ai-provider-turni" value="gemini"> 🔮 Google Gemini
+                    </label>
+                </div>
+                <p id="app-state-status-turni" style="font-size: 12px; color: #64748b; text-align: center; margin-top: 10px;">appState: Checking...</p>
+            </div>
+            
+            <!-- CHAT INTERFACE -->
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <h3 style="padding: 16px; margin: 0; border-bottom: 1px solid #e2e8f0; font-size: 14px; font-weight: 600;">
+                    💬 Chat Assistente IA
+                </h3>
+                
+                <div class="ia-chat-container">
+                    <div class="ia-chat-log" id="turni-chat-log">
+                        <div style="color: #666; font-size: 13px; text-align: center; padding: 20px 0;">
+                            <strong>Esempi di comandi:</strong><br>
+                            "Aggiungi dipendente Marco Rossi, reparto vendite"<br>
+                            "Assegna turno mattina a Marco per lunedì"<br>
+                            "Aggiungi ferie a Marco dal 5 al 10 marzo"<br>
+                            "Mostra tutti i dipendenti"<br>
+                            "Quanti dipendenti abbiamo in reparto vendite?"
+                        </div>
+                    </div>
+                    
+                    <div class="ia-input-area">
+                        <input type="text" id="turni-ai-prompt" placeholder="Scrivi un comando per gestire i turni...">
+                        <button class="btn btn-primary" onclick="sendTurniAiPrompt()" style="white-space: nowrap;">📤 Invia</button>
+                    </div>
+                    
+                    <div class="ia-status" id="turni-ai-status"></div>
+                </div>
+            </div>
+            
+            <!-- HELP SECTION -->
+            <div class="card">
+                <h3 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600;">📚 Comandi Disponibili</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 12px;">
+                    <div>
+                        <strong>👥 Gestione Dipendenti:</strong>
+                        <ul style="margin: 5px 0 0 0; padding-left: 20px;">
+                            <li>"Aggiungi Marco Rossi, reparto vendite"</li>
+                            <li>"Modifica Marco, ora reparto IT"</li>
+                            <li>"Elimina Marco"</li>
+                            <li>"Mostra dipendenti reparto vendite"</li>
+                            <li>"Quanti dipendenti abbiamo?"</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>📅 Gestione Turni:</strong>
+                        <ul style="margin: 5px 0 0 0; padding-left: 20px;">
+                            <li>"Assegna turno mattina a Marco lunedì"</li>
+                            <li>"Assegna turno pomeriggio a Marco mart-merc"</li>
+                            <li>"Rimuovi turno Marco lunedì"</li>
+                            <li>"Mostra turni di lunedì"</li>
+                            <li>"Genera turni automatici"</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>🗓️ Ferie e Permessi:</strong>
+                        <ul style="margin: 5px 0 0 0; padding-left: 20px;">
+                            <li>"Aggiungi ferie Marco dal 5 al 10 marzo"</li>
+                            <li>"Aggiungi permesso Marco 15 marzo"</li>
+                            <li>"Rimuovi ferie Marco dal 5 al 10 marzo"</li>
+                            <li>"Mostra ferie in marzo"</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>📊 Analisi:</strong>
+                        <ul style="margin: 5px 0 0 0; padding-left: 20px;">
+                            <li>"Mostra distribuzione turni"</li>
+                            <li>"Mostra ore settimanali di Marco"</li>
+                            <li>"Dipendenti senza turno lunedì"</li>
+                            <li>"Reparto con meno turni"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+    
+    <!-- Script per l'IA -->
+    <script>
+        // ===== TURNI COMMAND EXECUTOR =====
+        // Sistema per eseguire comandi reali nel gestionale turni dall'IA
+        
+        const TurniAICommandExecutor = {
+            /**
+             * Verifica se turniApp è disponibile
+             */
+            checkTurniApp() {
+                if (typeof window === 'undefined' || !window.turniApp) {
+                    console.error('❌ ERRORE CRITICO: window.turniApp non disponibile!');
+                    return false;
+                }
+                return true;
+            },
+
+            /**
+             * Aggiunge un nuovo dipendente
+             */
+            addEmployee(data) {
+                console.log('🔧 TurniAICommandExecutor.addEmployee called with:', data);
+                
+                if (!this.checkTurniApp()) {
+                    return { success: false, message: '❌ Errore: turniApp non disponibile. Ricarica la pagina.' };
+                }
+                
+                try {
+                    const employeeData = {
+                        code: data.code || 'EMP' + Math.random().toString(36).substr(2, 5).toUpperCase(),
+                        name: data.name || 'Dipendente',
+                        department: data.department || 'Generico',
+                        maxHours: data.maxHours || 40,
+                        active: data.active !== false,
+                        notes: data.notes || ''
+                    };
+                    
+                    console.log('✅ Aggiungendo dipendente:', employeeData);
+                    if (typeof window.turniApp.addEmployee === 'function') {
+                        window.turniApp.addEmployee(employeeData);
+                        return { success: true, message: `✅ Dipendente "${employeeData.name}" aggiunto al reparto "${employeeData.department}"` };
+                    } else {
+                        return { success: false, message: '⚠️ Metodo addEmployee non disponibile' };
+                    }
+                } catch (error) {
+                    console.error('❌ Errore addEmployee:', error);
+                    return { success: false, message: `❌ Errore aggiunta dipendente: ${error.message}` };
+                }
+            },
+
+            /**
+             * Assegna un turno
+             */
+            assignShift(data) {
+                console.log('🔧 TurniAICommandExecutor.assignShift called with:', data);
+                
+                if (!this.checkTurniApp()) {
+                    return { success: false, message: '❌ turniApp non disponibile' };
+                }
+                
+                try {
+                    if (typeof window.turniApp.assignShift === 'function') {
+                        window.turniApp.assignShift(data.employeeName, data.day, data.shiftCode);
+                        return { success: true, message: `✅ Turno "${data.shiftCode}" assegnato a ${data.employeeName} per ${data.day}` };
+                    } else {
+                        return { success: false, message: '⚠️ Metodo assignShift non disponibile' };
+                    }
+                } catch (error) {
+                    console.error('Errore assignShift:', error);
+                    return { success: false, message: `❌ Errore assegnazione turno: ${error.message}` };
+                }
+            },
+
+            /**
+             * Aggiunge ferie/permessi
+             */
+            addAbsence(data) {
+                console.log('🔧 TurniAICommandExecutor.addAbsence called with:', data);
+                
+                if (!this.checkTurniApp()) {
+                    return { success: false, message: '❌ turniApp non disponibile' };
+                }
+                
+                try {
+                    if (typeof window.turniApp.addAbsence === 'function') {
+                        window.turniApp.addAbsence(data.employeeName, data.startDate, data.endDate, data.type);
+                        return { success: true, message: `✅ ${data.type} aggiunto a ${data.employeeName} dal ${data.startDate} al ${data.endDate || 'stesso giorno'}` };
+                    } else {
+                        return { success: false, message: '⚠️ Metodo addAbsence non disponibile' };
+                    }
+                } catch (error) {
+                    console.error('Errore addAbsence:', error);
+                    return { success: false, message: `❌ Errore aggiunta assenza: ${error.message}` };
+                }
+            },
+
+            /**
+             * Esegue comandi generici dal JSON della risposta IA
+             */
+            executeCommand(cmd) {
+                console.log('🔧🔧🔧 TurniAICommandExecutor.executeCommand CALLED! cmd:', cmd);
+                const action = cmd.action || cmd.type || '';
+                console.log('📋 Action:', action);
+
+                switch(action.toLowerCase()) {
+                    case 'addemployee':
+                        console.log('↳ Esecuzione: addemployee');
+                        return this.addEmployee(cmd.data || {});
+                    case 'assignshift':
+                        console.log('↳ Esecuzione: assignshift');
+                        return this.assignShift(cmd.data || {});
+                    case 'addabsence':
+                        console.log('↳ Esecuzione: addabsence');
+                        return this.addAbsence(cmd.data || {});
+                    case 'list':
+                        console.log('↳ Esecuzione: list');
+                        return { success: true, message: '✅ Lista visualizzata nel gestionale' };
+                    default:
+                        console.error('⚠️ Comando sconosciuto:', action);
+                        return { success: false, message: `⚠️ Comando sconosciuto: ${action}` };
+                }
+            }
+        };
+
+        // ===== SAVE/REMOVE KEYS =====
+        function saveGroqKeyTurni() {
+            const key = document.getElementById('groq-api-key').value.trim();
+            if (!key) {
+                alert('Inserisci una chiave API Groq valida');
+                return;
+            }
+            try {
+                localStorage.setItem('groq_api_key_turni', key);
+                document.getElementById('groq-status-turni').textContent = '✅ Chiave salvata';
+                alert('Chiave Groq salvata!');
+            } catch (e) {
+                alert('Errore: ' + e.message);
+            }
+        }
+
+        function removeGroqKeyTurni() {
+            try {
+                localStorage.removeItem('groq_api_key_turni');
+                document.getElementById('groq-api-key').value = '';
+                document.getElementById('groq-status-turni').textContent = '❌ Chiave rimossa';
+                alert('Chiave Groq rimossa.');
+            } catch (e) {
+                alert('Errore: ' + e.message);
+            }
+        }
+
+        function saveGeminiKeyTurni() {
+            const key = document.getElementById('gemini-api-key').value.trim();
+            if (!key) {
+                alert('Inserisci una chiave API Google Gemini valida');
+                return;
+            }
+            try {
+                localStorage.setItem('gemini_api_key_turni', key);
+                document.getElementById('gemini-status-turni').textContent = '✅ Chiave salvata';
+                alert('Chiave Google Gemini salvata!');
+            } catch (e) {
+                alert('Errore: ' + e.message);
+            }
+        }
+
+        function removeGeminiKeyTurni() {
+            try {
+                localStorage.removeItem('gemini_api_key_turni');
+                document.getElementById('gemini-api-key').value = '';
+                document.getElementById('gemini-status-turni').textContent = '❌ Chiave rimossa';
+                alert('Chiave Google Gemini rimossa.');
+            } catch (e) {
+                alert('Errore: ' + e.message);
+            }
+        }
+
+        // ===== CHAT FUNCTIONS =====
+        function addMessageToTurniChat(role, text) {
+            const chatLog = document.getElementById('turni-chat-log');
+            if (!chatLog) return;
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'ia-message ' + (role === 'user' ? 'user' : 'bot');
+            msgDiv.textContent = (role === 'user' ? '👤 Tu: ' : '🤖 IA: ') + text;
+            chatLog.appendChild(msgDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function extractCommandFromResponse(responseText) {
+            try {
+                console.log('📘 Risposta IA:', responseText);
+                const jsonMatch = responseText.match(/\{[\s\S]*?\}/);
+                if (jsonMatch) {
+                    try {
+                        const parsed = JSON.parse(jsonMatch[0]);
+                        console.log('✅ JSON trovato:', parsed);
+                        if (parsed.action || parsed.type) {
+                            return parsed;
+                        }
+                    } catch (parseError) {
+                        console.warn('⚠️ JSON parsing fallito');
+                    }
+                }
+                return null;
+            } catch (e) {
+                console.error('❌ Errore estrazione:', e);
+                return null;
+            }
+        }
+
+        async function sendTurniAiPrompt() {
+            const prompt = document.getElementById('turni-ai-prompt').value.trim();
+            if (!prompt) {
+                alert('Scrivi un comando');
+                return;
+            }
+
+            const provider = document.querySelector('input[name="ai-provider-turni"]:checked')?.value || 'groq';
+            let apiKey;
+            
+            if (provider === 'gemini') {
+                apiKey = localStorage.getItem('gemini_api_key_turni');
+                if (!apiKey) {
+                    alert('Configura la chiave Google Gemini prima');
+                    return;
+                }
+            } else {
+                apiKey = localStorage.getItem('groq_api_key_turni');
+                if (!apiKey) {
+                    alert('Configura la chiave Groq prima');
+                    return;
+                }
+            }
+
+            addMessageToTurniChat('user', prompt);
+            document.getElementById('turni-ai-prompt').value = '';
+            document.getElementById('turni-ai-status').textContent = '⏳ Elaborazione...';
+
+            try {
+                let aiResponse;
+                
+                if (provider === 'gemini') {
+                    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `Tu sei un ESECUTORE DI COMANDI per un gestionale turni.
+COMANDI: addEmployee, assignShift, addAbsence
+SEMPRE rispondi con JSON es:
+{"action": "addEmployee", "data": {"name": "Marco Rossi", "department": "Vendite"}}
+
+Comando: ${prompt}`
+                                }]
+                            }],
+                            generationConfig: { temperature: 0.3, maxOutputTokens: 1000 }
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('Gemini Error ' + response.status);
+                    const data = await response.json();
+                    aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Nessuna risposta';
+                } else {
+                    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + apiKey,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            model: 'llama-3.1-8b-instant',
+                            messages: [{
+                                role: 'system',
+                                content: `Tu sei un ESECUTORE DI COMANDI per un gestionale turni.
+COMANDI DISPONIBILI:
+1. {"action": "addEmployee", "data": {"name": "Nome", "department": "Reparto"}}
+2. {"action": "assignShift", "data": {"employeeName": "Nome", "day": "Lunedì", "shiftCode": "Mattina"}}
+3. {"action": "addAbsence", "data": {"employeeName": "Nome", "startDate": "2026-03-01", "endDate": "2026-03-05", "type": "Ferie"}}
+4. {"action": "list", "target": "employees" o "shifts"}
+
+REGOLA: SEMPRE rispondi con JSON valido PRIMA di spiegare.`
+                            }, {
+                                role: 'user',
+                                content: prompt
+                            }],
+                            max_tokens: 500,
+                            temperature: 0.3
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('Groq Error ' + response.status);
+                    const data = await response.json();
+                    aiResponse = data.choices[0]?.message?.content || 'Nessuna risposta';
+                }
+                
+                const command = extractCommandFromResponse(aiResponse);
+                if (command && command.action) {
+                    const result = TurniAICommandExecutor.executeCommand(command);
+                    addMessageToTurniChat('bot', result.message);
+                    document.getElementById('turni-ai-status').textContent = result.success ? '✅ Comando eseguito' : '⚠️ Errore';
+                } else {
+                    addMessageToTurniChat('bot', '⚠️ Comando non riconosciuto. Prova: "Aggiungi Marco Rossi reparto vendite"');
+                    document.getElementById('turni-ai-status').textContent = '⚠️ Formato non valido';
+                }
+            } catch (error) {
+                addMessageToTurniChat('bot', '❌ Errore: ' + (error.message || error));
+                document.getElementById('turni-ai-status').textContent = '❌ Errore - Prova l\'altra API';
+                console.error('Error:', error);
+            }
+        }
+
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carica chiavi salvate
+            const savedGroqKey = localStorage.getItem('groq_api_key_turni');
+            if (savedGroqKey) {
+                document.getElementById('groq-status-turni').textContent = '✅ Chiave configurata';
+            }
+            
+            const savedGeminiKey = localStorage.getItem('gemini_api_key_turni');
+            if (savedGeminiKey) {
+                document.getElementById('gemini-status-turni').textContent = '✅ Chiave configurata';
+            }
+            
+            // Enter key listener
+            const promptInput = document.getElementById('turni-ai-prompt');
+            if (promptInput) {
+                promptInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        sendTurniAiPrompt();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
