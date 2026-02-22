@@ -51,6 +51,7 @@ jobs:
           cp install.html deploy/ || true
           cp privacy-policy.html deploy/ || true
           cp cookie-policy.html deploy/ || true
+          cp sviluppatori.html deploy/ || true
           
           # Copy traduttore build (use existing dist if available)
           mkdir -p deploy/traduttore
