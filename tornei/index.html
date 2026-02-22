@@ -326,15 +326,8 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
       console.log('=== Blazor.webassembly.js LOADED ===');
-      
-      // Log when Blazor finishes initializing
-      if(window.Blazor){
-        window.Blazor.start().then(function(){
-          console.log('[Blazor] ✓ Initialization complete');
-        }).catch(function(err){
-          console.error('[Blazor] ✗ Initialization error:', err);
-        });
-      }
+      // Blazor auto-starts when the script loads - do not call Blazor.start() manually
+      console.log('[Blazor] ✓ Auto-initialization in progress...');
     </script>
     
     <!-- SPA Redirect Handler: restore the original URL after Blazor loads -->
