@@ -4,18 +4,31 @@
 <script>
   // GitHub Pages SPA fallback for Blazor WebAssembly
   // When a non-existent route is accessed, save it and redirect to index.html
-  // index.html will then navigate Blazor to the requested route
   
   var path = location.pathname;
   var hash = location.hash;
   var search = location.search;
   
-  if(path.startsWith('/tornei/') && path !== '/tornei/index.html' && path !== '/tornei/'){
-    // Save the original request to localStorage so index.html can navigate to it
-    localStorage.setItem('spa-redirect-path', path + search + hash);
+  console.log('[404 Handler] Path:', path, 'Search:', search, 'Hash:', hash);
+  
+  // Only redirect routes that: start with /tornei/, are not index.html, and are not root
+  var shouldRedirect = path.startsWith('/tornei/') && 
+                       path !== '/tornei/index.html' && 
+                       path !== '/tornei/' &&
+                       path !== '/tornei';
+  
+  if(shouldRedirect){
+    var fullPath = path + search + hash;
+    console.log('[404 Handler] Redirecting to index.html. Original path:', fullPath);
+    
+    // Save the original request so index.html can navigate to it
+    localStorage.setItem('spa-redirect-path', fullPath);
     localStorage.setItem('spa-redirect-time', Date.now());
+    
     // Redirect to index.html
     location.replace('/tornei/index.html' + search + hash);
+  } else {
+    console.log('[404 Handler] Not redirecting - path is home or index');
   }
 </script>
 <body>Redirecting...</body>

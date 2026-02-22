@@ -357,16 +357,26 @@
         var redirectTime = localStorage.getItem('spa-redirect-time');
         
         if(redirectPath && redirectTime){
-          // Clear immediately to prevent reloops
+          // Clear immediately to prevent loops
           localStorage.removeItem('spa-redirect-path');
           localStorage.removeItem('spa-redirect-time');
           
-          // Verify redirect is not stale (older than 10 seconds)
+          // Verify redirect is recent (not older than 10 seconds)
           var age = Date.now() - parseInt(redirectTime);
           if(age < 10000){
-            // Use history.replaceState to change the URL without navigation
-            // This makes Blazor's router see the original path
-            window.history.replaceState(null, '', redirectPath);
+            // Don't apply redirect if this is the home page (avoid interfering with dashboard)
+            var isHomePage = redirectPath === '/tornei/' || redirectPath === '/tornei/index.html';
+            
+            if(!isHomePage){
+              console.log('[SPA Redirect] Restoring path:', redirectPath);
+              // Use history.replaceState to change the URL without navigation
+              // This makes Blazor's router see the original path
+              window.history.replaceState(null, '', redirectPath);
+            } else {
+              console.log('[SPA Redirect] Home page requested, skipping redirect');
+            }
+          } else {
+            console.log('[SPA Redirect] Redirect too old (', age, 'ms), discarding');
           }
         }
       })();
