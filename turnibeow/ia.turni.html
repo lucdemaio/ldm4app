@@ -198,8 +198,8 @@
       if (user.startsWith('/turni/proxy/') && !user.startsWith('/turni/turni/proxy/')) {
         list.push(user.replace('/turni/proxy/', '/turni/turni/proxy/'));
       }
-      // collapse accidental double prefix
-      list.push(user.replace(/\/turni){2,}/g, '/turni'));
+      // collapse accidental repeated "/turni" segments (normalize to a single one)
+      list.push(user.replace(/(?:\/turni){2,}/g, '/turni'));
       list.push(user);
     } else {
       // default candidates: try several common mount points so 405s are less likely
