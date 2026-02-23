@@ -74,6 +74,8 @@
 
         <input id="geminiApiKey" type="text" placeholder="Gemini (Google) API key" />
         <input id="grokApiKey" type="text" placeholder="Grok API key" />
+        <!-- campo per inserire manualmente l'URL del proxy se non rilevabile automaticamente -->
+        <input id="proxyUrlInput" type="text" placeholder="Proxy URL (es. https://.../proxy/gemini)" style="min-width:320px;" />
         <button id="btnSaveKeys">Salva chiavi</button>
         <button id="btnClearKeys" class="ghost">Cancella chiavi</button>
       </div>
@@ -81,7 +83,7 @@
       <div style="margin-top:8px" class="small">Provider selezionato: <strong id="selectedProvider">Gemini</strong> (scegli tra Gemini o Grok)</div>
 
       <div style="margin-top:8px" class="small">
-        Nota: le chiavi sono memorizzate solo in locale (localStorage). Le chiamate a provider esterni richiedono che il browser/endpoint supporti CORS. Se il server ospitante espone un proxy (ad esempio <code>/turni/proxy/gemini</code> o <code>/turni/turni/proxy/gemini</code> – vedi la struttura di www.ldm4app.com – o analoghi percorsi per Grok) verrà rilevato e usato automaticamente. In alternativa, imposta manualmente il <em>Proxy URL</em> qui sopra.
+        Nota: le chiavi e l'URL del proxy sono memorizzati solo in locale (localStorage). Le chiamate a provider esterni richiedono che il browser/endpoint supporti CORS. Se il server ospitante espone un proxy (ad esempio <code>/turni/proxy/gemini</code>, <code>/turni/turni/proxy/gemini</code> o <code>/turnibeow/proxy/gemini</code> – vedi la struttura di www.ldm4app.com – o analoghi percorsi per Grok) verrà rilevato e usato automaticamente. In alternativa, imposta manualmente il <em>Proxy URL</em> nel campo sopra.
       </div>
 
       <div id="providerError" class="small" style="margin-top:8px;color:#fb7185"></div>
@@ -1180,7 +1182,6 @@ Esempio valido: {"action":"updateShift","payload":{"employeeId":"EMP001","dayInd
   btnVerifyKeys?.addEventListener('click', verifyProviderKey);
   // proxy testing controls were removed from the UI, so skip listener entirely
   // (previous code referenced btnShowProxyLog which isn't declared)
-  btnSaveKeysNoVerify?.addEventListener('click', saveKeysNoVerify);
   btnClearKeys?.addEventListener('click', clearKeysFromStorage);
 
   // --- auto-preset del proxy basato su dominio ---
