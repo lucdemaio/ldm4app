@@ -210,6 +210,8 @@
       list.push(`/turni/turni/proxy/${provider}`);
       list.push(`/turni/proxy/${provider}`);
       list.push(`/proxy/${provider}`);
+      // as a last resort, try the working soccer proxy on the same domain
+      list.push(`https://www.ldm4app.com/soccer/proxy/${provider}`);
     }
     return Array.from(new Set(list.filter(Boolean)));
   }
@@ -1238,6 +1240,10 @@ Esempio valido: {"action":"updateShift","payload":{"employeeId":"EMP001","dayInd
             console.log('Auto-impostato proxy production (turnibeow): ' + beowProxy);
             return;
           }
+        }
+        // also record the soccer fallback so the user can switch if local proxy fails
+        if (!proxyUrlInput.value.includes('soccer')) {
+          console.log('Aggiunto soccer fallback proxy alla lista interna');
         }
       }
 
