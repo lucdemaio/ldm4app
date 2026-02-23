@@ -174,9 +174,12 @@
           if (cur.startsWith('/turni/proxy/') && !cur.startsWith('/turni/turni/proxy/')) {
             cur = cur.replace('/turni/proxy/', '/turni/turni/proxy/');
           }
+          // also handle the custom /turnibeow path
+          // note: provider token may appear after the last slash
           cur = cur
             .replace(/(\/turni\/turni\/proxy\/)(gemini|grok|groq)/i, `$1${prov}`)
             .replace(/(\/turni\/proxy\/)(gemini|grok|groq)/i, `$1${prov}`)
+            .replace(/(\/turnibeow\/proxy\/)(gemini|grok|groq)/i, `$1${prov}`)
             .replace(/(\/proxy\/)(gemini|grok|groq)/i, `$1${prov}`);
         }
         proxyUrlInput.value = cur;
@@ -190,12 +193,19 @@
     const list = [];
     const user = (proxyUrlInput && proxyUrlInput.value && proxyUrlInput.value.trim()) || localStorage.getItem('proxy_url') || '';
     if (user) {
+      // if the user explicitly set a URL, normalise it and also add a version
+      // with the double /turni prefix so we can still try both.
       if (user.startsWith('/turni/proxy/') && !user.startsWith('/turni/turni/proxy/')) {
         list.push(user.replace('/turni/proxy/', '/turni/turni/proxy/'));
       }
+      // collapse accidental double prefix
+      list.push(user.replace(/\/turni){2,}/g, '/turni'));
       list.push(user);
     } else {
+      // default candidates: try several common mount points so 405s are less likely
       list.push(`/turni/turni/proxy/${provider}`);
+      list.push(`/turni/proxy/${provider}`);
+      list.push(`/proxy/${provider}`);
     }
     return Array.from(new Set(list.filter(Boolean)));
   }
@@ -315,7 +325,10 @@
     // Try candidate proxies similar to Gemini logic
     const proxies = getProxyCandidates('grok');
     const attemptLog = [];
-    const pathSuffixes = ['', '/v1/generate'];
+    // grok proxy endpoints typically live at /proxy/grok – they don't expect
+    // the "/v1/generate" suffix, so we don't bother adding it here; 405
+    // responses were being logged and confused users.
+    const pathSuffixes = [''];
     const variants = [
       { name: 'body-only', useAuthHeader: false, putKeyInBody: false },
       { name: 'key-in-body', useAuthHeader: false, putKeyInBody: true }
@@ -1165,30 +1178,46 @@ Esempio valido: {"action":"updateShift","payload":{"employeeId":"EMP001","dayInd
 
   btnSaveKeys?.addEventListener('click', saveKeysToStorage);
   btnVerifyKeys?.addEventListener('click', verifyProviderKey);
-  // proxy testing controls removed; no listener needed
-  btnShowProxyLog?.addEventListener('click', showProxyDiagnostics);
+  // proxy testing controls were removed from the UI, so skip listener entirely
+  // (previous code referenced btnShowProxyLog which isn't declared)
   btnSaveKeysNoVerify?.addEventListener('click', saveKeysNoVerify);
   btnClearKeys?.addEventListener('click', clearKeysFromStorage);
 
   // --- auto-preset del proxy basato su dominio ---
   function autoPresetProxyByDomain() {
-    // If the current path is /turni (or the app is served under /turni), prefer /turni/proxy/gemini
+    // Prefill the proxy URL based on well‑known deployment paths. This helps when
+    // the app is hosted under various mounted prefixes on ldm4app.com.  The URL
+    // is built using the currently selected provider (gemini/grok).
     try {
       const path = window.location.pathname || '/';
       const host = window.location.hostname || '';
-      if (host.includes('ldm4app.com') && path.startsWith('/turni')) {
-const turniProxy = 'https://www.ldm4app.com/turni/proxy/gemini';
-      if (proxyUrlInput && !proxyUrlInput.value) {
-        proxyUrlInput.value = turniProxy;
-        localStorage.setItem('proxy_url', turniProxy);
-        console.log('Auto-impostato proxy production (turni): ' + turniProxy);
-        return;
-      }
-    }
+      const prov = getSelectedProvider(); // gemini or grok
 
-    // If hosted on ldm4app.com but not under /turni, fall back to site-level proxy
-    if (host.includes('ldm4app.com')) {
-      const productionProxy = 'https://www.ldm4app.com/turni/proxy/gemini';
+      // common production path under /turni
+      if (host.includes('ldm4app.com') && path.startsWith('/turni')) {
+        const turniProxy = `https://www.ldm4app.com/turni/proxy/${prov}`;
+        if (proxyUrlInput && !proxyUrlInput.value) {
+          proxyUrlInput.value = turniProxy;
+          localStorage.setItem('proxy_url', turniProxy);
+          console.log('Auto-impostato proxy production (turni): ' + turniProxy);
+          return;
+        }
+      }
+
+      // user-specific path under /turnibeow
+      if (host.includes('ldm4app.com') && path.startsWith('/turnibeow')) {
+        const beowProxy = `https://www.ldm4app.com/turnibeow/proxy/${prov}`;
+        if (proxyUrlInput && !proxyUrlInput.value) {
+          proxyUrlInput.value = beowProxy;
+          localStorage.setItem('proxy_url', beowProxy);
+          console.log('Auto-impostato proxy production (turnibeow): ' + beowProxy);
+          return;
+        }
+      }
+
+      // generic site-level fallback (still under /turni)
+      if (host.includes('ldm4app.com')) {
+        const productionProxy = `https://www.ldm4app.com/turni/proxy/${prov}`;
         if (proxyUrlInput && !proxyUrlInput.value) {
           proxyUrlInput.value = productionProxy;
           localStorage.setItem('proxy_url', productionProxy);
@@ -1197,15 +1226,14 @@ const turniProxy = 'https://www.ldm4app.com/turni/proxy/gemini';
         }
       }
 
-      // Default: same-origin proxy under the app root (works for deployments that expose /turni/proxy or /proxy)
+      // last resort: same-origin relative proxy path
       if (proxyUrlInput && !proxyUrlInput.value) {
-        // prefer /turni/proxy when current path contains /turni
         if (path.startsWith('/turni')) {
-          proxyUrlInput.value = '/turni/proxy/gemini';
-          localStorage.setItem('proxy_url', '/turni/proxy/gemini');
+          proxyUrlInput.value = `/turni/proxy/${prov}`;
+          localStorage.setItem('proxy_url', `/turni/proxy/${prov}`);
         } else {
-          proxyUrlInput.value = '/proxy/gemini';
-          localStorage.setItem('proxy_url', '/proxy/gemini');
+          proxyUrlInput.value = `/proxy/${prov}`;
+          localStorage.setItem('proxy_url', `/proxy/${prov}`);
         }
         console.log('Auto-impostato proxy same-origin: ' + proxyUrlInput.value);
       }
