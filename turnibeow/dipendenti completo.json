@@ -1,0 +1,3226 @@
+{
+  "employees": [
+    {
+      "id": "emp-164339-1767961119263-0",
+      "code": "164339",
+      "name": "Adou Agnini Bra",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "05:00 - 11:15",
+        "☕ Riposo",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "05:00 - 11:15"
+      ],
+      "stats": {
+        "totalHours": 37.5,
+        "shifts": 6
+      },
+      "absences": [
+        {
+          "id": "1767964615993",
+          "startDate": "2026-03-02",
+          "endDate": "2026-03-04",
+          "type": "Malattia"
+        }
+      ],
+      "lastShift": "05:00 - 11:15",
+      "customStart": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "emp-179737-1767961119263-1",
+      "code": "179737",
+      "name": "Alongi Sofia",
+      "department": "Picking Ribalta",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "🩺 Malattia",
+        "🩺 Malattia",
+        "🩺 Malattia",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "stats": {
+        "totalHours": 26,
+        "shifts": 7
+      },
+      "absences": [
+        {
+          "id": "1767964784709",
+          "startDate": "2026-01-20",
+          "endDate": "2026-01-22",
+          "type": "Malattia"
+        }
+      ],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-164394-1767961119264-2",
+      "code": "164394",
+      "name": "Angulo Romina Fabiana",
+      "department": "Picking ribalta",
+      "subgroup": "1",
+      "contractType": 31.15,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "☕ Riposo",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 31.25,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164389-1767961119264-3",
+      "code": "164389",
+      "name": "Aouane Brahim",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp-180088-1767961119264-4",
+      "code": "180088",
+      "name": "Arizzi Roberto",
+      "department": "Ribalta",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "08:00 - 16:00",
+      "allowedDepartments": [
+        "Picking",
+        "Ribalta"
+      ],
+      "currentDepartmentIndex": 1
+    },
+    {
+      "id": "emp-181146-1767961119264-5",
+      "code": "181146",
+      "name": "Auletta Crescenzo",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp-180466-1767961119264-6",
+      "code": "180466",
+      "name": "Barzaghi Yulia",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp-180317-1767961119264-7",
+      "code": "180317",
+      "name": "Boland Matteo",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-180668-1767961119264-8",
+      "code": "180668",
+      "name": "Calcagno Arianna",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-180671-1767961119264-9",
+      "code": "180671",
+      "name": "Camozzi Elisa",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-177771-1767961119264-10",
+      "code": "177771",
+      "name": "Cisse Mame Diarra",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp-180672-1767961119264-11",
+      "code": "180672",
+      "name": "Compaore Moussa",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp-171714-1767961119264-12",
+      "code": "171714",
+      "name": "Cortesi Arianna",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164336-1767961119264-13",
+      "code": "164336",
+      "name": "Cosme Valencia Johan",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 31.15,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp-164348-1767961119264-14",
+      "code": "164348",
+      "name": "David Marielen",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp-164254-1767961119264-15",
+      "code": "164254",
+      "name": "De Ocampo Perry John",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "stats": {
+        "totalHours": 33.333333333333336,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp-164349-1767961119264-16",
+      "code": "164349",
+      "name": "Devi Neelam",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-171579-1767961119264-17",
+      "code": "171579",
+      "name": "Di Frisco Salvatore",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-180935-1767961119264-18",
+      "code": "180935",
+      "name": "Dipinto Simone",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp-180936-1767961119264-19",
+      "code": "180936",
+      "name": "Draghi Marco",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp-180929-1767961119264-20",
+      "code": "180929",
+      "name": "Ehis Kelvin",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp-179320-1767961119264-21",
+      "code": "179320",
+      "name": "Esposito Andrea",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp-164352-1767961119264-22",
+      "code": "164352",
+      "name": "Fandarac Mitica",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp-164353-1767961119264-23",
+      "code": "164353",
+      "name": "Ferjani Najwa",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "☕ Riposo",
+        "17:00 - 23:15",
+        "17:00 - 23:15",
+        "17:00 - 23:15",
+        "17:00 - 23:15",
+        "17:00 - 23:15",
+        "17:00 - 23:15"
+      ],
+      "stats": {
+        "totalHours": 37.5,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 23:15"
+    },
+    {
+      "id": "emp-177069-1767961119264-24",
+      "code": "177069",
+      "name": "Guerini Roberto",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-164359-1767961119264-25",
+      "code": "164359",
+      "name": "Hawladur Minto",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-177745-1767961119264-26",
+      "code": "177745",
+      "name": "Hetti Arachchige Sahan",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp-164291-1767961119264-27",
+      "code": "164291",
+      "name": "Idiaru Glory",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp-164360-1767961119264-28",
+      "code": "164360",
+      "name": "Jabbar Javed",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp-180931-1767961119264-29",
+      "code": "180931",
+      "name": "Jayasuriya Kuranage Sanduini",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp-164367-1767961119264-30",
+      "code": "164367",
+      "name": "Kakadje Chiadon Raymonde",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "stats": {
+        "totalHours": 35,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp-164373-1767961119264-31",
+      "code": "164373",
+      "name": "Kaur Tarsem",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 31.15,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "17:00 - 23:15",
+        "17:00 - 23:15",
+        "☕ Riposo",
+        "☕ Riposo",
+        "17:00 - 23:15",
+        "17:00 - 23:15",
+        "17:00 - 23:15"
+      ],
+      "stats": {
+        "totalHours": 31.25,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "17:00 - 23:15"
+    },
+    {
+      "id": "emp-166504-1767961119264-32",
+      "code": "166504",
+      "name": "Khan Jehangir",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "stats": {
+        "totalHours": 35,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-164363-1767961119264-33",
+      "code": "164363",
+      "name": "Koaudio N'Da Ahou Beatrice",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp-179319-1767961119264-34",
+      "code": "179319",
+      "name": "Kombo John Thoya",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164369-1767961119264-35",
+      "code": "164369",
+      "name": "Kumari Baljit",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp-180664-1767961119264-36",
+      "code": "180664",
+      "name": "Kurti Marimara",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp-169873-1767961119264-37",
+      "code": "169873",
+      "name": "Magitteri Sonia",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp-180008-1767961119264-38",
+      "code": "180008",
+      "name": "Matarangolo Antonio",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp-180477-1767961119264-39",
+      "code": "180477",
+      "name": "Mieniailova Mariia",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp-171587-1767961119264-40",
+      "code": "171587",
+      "name": "Mihai Alexandru Constantin",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-181272-1767961119264-41",
+      "code": "181272",
+      "name": "Nascimento De Olivera Daniel",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164342-1767961119264-42",
+      "code": "164342",
+      "name": "Ododi Hortense",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 33.333333333333336,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-180669-1767961119264-43",
+      "code": "180669",
+      "name": "Okyere Rosemond",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp-181145-1767961119264-44",
+      "code": "181145",
+      "name": "Olivotto Mirko",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp-164392-1767961119264-45",
+      "code": "164392",
+      "name": "Ondua Josephine Ruphine",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp-171532-1767961119264-46",
+      "code": "171532",
+      "name": "Osarunmwense Joy",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "stats": {
+        "totalHours": 35,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp-172144-1767961119264-47",
+      "code": "172144",
+      "name": "Panganiban Adonna",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 33.333333333333336,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164402-1767961119264-48",
+      "code": "164402",
+      "name": "Penheiro Angela",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 31.15,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 35,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-179023-1767961119264-49",
+      "code": "179023",
+      "name": "Porta Naar Giuliano",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "00:00 - 06:30",
+      "currentDepartmentIndex": 0
+    },
+    {
+      "id": "emp-164404-1767961119264-50",
+      "code": "164404",
+      "name": "Pozzi Ilaria",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "☕ Riposo",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "05:00 - 11:15",
+        "05:00 - 11:15"
+      ],
+      "stats": {
+        "totalHours": 37.5,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "05:00 - 11:15"
+    },
+    {
+      "id": "emp-176999-1767961119264-51",
+      "code": "176999",
+      "name": "Prokh Antonina",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp-180471-1767961119264-52",
+      "code": "180471",
+      "name": "Pulvirenti Cristina",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp-164407-1767961119264-53",
+      "code": "164407",
+      "name": "Rani Reena",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp-164405-1767961119264-54",
+      "code": "164405",
+      "name": "Romeo Livia",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 31.15,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "stats": {
+        "totalHours": 35,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp-179452-1767961119264-55",
+      "code": "179452",
+      "name": "Ronzoni Alessandro",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp-180662-1767961119264-56",
+      "code": "180662",
+      "name": "Rota Stephanie",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 35,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-164412-1767961119264-57",
+      "code": "164412",
+      "name": "Sangapala Arachchige Don",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 32.5,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-180933-1767961119264-58",
+      "code": "180933",
+      "name": "Sarjo Famara",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-171537-1767961119264-59",
+      "code": "171537",
+      "name": "Serwaa Maame Ama",
+      "department": "Picking",
+      "subgroup": "3",
+      "contractType": 33.2,
+      "restDaysPerWeek": 2,
+      "schedule": [
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo"
+      ],
+      "stats": {
+        "totalHours": 32.5,
+        "shifts": 5
+      },
+      "absences": [],
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp-180663-1767961119264-60",
+      "code": "180663",
+      "name": "Sorrentino Mario",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp-164416-1767961119264-61",
+      "code": "164416",
+      "name": "Sylla Hakourou",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp-164454-1767961119264-62",
+      "code": "164454",
+      "name": "Tua Stefano",
+      "department": "Picking",
+      "subgroup": "2",
+      "contractType": 37.5,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp-180667-1767961119264-63",
+      "code": "180667",
+      "name": "Uzama Dennis",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp-177072-1767961119264-64",
+      "code": "177072",
+      "name": "Villegas Moncada Fernandes",
+      "department": "Picking",
+      "subgroup": "1",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp-179144-1767961119264-65",
+      "code": "179144",
+      "name": "Ziminiani Mattia",
+      "department": "Picking",
+      "subgroup": "4",
+      "contractType": 40,
+      "restDaysPerWeek": 1,
+      "schedule": [
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "absences": [],
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199570466_tsdiwj64n",
+      "code": "164422",
+      "name": "Baroni Manuela",
+      "department": "Freschi",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199570466_x61ruf8d3",
+      "code": "61601",
+      "name": "Costantino Stefano",
+      "department": "Assistente",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp_1768199570466_dhmg4pnm4",
+      "code": "180267",
+      "name": "D'Ambrosio Antonio",
+      "department": "Assistente",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp_1768199570466_mnlpt1tnb",
+      "code": "163846",
+      "name": "Diallo Mouhamed",
+      "department": "Freschi",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp_1768199570466_ilj3kfopc",
+      "code": "166502",
+      "name": "Flores Joe Marie",
+      "department": "Drogheria",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199570466_y1nv5k6ze",
+      "code": "164423",
+      "name": "Gaget Vanessa Marie",
+      "department": "Drogheria",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199570466_ej9notgvx",
+      "code": "164380",
+      "name": "Lundang Krishna",
+      "department": "Freschi",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp_1768199570466_bodefardt",
+      "code": "92879",
+      "name": "Luvarà Luca",
+      "department": "Assistente",
+      "subgroup": "No chiusura",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199570466_z6l5yvkfh",
+      "code": "164396",
+      "name": "Navarro Jhoseline",
+      "department": "Drogheria",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199570466_y3w8pz45t",
+      "code": "164424",
+      "name": "Neagoe Mihaela Alexandra",
+      "department": "Drogheria",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199570466_5t2cmfoq3",
+      "code": "164552",
+      "name": "Ornaghi Ludovico",
+      "department": "Assistente",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp_1768199570466_kxvfmb39z",
+      "code": "164413",
+      "name": "Santos Ventura",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp_1768199570466_bsu2zaosd",
+      "code": "173657",
+      "name": "Simeone Matias",
+      "department": "Assistente",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp_1768199583995_rykuch290",
+      "code": "164347",
+      "name": "Da Silva Maria de Lourdes",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp_1768199583995_xxcdr24c8",
+      "code": "164343",
+      "name": "Diakhate Ndeye Anta",
+      "department": "",
+      "subgroup": "Allattamento",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp_1768199583995_gsyi4vsmp",
+      "code": "166531",
+      "name": "Kaur Manpreet",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199583995_wq3ojv9wl",
+      "code": "171854",
+      "name": "Magro Antonio",
+      "department": "",
+      "subgroup": "ore 8:00",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199583995_jhg150d6e",
+      "code": "164403",
+      "name": "Perri Simona",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp_1768199583995_bx953fvu8",
+      "code": "172019",
+      "name": "Ranica Serena",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp_1768199595939_w8eifv27i",
+      "code": "164328",
+      "name": "Bamba Alida",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp_1768199595939_fscyjewfl",
+      "code": "180210",
+      "name": "Barba Emanuele",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp_1768199595939_9jqim7uvq",
+      "code": "164253",
+      "name": "Basilio Maricris",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp_1768199595939_gnxddu3o1",
+      "code": "164350",
+      "name": "Fahmidah Suraiya",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp_1768199595939_v56916av3",
+      "code": "164406",
+      "name": "Rani Neelam",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199595939_whnn6i59i",
+      "code": "164409",
+      "name": "Success Godstime",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199824847_loxvukjbs",
+      "code": "164344",
+      "name": "Adams Yaw Mustapha",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp_1768199824847_v2odxfsyd",
+      "code": "172247",
+      "name": "Ait Moha Youssef",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp_1768199824847_xwqij15mv",
+      "code": "171837",
+      "name": "Akiwumi Daniel Papanii",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp_1768199824847_qaxi2mvmb",
+      "code": "164379",
+      "name": "Aliemeke Chuks",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp_1768199824847_rbtg6j354",
+      "code": "172254",
+      "name": "Bandaogo Ibrahim",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp_1768199824847_0b8c43nov",
+      "code": "180006",
+      "name": "Ceisvili Suliko",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp_1768199824847_k2kfnqd6e",
+      "code": "164346",
+      "name": "Daran Ifeanyi Robert",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp_1768199824847_e4henaaid",
+      "code": "164340",
+      "name": "Debrah Moustapha",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199824847_o72uqipnl",
+      "code": "171798",
+      "name": "Diakite Fantamadi",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp_1768199824847_cfb7cyu7a",
+      "code": "176993",
+      "name": "F Tengbeh Mustapha",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp_1768199824847_wxmjoqx96",
+      "code": "164388",
+      "name": "Imuetinyan Donald",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp_1768199824847_6giadz3er",
+      "code": "171548",
+      "name": "Kamissoko Taoulè",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp_1768199824847_1jq1t9ggl",
+      "code": "177074",
+      "name": "Karim Matinu",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp_1768199824847_loz3bj8zb",
+      "code": "164370",
+      "name": "Kings Henrino",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp_1768199824847_sr1nffmlu",
+      "code": "164397",
+      "name": "Nwadozie Sunday",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199824847_kh2mctoch",
+      "code": "178912",
+      "name": "Tassetti Claudio",
+      "department": "Ribalta",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199824847_013o30whl",
+      "code": "164345",
+      "name": "Dramè Seckou",
+      "department": "Ribalta",
+      "subgroup": "solo 4 e 10",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp_1768199824847_lbkqzqyz3",
+      "code": "164372",
+      "name": "Ikponmwosa Osawaru",
+      "department": "Ribalta",
+      "subgroup": "solo 4 e 10",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp_1768199834831_4dw4paouo",
+      "code": "173644",
+      "name": "Castagna David",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp_1768199834831_zffp14c0t",
+      "code": "164366",
+      "name": "Ekhator Emmanuel",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp_1768199834831_1qqha86ww",
+      "code": "164361",
+      "name": "Jimenez Gustavo",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp_1768199834831_r9oqehhyy",
+      "code": "166505",
+      "name": "Kennedy Monday",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp_1768199834831_vel4tqfcy",
+      "code": "164382",
+      "name": "Madbor Anayet",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199834831_o1ftdm0nc",
+      "code": "166503",
+      "name": "Ojo Timothy",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199842688_z7xiolgzs",
+      "code": "164326",
+      "name": "Abad Ramil",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp_1768199842688_qnap7ufq3",
+      "code": "164401",
+      "name": "Panganiban Jhon Jhon",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo",
+        "08:00 - 16:00",
+        "08:00 - 16:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "08:00 - 16:00"
+    },
+    {
+      "id": "emp_1768199842688_vjl2g4hgp",
+      "code": "164365",
+      "name": "Khan Riaz",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp_1768199842688_cyuhlr48y",
+      "code": "164419",
+      "name": "Trinidad Edwin",
+      "department": "",
+      "subgroup": "solo notte",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp_1768199852599_issrxwtvt",
+      "code": "179147",
+      "name": "Amadei Nicolò",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp_1768199852599_arqt3dmqf",
+      "code": "164391",
+      "name": "Andoh Sopie Marie",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp_1768199852599_nfcz1u6wx",
+      "code": "169874",
+      "name": "Bianchi Karina",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "00:00 - 06:30"
+    },
+    {
+      "id": "emp_1768199852599_7ddwanpfz",
+      "code": "164298",
+      "name": "Gamba Davide",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "☕ Riposo",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199852599_x7om9iaos",
+      "code": "164368",
+      "name": "Kaakyire Yeboah Asuamah",
+      "department": "",
+      "subgroup": "Solo ore 18:00",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "06:30 - 13:00"
+    },
+    {
+      "id": "emp_1768199852599_a09ibzen8",
+      "code": "172249",
+      "name": "Koomson Sarah",
+      "department": "",
+      "subgroup": "No ore 8:00",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "08:00 - 16:00",
+        "☕ Riposo"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp_1768199852599_5srdgapwc",
+      "code": "173533",
+      "name": "Nembrini Simone",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "09:00 - 17:00",
+        "☕ Riposo",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00",
+        "09:00 - 17:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 48,
+        "shifts": 6
+      },
+      "lastShift": "09:00 - 17:00"
+    },
+    {
+      "id": "emp_1768199852599_2b2nj2wsu",
+      "code": "164411",
+      "name": "Sollecito Margherita",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00",
+        "13:00 - 20:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "13:00 - 20:00"
+    },
+    {
+      "id": "emp_1768199859783_rjade14ru",
+      "code": "164331",
+      "name": "Caballero Irusta Miguel Angel",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "☕ Riposo",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40",
+        "17:00 - 23:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 23:40"
+    },
+    {
+      "id": "emp_1768199859783_y2d6fupys",
+      "code": "164332",
+      "name": "Chalas Liriano Welin",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00",
+        "17:00 - 00:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 42,
+        "shifts": 6
+      },
+      "lastShift": "17:00 - 00:00"
+    },
+    {
+      "id": "emp_1768199859783_vlmq9rzay",
+      "code": "164355",
+      "name": "Gherardi Luca",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "00:00 - 06:30",
+        "☕ Riposo"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "☕ Riposo"
+    },
+    {
+      "id": "emp_1768199859783_zkkoe4aey",
+      "code": "164381",
+      "name": "Lasiychuk Maryna",
+      "department": "",
+      "subgroup": "solo ore 6:00",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "☕ Riposo",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40",
+        "05:00 - 11:40"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 40,
+        "shifts": 6
+      },
+      "lastShift": "05:00 - 11:40"
+    },
+    {
+      "id": "emp_1768199859783_2y8jecsqa",
+      "code": "171905",
+      "name": "Madani Zakaria",
+      "department": "",
+      "subgroup": "",
+      "contractHours": 40,
+      "customMinutes": 0,
+      "schedule": [
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "☕ Riposo",
+        "06:30 - 13:00",
+        "06:30 - 13:00",
+        "06:30 - 13:00"
+      ],
+      "absences": [],
+      "stats": {
+        "totalHours": 39,
+        "shifts": 6
+      },
+      "lastShift": "06:30 - 13:00"
+    }
+  ],
+  "config": {
+    "currentWeek": "2026-W04",
+    "holidays": [],
+    "timeSlots": [
+      "00:00 - 06:30",
+      "05:00",
+      "06:30 - 13:00",
+      "08:00 - 16:00",
+      "09:00 - 17:00",
+      "13:00 - 20:00",
+      "17:00",
+      "17:00 - 00:00"
+    ],
+    "customStates": [],
+    "departmentRotations": {
+      "Drogheria": [
+        "T1",
+        "T2"
+      ]
+    },
+    "distributionPerShift": [],
+    "rotationOffset": 0
+  },
+  "metadata": {
+    "exportDate": "2026-01-12T06:37:57.176Z",
+    "version": "2.1",
+    "employeeCount": 132,
+    "timeSlotsCount": 8,
+    "customStatesCount": 0
+  }
+}

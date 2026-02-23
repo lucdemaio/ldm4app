@@ -1,0 +1,45 @@
+--- README.md.orig	2026-02-21 00:00:00.000000000 +0000
++++ README.md	2026-02-21 00:00:00.000000000 +0000
+@@
+ - `docker-compose.yml`: orchestrazione
+   locale
+ - `nginx.conf.example`: configurazione reverse proxy
+ - `deploy.sh`: script di
+   deploy automatico
++
++## Proxy per provider esterni (Grok/Gemini/OpenAI)
++
++Per permettere al client `ia.html` di chiamare i servizi IA senza esporre
++le chiavi API e aggirare i limiti CORS, il server espone anche una piccola
++API proxy.
++
++La logica è già inclusa in `server.js` nelle rotte:
++
++```
++POST /proxy/grok     -> inoltra a https://api.grok.ai/v1/generate
++POST /proxy/groq     -> alias con typo
++POST /proxy/gemini   -> inoltra al modello Gemini (configurabile con body.model)
++POST /proxy/openai   -> inoltra a OpenAI Chat Completions (fallback)
++```
++
++Il proxy usa le variabili d'ambiente:
++
++```
++GROK_KEY   # chiave xAI Grok
++GEMINI_KEY # chiave Google Generative
++OPENAI_KEY # (opzionale) fallback OpenAI
++ALLOWED_ORIGINS # lista CORS separata da virgole (il server abilita CORS per tutti se vuoto)
++```
++
++Nella configurazione Docker o nel `.env` definisci le chiavi; il client può
++poi impostare `proxy_url` a `https://www.ldm4app.com/turni/proxy` per usarlo.
++
++> **Nota:** il campo CORS è già gestito da `app.use(cors())` in questo
++> progetto, ma per maggiore sicurezza puoi limitare `ALLOWED_ORIGINS`.
++
+@@
+ - `nginx.conf.example /etc/nginx/sites-available/ldm4app.com`
++  - assicurati di aggiungere un blocco **location /turni/proxy** che faccia
++    `proxy_pass http://127.0.0.1:3000;` oppure al `PORT` scelto.
+ - ln -s
+ /etc/nginx/sites-available/ldm4app.com /etc/nginx/sites-enabled/
