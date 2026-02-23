@@ -2149,7 +2149,7 @@
             const employee = ShiftManager.STATE.employees.find(e => e.id === employeeId);
             if (!employee) return;
             
-            const options = ShiftManager.getShiftOptions(currentValue);
+            const options = ShiftManager.getShiftOptions(currentValue, employee);
             const dayNames = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
             
             // Close helper function for modal interactions

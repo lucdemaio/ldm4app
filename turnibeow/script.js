@@ -430,20 +430,19 @@ function renderTableHeader() {
 /**
  * Genera opzioni select per turni (fasce orarie + stati operativi)
  */
-function getShiftOptions(currentValue = '') {
+function getShiftOptions(currentValue = '', employee = null) {
     let options = '<option value="">-- Seleziona --</option>';
     
     // Gruppo: Fasce Orarie personalizzate (da configurazione)
     if (STATE.timeSlots && STATE.timeSlots.length > 0) {
         options += '<optgroup label="🕒 Fasce Orarie Configurate">';
         STATE.timeSlots.forEach((slot, index) => {
-            // Se è già in formato range, usa così, altrimenti aggiungi +8h
+            // Se è già in formato range, usa così, altrimenti usa calculateShiftEnd
             let slotValue = slot;
             if (!slot.includes(' - ')) {
-                // Calcola fine turno (+8 ore)
-                const [h, m] = slot.split(':').map(Number);
-                const endH = (h + 8) % 24;
-                slotValue = `${slot} - ${String(endH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+                // compute end time based on employee contract or default
+                const contractType = (employee && (employee.contractType || employee.contractHours)) || 40;
+                slotValue = calculateShiftEnd(slot, contractType, employee);
             }
             const label = `T${index + 1}: ${slotValue}`;
             const selected = currentValue === slotValue || currentValue === slot ? 'selected' : '';
