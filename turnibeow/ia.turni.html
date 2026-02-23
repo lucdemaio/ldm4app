@@ -229,6 +229,17 @@
     }
     let p = (localStorage.getItem('proxy_url') || '').trim();
     let prov = localStorage.getItem('provider') || 'gemini';
+    // if the page is hosted under /turnibeow and the saved proxy points to
+    // /turni/proxy, rewrite it automatically to avoid old 405 errors
+    try {
+      const path = window.location.pathname || '/';
+      if (path.startsWith('/turnibeow') && p.startsWith('/turni/proxy/')) {
+        p = p.replace('/turni/proxy/', '/turnibeow/proxy/');
+        localStorage.setItem('proxy_url', p);
+      }
+    } catch (e) {
+      /* ignore */
+    }
     // normalize alias
     if (prov === 'groq') prov = 'grok';
     if (providerSelect) providerSelect.value = prov;
@@ -274,7 +285,15 @@
       localStorage.setItem('groq_api_key', s3);
     }
     if (proxyUrlInput) {
-      const pv = (proxyUrlInput.value || '').trim();
+      let pv = (proxyUrlInput.value || '').trim();
+      // convert old /turni proxy paths to /turnibeow when applicable
+      try {
+        const path = window.location.pathname || '/';
+        if (path.startsWith('/turnibeow') && pv.startsWith('/turni/proxy/')) {
+          pv = pv.replace('/turni/proxy/', '/turnibeow/proxy/');
+          proxyUrlInput.value = pv;
+        }
+      } catch (e) { /* ignore */ }
       proxyUrlInput.value = pv;
       if (pv) localStorage.setItem('proxy_url', pv); else localStorage.removeItem('proxy_url');
     }
@@ -1210,11 +1229,15 @@ Esempio valido: {"action":"updateShift","payload":{"employeeId":"EMP001","dayInd
       // user-specific path under /turnibeow
       if (host.includes('ldm4app.com') && path.startsWith('/turnibeow')) {
         const beowProxy = `https://www.ldm4app.com/turnibeow/proxy/${prov}`;
-        if (proxyUrlInput && !proxyUrlInput.value) {
-          proxyUrlInput.value = beowProxy;
-          localStorage.setItem('proxy_url', beowProxy);
-          console.log('Auto-impostato proxy production (turnibeow): ' + beowProxy);
-          return;
+        if (proxyUrlInput) {
+          // if field is empty or points at the old /turni path, override it
+          const cur = proxyUrlInput.value.trim();
+          if (!cur || cur.includes('/turni/proxy/')) {
+            proxyUrlInput.value = beowProxy;
+            localStorage.setItem('proxy_url', beowProxy);
+            console.log('Auto-impostato proxy production (turnibeow): ' + beowProxy);
+            return;
+          }
         }
       }
 
