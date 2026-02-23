@@ -68,6 +68,8 @@
         <select id="providerSelect" class="meta" style="padding:8px;border-radius:8px;background:transparent;color:var(--muted);min-width:160px">
           <option value="gemini">Gemini (Google)</option>
           <option value="grok">Grok (xAI)</option>
+          <!-- groq è solo un alias/tipo che alcuni utenti sbagliano; viene normalizzato in "grok" in JS -->
+          <option value="groq">Groq (alias per Grok)</option>
         </select>
 
         <input id="geminiApiKey" type="text" placeholder="Gemini (Google) API key" />
@@ -206,9 +208,15 @@
 
   function loadKeysFromStorage() {
     const k = (localStorage.getItem('gemini_api_key') || '').replace(/\s+/g, '');
-    const g = (localStorage.getItem('grok_api_key') || '').replace(/\s+/g, '');
+    // support both grok_api_key and groq_api_key (alias)
+    let g = (localStorage.getItem('grok_api_key') || '').replace(/\s+/g, '');
+    if (!g) {
+      g = (localStorage.getItem('groq_api_key') || '').replace(/\s+/g, '');
+    }
     let p = (localStorage.getItem('proxy_url') || '').trim();
     let prov = localStorage.getItem('provider') || 'gemini';
+    // normalize alias
+    if (prov === 'groq') prov = 'grok';
     if (providerSelect) providerSelect.value = prov;
     if (geminiApiKeyInput) geminiApiKeyInput.value = k;
     if (grokApiKeyInput) grokApiKeyInput.value = g;
@@ -234,7 +242,10 @@
 
   function saveKeysToStorage() {
     if (providerSelect) {
-      localStorage.setItem('provider', providerSelect.value);
+      // store normalized provider name
+      let prov = providerSelect.value;
+      if (prov === 'groq') prov = 'grok';
+      localStorage.setItem('provider', prov);
     }
     if (geminiApiKeyInput) {
       const s2 = sanitizeKey(geminiApiKeyInput.value);
@@ -245,6 +256,8 @@
       const s3 = sanitizeKey(grokApiKeyInput.value);
       grokApiKeyInput.value = s3;
       localStorage.setItem('grok_api_key', s3);
+      // keep alias key for backwards compatibility
+      localStorage.setItem('groq_api_key', s3);
     }
     if (proxyUrlInput) {
       const pv = (proxyUrlInput.value || '').trim();
@@ -270,7 +283,11 @@
   }
 
   function getSelectedProvider() {
-    if (providerSelect) return providerSelect.value;
+    if (providerSelect) {
+      let prov = providerSelect.value;
+      if (prov === 'groq') prov = 'grok';
+      return prov;
+    }
     // fallback: choose grok if key present
     if (grokApiKeyInput && grokApiKeyInput.value.trim()) return 'grok';
     return 'gemini';
