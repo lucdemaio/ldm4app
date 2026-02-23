@@ -205,6 +205,8 @@
       list.push(user);
     } else {
       // default candidates: try several common mount points so 405s are less likely
+      // start with the turnibeow path since that's the correct one for this site
+      list.push(`/turnibeow/proxy/${provider}`);
       list.push(`/turni/turni/proxy/${provider}`);
       list.push(`/turni/proxy/${provider}`);
       list.push(`/proxy/${provider}`);
