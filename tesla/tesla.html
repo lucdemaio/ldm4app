@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-TWZ6YZH6JT');
+        </script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ldm4app - Soluzioni Gestionali su Misura</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0a0e27',
+                        'cobalt': '#0066ff',
+                        'accent': '#00d4ff',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(0, 102, 255, 0.3)' },
+                            '50%': { boxShadow: '0 0 40px rgba(0, 102, 255, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradient-shift 5s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.4);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 102, 255, 0.3);
+        }
+        
+        .nav-glass {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 102, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(0, 102, 255, 0.15), transparent 60%),
+                        radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.15), transparent 60%);
+        }
+        
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: #0066ff;
+            top: 10%;
+            left: 10%;
+        }
+        
+        .orb-2 {
+            width: 250px;
+            height: 250px;
+            background: #8b5cf6;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: #00d4ff;
+            top: 50%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+        
+        .icon-glow {
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.6));
+        }
+        
+        .section-dark {
+            background: linear-gradient(180deg, #0a0e27 0%, #151a35 100%);
+        }
+        
+        .badge {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #00d4ff;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 212, 255, 0.2));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-orb {
+                filter: blur(60px);
+            }
+            
+            h1 {
+                font-size: 2.5rem !important;
+            }
+            
+            h2 {
+                font-size: 2rem !important;
+            }
+            
+            .container {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+            }
+            
+            h2 {
+                font-size: 1.75rem !important;
+            }
+            
+            h3 {
+                font-size: 1.3rem !important;
+            }
+            
+            p {
+                font-size: 0.95rem !important;
+            }
+            
+            .container {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
+            body {
+                padding: 0 !important;
+            }
+            
+            header nav {
+                padding: 1rem 1rem !important;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.75rem 1.5rem !important;
+                font-size: 0.95rem !important;
+            }
+            
+            .feature-icon {
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 24px !important;
+            }
+            
+            .glass-card {
+                padding: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.75rem !important;
+            }
+            
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            h3 {
+                font-size: 1.1rem !important;
+            }
+            
+            p {
+                font-size: 0.9rem !important;
+            }
+            
+            .badge {
+                font-size: 0.75rem !important;
+                padding: 0.3rem 0.8rem !important;
+            }
+            
+            .glass-card {
+                padding: 1rem !important;
+                gap: 0.5rem !important;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.6rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+        }
+
+        /* Share buttons (WhatsApp / Telegram) */
+        .share-bar {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+        .share-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+        .share-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 10px 24px rgba(0,0,0,0.3); }
+        .share-whatsapp { background: #25D366; }
+        .share-telegram { background: #0088cc; }
+        @media (max-width: 640px) {
+            .share-bar { right: 12px; bottom: 12px; gap: 8px; }
+            .share-btn { width: 48px; height: 48px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold gradient-text">
+                    <a href="https://www.ldm4app.com" target="_blank" rel="noopener noreferrer">LDM4APP</a>
+                </div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <li><a href="/tesla/utilita.html" class="text-gray-300 hover:text-accent transition" onclick="window.location.href='/tesla/utilita.html'; return false;">Utilità</a></li>
+                    <li><a href="/tesla/giochi.html" id="giochi-link" class="text-yellow-300 hover:text-accent font-semibold transition">Giochi Gratuiti</a></li>
+                    <li><a href="#contatti" class="btn-primary text-white px-6 py-2 rounded-full font-semibold">Contatti</a></li>
+                </ul>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
+                <li><a href="#prodotti" class="block text-gray-300 hover:text-accent transition">Prodotti</a></li>
+                <li><a href="/tesla/giochi.html" id="giochi-link-mobile" class="block text-yellow-300 hover:text-accent transition">Giochi Gratuiti</a></li>
+                <li><a href="#contatti" class="block btn-primary text-white px-6 py-3 rounded-full text-center">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="pt-24">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Card: Giochi -->
+                <div class="glass-card p-8 animate-slide-up">
+                    <div class="feature-icon mb-6 icon-glow">
+                        <i class="fas fa-gamepad text-indigo-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Giochi</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Divertiti con una selezione di giochi ottimizzati per il touchscreen. Clicca il pulsante per accedere alla pagina dedicata e prova Stellar ed altri titoli direttamente dal tuo dispositivo.
+                    </p>
+                    <a href="/tesla/giochi.html" class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                        Vai a Giochi 🚀
+                    </a>
+                </div>
+                <!-- Card: Utilità -->
+                <div class="glass-card p-8 animate-slide-up">
+                    <div class="feature-icon mb-6 icon-glow">
+                        <i class="fas fa-wrench text-green-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Utilità</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Scopri i programmi utili pensati per migliorare la tua esperienza a bordo: strumenti, diagnostica e altro ancora. Premi il pulsante per esplorare tutte le utilità disponibili.
+                    </p>
+                    <a href="/tesla/utilita.html" class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                        Vai a Utilità 🔧
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // load external page into main container
+        function loadPage(url) {
+            fetch(url)
+                .then(r => r.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const main = doc.querySelector('main');
+                    document.querySelector('main').innerHTML = main ? main.innerHTML : '';
+                })
+                .catch(err => console.error('Load page error', err));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const link = document.getElementById('giochi-link');
+            if (link) {
+                link.addEventListener('click', e => { e.preventDefault(); loadPage('/tesla/giochi.html'); });
+            }
+            const linkMob = document.getElementById('giochi-link-mobile');
+            if (linkMob) {
+                linkMob.addEventListener('click', e => { e.preventDefault(); loadPage('/tesla/giochi.html'); });
+            }
+        });
+    </script>
+</body>
+</html>

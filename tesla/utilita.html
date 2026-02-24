@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilità</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0a0e27',
+                        'cobalt': '#0066ff',
+                        'accent': '#00d4ff',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(0, 102, 255, 0.3)' },
+                            '50%': { boxShadow: '0 0 40px rgba(0, 102, 255, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', sans-serif; }
+        /* minimal header styles repeated */
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); position: relative; overflow:hidden; transition:all .3s ease; }
+        .btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s;}
+        .btn-primary:hover::before{left:100%;}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(0,102,255,.5);}        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.4);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 102, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold gradient-text"><a href="https://www.ldm4app.com" target="_blank" rel="noopener noreferrer">LDM4APP</a></div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <li><a href="tesla.html" class="text-gray-300 hover:text-accent transition">Home</a></li>
+                    <li><a href="#" class="text-yellow-300 hover:text-accent font-semibold transition">Utilità</a></li>
+                </ul>
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <main class="pt-24">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass-card p-8 animate-slide-up mx-auto max-w-md">
+                <div class="feature-icon mb-6 icon-glow">
+                    <i class="fas fa-globe text-green-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-4">Traduttore MultiLingua Pro</h3>
+                <p class="text-gray-300 mb-6 leading-relaxed">
+                    Traduci istantaneamente in 35 lingue diverse – dalle più comuni (Inglese, Spagnolo, Francese) alle lingue asiatiche, slave e europee. API cloud powered by MyMemory: gratuito e illimitato!
+                </p>
+                <a href="https://www.ldm4app.com/traduttore/selector.html" target="_blank" rel="noopener noreferrer" 
+                   class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                    Apri Traduttore 🌐
+                </a>
+                <p class="text-xs text-gray-400 mt-4">
+                    💡 Supporto vocale Web Speech API - Funziona su Chrome, Edge, Safari | Gratuito & Illimitato | Privacy: nessun dato inviato
+                </p>
+            </div>
+            <!-- Card: Giochi -->
+            <div class="glass-card p-8 animate-slide-up mx-auto max-w-md">
+                <div class="feature-icon mb-6 icon-glow">
+                    <i class="fas fa-gamepad text-indigo-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-4">Giochi</h3>
+                <p class="text-gray-300 mb-6 leading-relaxed">
+                    Esplora i giochi disponibili ottimizzati per il touchscreen. Clicca il pulsante per accedere alla pagina dedicata e divertirti con Stellar, Floppy Bird e altri titoli.
+                </p>
+                <a href="/tesla/giochi.html" class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                    Vai a Giochi 🚀
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
