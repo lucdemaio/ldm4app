@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversione</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* Modern 2026 layout styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .main-title {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out forwards;
+        }
+        nav.navbar {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .nav-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-item {
+            position: relative;
+            margin: 0 15px;
+        }
+        .dropbtn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .dropbtn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .dropbtn i {
+            color: #ffdd57; /* golden accent color */
+            margin-right: 6px;
+        }
+        .dropbtn:hover i {
+            color: #fff;
+        }
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0,0,0,0.8);
+            min-width: 160px;
+            border-radius: 6px;
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: #fff;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.2s;
+        }
+        .dropdown-content a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-item:hover .dropdown-content {
+            display: block;
+        }
+        /* Add smooth fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #convert-area {
+            margin-top: 40px;
+            text-align: center;
+        }
+        #guide {
+            margin-top: 60px;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        #guide h2 {
+            margin-top: 0;
+        }
+        #guide p, #guide ul {
+            color: #fff;
+            line-height: 1.5;
+        }
+        #preview-area {
+            margin-bottom: 20px;
+            max-width: 90%;
+            overflow: hidden;
+        }
+        #preview-area img,
+        #preview-area video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        }
+        #preview-area audio {
+            width: 80%;
+        }
+        #options-area {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .option-button {
+            background: #fff;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s;
+            border: 1px solid #ccc;
+        }
+        .option-button:hover {
+            background: #f0f0f0;
+        }
+        /* cards panel overlay */
+        #cards-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        #cards-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .card i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            /* color will be set inline */
+        }
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 8px;
+        }
+        .card-label {
+            font-size: 0.9rem;
+            color: #333;
+            margin-top: 4px;
+        }
+        /* guide panel overlay */
+        #guide-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+        #guide-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 700px;
+            width: 90%;
+            color: #333;
+        }
+        #guide-content ul { margin-left: 20px; }
+        #guide-content h2 { margin-top: 0; }
+        #guide-panel.hidden { display: none; }
+
+        .convert-button {
+            display: inline-block;
+            background: #ffdd57;
+            color: #333;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .convert-button:hover {
+            background: #ffd633;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Converti tutti i file by ldm4app.com</h1>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item dropdown">
+                    <button class="dropbtn" onclick="showCategoryCards('archivi')"><img src="assets/icons/zip.svg" class="nav-icon" alt="Archivi"/> Archivi</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startConversion('archivi','zip','tar.gz')">ZIP ⇄ TAR.GZ</a>
+                        <a href="#" onclick="startConversion('archivi','7z','rar')">7Z ⇄ RAR</a>
+                        <a href="#" onclick="startConversion('archivi','iso','folder')">ISO → cartella</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="dropbtn" onclick="showCategoryCards('ebook')"><img src="assets/icons/epub.svg" class="nav-icon" alt="E-book"/> E-book</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startConversion('ebook','epub','mobi')">EPUB ⇄ MOBI</a>
+                        <a href="#" onclick="startConversion('ebook','pdf','epub')">PDF → EPUB</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="dropbtn" onclick="showCategoryCards('immagini')"><img src="assets/icons/jpg.svg" class="nav-icon" alt="Immagini"/> Immagini</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startConversion('immagini','jpeg','png')">JPEG ⇄ PNG</a>
+                        <a href="#" onclick="startConversion('immagini','png','webp')">PNG ⇄ WEBP</a>
+                        <a href="#" onclick="startConversion('immagini','bmp','png')">BMP ⇄ PNG</a>
+                        <a href="#" onclick="startConversion('immagini','tiff','jpeg')">TIFF ⇄ JPEG</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="dropbtn" onclick="showCategoryCards('video')"><img src="assets/icons/mp4.svg" class="nav-icon" alt="Video"/> Video</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startConversion('video','mp4','mkv')">MP4 ⇄ MKV</a>
+                        <a href="#" onclick="startConversion('video','avi','mp4')">AVI → MP4</a>
+                        <a href="#" onclick="startConversion('video','webm','mp4')">WebM ⇄ MP4</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="dropbtn" onclick="showCategoryCards('audio')"><img src="assets/icons/mp3.svg" class="nav-icon" alt="Audio"/> Audio</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startConversion('audio','mp3','wav')">MP3 ⇄ WAV</a>
+                        <a href="#" onclick="startConversion('audio','flac','wav')">FLAC ⇄ WAV</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="dropbtn" onclick="showCategoryCards('documenti')"><img src="assets/icons/word.svg" class="nav-icon" alt="Documenti"/> Documenti</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startConversion('documenti','docx','pdf')">DOCX ⇄ PDF</a>
+                        <a href="#" onclick="startConversion('documenti','xlsx','csv')">XLSX ⇄ CSV</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="dropbtn" onclick="showCategoryCards('pdf')"><img src="assets/icons/pdf.svg" class="nav-icon" alt="PDF"/> PDF</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startConversion('pdf')">PDF ⇄ Word (DOC/DOCX)</a>
+                        <a href="#" onclick="startConversion('pdf')">PDF ⇄ PowerPoint (PPT/PPTX)</a>
+                        <a href="#" onclick="startConversion('pdf')">PDF ⇄ Excel (XLS/XLSX)</a>
+                        <a href="#" onclick="startConversion('pdf')">PDF ⇄ JPG/PNG</a>
+                        <a href="#" onclick="startConversion('pdf')">HTML → PDF</a>
+                        <a href="#" onclick="startConversion('pdf')">PDF → PDF/A</a>
+                        <a href="#" onclick="startConversion('pdf')">Merge/Split/Compress (non conversione)</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="dropbtn" onclick="showCategoryCards('altro')"><img src="assets/icons/other.svg" class="nav-icon" alt="Altro"/> Altro</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startConversion('altro','csv','json')">CSV ⇄ JSON</a>
+                        <a href="#" onclick="startConversion('altro','ttf','otf')">TTF ⇄ OTF</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <button class="dropbtn" onclick="showGuide()"><i class="fas fa-question-circle"></i> Guida</button>
+                </li>
+            </ul>
+        </nav>
+        <div id="convert-area">
+            <input type="file" id="file-input" style="display:none" />
+            <div id="preview-area"></div>
+            <div id="options-area"></div>
+            <a id="download-btn" style="display:none" class="convert-button">Scarica file</a>
+        </div>
+        <div id="cards-panel" style="display:none">
+            <div id="cards-container"></div>
+        </div>
+        <div id="guide-panel" style="display:none">
+            <div id="guide-content">
+                <h2>Guida all'uso</h2>
+                <p>Benvenuto nel convertitore offline! Segui questi semplici passi:</p>
+                <ul>
+                    <li>Scegli una categoria dalla barra in alto (Archivi, Immagini, Video, ecc.). Cliccandola si aprirà un pannello con schede e icone che rappresentano ogni tipo di conversione disponibile per quella categoria.</li>
+                    <li>Nel menu a tendina seleziona la coppia di formati desiderati oppure clicca direttamente sulla scheda corrispondente. Ogni voce/scheda supporta la conversione in entrambe le direzioni.</li>
+                    <li>Si aprirà la finestra di selezione: naviga tra le cartelle e scegli il file da convertire.</li>
+                    <li>Appena selezionato il file vedrai un'anteprima (se supportata) al centro della pagina.</li>
+                    <li>Clicca sul pulsante <strong>Scarica …</strong> o su uno dei pulsanti sottostanti che appaiono per ottenere il file con la nuova estensione desiderata (tutte le conversioni supportate vengono mostrate).</li>
+                </ul>
+                <p>Puoi ripetere l'operazione quante volte vuoi. La conversione è simulata, quindi il contenuto rimane invariato; sostituisci la logica con librerie specifiche per effettuare trasformazioni reali.</p>
+                <p>Abbiamo incluso una categoria dedicata ai PDF ispirata ai tool di <em>ilovepdf.com</em>: potrai convertire in / da Word, PowerPoint, Excel, JPG/PNG, HTML, PDF/A e altro ancora. Anche se le funzioni come unire o comprimere non sono conversioni, sono elencate per completezza.</p>
+                <p>Le categorie possono essere ulteriormente ampliate aggiungendo estensioni nello <code>conversionMap</code> in <code>conversion.js</code>; tutto il sistema è completamente client-side e funziona offline.</p>
+            </div>
+        </div>
+    </div>
+    <script src="conversion.js"></script>
+</body>
+</html>
