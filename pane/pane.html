@@ -341,10 +341,39 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('ServiceWorker registered', reg))
-                    .catch(err => console.error('SW registration failed', err));
+                    .then(reg => console.log('ServiceWorker registrato', reg))
+                    .catch(err => console.error('SW registration fallita', err));
             });
         }
+
+        // PWA install prompt management
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt fired');
+            e.preventDefault();
+            deferredPrompt = e; // save for later
+            // you could show a custom install button here
+            const btn = document.createElement('button');
+            btn.textContent = 'Installa app';
+            btn.style.position = 'fixed';
+            btn.style.bottom = '1rem';
+            btn.style.right = '1rem';
+            btn.style.zIndex = '1000';
+            btn.addEventListener('click', async () => {
+                btn.remove();
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const choice = await deferredPrompt.userChoice;
+                    console.log('install choice', choice.outcome);
+                    deferredPrompt = null;
+                }
+            });
+            document.body.appendChild(btn);
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA installata');
+        });
 
         document.getElementById('pdfInput').addEventListener('change', (e) => {
             const file = e.target.files[0];
