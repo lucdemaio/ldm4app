@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#343a40">
+    <title>Importa Pane</title>
+    <link rel="manifest" href="manifest.json">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- pdf.js per il parsing di PDF (versione stabile 2.16.105) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- jsPDF per l'esportazione in PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js" crossorigin="anonymous"></script>
+    <!-- Simple modern styling using CSS flexbox and variables -->
+    <style>
+        :root {
+            --primary-color: #343a40;
+            --secondary-color: #f8f9fa;
+            --accent-color: #007bff;
+            --text-color: #fff;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background-color: var(--secondary-color);
+            color: #212529;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            height: 56px;
+        }
+        .navbar .brand {
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .sandwich-icon {
+            width: 32px;
+            height: 32px;
+        }
+        .btn-icon {
+            width: 1em;
+            height: 1em;
+            margin-right: 0.5rem;
+            /* allow each SVG to define its own colors */
+        }
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .navbar button {
+            background: linear-gradient(135deg, #4b515d 0%, #2c3036 100%);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: var(--text-color);
+            padding: 0.6rem 0.9rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px);
+        }
+        .navbar button i {
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .navbar button:hover {
+            background: linear-gradient(135deg, #5c6370 0%, #3a3f47 100%);
+            transform: scale(1.07);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+        /* responsive collapse for small screens */
+        @media (max-width: 600px) {
+            .navbar .nav-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+                background-color: var(--primary-color);
+                position: absolute;
+                top: 56px;
+                left: 0;
+                right: 0;
+                display: none;
+            }
+            .navbar .nav-buttons.show {
+                display: flex;
+            }
+            .navbar .toggle {
+                display: block;
+            }
+        }
+        .navbar .toggle {
+            display: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+        /* table styling */
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: #fff;
+            color: #212529;
+        }
+        .data-table th,
+        .data-table td {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+        .data-table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        .data-table th {
+            background: var(--primary-color);
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="brand">Gestione Pane
+            <svg class="sandwich-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <rect y="10" width="60" height="8" fill="#f4a261"/>
+                <rect y="22" width="60" height="8" fill="#e9c46a"/>
+                <rect y="34" width="60" height="8" fill="#2a9d8f"/>
+                <rect y="46" width="60" height="8" fill="#e76f51"/>
+            </svg>
+        </div>
+        <div class="toggle" onclick="toggleMenu()">&#9776;</div>
+        <nav class="nav-buttons" id="navMenu">
+            <button id="btnImportWebNotte">
+                <svg class="btn-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#c62828" d="M12 0h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12H12A12 12 0 0 1 0 52V12A12 12 0 0 1 12 0z"/>
+                    <path fill="#b71c1c" d="M52 0v12h12"/>
+                    <text x="32" y="40" font-family="Arial" font-size="18" fill="#fff" font-weight="bold" text-anchor="middle">PDF</text>
+                </svg>
+                Importa PDF Web Notte
+            </button>
+            <button id="btnImportLockerNotte">
+                <svg class="btn-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#c62828" d="M12 0h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12H12A12 12 0 0 1 0 52V12A12 12 0 0 1 12 0z"/>
+                    <path fill="#b71c1c" d="M52 0v12h12"/>
+                    <text x="32" y="40" font-family="Arial" font-size="18" fill="#fff" font-weight="bold" text-anchor="middle">PDF</text>
+                </svg>
+                Importa PDF Locker Notte
+            </button>
+            <button id="btnImportLockerMattino">
+                <svg class="btn-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#c62828" d="M12 0h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12H12A12 12 0 0 1 0 52V12A12 12 0 0 1 12 0z"/>
+                    <path fill="#b71c1c" d="M52 0v12h12"/>
+                    <text x="32" y="40" font-family="Arial" font-size="18" fill="#fff" font-weight="bold" text-anchor="middle">PDF</text>
+                </svg>
+                Importa PDF Locker Mattino
+            </button>
+            <button id="btnImportWebMattino">
+                <svg class="btn-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#c62828" d="M12 0h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12H12A12 12 0 0 1 0 52V12A12 12 0 0 1 12 0z"/>
+                    <path fill="#b71c1c" d="M52 0v12h12"/>
+                    <text x="32" y="40" font-family="Arial" font-size="18" fill="#fff" font-weight="bold" text-anchor="middle">PDF</text>
+                </svg>
+                Importa PDF Web Mattino
+            </button>
+            <button id="btnImportExcelPane">
+                <svg class="btn-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="64" height="64" rx="8" fill="#2e7d32"/>
+                    <path d="M16 16h32v32H16z" fill="#1b5e20"/>
+                    <text x="32" y="42" font-family="Arial" font-size="28" fill="#fff" font-weight="bold" text-anchor="middle">X</text>
+                </svg>
+                Importa Excel Pane
+            </button>
+            <button id="btnPaneBec">
+                <svg class="btn-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="4" width="48" height="56" rx="6" fill="#1565c0"/>
+                    <rect x="16" y="12" width="32" height="12" rx="2" fill="#bbdefb"/>
+                    <g fill="#fff">
+                        <rect x="16" y="32" width="8" height="8"/>
+                        <rect x="28" y="32" width="8" height="8"/>
+                        <rect x="40" y="32" width="8" height="8"/>
+                        <rect x="16" y="44" width="8" height="8"/>
+                        <rect x="28" y="44" width="8" height="8"/>
+                        <rect x="40" y="44" width="8" height="8"/>
+                    </g>
+                </svg>
+                Pane Bec
+            </button>
+            <button id="btnExportPdf">
+                <svg class="btn-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#c62828" d="M12 0h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12H12A12 12 0 0 1 0 52V12A12 12 0 0 1 12 0z"/>
+                    <path fill="#b71c1c" d="M52 0v12h12"/>
+                    <polygon points="32,24 24,36 28,36 28,44 36,44 36,36 40,36" fill="#fff"/>
+                </svg>
+                Esporta PDF
+            </button>
+        </nav>
+        <!-- input file nascosto per caricamento CSV -->
+        <input type="file" id="fileInput" accept=".csv" style="display:none">
+        <!-- hidden input for PDF import -->
+        <input type="file" id="pdfInput" accept=".pdf" style="display:none">
+    </header>
+    <main>
+        <!-- Content area for future functionality -->
+        <section class="data-table">
+            <h2>Tabella ordine pane</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Articolo</th>
+                        <th>Descrizione</th>
+                        <th>Pezzi da Onew</th>
+                        <th>Bec</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- verrà popolato dinamicamente -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('show');
+        }
+
+        document.getElementById('btnImportExcelPane').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+        document.getElementById('btnPaneBec').addEventListener('click', () => {
+            calculateBecColumn();
+        });
+        document.getElementById('btnExportPdf').addEventListener('click', () => {
+            exportPdf();
+        });
+        // traccia il tipo di PDF che si sta importando
+        let currentPdfType = '';
+        function triggerPdf(type) {
+            currentPdfType = type;
+            console.log(type + ' import clicked');
+            document.getElementById('pdfInput').click();
+        }
+        document.getElementById('btnImportWebNotte').addEventListener('click', () => triggerPdf('Web Notte'));
+        document.getElementById('btnImportLockerNotte').addEventListener('click', () => triggerPdf('Locker Notte'));
+        document.getElementById('btnImportLockerMattino').addEventListener('click', () => triggerPdf('Locker Mattino'));
+        document.getElementById('btnImportWebMattino').addEventListener('click', () => triggerPdf('Web Mattino'));
+
+
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                const text = reader.result;
+                populateTableFromCsv(text);
+            };
+            reader.readAsText(file);
+            // reset input so same file can be reselected later
+            e.target.value = '';
+        });
+
+        // --- table sorting helpers ------------------------------------------------
+        function sortTableByColumn(table, columnIndex, asc = true) {
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const dirModifier = asc ? 1 : -1;
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex]?.textContent.trim() || '';
+                const bText = b.cells[columnIndex]?.textContent.trim() || '';
+                // numeric if both are numbers
+                const aNum = parseFloat(aText.replace(/[^0-9.\-]/g, ''));
+                const bNum = parseFloat(bText.replace(/[^0-9.\-]/g, ''));
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return (aNum - bNum) * dirModifier;
+                }
+                return aText.localeCompare(bText) * dirModifier;
+            });
+            // append sorted rows
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        function setupHeaderSorting() {
+            const table = document.querySelector('.data-table table');
+            if (!table) return;
+            const headers = table.querySelectorAll('thead th');
+            headers.forEach((th, index) => {
+                th.style.cursor = 'pointer';
+                th.removeEventListener('click', th._sortHandler);
+                const handler = () => {
+                    const currentOrder = th.dataset.sortOrder === 'asc' ? 'desc' : 'asc';
+                    // reset all
+                    headers.forEach(h => delete h.dataset.sortOrder);
+                    th.dataset.sortOrder = currentOrder;
+                    sortTableByColumn(table, index, currentOrder === 'asc');
+                };
+                th._sortHandler = handler;
+                th.addEventListener('click', handler);
+            });
+        }
+
+        // end sorting helpers ------------------------------------------------------
+
+        function populateTableFromCsv(csvText) {
+            const lines = csvText.split(/\r?\n/).filter(l => l.trim());
+            if (lines.length < 2) return;
+            const header = lines[0].split(';').map(h => h.replace(/"/g, '').trim());
+            const idxArt = header.indexOf('COD. ART.');
+            const idxDesc = header.indexOf('DESCRIZIONE');
+            const idxOne = header.indexOf('BEOW N.PEZZI 1a cons.');
+            const tbody = document.getElementById('tableBody');
+            // reset header to include Bec column
+            const headRow = document.querySelector('.data-table table thead tr');
+            headRow.innerHTML = '<th>Articolo</th><th>Descrizione</th><th>Pezzi da Onew</th><th>Bec</th>';
+            tbody.innerHTML = '';
+            // after rebuilding header, enable sorting
+            setupHeaderSorting();
+            for (let i = 1; i < lines.length; i++) {
+                const cols = lines[i].split(';');
+                if (cols.length <= Math.max(idxArt, idxDesc, idxOne)) continue;
+                const art = cols[idxArt] || '';
+                const desc = cols[idxDesc] || '';
+                const one = cols[idxOne] || '';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${art}</td><td>${desc}</td><td>${one}</td><td></td>`;
+                tbody.appendChild(tr);
+            }
+        }
+
+        // PDF import handling for Web Notte
+        // registra il service worker se disponibile
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('ServiceWorker registered', reg))
+                    .catch(err => console.error('SW registration failed', err));
+            });
+        }
+
+        document.getElementById('pdfInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            console.log('PDF file selected', file);
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async () => {
+                console.log('PDF file read, starting parse');
+                const arrayBuffer = reader.result;
+                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                console.log('PDF loaded, pages:', pdf.numPages);
+                let mapping = {}; // code -> qty
+                for (let p = 1; p <= pdf.numPages; p++) {
+                    console.log('parsing page', p);
+                    const page = await pdf.getPage(p);
+                    const content = await page.getTextContent();
+                    const strings = content.items.map(i => i.str);
+                    const text = strings.join(' ');
+                    console.log('page text excerpt:', text.slice(0,200));
+                    // global regex search for all code->qty pairs
+                    // tokenize entire page text
+                    const tokens = text.split(/\s+/).filter(t=>t);
+                    console.log('tokens preview', tokens.slice(0,50));
+                    for (let i = 0; i < tokens.length; i++) {
+                        const t = tokens[i];
+                        if (/^\d{6}$/.test(t)) {
+                            // look for location pattern after code
+                            for (let j = i+1; j < tokens.length; j++) {
+                                if (/^\d+(?:\.\d+)+$/.test(tokens[j])) {
+                                    const possibleQty = tokens[j+1] || '';
+                                    if (/^\d+$/.test(possibleQty)) {
+                                        mapping[t] = possibleQty;
+                                        console.log('token mapped', t, '->', possibleQty);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    console.log('mapping tokens completed', mapping);
+                    // if we didn't find anything, fall back to splitting lines to debug
+                    if (Object.keys(mapping).length === 0) {
+                        const lines = text.split(/\r?\n/);
+                        lines.forEach((line, index) => {
+                            console.log(`fallback page ${p} line ${index}:`, line);
+                            const parts = line.trim().split(/\s+/);
+                            if (parts.length >= 5) {
+                                const code = parts[0];
+                                const qty = parts[4];
+                                if (/^\d+$/.test(code) && /^\d+$/.test(qty)) {
+                                    mapping[code] = qty;
+                                    console.log('fallback mapped', code, '->', qty);
+                                }
+                            }
+                        });
+                    }
+                }
+                console.log('mapping complete', mapping);
+                applyPdfMapping(currentPdfType, mapping);
+            };
+            reader.readAsArrayBuffer(file);
+            e.target.value = '';
+        });
+
+        function applyPdfMapping(columnName, map) {
+            console.log('applying mapping to table', columnName, map);
+            const table = document.querySelector('.data-table table');
+            const headRow = table.querySelector('thead tr');
+            // add header if missing
+            if (![...headRow.cells].some(th => th.textContent === columnName)) {
+                const th = document.createElement('th');
+                th.textContent = columnName;
+                headRow.appendChild(th);
+                table.querySelectorAll('tbody tr').forEach(tr => {
+                    tr.appendChild(document.createElement('td'));
+                });
+                // new column added, reconfigure sorting
+                setupHeaderSorting();
+            }
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                let art = tr.cells[0].textContent.trim();
+                const m = art.match(/^(\d+)/);
+                const key = m ? m[1] : art;
+                const val = map[key] || '';
+                if (tr.cells.length < headRow.cells.length) {
+                    tr.appendChild(document.createElement('td'));
+                }
+                // determine index of this column
+                const idx = [...headRow.cells].findIndex(th => th.textContent === columnName);
+                tr.cells[idx].textContent = val;
+                if (!map.hasOwnProperty(key)) {
+                    console.log('no mapping for', key, '(orig:', art, ')');
+                } else {
+                    console.log('row', art, 'matched key', key, 'set', columnName, '=', val);
+                }
+            });
+        }
+
+        // calcola Bec usando le colonne disponibili
+        function calculateBecColumn() {
+            const table = document.querySelector('.data-table table');
+            const headRow = table.querySelector('thead tr');
+            const headers = [...headRow.cells].map(th => th.textContent.trim().toLowerCase());
+            let becIdx = headers.indexOf('bec');
+            if (becIdx === -1) {
+                const th = document.createElement('th');
+                th.textContent = 'Bec';
+                headRow.appendChild(th);
+                becIdx = headRow.cells.length - 1;
+                headers.push('bec');
+                table.querySelectorAll('tbody tr').forEach(tr => tr.appendChild(document.createElement('td')));
+            setupHeaderSorting();
+            }
+            const idxOne = headers.indexOf('pezzi da onew');
+            const idxWebNotte = headers.indexOf('web notte');
+            const idxLockerNotte = headers.indexOf('locker notte');
+            const idxWebMattino = headers.indexOf('web mattino');
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                const getVal = idx => {
+                    if (idx === -1 || idx >= tr.cells.length) return 0;
+                    const txt = tr.cells[idx].textContent.replace(/[^0-9\-]/g, '');
+                    const n = parseInt(txt, 10);
+                    return isNaN(n) ? 0 : n;
+                };
+                const one = getVal(idxOne);
+                const wn = getVal(idxWebNotte);
+                const ln = getVal(idxLockerNotte);
+                const wm = getVal(idxWebMattino);
+                let bec = one - wn - ln - wm;
+                // convert negative results to positive
+                if (bec < 0) bec = -bec;
+                tr.cells[becIdx].textContent = bec;
+            });
+            // re-enable sorting in case Bec column was added or values changed
+            setupHeaderSorting();
+        }
+
+        // esporta colonne selezionate in PDF
+        function exportPdf() {
+            const table = document.querySelector('.data-table table');
+            const headers = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
+            // determine indexes for code/desc/bec
+            const idxArt = headers.findIndex(h => /articolo/i.test(h));
+            const idxDesc = headers.findIndex(h => /descrizione/i.test(h));
+            const idxBec = headers.findIndex(h => /bec/i.test(h));
+            if (idxArt === -1 || idxDesc === -1 || idxBec === -1) {
+                alert('Manca almeno una delle colonne richieste (Articolo, Descrizione, Bec)');
+                return;
+            }
+            const body = [];
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                body.push([
+                    tr.cells[idxArt].textContent.trim(),
+                    tr.cells[idxDesc].textContent.trim(),
+                    tr.cells[idxBec].textContent.trim()
+                ]);
+            });
+            const doc = new jspdf.jsPDF();
+            doc.autoTable({
+                head: [['Articolo', 'Descrizione', 'Bec']],
+                body: body
+            });
+            doc.save('bec_export.pdf');
+        }
+    </script>
+</body>
+</html>
