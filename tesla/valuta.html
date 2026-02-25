@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuta</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0a0e27',
+                        'cobalt': '#0066ff',
+                        'accent': '#00d4ff',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(0, 102, 255, 0.3)' },
+                            '50%': { boxShadow: '0 0 40px rgba(0, 102, 255, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); position: relative; overflow:hidden; transition:all .3s ease; }
+        .btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s;}
+        .btn-primary:hover::before{left:100%;}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(0,102,255,.5);}        
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .glass-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(0,212,255,0.4); transform: translateY(-8px) scale(1.02); box-shadow:0 20px 60px rgba(0,102,255,0.3); }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold gradient-text"><a href="https://www.ldm4app.com" target="_blank" rel="noopener noreferrer">LDM4APP</a></div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <li><a href="/tesla/tesla.html" class="text-gray-300 hover:text-accent transition">Home</a></li>
+                    <li><a href="/tesla/giochi.html" class="text-yellow-300 hover:text-accent font-semibold transition">Giochi</a></li>
+                    <li><a href="/tesla/utilita.html" class="text-green-300 hover:text-accent font-semibold transition">Utilità</a></li>
+                </ul>
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <main class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <!-- Titolo -->
+            <div class="text-center mb-12 animate-slide-up">
+                <h1 class="text-5xl font-bold text-white mb-4">Convertitore di Valute</h1>
+                <p class="text-gray-400 text-lg">Converti le principali valute internazionali in tempo reale</p>
+            </div>
+
+            <!-- Convertitore Principale -->
+            <div class="glass-card p-8 mx-auto max-w-4xl mb-12 animate-slide-up">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Da -->
+                    <div>
+                        <label class="block text-sm font-semibold text-accent mb-3">Da:</label>
+                        <div class="flex gap-2 mb-6">
+                            <select id="fromCurrency" class="flex-1 bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none">
+                                <option value="USD">🇺🇸 USD - Dollaro USA</option>
+                                <option value="EUR">🇪🇺 EUR - Euro</option>
+                                <option value="GBP">🇬🇧 GBP - Sterlina</option>
+                                <option value="JPY">🇯🇵 JPY - Yen Giapponese</option>
+                                <option value="CHF">🇨🇭 CHF - Franco Svizzero</option>
+                                <option value="CAD">🇨🇦 CAD - Dollaro Canadese</option>
+                                <option value="AUD">🇦🇺 AUD - Dollaro Australiano</option>
+                                <option value="INR">🇮🇳 INR - Rupia Indiana</option>
+                                <option value="CNY">🇨🇳 CNY - Yuan Cinese</option>
+                                <option value="SEK">🇸🇪 SEK - Corona Svedese</option>
+                            </select>
+                        </div>
+                        <input type="number" id="fromAmount" placeholder="Importo" value="100" class="w-full bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none" min="0" step="0.01">
+                    </div>
+
+                    <!-- A -->
+                    <div>
+                        <label class="block text-sm font-semibold text-accent mb-3">A:</label>
+                        <div class="flex gap-2 mb-6">
+                            <select id="toCurrency" class="flex-1 bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none">
+                                <option value="EUR">🇪🇺 EUR - Euro</option>
+                                <option value="USD">🇺🇸 USD - Dollaro USA</option>
+                                <option value="GBP">🇬🇧 GBP - Sterlina</option>
+                                <option value="JPY">🇯🇵 JPY - Yen Giapponese</option>
+                                <option value="CHF">🇨🇭 CHF - Franco Svizzero</option>
+                                <option value="CAD">🇨🇦 CAD - Dollaro Canadese</option>
+                                <option value="AUD">🇦🇺 AUD - Dollaro Australiano</option>
+                                <option value="INR">🇮🇳 INR - Rupia Indiana</option>
+                                <option value="CNY">🇨🇳 CNY - Yuan Cinese</option>
+                                <option value="SEK">🇸🇪 SEK - Corona Svedese</option>
+                            </select>
+                        </div>
+                        <input type="number" id="toAmount" placeholder="Risultato" readonly class="w-full bg-gray-900 text-accent rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none font-semibold text-lg">
+                    </div>
+                </div>
+
+                <div class="mt-8 p-4 bg-gray-800 rounded-lg">
+                    <p class="text-sm text-gray-400">Tasso di cambio: <span id="exchangeRate" class="text-accent font-semibold">Caricamento...</span></p>
+                    <p class="text-xs text-gray-500 mt-2">I tassi sono aggiornati in tempo reale</p>
+                </div>
+            </div>
+
+            <!-- Schede Valute -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-white mb-8 text-center">Valute Disponibili</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <!-- USD -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="USD">
+                        <div class="text-5xl mb-3">🇺🇸</div>
+                        <h3 class="text-xl font-bold text-white">USD</h3>
+                        <p class="text-gray-400 text-sm">Dollaro USA</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- EUR -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="EUR">
+                        <div class="text-5xl mb-3">🇪🇺</div>
+                        <h3 class="text-xl font-bold text-white">EUR</h3>
+                        <p class="text-gray-400 text-sm">Euro</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- GBP -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="GBP">
+                        <div class="text-5xl mb-3">🇬🇧</div>
+                        <h3 class="text-xl font-bold text-white">GBP</h3>
+                        <p class="text-gray-400 text-sm">Sterlina</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- JPY -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="JPY">
+                        <div class="text-5xl mb-3">🇯🇵</div>
+                        <h3 class="text-xl font-bold text-white">JPY</h3>
+                        <p class="text-gray-400 text-sm">Yen</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- CHF -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="CHF">
+                        <div class="text-5xl mb-3">🇨🇭</div>
+                        <h3 class="text-xl font-bold text-white">CHF</h3>
+                        <p class="text-gray-400 text-sm">Franco Svizzero</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- CAD -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="CAD">
+                        <div class="text-5xl mb-3">🇨🇦</div>
+                        <h3 class="text-xl font-bold text-white">CAD</h3>
+                        <p class="text-gray-400 text-sm">Dollaro Canadese</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- AUD -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="AUD">
+                        <div class="text-5xl mb-3">🇦🇺</div>
+                        <h3 class="text-xl font-bold text-white">AUD</h3>
+                        <p class="text-gray-400 text-sm">Dollaro Australiano</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- INR -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="INR">
+                        <div class="text-5xl mb-3">🇮🇳</div>
+                        <h3 class="text-xl font-bold text-white">INR</h3>
+                        <p class="text-gray-400 text-sm">Rupia Indiana</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- CNY -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="CNY">
+                        <div class="text-5xl mb-3">🇨🇳</div>
+                        <h3 class="text-xl font-bold text-white">CNY</h3>
+                        <p class="text-gray-400 text-sm">Yuan Cinese</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- SEK -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="SEK">
+                        <div class="text-5xl mb-3">🇸🇪</div>
+                        <h3 class="text-xl font-bold text-white">SEK</h3>
+                        <p class="text-gray-400 text-sm">Corona Svedese</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Licenza -->
+            <div class="glass-card p-6 mx-auto max-w-2xl text-center mb-8 animate-slide-up">
+                <p class="text-gray-300 text-sm">
+                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                    Utilizzo <strong>libero</strong> per scopi commerciali e personali
+                </p>
+                <p class="text-gray-400 text-xs mt-3">
+                    Tassi di cambio forniti da Exchangerate-API (licenza gratuita a uso commerciale)
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Valute e bandiere
+        const currencies = {
+            'USD': '🇺🇸',
+            'EUR': '🇪🇺',
+            'GBP': '🇬🇧',
+            'JPY': '🇯🇵',
+            'CHF': '🇨🇭',
+            'CAD': '🇨🇦',
+            'AUD': '🇦🇺',
+            'INR': '🇮🇳',
+            'CNY': '🇨🇳',
+            'SEK': '🇸🇪'
+        };
+
+        const elements = {
+            fromCurrency: document.getElementById('fromCurrency'),
+            toCurrency: document.getElementById('toCurrency'),
+            fromAmount: document.getElementById('fromAmount'),
+            toAmount: document.getElementById('toAmount'),
+            exchangeRate: document.getElementById('exchangeRate')
+        };
+
+        // Cache dei tassi di cambio per ridurre richieste API
+        const rateCache = {};
+        const cacheTTL = 300000; // 5 minuti
+
+        // Funzione per ottenere il tasso di cambio
+        async function getExchangeRate(from, to) {
+            try {
+                const cacheKey = `${from}_${to}`;
+                const now = Date.now();
+
+                // Verifica cache
+                if (rateCache[cacheKey] && (now - rateCache[cacheKey].timestamp) < cacheTTL) {
+                    return rateCache[cacheKey].rate;
+                }
+
+                // API gratuita con supporto commerciale
+                const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
+                const data = await response.json();
+                
+                if (data.rates && data.rates[to]) {
+                    const rate = data.rates[to];
+                    // Salva in cache
+                    rateCache[cacheKey] = { rate, timestamp: now };
+                    return rate;
+                } else {
+                    throw new Error('Valuta non trovata');
+                }
+            } catch (error) {
+                console.error('Errore nella conversione:', error);
+                // Fallback con tassi approssimativi se l'API non è disponibile
+                const fallbackRates = {
+                    'USD_EUR': 0.92,
+                    'EUR_USD': 1.09,
+                    'USD_GBP': 0.79,
+                    'GBP_USD': 1.27,
+                    'USD_JPY': 149.5,
+                    'JPY_USD': 0.0067,
+                    'EUR_GBP': 0.86,
+                    'GBP_EUR': 1.16,
+                    'USD_CHF': 0.88,
+                    'CHF_USD': 1.14,
+                };
+                
+                const key = `${from}_${to}`;
+                if (fallbackRates[key]) {
+                    console.warn('Utilizzo tassi approssimativi (fallback)');
+                    return fallbackRates[key];
+                }
+                return null;
+            }
+        }
+
+        // Funzione per aggiornare la conversione
+        async function updateConversion() {
+            const from = elements.fromCurrency.value;
+            const to = elements.toCurrency.value;
+            const amount = parseFloat(elements.fromAmount.value) || 0;
+
+            if (amount <= 0) {
+                elements.toAmount.value = '0';
+                elements.exchangeRate.textContent = '0';
+                return;
+            }
+
+            const rate = await getExchangeRate(from, to);
+            
+            if (rate !== null) {
+                const result = (amount * rate).toFixed(2);
+                elements.toAmount.value = result;
+                elements.exchangeRate.textContent = `1 ${from} = ${rate.toFixed(2)} ${to}`;
+                
+                // Aggiorna tutte le schede valute
+                updateCurrencyCards(from, amount);
+            }
+        }
+
+        // Funzione per aggiornare le schede valute
+        async function updateCurrencyCards(baseCurrency, amount) {
+            const cards = document.querySelectorAll('.currency-card');
+            
+            for (const card of cards) {
+                const currency = card.dataset.currency;
+                const valueElement = card.querySelector('[data-value]');
+                
+                if (currency !== baseCurrency) {
+                    const rate = await getExchangeRate(baseCurrency, currency);
+                    if (rate !== null) {
+                        const result = (amount * rate).toFixed(2);
+                        valueElement.textContent = `${result} ${currency}`;
+                    }
+                } else {
+                    valueElement.textContent = `${amount.toFixed(2)} ${currency}`;
+                }
+            }
+        }
+
+        // Event listeners
+        elements.fromCurrency.addEventListener('change', updateConversion);
+        elements.toCurrency.addEventListener('change', updateConversion);
+        elements.fromAmount.addEventListener('input', updateConversion);
+
+        // Schede valute cliccabili
+        document.querySelectorAll('.currency-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const currency = this.dataset.currency;
+                elements.toCurrency.value = currency;
+                updateConversion();
+                // Scroll al convertitore
+                document.querySelector('.glass-card').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Inizializzazione
+        updateConversion();
+    </script>
+</body>
+</html>
