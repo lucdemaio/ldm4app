@@ -3,11 +3,106 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Star Battle">
+    <meta name="theme-color" content="#222">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/style.css">
     <title>Star Battle</title>
+    <style>
+        @media (max-width: 768px) {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            #app {
+                margin: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+            }
+            #logo {
+                padding: 0.5% 0 !important;
+            }
+            #logo img {
+                width: 8% !important;
+            }
+            #logo.play-status img {
+                width: 4% !important;
+                display: none;
+            }
+            .touch-controls {
+                display: flex;
+                position: fixed;
+                bottom: 20px;
+                width: 100%;
+                justify-content: space-around;
+                align-items: flex-end;
+                z-index: 1000;
+                pointer-events: none;
+                gap: 10px;
+                padding: 0 10px;
+                box-sizing: border-box;
+            }
+            .touch-controls button {
+                pointer-events: all;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                border: 2px solid #00d4ff;
+                background: rgba(0, 212, 255, 0.1);
+                color: #00d4ff;
+                font-weight: bold;
+                font-size: 18px;
+                cursor: pointer;
+                touch-action: manipulation;
+                -webkit-user-select: none;
+                user-select: none;
+                transition: all 0.1s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .touch-controls button:active {
+                background: rgba(0, 212, 255, 0.3);
+                transform: scale(0.95);
+            }
+            .dpad {
+                display: grid;
+                grid-template-columns: repeat(3, 50px);
+                grid-gap: 0;
+                margin-right: auto;
+            }
+            .dpad button {
+                border-radius: 0;
+            }
+            .dpad button:nth-child(1) { border-radius: 8px 0 0 0; }
+            .dpad button:nth-child(3) { border-radius: 0 8px 0 0; }
+            .dpad button:nth-child(7) { border-radius: 0 0 0 8px; }
+            .dpad button:nth-child(9) { border-radius: 0 0 8px 0; }
+            .fire-btn {
+                margin-left: auto;
+                background: rgba(255, 100, 100, 0.1) !important;
+                border-color: #ff6464 !important;
+                color: #ff6464 !important;
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 20px !important;
+            }
+            .fire-btn:active {
+                background: rgba(255, 100, 100, 0.3) !important;
+            }
+        }
+        @media (min-width: 769px) {
+            .touch-controls {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -19,18 +114,18 @@
         <div id="container" class="absolute">
             <div id="start" class="column">
                 <p class="message pre">
-                    1. 使用 W、A、S、D 控制飞船，按下 Space 发射。
-                    2. 燃料初始值为15，每秒递减1点，当燃料值为0时，游戏结束。
-                    3. 触碰掉下的燃料瓶可增加15点，最大值为30点。
-                    4. 击中敌方飞船增加5分。行星需击中两次，增加10分。击中友方扣除10分。
-                    5. 撞击敌方损失15点燃料，撞击友方扣除10分。
-                    6. 游戏允许负分。
-                    7. 按下 P 暂停游戏，按下 M 静音。
-                    开始您的星际大战吧！
+                    1. Usa W, A, S, D per controllare la nave, premi Space per sparare.
+                    2. Carburante iniziale 15, diminuisce di 1 al secondo. Con 0 carburante il gioco finisce.
+                    3. Raccogli le bottiglie di carburante +15 punti, massimo 30.
+                    4. Colpisci i nemici +5 punti, pianeti +10 (need 2 colpi), amici -10 punti.
+                    5. Collisione nemico -15 carburante, collisione amico -10 punti.
+                    6. I punteggi negativi sono consentiti.
+                    7. Premi P per pausa, M per muto.
+                    Inizia la tua battaglia stellare!
                 </p>
                 <button id="start-btn" class="btn">
-                    <p>开始游戏</p>
-                    <p>加载中...</p>
+                    <p>Inizia Gioco</p>
+                    <p>Caricamento...</p>
                 </button>
             </div>
             <div id="play" class="absolute">
@@ -105,19 +200,19 @@
                         <span class="shoot">00</span>
                     </p>
                 </div>
-                <input type="text" id="name" placeholder="请输入您的名字" />
+                <input type="text" id="name" placeholder="Inserisci il tuo nome" />
                 <button id="submit-btn" class="btn" disabled>
-                    继续游戏
+                    Continua Gioco
                 </button>
             </div>
             <div id="rank" class="column absolute">
                 <table class="scroll">
                     <thead>
                         <tr>
-                            <th>名次</th>
-                            <th>名字</th>
-                            <th>分数</th>
-                            <th>秒数</th>
+                            <th>Posizione</th>
+                            <th>Nome</th>
+                            <th>Punti</th>
+                            <th>Secondi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -125,7 +220,7 @@
                     </tbody>
                 </table>
                 <button id="restart-btn" class="btn">
-                    返回开始
+                    Torna all'inizio
                 </button>
             </div>
         </div>
@@ -156,6 +251,122 @@
     <script src="js/scenes/rank.js"></script>
     <script src="js/game.js"></script>
     <script src="js/main.js"></script>
+    
+    <!-- Touch Controls for Mobile -->
+    <div class="touch-controls" id="touch-controls">
+        <div class="dpad">
+            <button data-key="w">▲</button>
+            <button style="visibility: hidden;"></button>
+            <button style="visibility: hidden;"></button>
+            <button data-key="a">◀</button>
+            <button style="visibility: hidden;"></button>
+            <button data-key="d">▶</button>
+            <button style="visibility: hidden;"></button>
+            <button style="visibility: hidden;"></button>
+            <button data-key="s">▼</button>
+        </div>
+        <button class="fire-btn" data-key="Space">🔥</button>
+    </div>
+
+    <script>
+        // Mobile Touch Controls
+        (function() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile || window.innerWidth <= 768) {
+                // Simulate keyboard events for touch buttons
+                document.addEventListener('DOMContentLoaded', function() {
+                    const touchControls = document.getElementById('touch-controls');
+                    if (!touchControls) return;
+
+                    const buttons = touchControls.querySelectorAll('button[data-key]');
+                    const pressedKeys = new Set();
+
+                    buttons.forEach(button => {
+                        const key = button.dataset.key;
+                        
+                        button.addEventListener('touchstart', function(e) {
+                            e.preventDefault();
+                            pressedKeys.add(key);
+                            simulateKeyDown(key);
+                        }, { passive: false });
+                        
+                        button.addEventListener('touchend', function(e) {
+                            e.preventDefault();
+                            pressedKeys.delete(key);
+                            simulateKeyUp(key);
+                        }, { passive: false });
+                        
+                        button.addEventListener('mousedown', function(e) {
+                            e.preventDefault();
+                            pressedKeys.add(key);
+                            simulateKeyDown(key);
+                        });
+                        
+                        button.addEventListener('mouseup', function(e) {
+                            e.preventDefault();
+                            pressedKeys.delete(key);
+                            simulateKeyUp(key);
+                        });
+                    });
+
+                    function simulateKeyDown(key) {
+                        const event = new KeyboardEvent('keydown', {
+                            key: key,
+                            code: getCode(key),
+                            keyCode: getKeyCode(key),
+                        });
+                        document.dispatchEvent(event);
+                    }
+
+                    function simulateKeyUp(key) {
+                        const event = new KeyboardEvent('keyup', {
+                            key: key,
+                            code: getCode(key),
+                            keyCode: getKeyCode(key),
+                        });
+                        document.dispatchEvent(event);
+                    }
+
+                    function getCode(key) {
+                        const codeMap = {
+                            'w': 'KeyW',
+                            'a': 'KeyA',
+                            's': 'KeyS',
+                            'd': 'KeyD',
+                            ' ': 'Space',
+                            'Space': 'Space'
+                        };
+                        return codeMap[key] || key;
+                    }
+
+                    function getKeyCode(key) {
+                        const keyCodeMap = {
+                            'w': 87,
+                            'a': 65,
+                            's': 83,
+                            'd': 68,
+                            ' ': 32,
+                            'Space': 32
+                        };
+                        return keyCodeMap[key] || 0;
+                    }
+                });
+
+                // Prevent zoom on double tap
+                document.addEventListener('touchmove', function(e) {
+                    if (e.touches.length > 1) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+
+                // Prevent context menu long press
+                document.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                }, { passive: false });
+            }
+        })();
+    </script>
 </body>
 
 </html>
