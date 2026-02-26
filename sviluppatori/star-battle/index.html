@@ -251,6 +251,7 @@
     <script src="js/scenes/rank.js"></script>
     <script src="js/game.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/mobile-controls.js"></script>
     
     <!-- Touch Controls for Mobile -->
     <div class="touch-controls" id="touch-controls">
@@ -269,9 +270,18 @@
     </div>
 
     <script>
+        // Global state for mobile controls
+        window.mobileControlState = {
+            w: false,
+            a: false,
+            s: false,
+            d: false,
+            space: false
+        };
+
         // Mobile Touch Controls
         (function() {
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Tesla/i.test(navigator.userAgent);
             
             if (isMobile || window.innerWidth <= 768) {
                 // Simulate keyboard events for touch buttons
@@ -280,52 +290,84 @@
                     if (!touchControls) return;
 
                     const buttons = touchControls.querySelectorAll('button[data-key]');
-                    const pressedKeys = new Set();
 
                     buttons.forEach(button => {
-                        const key = button.dataset.key;
+                        const key = button.dataset.key.toLowerCase();
                         
+                        // Touch events
                         button.addEventListener('touchstart', function(e) {
                             e.preventDefault();
-                            pressedKeys.add(key);
-                            simulateKeyDown(key);
+                            handleKeyDown(key);
                         }, { passive: false });
                         
                         button.addEventListener('touchend', function(e) {
                             e.preventDefault();
-                            pressedKeys.delete(key);
-                            simulateKeyUp(key);
+                            handleKeyUp(key);
+                        }, { passive: false });
+
+                        // Pointer events (for tablet/Tesla)
+                        button.addEventListener('pointerdown', function(e) {
+                            e.preventDefault();
+                            handleKeyDown(key);
                         }, { passive: false });
                         
+                        button.addEventListener('pointerup', function(e) {
+                            e.preventDefault();
+                            handleKeyUp(key);
+                        }, { passive: false });
+
+                        // Mouse events as fallback
                         button.addEventListener('mousedown', function(e) {
                             e.preventDefault();
-                            pressedKeys.add(key);
-                            simulateKeyDown(key);
+                            handleKeyDown(key);
                         });
                         
                         button.addEventListener('mouseup', function(e) {
                             e.preventDefault();
-                            pressedKeys.delete(key);
-                            simulateKeyUp(key);
+                            handleKeyUp(key);
+                        });
+
+                        button.addEventListener('mouseleave', function(e) {
+                            handleKeyUp(key);
                         });
                     });
 
+                    function handleKeyDown(key) {
+                        const mapKey = key === 'space' ? 'space' : key;
+                        window.mobileControlState[mapKey] = true;
+                        simulateKeyDown(key);
+                    }
+
+                    function handleKeyUp(key) {
+                        const mapKey = key === 'space' ? 'space' : key;
+                        window.mobileControlState[mapKey] = false;
+                        simulateKeyUp(key);
+                    }
+
                     function simulateKeyDown(key) {
+                        const keyUpper = key.toUpperCase();
                         const event = new KeyboardEvent('keydown', {
-                            key: key,
+                            key: keyUpper,
                             code: getCode(key),
                             keyCode: getKeyCode(key),
+                            bubbles: true,
+                            cancelable: true
                         });
                         document.dispatchEvent(event);
+                        window.dispatchEvent(event);
                     }
 
                     function simulateKeyUp(key) {
+                        const keyUpper = key.toUpperCase();
                         const event = new KeyboardEvent('keyup', {
-                            key: key,
+                            key: keyUpper,
                             code: getCode(key),
                             keyCode: getKeyCode(key),
+                            bubbles: true,
+                            cancelable: true
                         });
                         document.dispatchEvent(event);
+                        window.dispatchEvent(event);
                     }
 
                     function getCode(key) {
@@ -334,8 +376,7 @@
                             'a': 'KeyA',
                             's': 'KeyS',
                             'd': 'KeyD',
-                            ' ': 'Space',
-                            'Space': 'Space'
+                            'space': 'Space'
                         };
                         return codeMap[key] || key;
                     }
@@ -346,8 +387,7 @@
                             'a': 65,
                             's': 83,
                             'd': 68,
-                            ' ': 32,
-                            'Space': 32
+                            'space': 32
                         };
                         return keyCodeMap[key] || 0;
                     }
@@ -363,6 +403,13 @@
                 // Prevent context menu long press
                 document.addEventListener('contextmenu', function(e) {
                     e.preventDefault();
+                }, { passive: false });
+
+                // Prevent default scroll behavior
+                document.addEventListener('touchmove', function(e) {
+                    if (e.target.closest('#touch-controls')) {
+                        e.preventDefault();
+                    }
                 }, { passive: false });
             }
         })();
