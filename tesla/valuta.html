@@ -95,41 +95,47 @@
                     <!-- Da -->
                     <div>
                         <label class="block text-sm font-semibold text-accent mb-3">Da:</label>
-                        <div class="flex gap-2 mb-6">
-                            <select id="fromCurrency" class="flex-1 bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none">
-                                <option value="USD">🇺🇸 USD - Dollaro USA</option>
-                                <option value="EUR">🇪🇺 EUR - Euro</option>
-                                <option value="GBP">🇬🇧 GBP - Sterlina</option>
-                                <option value="JPY">🇯🇵 JPY - Yen Giapponese</option>
-                                <option value="CHF">🇨🇭 CHF - Franco Svizzero</option>
-                                <option value="CAD">🇨🇦 CAD - Dollaro Canadese</option>
-                                <option value="AUD">🇦🇺 AUD - Dollaro Australiano</option>
-                                <option value="INR">🇮🇳 INR - Rupia Indiana</option>
-                                <option value="CNY">🇨🇳 CNY - Yuan Cinese</option>
-                                <option value="SEK">🇸🇪 SEK - Corona Svedese</option>
-                            </select>
-                        </div>
-                        <input type="number" id="fromAmount" placeholder="Importo" value="100" class="w-full bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none" min="0" step="0.01">
+                        <select id="fromCurrency" class="w-full bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none cursor-pointer mb-4 relative z-10">
+                            <option value="USD">🇺🇸 USD - Dollaro USA</option>
+                            <option value="EUR">🇪🇺 EUR - Euro</option>
+                            <option value="GBP">🇬🇧 GBP - Sterlina</option>
+                            <option value="JPY">🇯🇵 JPY - Yen Giapponese</option>
+                            <option value="CHF">🇨🇭 CHF - Franco Svizzero</option>
+                            <option value="CAD">🇨🇦 CAD - Dollaro Canadese</option>
+                            <option value="AUD">🇦🇺 AUD - Dollaro Australiano</option>
+                            <option value="INR">🇮🇳 INR - Rupia Indiana</option>
+                            <option value="CNY">🇨🇳 CNY - Yuan Cinese</option>
+                            <option value="SEK">🇸🇪 SEK - Corona Svedese</option>
+                            <option value="MXN">🇲🇽 MXN - Peso Messicano</option>
+                            <option value="BRL">🇧🇷 BRL - Real Brasiliano</option>
+                            <option value="ZAR">🇿🇦 ZAR - Rand Sudafricano</option>
+                            <option value="SGD">🇸🇬 SGD - Dollaro di Singapore</option>
+                            <option value="HKD">🇭🇰 HKD - Dollaro di Hong Kong</option>
+                        </select>
+                        <input type="number" id="fromAmount" placeholder="Importo" value="100" class="w-full bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none cursor-text relative z-10 mt-2" min="0" step="0.01">
                     </div>
 
                     <!-- A -->
                     <div>
                         <label class="block text-sm font-semibold text-accent mb-3">A:</label>
-                        <div class="flex gap-2 mb-6">
-                            <select id="toCurrency" class="flex-1 bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none">
-                                <option value="EUR">🇪🇺 EUR - Euro</option>
-                                <option value="USD">🇺🇸 USD - Dollaro USA</option>
-                                <option value="GBP">🇬🇧 GBP - Sterlina</option>
-                                <option value="JPY">🇯🇵 JPY - Yen Giapponese</option>
-                                <option value="CHF">🇨🇭 CHF - Franco Svizzero</option>
-                                <option value="CAD">🇨🇦 CAD - Dollaro Canadese</option>
-                                <option value="AUD">🇦🇺 AUD - Dollaro Australiano</option>
-                                <option value="INR">🇮🇳 INR - Rupia Indiana</option>
-                                <option value="CNY">🇨🇳 CNY - Yuan Cinese</option>
-                                <option value="SEK">🇸🇪 SEK - Corona Svedese</option>
-                            </select>
-                        </div>
-                        <input type="number" id="toAmount" placeholder="Risultato" readonly class="w-full bg-gray-900 text-accent rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none font-semibold text-lg">
+                        <select id="toCurrency" class="w-full bg-gray-900 text-white rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none cursor-pointer mb-4 relative z-10">
+                            <option value="EUR">🇪🇺 EUR - Euro</option>
+                            <option value="USD">🇺🇸 USD - Dollaro USA</option>
+                            <option value="GBP">🇬🇧 GBP - Sterlina</option>
+                            <option value="JPY">🇯🇵 JPY - Yen Giapponese</option>
+                            <option value="CHF">🇨🇭 CHF - Franco Svizzero</option>
+                            <option value="CAD">🇨🇦 CAD - Dollaro Canadese</option>
+                            <option value="AUD">🇦🇺 AUD - Dollaro Australiano</option>
+                            <option value="INR">🇮🇳 INR - Rupia Indiana</option>
+                            <option value="CNY">🇨🇳 CNY - Yuan Cinese</option>
+                            <option value="SEK">🇸🇪 SEK - Corona Svedese</option>
+                            <option value="MXN">🇲🇽 MXN - Peso Messicano</option>
+                            <option value="BRL">🇧🇷 BRL - Real Brasiliano</option>
+                            <option value="ZAR">🇿🇦 ZAR - Rand Sudafricano</option>
+                            <option value="SGD">🇸🇬 SGD - Dollaro di Singapore</option>
+                            <option value="HKD">🇭🇰 HKD - Dollaro di Hong Kong</option>
+                        </select>
+                        <input type="number" id="toAmount" placeholder="Risultato" readonly class="w-full bg-gray-900 text-accent rounded-lg px-4 py-3 border border-gray-700 focus:border-accent focus:outline-none font-semibold text-lg cursor-not-allowed relative z-10 mt-2">
                     </div>
                 </div>
 
@@ -298,21 +304,87 @@
                         <p class="text-gray-400 text-sm">Corona Svedese</p>
                         <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
                     </div>
+
+                    <!-- MXN -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="MXN">
+                        <div class="mb-3 h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="h-12 w-auto">
+                                <rect width="100" height="200" fill="#006B3F"/>
+                                <rect x="100" width="100" height="200" fill="#FFFFFF"/>
+                                <rect x="200" width="100" height="200" fill="#C41E3A"/>
+                                <circle cx="150" cy="100" r="25" fill="#FFD700"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">MXN</h3>
+                        <p class="text-gray-400 text-sm">Peso Messicano</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- BRL -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="BRL">
+                        <div class="mb-3 h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="h-12 w-auto">
+                                <rect width="300" height="200" fill="#009C3B"/>
+                                <polygon points="150,50 210,100 150,150 90,100" fill="#FFCD00"/>
+                                <ellipse cx="150" cy="100" rx="35" ry="50" fill="#FFFFFF"/>
+                                <rect x="120" y="95" width="60" height="10" fill="#00308E"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">BRL</h3>
+                        <p class="text-gray-400 text-sm">Real Brasiliano</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- ZAR -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="ZAR">
+                        <div class="mb-3 h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="h-12 w-auto">
+                                <rect width="300" height="40" fill="#000000"/>
+                                <rect y="40" width="300" height="40" fill="#FFB81C"/>
+                                <rect y="80" width="300" height="40" fill="#DF0000"/>
+                                <rect y="120" width="300" height="40" fill="#FFFFFF"/>
+                                <rect y="160" width="300" height="40" fill="#007A5E"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">ZAR</h3>
+                        <p class="text-gray-400 text-sm">Rand Sudafricano</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- SGD -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="SGD">
+                        <div class="mb-3 h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="h-12 w-auto">
+                                <rect width="300" height="200" fill="#FFFFFF"/>
+                                <rect width="300" height="100" fill="#E5143D"/>
+                                <circle cx="90" cy="50" r="20" fill="#FFFFFF"/>
+                                <path d="M 90 65 L 95 75 L 90 80 L 85 75 Z" fill="#FFFFFF"/>
+                                <circle cx="110" cy="70" r="8" fill="#FFFFFF"/>
+                                <circle cx="130" cy="65" r="8" fill="#FFFFFF"/>
+                                <circle cx="150" cy="70" r="8" fill="#FFFFFF"/>
+                                <circle cx="170" cy="65" r="8" fill="#FFFFFF"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">SGD</h3>
+                        <p class="text-gray-400 text-sm">Dollaro Singapore</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
+
+                    <!-- HKD -->
+                    <div class="glass-card p-6 text-center hover:scale-105 transition cursor-pointer currency-card" data-currency="HKD">
+                        <div class="mb-3 h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="h-12 w-auto">
+                                <rect width="300" height="200" fill="#DE2910"/>
+                                <circle cx="150" cy="100" r="60" fill="#FFFFFF"/>
+                                <path d="M 150 60 L 155 80 L 175 80 L 160 92 L 165 112 L 150 100 L 135 112 L 140 92 L 125 80 L 145 80 Z" fill="#DE2910"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">HKD</h3>
+                        <p class="text-gray-400 text-sm">Dollaro Hong Kong</p>
+                        <div class="mt-3 text-accent font-semibold text-lg" data-value="--">--</div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Info Licenza -->
-            <div class="glass-card p-6 mx-auto max-w-2xl text-center mb-8 animate-slide-up">
-                <p class="text-gray-300 text-sm">
-                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
-                    Utilizzo <strong>libero</strong> per scopi commerciali e personali
-                </p>
-                <p class="text-gray-400 text-xs mt-3">
-                    Tassi di cambio forniti da Exchangerate-API (licenza gratuita a uso commerciale)
-                </p>
-            </div>
-        </div>
-    </main>
 
     <script>
         // Valute e bandiere
@@ -326,7 +398,12 @@
             'AUD': '🇦🇺',
             'INR': '🇮🇳',
             'CNY': '🇨🇳',
-            'SEK': '🇸🇪'
+            'SEK': '🇸🇪',
+            'MXN': '🇲🇽',
+            'BRL': '🇧🇷',
+            'ZAR': '🇿🇦',
+            'SGD': '🇸🇬',
+            'HKD': '🇭🇰'
         };
 
         const elements = {
@@ -378,6 +455,16 @@
                     'GBP_EUR': 1.16,
                     'USD_CHF': 0.88,
                     'CHF_USD': 1.14,
+                    'USD_MXN': 17.5,
+                    'MXN_USD': 0.057,
+                    'USD_BRL': 4.95,
+                    'BRL_USD': 0.202,
+                    'USD_ZAR': 18.5,
+                    'ZAR_USD': 0.054,
+                    'USD_SGD': 1.35,
+                    'SGD_USD': 0.74,
+                    'USD_HKD': 7.85,
+                    'HKD_USD': 0.127,
                 };
                 
                 const key = `${from}_${to}`;
