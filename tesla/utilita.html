@@ -332,28 +332,411 @@
 
     <script>
         function openCalc() { 
-            alert('🧮 Calcolatrice Scientifica - Sarà disponibile a breve!'); 
+            const calcWindow = window.open('', 'calculator', 'width=400,height=600');
+            calcWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Calcolatrice Scientifica</title>
+                    <style>
+                        body { font-family: Arial; background: #0a0e27; color: #fff; margin: 0; padding: 10px; }
+                        .calc-display { background: #333; padding: 15px; font-size: 24px; margin-bottom: 10px; border-radius: 5px; text-align: right; word-wrap: break-word; }
+                        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+                        button { padding: 15px; font-size: 18px; background: #0066ff; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+                        button:hover { background: #00d4ff; }
+                        .clear { background: #ff6b6b; }
+                        .equals { background: #51cf66; grid-column: span 2; }
+                    </style>
+                </head>
+                <body>
+                    <div class="calc-display" id="display">0</div>
+                    <div class="calc-buttons">
+                        <button class="clear" onclick="clearDisplay()">C</button>
+                        <button onclick="appendOp('/')">/</button>
+                        <button onclick="appendOp('*')">×</button>
+                        <button class="clear" onclick="backspace()">←</button>
+                        <button onclick="append('7')">7</button>
+                        <button onclick="append('8')">8</button>
+                        <button onclick="append('9')">9</button>
+                        <button onclick="appendOp('-')">-</button>
+                        <button onclick="append('4')">4</button>
+                        <button onclick="append('5')">5</button>
+                        <button onclick="append('6')">6</button>
+                        <button onclick="appendOp('+')">+</button>
+                        <button onclick="append('1')">1</button>
+                        <button onclick="append('2')">2</button>
+                        <button onclick="append('3')">3</button>
+                        <button onclick="appendOp('%')">%</button>
+                        <button onclick="append('0')">0</button>
+                        <button onclick="append('.')">.</button>
+                        <button onclick="appendOp('^')">^</button>
+                        <button class="equals" onclick="calculate()">=</button>
+                    </div>
+                    <script>
+                        let display = '0';
+                        function updateDisplay() { document.getElementById('display').innerText = display; }
+                        function append(val) { display = display === '0' ? val : display + val; updateDisplay(); }
+                        function appendOp(op) { display = display + op; updateDisplay(); }
+                        function clearDisplay() { display = '0'; updateDisplay(); }
+                        function backspace() { display = display.slice(0, -1) || '0'; updateDisplay(); }
+                        function calculate() {
+                            try {
+                                const result = eval(display.replace('^', '**'));
+                                display = result.toString();
+                                updateDisplay();
+                            } catch { alert('Errore nel calcolo'); }
+                        }
+                    </script>
+                </body>
+                </html>
+            `);
         }
         function openWorldClock() { 
-            alert('🌍 Orologio Mondiale - Sarà disponibile a breve!'); 
+            const clockWindow = window.open('', 'worldclock', 'width=600,height=700');
+            clockWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Orologio Mondiale</title>
+                    <style>
+                        body { font-family: Arial; background: #0a0e27; color: #fff; margin: 0; padding: 20px; }
+                        .city-time { display: flex; justify-content: space-between; padding: 15px; background: rgba(0,102,255,0.1); margin: 10px 0; border-radius: 5px; border-left: 4px solid #0066ff; }
+                        .city { font-weight: bold; } .time { font-size: 18px; font-family: monospace; }
+                    </style>
+                </head>
+                <body>
+                    <h2>🌍 Orologio Mondiale</h2>
+                    <div id="clocks"></div>
+                    <script>
+                        const cities = [
+                            {name: 'New York', tz: 'America/New_York'},
+                            {name: 'Londra', tz: 'Europe/London'},
+                            {name: 'Parigi', tz: 'Europe/Paris'},
+                            {name: 'Tokyo', tz: 'Asia/Tokyo'},
+                            {name: 'Sydney', tz: 'Australia/Sydney'},
+                            {name: 'Mosca', tz: 'Europe/Moscow'},
+                            {name: 'Pechino', tz: 'Asia/Shanghai'},
+                            {name: 'Delhi', tz: 'Asia/Kolkata'},
+                            {name: 'Città del Messico', tz: 'America/Mexico_City'},
+                            {name: 'Dubai', tz: 'Asia/Dubai'}
+                        ];
+                        function updateClocks() {
+                            const html = cities.map(city => {
+                                const time = new Date().toLocaleString('it-IT', {timeZone: city.tz, hour: '2-digit', minute: '2-digit', second: '2-digit'});
+                                return `<div class="city-time"><span class="city">${city.name}</span><span class="time">${time}</span></div>`;
+                            }).join('');
+                            document.getElementById('clocks').innerHTML = html;
+                        }
+                        updateClocks();
+                        setInterval(updateClocks, 1000);
+                    </script>
+                </body>
+                </html>
+            `);
         }
         function openTimer() { 
-            alert('⏱️ Timer & Stopwatch - Sarà disponibile a breve!'); 
+            const timerWindow = window.open('', 'timer', 'width=500,height=500');
+            timerWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Timer & Stopwatch</title>
+                    <style>
+                        body { font-family: Arial; background: #0a0e27; color: #fff; margin: 0; padding: 20px; text-align: center; }
+                        .display { font-size: 48px; font-weight: bold; margin: 20px 0; font-family: monospace; background: rgba(0,102,255,0.2); padding: 20px; border-radius: 10px; }
+                        .controls { margin: 20px 0; }
+                        button { padding: 10px 20px; font-size: 16px; margin: 5px; background: #0066ff; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+                        button:hover { background: #00d4ff; }
+                        .stop { background: #ff6b6b; }
+                        input { padding: 10px; font-size: 16px; margin: 10px; width: 80px; }
+                    </style>
+                </head>
+                <body>
+                    <h2>⏱️ Timer & Stopwatch</h2>
+                    <div class="display" id="display">00:00</div>
+                    <div class="controls">
+                        <input type="number" id="minutes" min="0" max="59" value="1" placeholder="Min"> : <input type="number" id="seconds" min="0" max="59" value="0" placeholder="Sec"><br>
+                        <button onclick="startTimer()">▶ Avvia</button>
+                        <button class="stop" onclick="stopTimer()">⏸ Stop</button>
+                        <button onclick="resetTimer()">🔄 Reset</button>
+                    </div>
+                    <script>
+                        let timeLeft = 60, isRunning = false, interval = null;
+                        function updateDisplay() { document.getElementById('display').innerText = String(Math.floor(timeLeft/60)).padStart(2,'0') + ':' + String(timeLeft%60).padStart(2,'0'); }
+                        function startTimer() {
+                            const m = parseInt(document.getElementById('minutes').value) || 0;
+                            const s = parseInt(document.getElementById('seconds').value) || 0;
+                            timeLeft = m * 60 + s;
+                            if (isRunning) return;
+                            isRunning = true;
+                            interval = setInterval(() => {
+                                timeLeft--;
+                                updateDisplay();
+                                if (timeLeft <= 0) { clearInterval(interval); isRunning = false; alert('⏱️ Tempo scaduto!'); }
+                            }, 1000);
+                        }
+                        function stopTimer() { isRunning = false; clearInterval(interval); }
+                        function resetTimer() { stopTimer(); timeLeft = 60; updateDisplay(); }
+                        updateDisplay();
+                    </script>
+                </body>
+                </html>
+            `);
         }
         function openUnitConverter() { 
-            alert('📏 Convertitore di Unità - Sarà disponibile a breve!'); 
+            const converterWindow = window.open('', 'converter', 'width=500,height=600');
+            converterWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Convertitore di Unità</title>
+                    <style>
+                        body { font-family: Arial; background: #0a0e27; color: #fff; margin: 0; padding: 20px; }
+                        .converter { margin: 20px 0; }
+                        input, select { padding: 10px; font-size: 16px; margin: 10px 5px; width: 100%; box-sizing: border-box; background: #333; color: #fff; border: 1px solid #0066ff; border-radius: 5px; }
+                        .result { background: rgba(0,102,255,0.2); padding: 15px; margin-top: 10px; border-radius: 5px; font-size: 18px; }
+                    </style>
+                </head>
+                <body>
+                    <h2>📏 Convertitore di Unità</h2>
+                    <select id="type" onchange="changeType()">
+                        <option value="length">Lunghezza</option>
+                        <option value="weight">Peso</option>
+                        <option value="temp">Temperatura</option>
+                    </select>
+                    <input type="number" id="value" placeholder="Inserisci valore" oninput="convert()">
+                    <select id="unit" onchange="convert()">
+                        <option value="m">Metro (m)</option>
+                        <option value="km">Chilometri (km)</option>
+                        <option value="cm">Centimetri (cm)</option>
+                        <option value="mi">Miglia (mi)</option>
+                    </select>
+                    <div class="result" id="result"></div>
+                    <script>
+                        const conversions = {
+                            length: {m: [{unit: 'km', factor: 0.001}, {unit: 'cm', factor: 100}, {unit: 'mi', factor: 0.000621371}], km: [{unit: 'm', factor: 1000}, {unit: 'cm', factor: 100000}, {unit: 'mi', factor: 0.621371}], cm: [{unit: 'm', factor: 0.01}, {unit: 'km', factor: 0.00001}, {unit: 'mi', factor: 0.000006213}], mi: [{unit: 'm', factor: 1609.34}, {unit: 'km', factor: 1.60934}, {unit: 'cm', factor: 160934}]},
+                            weight: {kg: [{unit: 'g', factor: 1000}, {unit: 'lb', factor: 2.20462}], g: [{unit: 'kg', factor: 0.001}, {unit: 'lb', factor: 0.00220462}], lb: [{unit: 'kg', factor: 0.453592}, {unit: 'g', factor: 453.592}]},
+                            temp: {c: 'C', f: 'F'}
+                        };
+                        function convert() {
+                            const val = parseFloat(document.getElementById('value').value);
+                            if (!val) return;
+                            const type = document.getElementById('type').value;
+                            const unit = document.getElementById('unit').value;
+                            let result = 'Conversioni: ';
+                            conversions[type][unit]?.forEach(c => {
+                                result += unit.toUpperCase() === 'C' ? (val * 9/5 + 32).toFixed(2) + '°F, ' : (val * c.factor).toFixed(2) + c.unit + ', ';
+                            });
+                            document.getElementById('result').innerHTML = result;
+                        }
+                        function changeType() { const t = document.getElementById('type').value; document.getElementById('unit').innerHTML = t === 'length' ? '<option>m</option><option>km</option><option>cm</option><option>mi</option>' : t === 'weight' ? '<option>kg</option><option>g</option><option>lb</option>' : '<option>c</option><option>f</option>'; convert(); }
+                    </script>
+                </body>
+                </html>
+            `);
         }
         function openQRGen() { 
-            alert('📱 QR Code Generator - Sarà disponibile a breve!'); 
+            const qrWindow = window.open('', 'qr', 'width=600,height=700');
+            qrWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>QR Code Generator</title>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+                    <style>
+                        body { font-family: Arial; background: #0a0e27; color: #fff; margin: 0; padding: 20px; text-align: center; }
+                        input { padding: 10px; font-size: 16px; width: 100%; margin: 10px 0; background: #333; color: #fff; border: 1px solid #0066ff; border-radius: 5px; box-sizing: border-box; }
+                        button { padding: 10px 20px; font-size: 16px; background: #0066ff; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin: 10px 5px; }
+                        button:hover { background: #00d4ff; }
+                        #qrcode { margin: 20px auto; background: #fff; padding: 10px; border-radius: 5px; display: inline-block; }
+                    </style>
+                </head>
+                <body>
+                    <h2>📱 QR Code Generator</h2>
+                    <input type="text" id="qrtext" placeholder="URL o testo" value="https://www.ldm4app.com">
+                    <button onclick="generateQR()">📱 Genera QR</button>
+                    <button onclick="document.querySelector('#qrcode svg').parentElement.getAttribute('src') ? downloadQR() : alert('Genera prima un QR')">⬇️ Scarica</button>
+                    <div id="qrcode" style="margin-top: 20px;"></div>
+                    <script>
+                        function generateQR() {
+                            const text = document.getElementById('qrtext').value;
+                            document.getElementById('qrcode').innerHTML = '';
+                            new QRCode(document.getElementById('qrcode'), {text: text, width: 200, height: 200});
+                        }
+                        function downloadQR() {
+                            const canvas = document.querySelector('#qrcode canvas');
+                            if (!canvas) return;
+                            const link = document.createElement('a');
+                            link.href = canvas.toDataURL();
+                            link.download = 'qrcode.png';
+                            link.click();
+                        }
+                        generateQR();
+                    </script>
+                </body>
+                </html>
+            `);
         }
         function openPassGen() { 
-            alert('🔐 Generatore di Password - Sarà disponibile a breve!'); 
+            const passWindow = window.open('', 'password', 'width=500,height=600');
+            passWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Generatore di Password</title>
+                    <style>
+                        body { font-family: Arial; background: #0a0e27; color: #fff; margin: 0; padding: 20px; }
+                        input[type="range"], input[type="checkbox"] { margin: 10px 0; }
+                        .password-display { background: rgba(0,102,255,0.2); padding: 15px; margin: 15px 0; border-radius: 5px; font-size: 18px; word-break: break-all; font-family: monospace; }
+                        button { padding: 10px 20px; font-size: 16px; background: #0066ff; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin: 5px; width: 100%; }
+                        button:hover { background: #00d4ff; }
+                        label { display: block; margin: 10px 0; }
+                        .strength { margin: 10px 0; padding: 10px; border-radius: 5px; }
+                        .weak { background: #ff6b6b; } .medium { background: #ffd93d; } .strong { background: #51cf66; }
+                    </style>
+                </head>
+                <body>
+                    <h2>🔐 Generatore di Password</h2>
+                    <label>Lunghezza: <input type="range" id="length" min="8" max="32" value="16" oninput="updateLength()"> <span id="lengthValue">16</span></label>
+                    <label><input type="checkbox" id="uppercase" checked onchange="generate()"> Maiuscole (A-Z)</label>
+                    <label><input type="checkbox" id="lowercase" checked onchange="generate()"> Minuscole (a-z)</label>
+                    <label><input type="checkbox" id="numbers" checked onchange="generate()"> Numeri (0-9)</label>
+                    <label><input type="checkbox" id="symbols" checked onchange="generate()"> Simboli (!@#$%)</label>
+                    <div class="password-display" id="password">P@ssw0rd!</div>
+                    <div class="strength medium" id="strength">Forza: Media</div>
+                    <button onclick="copyPassword()">📋 Copia</button>
+                    <button onclick="generate()">🔄 Genera Nuova</button>
+                    <script>
+                        const chars = {uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', lowercase: 'abcdefghijklmnopqrstuvwxyz', numbers: '0123456789', symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?'};
+                        function generate() {
+                            let chars_str = '';
+                            if (document.getElementById('uppercase').checked) chars_str += chars.uppercase;
+                            if (document.getElementById('lowercase').checked) chars_str += chars.lowercase;
+                            if (document.getElementById('numbers').checked) chars_str += chars.numbers;
+                            if (document.getElementById('symbols').checked) chars_str += chars.symbols;
+                            const length = parseInt(document.getElementById('length').value);
+                            let password = '';
+                            for (let i = 0; i < length; i++) password += chars_str.charAt(Math.floor(Math.random() * chars_str.length));
+                            document.getElementById('password').innerText = password;
+                            const strength = length < 12 ? 'weak' : length < 16 ? 'medium' : 'strong';
+                            document.getElementById('strength').className = 'strength ' + strength;
+                            document.getElementById('strength').innerText = 'Forza: ' + (strength === 'weak' ? 'Debole' : strength === 'medium' ? 'Media' : 'Forte');
+                        }
+                        function updateLength() { document.getElementById('lengthValue').innerText = document.getElementById('length').value; generate(); }
+                        function copyPassword() { navigator.clipboard.writeText(document.getElementById('password').innerText); alert('✅ Password copiata!'); }
+                        generate();
+                    </script>
+                </body>
+                </html>
+            `);
         }
         function openBMI() { 
-            alert('💪 BMI & Calorie - Sarà disponibile a breve!'); 
+            const bmiWindow = window.open('', 'bmi', 'width=500,height=700');
+            bmiWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>BMI & Calorie</title>
+                    <style>
+                        body { font-family: Arial; background: #0a0e27; color: #fff; margin: 0; padding: 20px; }
+                        input, select { padding: 10px; font-size: 16px; margin: 10px 0; width: 100%; background: #333; color: #fff; border: 1px solid #0066ff; border-radius: 5px; box-sizing: border-box; }
+                        button { padding: 10px; font-size: 16px; background: #0066ff; color: #fff; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin: 10px 0; }
+                        button:hover { background: #00d4ff; }
+                        .result { background: rgba(0,102,255,0.2); padding: 15px; margin-top: 15px; border-radius: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <h2>💪 BMI & Calorie</h2>
+                    <label>Altezza (cm): <input type="number" id="height" placeholder="170"></label>
+                    <label>Peso (kg): <input type="number" id="weight" placeholder="70"></label>
+                    <label>Età: <input type="number" id="age" placeholder="30"></label>
+                    <label>Genere: <select id="gender"><option>Maschio</option><option>Femmina</option></select></label>
+                    <label>Attività: <select id="activity"><option value="1.2">Sedentaria</option><option value="1.375">Leggera</option><option value="1.55">Moderata</option><option value="1.725">Intensa</option></select></label>
+                    <button onclick="calculate()">📊 Calcola</button>
+                    <div class="result" id="result"></div>
+                    <script>
+                        function calculate() {
+                            const h = parseFloat(document.getElementById('height').value) / 100;
+                            const w = parseFloat(document.getElementById('weight').value);
+                            const age = parseInt(document.getElementById('age').value);
+                            const gender = document.getElementById('gender').value;
+                            const activity = parseFloat(document.getElementById('activity').value);
+                            const bmi = (w / (h * h)).toFixed(1);
+                            const bmr = gender === 'Maschio' ? 88.362 + (13.397 * w) + (4.799 * 100 * h) - (5.677 * age) : 447.593 + (9.247 * w) + (3.098 * 100 * h) - (4.330 * age);
+                            const tdee = (bmr * activity).toFixed(0);
+                            const status = bmi < 18.5 ? 'Sottopeso' : bmi < 25 ? 'Normale' : bmi < 30 ? 'Sovrappeso' : 'Obeso';
+                            document.getElementById('result').innerHTML = `<strong>BMI:</strong> ${bmi} (${status})<br><strong>TDEE:</strong> ${tdee} cal/giorno<br><strong>Consiglio:</strong> ${tdee < 2000 ? 'Mantieni una dieta equilibrata' : 'Aumenta l'attività fisica'}`;
+                        }
+                    </script>
+                </body>
+                </html>
+            `);
         }
         function openToDoList() { 
-            alert('📝 To-Do List & Note - Sarà disponibile a breve!'); 
+            const todoWindow = window.open('', 'todo', 'width=600,height=800');
+            todoWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="it">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>To-Do List & Note</title>
+                    <style>
+                        body { font-family: Arial; background: #0a0e27; color: #fff; margin: 0; padding: 20px; }
+                        input, textarea { padding: 10px; font-size: 16px; width: 100%; margin: 10px 0; border: 1px solid #0066ff; border-radius: 5px; background: #333; color: #fff; box-sizing: border-box; }
+                        button { padding: 10px; font-size: 14px; background: #0066ff; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin: 5px 5px 5px 0; }
+                        button:hover { background: #00d4ff; }
+                        .task-item { background: rgba(0,102,255,0.1); padding: 10px; margin: 10px 0; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #0066ff; }
+                        .task-item.completed { text-decoration: line-through; opacity: 0.6; }
+                        .delete-btn { background: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+                    </style>
+                </head>
+                <body>
+                    <h2>📝 To-Do List & Note</h2>
+                    <input type="text" id="taskInput" placeholder="Aggiungi un'attività...">
+                    <button onclick="addTask()">➕ Aggiungi</button>
+                    <div id="tasks"></div>
+                    <hr style="margin: 20px 0;">
+                    <h3>📒 Note</h3>
+                    <textarea id="notes" placeholder="Scrivi le tue note qui..." rows="5" oninput="saveNotes()"></textarea>
+                    <script>
+                        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                        function saveTasks() { localStorage.setItem('tasks', JSON.stringify(tasks)); }
+                        function renderTasks() {
+                            const html = tasks.map((t, i) => `<div class="task-item ${t.completed ? 'completed' : ''}"><span onclick="toggleTask(${i})">${t.text}</span><button class="delete-btn" onclick="deleteTask(${i})">✖</button></div>`).join('');
+                            document.getElementById('tasks').innerHTML = html;
+                        }
+                        function addTask() {
+                            const input = document.getElementById('taskInput');
+                            if (!input.value.trim()) return;
+                            tasks.push({text: input.value, completed: false});
+                            input.value = '';
+                            saveTasks();
+                            renderTasks();
+                        }
+                        function toggleTask(i) { tasks[i].completed = !tasks[i].completed; saveTasks(); renderTasks(); }
+                        function deleteTask(i) { tasks.splice(i, 1); saveTasks(); renderTasks(); }
+                        function saveNotes() { localStorage.setItem('notes', document.getElementById('notes').value); }
+                        document.getElementById('notes').value = localStorage.getItem('notes') || '';
+                        renderTasks();
+                    </script>
+                </body>
+                </html>
+            `);
         }
     </script>
 </body>
