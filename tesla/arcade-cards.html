@@ -495,7 +495,10 @@
             for (let i = 0; i < 7; i++) {
                 unoPlayerHand.push(drawUNOCardFromDeck());
             }
-            unoAIHand = Array(7).fill('back');
+            unoAIHand = [];
+            for (let i = 0; i < 7; i++) {
+                unoAIHand.push(drawUNOCardFromDeck());
+            }
             unoTable = drawUNOCardFromDeck();
             unoPlayerTurn = true;
             unoGameRunning = true;
@@ -556,6 +559,7 @@
 
         function aiPlayUNO() {
             const playableCards = unoAIHand.filter(card => {
+                if (!card || typeof card !== 'string' || !card.includes('-')) return false;
                 const [num, color] = card.split('-');
                 const [tableNum, tableColor] = unoTable.split('-');
                 return num === 'Wild' || num === '+4' || num === tableNum || color === tableColor;
@@ -565,7 +569,7 @@
                 unoTable = playableCards[0];
                 unoAIHand = unoAIHand.filter(c => c !== playableCards[0]);
             } else {
-                unoAIHand.push(drawUNOCard());
+                unoAIHand.push(drawUNOCardFromDeck());
             }
             unoPlayerTurn = true;
             renderUNO();
