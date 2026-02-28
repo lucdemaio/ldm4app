@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolatrice Scientifica</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: #fff; padding: 20px; min-height: 100vh; }
+        .container { max-width: 450px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 20px; font-size: 24px; }
+        .calc-display { background: #333; padding: 20px; font-size: 32px; margin-bottom: 15px; border-radius: 8px; text-align: right; word-wrap: break-word; border: 1px solid #0066ff; min-height: 60px; }
+        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        button { padding: 18px; font-size: 18px; background: #0066ff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        button:hover { background: #00d4ff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4); }
+        button:active { transform: translateY(0); }
+        .clear { background: #ff6b6b; }
+        .clear:hover { background: #ff5252; }
+        .equals { background: #51cf66; grid-column: span 2; }
+        .equals:hover { background: #40c057; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Calcolatrice</h1>
+        <div class="calc-display" id="display">0</div>
+        <div class="calc-buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button onclick="backspace()">←</button>
+            <button onclick="appendOp('/')" class="op">÷</button>
+            <button onclick="appendOp('*')" class="op">×</button>
+            
+            <button onclick="append('7')">7</button>
+            <button onclick="append('8')">8</button>
+            <button onclick="append('9')">9</button>
+            <button onclick="appendOp('-')" class="op">-</button>
+            
+            <button onclick="append('4')">4</button>
+            <button onclick="append('5')">5</button>
+            <button onclick="append('6')">6</button>
+            <button onclick="appendOp('+')" class="op">+</button>
+            
+            <button onclick="append('1')">1</button>
+            <button onclick="append('2')">2</button>
+            <button onclick="append('3')">3</button>
+            <button onclick="appendOp('%')" class="op">%</button>
+            
+            <button onclick="append('0')">0</button>
+            <button onclick="append('.')">.</button>
+            <button onclick="appendOp('^')" class="op">^</button>
+            
+            <button class="equals" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let display = '0';
+        let lastWasOperator = false;
+
+        function updateDisplay() {
+            document.getElementById('display').innerText = display;
+        }
+
+        function append(val) {
+            if (display === '0' && val !== '.') {
+                display = val;
+            } else if (val === '.' && display.includes('.')) {
+                return;
+            } else {
+                display += val;
+            }
+            lastWasOperator = false;
+            updateDisplay();
+        }
+
+        function appendOp(op) {
+            if (lastWasOperator && op !== '-') return;
+            if (display[display.length - 1] === '-' && op === '-') return;
+            
+            display += op;
+            lastWasOperator = true;
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            display = '0';
+            lastWasOperator = false;
+            updateDisplay();
+        }
+
+        function backspace() {
+            display = display.slice(0, -1) || '0';
+            lastWasOperator = display[display.length - 1] === '+' || display[display.length - 1] === '-' || display[display.length - 1] === '*' || display[display.length - 1] === '/';
+            updateDisplay();
+        }
+
+        function calculate() {
+            try {
+                let expr = display.replace(/\^/g, '**');
+                let result = eval(expr);
+                display = result.toString();
+                lastWasOperator = false;
+                updateDisplay();
+            } catch (e) {
+                alert('Errore nel calcolo: ' + e.message);
+                clearDisplay();
+            }
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>

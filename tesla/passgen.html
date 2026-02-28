@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: #fff; padding: 30px; min-height: 100vh; }
+        .container { max-width: 500px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 30px; font-size: 28px; }
+        .password-display { background: rgba(0, 102, 255, 0.15); padding: 20px; margin: 25px 0; border-radius: 8px; border: 2px solid #0066ff; word-break: break-all; font-family: 'Courier New', monospace; font-size: 20px; min-height: 60px; user-select: all; }
+        .controls { background: rgba(0, 102, 255, 0.1); padding: 20px; border-radius: 8px; border: 1px solid #0066ff; margin: 20px 0; }
+        label { display: block; margin: 12px 0; font-weight: bold; }
+        input[type="range"] { width: 100%; margin: 10px 0; }
+        input[type="checkbox"] { margin-right: 8px; }
+        .length-display { text-align: right; color: #00d4ff; font-weight: bold; }
+        .button-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 14px; background: #0066ff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        button:hover { background: #00d4ff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4); }
+        .strength-bar { width: 100%; height: 8px; background: #333; border-radius: 4px; margin: 15px 0; overflow: hidden; }
+        .strength-fill { height: 100%; width: 0%; transition: width 0.2s; }
+        .weak { background: #ff6b6b; }
+        .medium { background: #ffa500; }
+        .strong { background: #51cf66; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Password Generator</h1>
+
+        <div class="password-display" id="password">Pa$$w0rd123!Secure</div>
+
+        <div class="controls">
+            <label>
+                Lunghezza: 
+                <input type="range" id="length" min="8" max="32" value="16" oninput="updateLength()">
+                <div class="length-display" id="lengthDisplay">16 caratteri</div>
+            </label>
+
+            <label>
+                <input type="checkbox" id="uppercase" checked> Maiuscole (A-Z)
+            </label>
+            <label>
+                <input type="checkbox" id="lowercase" checked> Minuscole (a-z)
+            </label>
+            <label>
+                <input type="checkbox" id="numbers" checked> Numeri (0-9)
+            </label>
+            <label>
+                <input type="checkbox" id="symbols" checked> Simboli (!@#$%^&*)
+            </label>
+
+            <div class="strength-bar">
+                <div class="strength-fill strong" id="strengthFill" style="width: 90%;"></div>
+            </div>
+
+            <div class="button-group">
+                <button onclick="generatePassword()">🔄 Genera</button>
+                <button onclick="copyPassword()">📋 Copia</button>
+                <button onclick="randomizeAll()">🎲 Casuale</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePassword() {
+            let length = parseInt(document.getElementById('length').value);
+            let chars = '';
+
+            if (document.getElementById('uppercase').checked) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (document.getElementById('lowercase').checked) chars += 'abcdefghijklmnopqrstuvwxyz';
+            if (document.getElementById('numbers').checked) chars += '0123456789';
+            if (document.getElementById('symbols').checked) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            if (!chars) {
+                alert('Seleziona almeno un tipo di carattere!');
+                return;
+            }
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            document.getElementById('password').innerText = password;
+            updateStrength(password);
+        }
+
+        function updateLength() {
+            let len = document.getElementById('length').value;
+            document.getElementById('lengthDisplay').innerText = len + ' caratteri';
+            generatePassword();
+        }
+
+        function copyPassword() {
+            let password = document.getElementById('password').innerText;
+            navigator.clipboard.writeText(password).then(() => {
+                alert('Password copiata! ✓');
+            }).catch(() => {
+                alert('Errore nella copia');
+            });
+        }
+
+        function updateStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength += 25;
+            if (password.length >= 12) strength += 25;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 10;
+            if (/[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]/.test(password)) strength += 15;
+
+            let fill = document.getElementById('strengthFill');
+            fill.style.width = strength + '%';
+            
+            if (strength < 40) fill.className = 'strength-fill weak';
+            else if (strength < 70) fill.className = 'strength-fill medium';
+            else fill.className = 'strength-fill strong';
+        }
+
+        function randomizeAll() {
+            let options = [
+                { el: 'uppercase', val: Math.random() > 0.3 },
+                { el: 'lowercase', val: Math.random() > 0.3 },
+                { el: 'numbers', val: Math.random() > 0.3 },
+                { el: 'symbols', val: Math.random() > 0.3 }
+            ];
+            
+            let hasOne = false;
+            options.forEach(opt => {
+                document.getElementById(opt.el).checked = opt.val;
+                if (opt.val) hasOne = true;
+            });
+            
+            if (!hasOne) document.getElementById('lowercase').checked = true;
+            generatePassword();
+        }
+
+        // Genera al caricamento
+        generatePassword();
+    </script>
+</body>
+</html>

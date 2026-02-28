@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orologio Mondiale</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: #fff; padding: 20px; min-height: 100vh; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 25px; font-size: 28px; }
+        .city-time { display: flex; justify-content: space-between; align-items: center; padding: 18px; background: rgba(0, 102, 255, 0.1); margin: 12px 0; border-radius: 8px; border-left: 4px solid #0066ff; transition: all 0.3s; }
+        .city-time:hover { background: rgba(0, 102, 255, 0.2); transform: translateX(5px); }
+        .city { font-weight: bold; font-size: 16px; }
+        .time { font-size: 18px; font-family: 'Courier New', monospace; font-weight: bold; background: rgba(255, 255, 255, 0.05); padding: 8px 12px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Orologio Mondiale</h1>
+        <div id="clocks"></div>
+    </div>
+
+    <script>
+        const cities = [
+            { name: 'New York', tz: 'America/New_York' },
+            { name: 'Londra', tz: 'Europe/London' },
+            { name: 'Parigi', tz: 'Europe/Paris' },
+            { name: 'Tokyo', tz: 'Asia/Tokyo' },
+            { name: 'Sydney', tz: 'Australia/Sydney' },
+            { name: 'Dubai', tz: 'Asia/Dubai' },
+            { name: 'Mumbai', tz: 'Asia/Kolkata' },
+            { name: 'Hong Kong', tz: 'Asia/Hong_Kong' },
+            { name: 'Singapore', tz: 'Asia/Singapore' },
+            { name: 'Bangkok', tz: 'Asia/Bangkok' }
+        ];
+
+        function updateClocks() {
+            let html = '';
+            cities.forEach(city => {
+                let time = new Date().toLocaleString('it-IT', {
+                    timeZone: city.tz,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                html += '<div class="city-time"><div class="city">' + city.name + '</div><div class="time">' + time + '</div></div>';
+            });
+            document.getElementById('clocks').innerHTML = html;
+        }
+
+        updateClocks();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>

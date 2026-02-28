@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer & Stopwatch</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: #fff; padding: 30px; min-height: 100vh; }
+        .container { max-width: 500px; margin: 0 auto; text-align: center; }
+        h1 { margin-bottom: 30px; font-size: 28px; }
+        .display { font-size: 72px; font-weight: bold; font-family: 'Courier New', monospace; background: rgba(0, 102, 255, 0.15); padding: 40px; margin: 25px 0; border-radius: 12px; border: 2px solid #0066ff; }
+        .input-group { display: flex; gap: 10px; margin: 25px 0; justify-content: center; }
+        input { width: 70px; padding: 12px; background: #333; color: #fff; border: 1px solid #0066ff; border-radius: 6px; font-size: 18px; text-align: center; }
+        .button-group { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        button { padding: 14px 28px; font-size: 16px; background: #0066ff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        button:hover { background: #00d4ff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4); }
+        button.stop { background: #ff6b6b; }
+        button.stop:hover { background: #ff5252; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⏱️ Timer & Stopwatch</h1>
+        <div class="display" id="display">00:00</div>
+        
+        <div class="input-group">
+            <input type="number" id="minutes" min="0" max="99" value="1" placeholder="Min">
+            <span style="font-size: 24px; align-self: center;">:</span>
+            <input type="number" id="seconds" min="0" max="59" value="0" placeholder="Sec">
+        </div>
+
+        <div class="button-group">
+            <button onclick="startTimer()">▶️ Avvia</button>
+            <button class="stop" onclick="stopTimer()">⏸️ Pausa</button>
+            <button onclick="resetTimer()">🔄 Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let totalSeconds = 60;
+        let isRunning = false;
+        let timerInterval;
+
+        function updateDisplay() {
+            let mins = Math.floor(totalSeconds / 60);
+            let secs = totalSeconds % 60;
+            document.getElementById('display').innerText = 
+                String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            
+            let mins = parseInt(document.getElementById('minutes').value) || 0;
+            let secs = parseInt(document.getElementById('seconds').value) || 0;
+            totalSeconds = mins * 60 + secs;
+            
+            if (totalSeconds <= 0) {
+                alert('Inserisci un tempo valido!');
+                return;
+            }
+            
+            isRunning = true;
+            timerInterval = setInterval(() => {
+                totalSeconds--;
+                updateDisplay();
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    alert('Tempo scaduto! ⏰');
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            totalSeconds = 60;
+            updateDisplay();
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>

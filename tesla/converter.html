@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertitore Unità</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: #fff; padding: 30px; min-height: 100vh; }
+        .container { max-width: 500px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 30px; font-size: 28px; }
+        .converter { background: rgba(0, 102, 255, 0.1); padding: 25px; margin: 20px 0; border-radius: 10px; border: 1px solid #0066ff; }
+        .converter h3 { margin-bottom: 15px; font-size: 18px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #333; color: #fff; border: 1px solid #0066ff; border-radius: 6px; font-size: 16px; }
+        input:focus, select:focus { outline: none; border-color: #00d4ff; box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+        .result { background: rgba(81, 207, 102, 0.2); padding: 15px; margin: 15px 0; border-radius: 6px; min-height: 40px; border-left: 4px solid #51cf66; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📏 Convertitore Unità</h1>
+
+        <div class="converter">
+            <h3>📐 Lunghezza</h3>
+            <input type="number" id="length" placeholder="Inserisci valore" oninput="convertLength()">
+            <select id="lengthUnit" onchange="convertLength()">
+                <option>Metro (m)</option>
+                <option>Chilometro (km)</option>
+                <option>Centimetro (cm)</option>
+                <option>Millimetro (mm)</option>
+                <option>Miglio</option>
+                <option>Iarda</option>
+                <option>Piede</option>
+                <option>Pollice</option>
+            </select>
+            <div class="result" id="lengthResult">Conversioni appariranno qui</div>
+        </div>
+
+        <div class="converter">
+            <h3>⚖️ Peso</h3>
+            <input type="number" id="weight" placeholder="Inserisci valore" oninput="convertWeight()">
+            <select id="weightUnit" onchange="convertWeight()">
+                <option>Chilogrammo (kg)</option>
+                <option>Grammo (g)</option>
+                <option>Milligrammo (mg)</option>
+                <option>Tonnellata</option>
+                <option>Libbra (lb)</option>
+                <option>Oncia (oz)</option>
+            </select>
+            <div class="result" id="weightResult">Conversioni appariranno qui</div>
+        </div>
+
+        <div class="converter">
+            <h3>🌡️ Temperatura</h3>
+            <input type="number" id="temp" placeholder="Inserisci valore" oninput="convertTemp()">
+            <select id="tempUnit" onchange="convertTemp()">
+                <option>Celsius</option>
+                <option>Fahrenheit</option>
+                <option>Kelvin</option>
+            </select>
+            <div class="result" id="tempResult">Conversioni appariranno qui</div>
+        </div>
+    </div>
+
+    <script>
+        function convertLength() {
+            let val = parseFloat(document.getElementById('length').value);
+            if (!val) { document.getElementById('lengthResult').innerHTML = "Inserisci un valore"; return; }
+            let unit = document.getElementById('lengthUnit').value;
+            let m = 0;
+            if (unit === 'Metro (m)') m = val;
+            else if (unit === 'Chilometro (km)') m = val * 1000;
+            else if (unit === 'Centimetro (cm)') m = val / 100;
+            else if (unit === 'Millimetro (mm)') m = val / 1000;
+            else if (unit === 'Miglio') m = val * 1609.34;
+            else if (unit === 'Iarda') m = val * 0.9144;
+            else if (unit === 'Piede') m = val * 0.3048;
+            else if (unit === 'Pollice') m = val * 0.0254;
+            
+            document.getElementById('lengthResult').innerHTML = 
+                '<strong>Metro:</strong> ' + m.toFixed(4) + 'm<br>' +
+                '<strong>Km:</strong> ' + (m/1000).toFixed(6) + 'km<br>' +
+                '<strong>Cm:</strong> ' + (m*100).toFixed(2) + 'cm<br>' +
+                '<strong>Miglio:</strong> ' + (m/1609.34).toFixed(4) + 'mi';
+        }
+
+        function convertWeight() {
+            let val = parseFloat(document.getElementById('weight').value);
+            if (!val) { document.getElementById('weightResult').innerHTML = "Inserisci un valore"; return; }
+            let unit = document.getElementById('weightUnit').value;
+            let g = 0;
+            if (unit === 'Chilogrammo (kg)') g = val * 1000;
+            else if (unit === 'Grammo (g)') g = val;
+            else if (unit === 'Milligrammo (mg)') g = val / 1000;
+            else if (unit === 'Tonnellata') g = val * 1000000;
+            else if (unit === 'Libbra (lb)') g = val * 453.592;
+            else if (unit === 'Oncia (oz)') g = val * 28.3495;
+            
+            document.getElementById('weightResult').innerHTML = 
+                '<strong>Grammo:</strong> ' + g.toFixed(2) + 'g<br>' +
+                '<strong>Kg:</strong> ' + (g/1000).toFixed(4) + 'kg<br>' +
+                '<strong>Libbra:</strong> ' + (g/453.592).toFixed(4) + 'lb<br>' +
+                '<strong>Oncia:</strong> ' + (g/28.3495).toFixed(2) + 'oz';
+        }
+
+        function convertTemp() {
+            let val = parseFloat(document.getElementById('temp').value);
+            if (val === '' && val !== 0) { document.getElementById('tempResult').innerHTML = "Inserisci un valore"; return; }
+            let unit = document.getElementById('tempUnit').value;
+            let c = 0;
+            if (unit === 'Celsius') c = val;
+            else if (unit === 'Fahrenheit') c = (val - 32) * 5/9;
+            else if (unit === 'Kelvin') c = val - 273.15;
+            
+            document.getElementById('tempResult').innerHTML = 
+                '<strong>Celsius:</strong> ' + c.toFixed(2) + '°C<br>' +
+                '<strong>Fahrenheit:</strong> ' + (c * 9/5 + 32).toFixed(2) + '°F<br>' +
+                '<strong>Kelvin:</strong> ' + (c + 273.15).toFixed(2) + 'K';
+        }
+    </script>
+</body>
+</html>

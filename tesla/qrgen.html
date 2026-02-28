@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: #fff; padding: 30px; min-height: 100vh; }
+        .container { max-width: 500px; margin: 0 auto; text-align: center; }
+        h1 { margin-bottom: 30px; font-size: 28px; }
+        input { width: 100%; padding: 14px; margin: 15px 0; background: #333; color: #fff; border: 1px solid #0066ff; border-radius: 6px; font-size: 16px; }
+        input:focus { outline: none; border-color: #00d4ff; box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+        .button-group { display: flex; gap: 10px; margin: 20px 0; }
+        button { flex: 1; padding: 14px; background: #0066ff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; transition: all 0.2s; }
+        button:hover { background: #00d4ff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4); }
+        #qr { margin: 30px auto; background: #fff; padding: 15px; border-radius: 8px; display: inline-block; }
+        .info { background: rgba(0, 102, 255, 0.1); padding: 15px; border-radius: 6px; margin-top: 20px; border-left: 4px solid #0066ff; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 QR Code Generator</h1>
+        <input type="text" id="text" value="https://www.ldm4app.com" placeholder="Inserisci testo o URL">
+        
+        <div class="button-group">
+            <button onclick="generateQR()">🔄 Genera</button>
+            <button onclick="downloadQR()">⬇️ Scarica</button>
+        </div>
+
+        <div id="qr"></div>
+
+        <div class="info">
+            <strong>💡 Come usarlo:</strong>
+            <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>Inserisci un testo o URL</li>
+                <li>Clicca su Genera</li>
+                <li>Scarica l'immagine QR</li>
+                <li>Condividilo ovunque!</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function generateQR() {
+            let text = document.getElementById('text').value.trim();
+            if (!text) {
+                alert('Inserisci un testo o URL!');
+                return;
+            }
+            
+            document.getElementById('qr').innerHTML = '';
+            new QRCode(document.getElementById('qr'), {
+                text: text,
+                width: 250,
+                height: 250,
+                colorDark: '#0066ff',
+                colorLight: '#ffffff'
+            });
+        }
+
+        function downloadQR() {
+            let canvas = document.querySelector('#qr canvas');
+            if (!canvas) {
+                alert('Genera un QR code prima!');
+                return;
+            }
+            
+            let link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'qrcode.png';
+            link.click();
+        }
+
+        // Genera al caricamento della pagina
+        generateQR();
+    </script>
+</body>
+</html>

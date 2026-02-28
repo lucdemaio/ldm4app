@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List & Note</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: #fff; padding: 20px; min-height: 100vh; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 25px; font-size: 28px; }
+        h2 { margin: 25px 0 15px 0; font-size: 20px; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input, textarea { flex: 1; padding: 12px; background: #333; color: #fff; border: 1px solid #0066ff; border-radius: 6px; font-size: 16px; font-family: Arial; }
+        input:focus, textarea:focus { outline: none; border-color: #00d4ff; box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+        button { padding: 12px 20px; background: #0066ff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        button:hover { background: #00d4ff; transform: translateY(-2px); }
+        .task-item { background: rgba(0, 102, 255, 0.1); padding: 15px; margin: 10px 0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #0066ff; transition: all 0.2s; }
+        .task-item:hover { background: rgba(0, 102, 255, 0.15); transform: translateX(5px); }
+        .task-item.completed { opacity: 0.6; text-decoration: line-through; }
+        .task-item.completed span { color: #aaa; }
+        .task-text { flex: 1; cursor: pointer; user-select: none; }
+        .delete-btn { background: #ff6b6b; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .delete-btn:hover { background: #ff5252; }
+        textarea { resize: vertical; min-height: 150px; margin-bottom: 10px; }
+        .empty-state { text-align: center; color: #666; padding: 30px; background: rgba(0, 102, 255, 0.05); border-radius: 8px; margin: 20px 0; }
+        .hr { border: none; border-top: 1px solid rgba(0, 102, 255, 0.3); margin: 30px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 To-Do List & Note</h1>
+
+        <!-- To-Do Section -->
+        <h2>✓ Attivita</h2>
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="Aggiungi una nuova attivita...">
+            <button onclick="addTask()">➕ Aggiungi</button>
+        </div>
+
+        <div id="tasksList"></div>
+        <div id="emptyTasks" class="empty-state">Nessuna attivita. Aggiungi una!</div>
+
+        <hr class="hr">
+
+        <!-- Notes Section -->
+        <h2>📒 Note Personali</h2>
+        <textarea id="notes" placeholder="Scrivi le tue note qui... (salvate automaticamente)"></textarea>
+
+        <div style="text-align: center; color: #666; font-size: 12px;">
+            💾 Le tue note e attivita sono salvate localmente nel browser
+        </div>
+    </div>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('todotasks')) || [];
+
+        function saveTasks() {
+            localStorage.setItem('todotasks', JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        function saveNotes() {
+            localStorage.setItem('todonotes', document.getElementById('notes').value);
+        }
+
+        function renderTasks() {
+            let html = '';
+            tasks.forEach((task, index) => {
+                html += '<div class="task-item ' + (task.completed ? 'completed' : '') + '">' +
+                    '<span class="task-text" onclick="toggleTask(' + index + ')">' + 
+                    (task.completed ? '✓ ' : '') + task.text + 
+                    '</span>' +
+                    '<button class="delete-btn" onclick="deleteTask(' + index + ')">✖ Elimina</button>' +
+                    '</div>';
+            });
+
+            document.getElementById('tasksList').innerHTML = html;
+            document.getElementById('emptyTasks').style.display = tasks.length === 0 ? 'block' : 'none';
+        }
+
+        function addTask() {
+            let input = document.getElementById('taskInput');
+            if (!input.value.trim()) {
+                alert('Scrivi un\'attivita!');
+                return;
+            }
+
+            tasks.push({
+                text: input.value.trim(),
+                completed: false,
+                date: new Date().toLocaleDateString('it-IT')
+            });
+
+            input.value = '';
+            saveTasks();
+        }
+
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            saveTasks();
+        }
+
+        function deleteTask(index) {
+            if (confirm('Elimina questa attivita?')) {
+                tasks.splice(index, 1);
+                saveTasks();
+            }
+        }
+
+        // Caricamento iniziale
+        document.getElementById('notes').value = localStorage.getItem('todonotes') || '';
+        document.getElementById('notes').addEventListener('input', saveNotes);
+        document.getElementById('taskInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
+
+        renderTasks();
+    </script>
+</body>
+</html>
