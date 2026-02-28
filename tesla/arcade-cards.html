@@ -16,19 +16,19 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
         * { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; overflow-x: hidden; }
         h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
         .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; padding: 12px 24px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
         .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
         .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
-        .tab-btn { padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        .tab-btn { padding: 14px 28px; border-radius: 12px; cursor: pointer; transition: all 0.3s; min-height: 48px; display: inline-flex; align-items: center; touch-action: manipulation; }
         .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
         .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
         .game-section { display: none; }
         .game-section.active { display: block; }
         
-        .card { width: 80px; height: 120px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.3s; border: 2px solid #333; }
+        .card { min-width: clamp(60px, 12vw, 100px); aspect-ratio: 2/3; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.3s; border: 2px solid #333; touch-action: manipulation; font-size: clamp(14px, 4vw, 24px); }
         .card:hover { transform: translateY(-8px); }
         .card.spade { color: #000; }
         .card.heart { color: #f44336; }
@@ -37,7 +37,7 @@
         .red-card { background: #ffe8e8; }
         .black-card { background: #e8e8e8; }
         
-        .uno-card { width: 80px; height: 120px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); color: white; font-size: 32px; }
+        .uno-card { min-width: clamp(60px, 12vw, 100px); aspect-ratio: 2/3; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); color: white; font-size: clamp(24px, 5vw, 40px); touch-action: manipulation; }
         .uno-card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
         .uno-red { background: #ef4444; }
         .uno-blue { background: #3b82f6; }
@@ -48,6 +48,16 @@
         .hand-container { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 20px 0; }
         .game-info { text-align: center; margin: 20px 0; }
         .action-buttons { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .card { min-width: clamp(50px, 10vw, 80px); }
+            .uno-card { min-width: clamp(50px, 10vw, 80px); }
+        }
+        
+        @media (max-width: 480px) {
+            .tab-btn { padding: 12px 16px; font-size: 13px; }
+        }
     </style>
 </head>
 <body>

@@ -29,46 +29,70 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
         * { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; overflow-x: hidden; }
         h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', sans-serif; }
         .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; padding: 12px 24px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
         .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
         .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; transition: all 0.4s; }
         .glass-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-8px); }
-        .tab-btn { padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        .tab-btn { padding: 14px 28px; border-radius: 12px; cursor: pointer; transition: all 0.3s; min-height: 48px; display: inline-flex; align-items: center; touch-action: manipulation; }
         .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
         .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
         .game-section { display: none; }
         .game-section.active { display: block; }
         
-        /* Wordle Styles */
-        .wordle-grid { display: grid; grid-template-columns: repeat(5, 50px); gap: 8px; margin: 20px auto; }
-        .wordle-tile { width: 50px; height: 50px; border: 2px solid #555; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; background: rgba(0,102,255,0.1); }
+        /* Wordle Styles - Responsive Grid */
+        .wordle-grid { display: grid; gap: 8px; margin: 20px auto; width: fit-content; grid-template-columns: repeat(5, minmax(40px, 60px)); }
+        .wordle-tile { aspect-ratio: 1; border: 2px solid #555; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: clamp(16px, 4vw, 24px); background: rgba(0,102,255,0.1); min-width: 40px; }
         .wordle-tile.correct { background: #10b981; border-color: #10b981; }
         .wordle-tile.present { background: #f59e0b; border-color: #f59e0b; }
         .wordle-tile.absent { background: #6b7280; border-color: #6b7280; }
-        .keyboard-row { display: flex; gap: 4px; margin: 8px 0; justify-content: center; }
-        .key-btn { padding: 8px 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; color: white; }
+        .keyboard-row { display: flex; gap: 4px; margin: 8px 0; justify-content: center; flex-wrap: wrap; }
+        .key-btn { padding: 10px 14px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; color: white; min-height: 44px; font-size: clamp(11px, 2vw, 14px); touch-action: manipulation; }
         .key-btn:hover { background: rgba(0,212,255,0.3); }
         
-        /* Sudoku Styles */
-        .sudoku-grid { display: grid; grid-template-columns: repeat(9, 40px); gap: 0; margin: 20px auto; border: 3px solid #0066ff; }
-        .sudoku-cell { width: 40px; height: 40px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; font-weight: bold; background: rgba(0,102,255,0.05); cursor: pointer; }
+        /* Sudoku Styles - Responsive Grid */
+        .sudoku-grid { display: grid; grid-template-columns: repeat(9, minmax(30px, 1fr)); gap: 0; margin: 20px auto; border: 3px solid #0066ff; max-width: 90vw; }
+        .sudoku-cell { aspect-ratio: 1; border: 1px solid #333; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: clamp(12px, 3vw, 18px); background: rgba(0,102,255,0.05); cursor: pointer; min-width: 30px; touch-action: manipulation; }
         .sudoku-cell:hover { background: rgba(0,102,255,0.2); }
         .sudoku-cell.given { background: rgba(0,212,255,0.1); color: #00d4ff; font-weight: bold; }
         .sudoku-cell.selected { background: rgba(0,212,255,0.4); }
         .sudoku-grid > .sudoku-cell:nth-child(3n) { border-right: 3px solid #0066ff; }
         .sudoku-grid > .sudoku-cell:nth-child(n+19):nth-child(-n+27) { border-bottom: 3px solid #0066ff; }
         
-        /* Tetris Styles */
-        #tetrisCanvas { border: 3px solid #0066ff; background: #000; display: block; margin: 20px auto; }
+        /* Tetris Styles - Responsive Canvas */
+        #tetrisCanvas { border: 3px solid #0066ff; background: #000; display: block; margin: 20px auto; max-width: 100%; height: auto; }
+        #tetrisContainer { display: flex; flex-direction: column; align-items: center; }
         
-        /* Memory Styles */
-        .memory-grid { display: grid; grid-template-columns: repeat(4, 80px); gap: 12px; margin: 20px auto; }
-        .memory-card { width: 80px; height: 80px; background: linear-gradient(135deg,#0066ff,#00d4ff); border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: bold; transition: all 0.3s; transform-style: preserve-3d; perspective: 1000px; }
+        /* Memory Styles - Responsive Grid */
+        .memory-grid { display: grid; gap: 12px; margin: 20px auto; width: fit-content; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); }
+        .memory-card { aspect-ratio: 1; background: linear-gradient(135deg,#0066ff,#00d4ff); border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: clamp(28px, 6vw, 48px); font-weight: bold; transition: all 0.3s; transform-style: preserve-3d; perspective: 1000px; min-width: 60px; min-height: 60px; touch-action: manipulation; }
         .memory-card:hover { transform: scale(1.1); }
+        .memory-card:active { transform: scale(0.95); }
         .memory-card.flipped { background: rgba(255,255,255,0.1); }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .container { padding: 0 12px; }
+            .wordle-grid { grid-template-columns: repeat(5, 1fr); min-width: 200px; }
+            .memory-grid { grid-template-columns: repeat(4, 1fr); min-width: 200px; }
+            .sudoku-grid { max-width: calc(100vw - 24px); }
+        }
+        
+        @media (max-width: 480px) {
+            .tab-btn { padding: 12px 16px; font-size: 13px; }
+            .wordle-grid { grid-template-columns: repeat(5, 1fr); min-width: 180px; }
+            .memory-grid { grid-template-columns: repeat(3, 1fr); min-width: 150px; }
+        }
+        
+        @media (min-width: 2000px) {
+            .wordle-grid { grid-template-columns: repeat(5, 80px); }
+            .memory-grid { grid-template-columns: repeat(4, 100px); }
+            .sudoku-grid { grid-template-columns: repeat(9, 50px); }
+        }
     </style>
 </head>
 <body>
@@ -352,12 +376,29 @@
         // ==================== TETRIS ====================
         const tetrisCanvas = document.getElementById('tetrisCanvas');
         const ctx = tetrisCanvas.getContext('2d');
-        const gridWidth = 200, gridHeight = 400;
-        const blockSize = 20;
+        let blockSize = 20;
+        let gridWidth = 200, gridHeight = 400;
         let tetrisBoard = Array(20).fill(null).map(() => Array(10).fill(0));
         let tetrisScore = 0, tetrisLines = 0, tetrisLevel = 1;
         let tetrisPaused = false, tetrisGameOver = false;
         let tetrisCurrentPiece, tetrisCurrentX, tetrisCurrentY;
+
+        function resizeTetrisCanvas() {
+            const container = tetrisCanvas.parentElement;
+            const maxWidth = Math.min(container.offsetWidth - 40, 400);
+            const maxHeight = Math.min(window.innerHeight - 300, 600);
+            
+            // Mantieni proporzioni 1:2
+            const width = Math.floor(maxWidth);
+            const height = Math.floor(width * 2);
+            
+            tetrisCanvas.width = width;
+            tetrisCanvas.height = Math.min(height, maxHeight);
+            
+            blockSize = tetrisCanvas.width / 10;
+            gridWidth = tetrisCanvas.width;
+            gridHeight = tetrisCanvas.height;
+        }
 
         const tetrisPieces = [
             [[1,1,1,1]], // I
@@ -370,7 +411,8 @@
         ];
 
         function initTetris() {
-            tetrisBoard = Array(20).fill(null).map(() => Array(10).fill(0));
+            resizeTetrisCanvas();
+            tetrisBoard = Array(Math.floor(gridHeight / blockSize)).fill(null).map(() => Array(10).fill(0));
             tetrisScore = 0;
             tetrisLines = 0;
             tetrisLevel = 1;
@@ -390,7 +432,7 @@
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, gridWidth, gridHeight);
             ctx.strokeStyle = '#333';
-            for (let y = 0; y < 20; y++) {
+            for (let y = 0; y < tetrisBoard.length; y++) {
                 for (let x = 0; x < 10; x++) {
                     if (tetrisBoard[y][x]) {
                         ctx.fillStyle = '#0066ff';
@@ -419,7 +461,7 @@
                     if (piece[y][x]) {
                         const boardX = newX + x;
                         const boardY = newY + y;
-                        if (boardX < 0 || boardX >= 10 || boardY >= 20) return false;
+                        if (boardX < 0 || boardX >= 10 || boardY >= tetrisBoard.length) return false;
                         if (boardY >= 0 && tetrisBoard[boardY][boardX]) return false;
                     }
                 }
@@ -447,7 +489,7 @@
 
         function clearTetrisLines() {
             let linesCleared = 0;
-            for (let y = 19; y >= 0; y--) {
+            for (let y = tetrisBoard.length - 1; y >= 0; y--) {
                 if (tetrisBoard[y].every(val => val)) {
                     tetrisBoard.splice(y, 1);
                     tetrisBoard.unshift(Array(10).fill(0));
@@ -498,6 +540,12 @@
                         tetrisCurrentPiece = rotated;
                     }
                 }
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (document.getElementById('tetris').classList.contains('active')) {
+                resizeTetrisCanvas();
             }
         });
 

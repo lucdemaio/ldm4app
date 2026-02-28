@@ -72,6 +72,10 @@
         .podcast-item { background: rgba(0, 102, 255, 0.1); border-left: 4px solid #0066ff; }
         .playing-dot { animation: pulse-dot 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         .audio-player { background: rgba(0, 0, 0, 0.3); }
+        .podcast-item { background: rgba(0, 102, 255, 0.1); border-left: 4px solid #0066ff; }
+        .podcast-cat-btn { padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; cursor: pointer; transition: all 0.3s; color: white; font-size: 13px; }
+        .podcast-cat-btn:hover { background: rgba(0,102,255,0.3); border-color: rgba(0,212,255,0.5); }
+        .podcast-cat-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); border-color: #00d4ff; }
     </style>
 </head>
 <body>
@@ -154,9 +158,36 @@
 
             <!-- Sezione Podcast (nascosta inizialmente) -->
             <div id="podcastSection" class="mx-auto max-w-6xl mb-12 hidden">
-                <h2 class="text-3xl font-bold text-white mb-8 text-center">🎧 Podcast Consigliati</h2>
+                <h2 class="text-3xl font-bold text-white mb-8 text-center">🎧 Podcast per Ogni Argomento</h2>
+                
+                <!-- Ricerca Podcast -->
+                <div class="glass-card p-6 mb-8">
+                    <div class="flex gap-4 mb-4">
+                        <input id="podcastSearch" type="text" placeholder="🔍 Cerca podcast per titolo, host o categoria..." class="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:border-accent focus:outline-none" onkeyup="filterPodcasts()">
+                        <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="filterPodcasts()">Cerca</button>
+                    </div>
+                </div>
+
+                <!-- Categoria Podcast -->
+                <div class="flex justify-center gap-2 mb-8 flex-wrap">
+                    <button class="podcast-cat-btn active" onclick="switchPodcastCategory('tutti')">Tutti</button>
+                    <button class="podcast-cat-btn" onclick="switchPodcastCategory('tecnologia')">💻 Tecnologia</button>
+                    <button class="podcast-cat-btn" onclick="switchPodcastCategory('attualita')">📰 Attualità</button>
+                    <button class="podcast-cat-btn" onclick="switchPodcastCategory('sport')">⚽ Sport</button>
+                    <button class="podcast-cat-btn" onclick="switchPodcastCategory('politica')">🏛️ Politica</button>
+                    <button class="podcast-cat-btn" onclick="switchPodcastCategory('economia')">💰 Economia</button>
+                    <button class="podcast-cat-btn" onclick="switchPodcastCategory('musica')">🎵 Musica</button>
+                    <button class="podcast-cat-btn" onclick="switchPodcastCategory('scienza')">🔬 Scienza</button>
+                </div>
+
+                <!-- Lista Podcast -->
                 <div id="podcastList" class="space-y-4">
                     <!-- Podcasts verranno inseriti qui -->
+                </div>
+
+                <!-- Messaggio No Results -->
+                <div id="podcastNoResults" style="display: none;" class="glass-card p-8 text-center">
+                    <p class="text-gray-400 text-lg">😅 Nessun podcast trovato con questo criterio</p>
                 </div>
             </div>
 
@@ -391,73 +422,110 @@
             });
         }
 
-        // Podcast
-        function displayPodcasts() {
-            const podcasts = [
-                {
-                    title: 'Tesla Daily Podcast',
-                    description: 'Ultime notizie su Tesla, industria EV e innovazione tecnologica',
-                    host: 'Rob Maurer',
-                    duration: '15-30 min',
-                    icon: '🎙️'
-                },
-                {
-                    title: 'The Daily Podcast',
-                    description: 'Storie di tecnologia, economia e il futuro della mobilità',
-                    host: 'The New York Times',
-                    duration: '20 min',
-                    icon: '📻'
-                },
-                {
-                    title: 'Waveform: The MKBHD Podcast',
-                    description: 'Tecnologia, auto intelligenti e innovazioni nel trasporto',
-                    host: 'Marques Brownlee',
-                    duration: '30-60 min',
-                    icon: '🔊'
-                },
-                {
-                    title: 'Lex Fridman Podcast',
-                    description: 'Conversazioni con innovatori sulla tecnologia e l\'IA',
-                    host: 'Lex Fridman',
-                    duration: '2-3 ore',
-                    icon: '🎧'
-                },
-                {
-                    title: 'The Joe Rogan Experience',
-                    description: 'Discussioni ampie su tecnologia, scienza e il futuro',
-                    host: 'Joe Rogan',
-                    duration: '1-3 ore',
-                    icon: '🎙️'
-                },
-                {
-                    title: 'Pivot Podcast',
-                    description: 'Analysi di tech, business e impatto sulla società',
-                    host: 'Kara Swisher & Scott Galloway',
-                    duration: '45 min',
-                    icon: '📻'
-                }
-            ];
+        // ==================== PODCAST ====================
+        let allPodcasts = [
+            // TECNOLOGIA
+            { title: 'Tesla Daily Podcast', description: 'Ultime notizie su Tesla, industria EV e innovazione', host: 'Rob Maurer', duration: '15-30 min', icon: '🎙️', category: 'tecnologia', links: { spotify: 'https://open.spotify.com/show/3xLQltF5kz6L8nqF0rEhQs', apple: 'https://podcasts.apple.com/us/podcast/tesla-daily-podcast/id1495701076', youtube: 'https://www.youtube.com/@TeslaDaily' } },
+            { title: 'The Daily Podcast', description: 'Storie di tecnologia e economia della mobilità', host: 'The New York Times', duration: '20 min', icon: '📻', category: 'tecnologia', links: { spotify: 'https://open.spotify.com/show/3tJC7tIw0yGzt5ZsNI0DQX', apple: 'https://podcasts.apple.com/us/podcast/the-daily/id1200361736' } },
+            { title: 'Waveform: MKBHD Podcast', description: 'Tecnologia, auto intelligenti e trasporto', host: 'Marques Brownlee', duration: '30-60 min', icon: '🔊', category: 'tecnologia', links: { spotify: 'https://open.spotify.com/show/7AzDjt36SnGrSJeCYI42bR', apple: 'https://podcasts.apple.com/us/podcast/waveform-powered-by-the-verge/id1474429475' } },
+            { title: 'Lex Fridman Podcast', description: 'Conversazioni su tecnologia, AI e innovazione', host: 'Lex Fridman', duration: '2-3 ore', icon: '🎧', category: 'tecnologia', links: { spotify: 'https://open.spotify.com/show/2MAi0BvDc6GTFvKV1RrA2t', apple: 'https://podcasts.apple.com/us/podcast/lex-fridman-podcast/id1434243584' } },
+            { title: 'Pivot Podcast', description: 'Analisi di tech, business e impatto societario', host: 'Kara Swisher & Scott Galloway', duration: '45 min', icon: '💼', category: 'tecnologia', links: { spotify: 'https://open.spotify.com/show/0ItlKmSuYzYNY0RI4wHEqk', apple: 'https://podcasts.apple.com/us/podcast/pivot/id1490987835' } },
+            
+            // ATTUALITÀ
+            { title: 'Corriere della Sera - Haway', description: 'Ultime notizie e commenti su attualità italiana e mondiale', host: 'Corriere della Sera', duration: '15-25 min', icon: '📰', category: 'attualita', links: { spotify: 'https://open.spotify.com/show/7tAV0wbcIx0WZfphfNYJZG', apple: 'https://podcasts.apple.com/it/podcast/haway/id1614945889' } },
+            { title: 'Internazionale - La Finestra sul Mondo', description: 'Cosa succede nel mondo raccontato da Internazionale', host: 'Internazionale', duration: '30 min', icon: '🌍', category: 'attualita', links: { spotify: 'https://open.spotify.com/show/5KDabx71DqJscJfF2OMxhb', apple: 'https://podcasts.apple.com/it/podcast/la-finestra-sul-mondo-di-internazionale/id1596169706' } },
+            { title: 'RAI Radio 1 - GR Parlamento', description: 'Cronaca parlamentare e politica italiana', host: 'RAI Radio 1', duration: '8 min', icon: '🏛️', category: 'attualita', links: { spotify: 'https://open.spotify.com/show/3NlP6eWCrIAHsrXq4WLFPJ' } },
+            { title: 'Sky TG24 - Il Quotidiano', description: 'Le notizie del giorno commentate dagli esperti', host: 'Sky TG24', duration: '20 min', icon: '📺', category: 'attualita', links: { spotify: 'https://open.spotify.com/show/5EhPLmTGSaLbzWrfCNZDXK' } },
+            
+            // SPORT
+            { title: 'Calcio Totale', description: 'Analisi calcistica italiana e mondiale', host: 'Calcio Totale Podcast', duration: '30-45 min', icon: '⚽', category: 'sport', links: { spotify: 'https://open.spotify.com/show/1JKBLdYWsNQhgDmVIIRlBK', apple: 'https://podcasts.apple.com/it/podcast/calcio-totale/id1441265305' } },
+            { title: 'Sky Sport Podcast', description: 'Calcio, tennis, basket e tutti gli sport', host: 'Sky Sport', duration: '25 min', icon: '🏆', category: 'sport', links: { spotify: 'https://open.spotify.com/show/0EBnJIBBGQ4b9PZPqKxQWN', apple: 'https://podcasts.apple.com/it/podcast/sky-sport/id1556815177' } },
+            { title: 'MotoGP Unlimited', description: 'Tutto sulle motociclette e la Moto', host: 'MotoGP.com', duration: '30 min', icon: '🏍️', category: 'sport', links: { youtube: 'https://www.youtube.com/playlist?list=PL8bSwVy0_-kVQEX-iMX8r4XvVH1h8dJcr' } },
+            { title: 'Tennis Podcast', description: 'Analisi, interviste e commenti sui principali tornei', host: 'Tennis Podcast', duration: '45 min', icon: '🎾', category: 'sport', links: { spotify: 'https://open.spotify.com/show/6rcmVb82wSu6xgclCQCJwN', apple: 'https://podcasts.apple.com/gb/podcast/the-tennis-podcast/id1073654192' } },
+            
+            // POLITICA
+            { title: 'Politiche Italiane', description: 'Commenti e analisi sulla politica nazionale e europea', host: 'Politiche Italiane', duration: '30 min', icon: '🏛️', category: 'politica', links: { spotify: 'https://open.spotify.com/show/5pJvvNs8wCQ2bpI3vDvr8V' } },
+            { title: 'The Economist - The World This Week', description: 'Notizie internazionali da una prospettiva globale', host: 'The Economist', duration: '25 min', icon: '💡', category: 'politica', links: { spotify: 'https://open.spotify.com/show/0PxMP5Hf0OHvhKyeGT4TKy', apple: 'https://podcasts.apple.com/us/podcast/the-world-this-week/id1521194359' } },
+            { title: 'Il Post - Cosa Succede', description: 'Approfondimenti sui fatti del giorno', host: 'Il Post', duration: '15 min', icon: '📝', category: 'politica', links: { spotify: 'https://open.spotify.com/show/2SbqE9sZw1xOmyDhMNMZLz', apple: 'https://podcasts.apple.com/it/podcast/cosa-succede-il-post/id1444699304' } },
+            
+            // ECONOMIA
+            { title: 'Consulenza Finanziaria', description: 'Consigli su investimenti e mercati finanziari', host: 'Esperti Finanziari', duration: '20 min', icon: '💹', category: 'economia', links: { spotify: 'https://open.spotify.com/show/6wKyHvUBLLVnBLoJdqENhX' } },
+            { title: 'StartupItaly Podcast', description: 'Imprenditori, startup e innovazione', host: 'StartupItaly', duration: '40 min', icon: '🚀', category: 'economia', links: { spotify: 'https://open.spotify.com/show/4EJWJnZVaX9H3H8EkJ3cNb', apple: 'https://podcasts.apple.com/it/podcast/startup-italy-podcast/id1423649653' } },
+            { title: 'FT News Briefing', description: 'Le notizie economiche globali da Financial Times', host: 'Financial Times', duration: '10 min', icon: '📊', category: 'economia', links: { spotify: 'https://open.spotify.com/show/1dztmQeCVQQJP1P2A7adbK', apple: 'https://podcasts.apple.com/us/podcast/ft-news-briefing/id1414561325' } },
+            
+            // MUSICA
+            { title: 'Brillantino Podcast', description: 'Musica, artisti e dietro le quinte della musica italiana', host: 'Brillantino', duration: '35 min', icon: '🎵', category: 'musica', links: { spotify: 'https://open.spotify.com/show/5WoqLQ3SbQJFPoKDXYl4rH' } },
+            { title: 'The Joe Budden Podcast', description: 'Musica hip-hop, cultura e intrattenimento', host: 'Joe Budden', duration: '1-2 ore', icon: '🎤', category: 'musica', links: { spotify: 'https://open.spotify.com/show/1bHlPfqLwkvBCuKPF3Q4u8', apple: 'https://podcasts.apple.com/us/podcast/the-joe-budden-podcast/id1451868802' } },
+            { title: 'Spotify - The Rewinder', description: 'Storie dietro i brani musicali più famosi', host: 'Spotify', duration: '30 min', icon: '▶️', category: 'musica', links: { spotify: 'https://open.spotify.com/show/2dCtjZxJlzFl8V1B1OXXGI', apple: 'https://podcasts.apple.com/us/podcast/the-rewinder/id1628471881' } },
+            
+            // SCIENZA
+            { title: 'StarTalk', description: 'Scienza, astrofisica e universo con Neil deGrasse Tyson', host: 'Neil deGrasse Tyson', duration: '45-60 min', icon: '🔬', category: 'scienza', links: { spotify: 'https://open.spotify.com/show/3dZaQIPuhmXcBRqy2tnfU5', apple: 'https://podcasts.apple.com/us/podcast/startalk/id325404231' } },
+            { title: 'TED Talks Daily', description: 'Scienza, tecnologia e idee illuminate', host: 'TED', duration: '15 min', icon: '💡', category: 'scienza', links: { spotify: 'https://open.spotify.com/show/2Lc1ynJZSCFsAmQD2DSFEK', apple: 'https://podcasts.apple.com/us/podcast/ted-talks-daily/id160904630' } },
+            { title: 'BBC World Service - Science in Action', description: 'Scoperte scientifiche e innovazioni', host: 'BBC World Service', duration: '25 min', icon: '🔭', category: 'scienza', links: { spotify: 'https://open.spotify.com/show/5LVkqLYWfbC6KqfK3fTbKY', apple: 'https://podcasts.apple.com/us/podcast/science-in-action/id73330847' } }
+        ];
 
+        let currentPodcastCategory = 'tutti';
+
+        function switchPodcastCategory(category) {
+            currentPodcastCategory = category;
+            document.querySelectorAll('.podcast-cat-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            filterPodcasts();
+        }
+
+        function filterPodcasts() {
+            const searchTerm = document.getElementById('podcastSearch').value.toLowerCase();
+            const filtered = allPodcasts.filter(p => {
+                const matchCategory = currentPodcastCategory === 'tutti' || p.category === currentPodcastCategory;
+                const matchSearch = searchTerm === '' || 
+                    p.title.toLowerCase().includes(searchTerm) ||
+                    p.description.toLowerCase().includes(searchTerm) ||
+                    p.host.toLowerCase().includes(searchTerm) ||
+                    p.category.includes(searchTerm);
+                return matchCategory && matchSearch;
+            });
+
+            displayPodcastsList(filtered);
+        }
+
+        function displayPodcastsList(podcasts) {
             const podcastList = document.getElementById('podcastList');
+            const noResults = document.getElementById('podcastNoResults');
+            
+            if (podcasts.length === 0) {
+                podcastList.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
             podcastList.innerHTML = '';
 
             podcasts.forEach(podcast => {
                 const item = document.createElement('div');
                 item.className = 'podcast-item p-6 rounded-lg hover:bg-blue-900 hover:bg-opacity-30 transition';
+                
+                let buttonsHTML = '';
+                if (podcast.links.spotify) buttonsHTML += `<a href="${podcast.links.spotify}" target="_blank" rel="noopener" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700"><i class="fab fa-spotify mr-1"></i>Spotify</a>`;
+                if (podcast.links.apple) buttonsHTML += `<a href="${podcast.links.apple}" target="_blank" rel="noopener" class="bg-gray-700 text-white px-3 py-1 rounded-full text-xs hover:bg-gray-600"><i class="fab fa-apple mr-1"></i>Apple</a>`;
+                if (podcast.links.youtube) buttonsHTML += `<a href="${podcast.links.youtube}" target="_blank" rel="noopener" class="bg-red-600 text-white px-3 py-1 rounded-full text-xs hover:bg-red-700"><i class="fab fa-youtube mr-1"></i>YouTube</a>`;
+
                 item.innerHTML = `
                     <div class="flex items-start gap-4">
                         <div class="text-3xl">${podcast.icon}</div>
                         <div class="flex-1">
                             <h3 class="text-lg font-bold text-white mb-1">${podcast.title}</h3>
-                            <p class="text-gray-300 text-sm mb-2">${podcast.description}</p>
-                            <div class="flex gap-4 text-xs text-gray-400">
+                            <p class="text-gray-300 text-sm mb-3">${podcast.description}</p>
+                            <div class="flex gap-4 text-xs text-gray-400 mb-3">
                                 <span><i class="fas fa-user mr-1"></i>${podcast.host}</span>
                                 <span><i class="fas fa-clock mr-1"></i>${podcast.duration}</span>
                             </div>
+                            <div class="flex gap-2 flex-wrap">
+                                ${buttonsHTML}
+                            </div>
                         </div>
-                        <a href="#" class="btn-primary text-white px-4 py-2 rounded-full text-sm whitespace-nowrap">
-                            <i class="fas fa-play mr-1"></i>Ascolta
-                        </a>
                     </div>
                 `;
                 podcastList.appendChild(item);
@@ -576,7 +644,7 @@ I veicoli elettrici come Tesla stanno cambiando il pianeta:
 
         // Inizializzazione
         fetchNews();
-        displayPodcasts();
+        filterPodcasts();
     </script>
 </body>
 </html>
