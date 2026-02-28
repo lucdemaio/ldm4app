@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteo & Viabilità</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0a0e27',
+                        'cobalt': '#0066ff',
+                        'accent': '#00d4ff',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(0, 102, 255, 0.3)' },
+                            '50%': { boxShadow: '0 0 40px rgba(0, 102, 255, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); position: relative; overflow:hidden; transition:all .3s ease; }
+        .btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s;}
+        .btn-primary:hover::before{left:100%;}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(0,102,255,.5);}        
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .glass-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(0,212,255,0.4); transform: translateY(-8px) scale(1.02); box-shadow:0 20px 60px rgba(0,102,255,0.3); }
+        .weather-icon { font-size: 3rem; }
+        .alert-warning { background: rgba(255, 193, 7, 0.1); border-left: 4px solid #FFC107; }
+        .alert-danger { background: rgba(244, 67, 54, 0.1); border-left: 4px solid #F44336; }
+        .alert-info { background: rgba(33, 150, 243, 0.1); border-left: 4px solid #2196F3; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold gradient-text"><a href="https://www.ldm4app.com" target="_blank" rel="noopener noreferrer">LDM4APP</a></div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <li><a href="tesla.html" class="text-gray-300 hover:text-accent transition">Home</a></li>
+                    <li><a href="giochi.html" class="text-yellow-300 hover:text-accent transition">Giochi</a></li>
+                    <li><a href="utilita.html" class="text-green-300 hover:text-accent transition">Utilità</a></li>
+                    <li><a href="attrazioni.html" class="text-purple-300 hover:text-accent transition">Attrazioni</a></li>
+                    <li><a href="#" class="text-sky-300 hover:text-accent font-semibold transition">Meteo</a></li>
+                    <li><a href="lettura.html" class="text-orange-300 hover:text-accent transition">Lettura</a></li>
+                </ul>
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <!-- Titolo -->
+            <div class="text-center mb-12 animate-slide-up">
+                <h1 class="text-5xl font-bold text-white mb-4">Meteo & Viabilità</h1>
+                <p class="text-gray-400 text-lg">Controlla le condizioni meteo e pianifica il tuo viaggio consapevolmente</p>
+            </div>
+
+            <!-- Sezione Meteo Attuale -->
+            <div class="glass-card p-8 mx-auto max-w-4xl mb-12 animate-slide-up">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Meteo Attuale -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-4">🌡️ Meteo Attuale</h2>
+                        <div class="bg-gray-900 rounded-lg p-6">
+                            <div class="text-center mb-4">
+                                <div id="weatherIcon" class="weather-icon mb-3">❓</div>
+                                <p id="weatherDesc" class="text-lg text-gray-300">Caricamento...</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gray-800 rounded p-3">
+                                    <p class="text-xs text-gray-400">Temperatura</p>
+                                    <p id="tempCurrent" class="text-2xl font-bold text-accent">--°C</p>
+                                </div>
+                                <div class="bg-gray-800 rounded p-3">
+                                    <p class="text-xs text-gray-400">Umidità</p>
+                                    <p id="humidity" class="text-2xl font-bold text-accent">--%</p>
+                                </div>
+                                <div class="bg-gray-800 rounded p-3">
+                                    <p class="text-xs text-gray-400">Vento</p>
+                                    <p id="windSpeed" class="text-2xl font-bold text-accent">-- km/h</p>
+                                </div>
+                                <div class="bg-gray-800 rounded p-3">
+                                    <p class="text-xs text-gray-400">Pressione</p>
+                                    <p id="pressure" class="text-2xl font-bold text-accent">-- mb</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Avvisi Strada -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-4">⚠️ Avvisi Viabilità</h2>
+                        <div id="alertsList" class="space-y-3">
+                            <div class="alert-info p-4 rounded-lg">
+                                <p class="text-sm text-blue-200"><i class="fas fa-info-circle mr-2"></i>Attiva il GPS per ricevere avvisi meteo locali</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pulsante GPS -->
+                <div class="mt-6">
+                    <button id="getWeatherBtn" class="btn-primary text-white px-6 py-3 rounded-full font-semibold w-full md:w-1/3">
+                        <i class="fas fa-location-arrow mr-2"></i> Attiva GPS per Meteo Locale
+                    </button>
+                </div>
+            </div>
+
+            <!-- Previsioni Giornaliere -->
+            <div class="mx-auto max-w-6xl mb-12">
+                <h2 class="text-3xl font-bold text-white mb-8 text-center">📅 Previsioni 7 Giorni</h2>
+                <div id="forecastsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4">
+                    <div class="glass-card p-6 text-center">
+                        <p class="text-gray-400">Caricamento previsioni...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consigli di Viaggio -->
+            <div class="glass-card p-8 mx-auto max-w-4xl mb-12 animate-slide-up">
+                <h2 class="text-2xl font-bold text-white mb-6">🚗 Consigli per il Viaggio</h2>
+                <div id="travelAdvice" class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <p class="text-sm text-gray-400 mb-2">✅ Situazione Stradale</p>
+                        <p id="roadStatus" class="text-lg font-semibold text-green-400">Ottimale</p>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <p class="text-sm text-gray-400 mb-2">💡 Consiglio</p>
+                        <p id="advice" class="text-lg font-semibold text-accent">Caricamento...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Licenza -->
+            <div class="glass-card p-6 mx-auto max-w-2xl text-center animate-slide-up">
+                <p class="text-gray-300 text-sm">
+                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                    Powered by <strong>Open-Meteo API</strong> - Dati meteorologici gratuiti e liberi
+                </p>
+                <p class="text-gray-400 text-xs mt-3">
+                    Dati aggiornati ogni 3 ore | Nessun API key richiesto | Privacy protetta
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let userLocation = null;
+
+        // Richiedi GPS
+        document.getElementById('getWeatherBtn').addEventListener('click', () => {
+            document.getElementById('getWeatherBtn').disabled = true;
+            document.getElementById('getWeatherBtn').innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Ricerca in corso...';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lon: position.coords.longitude
+                        };
+                        fetchWeather(userLocation.lat, userLocation.lon);
+                        document.getElementById('getWeatherBtn').disabled = false;
+                        document.getElementById('getWeatherBtn').innerHTML = '<i class="fas fa-location-arrow mr-2"></i> Aggiorna Meteo';
+                    },
+                    (error) => {
+                        console.error('Errore GPS:', error);
+                        // Fallback: Italia centrale
+                        fetchWeather(43.5, 12.25);
+                        document.getElementById('getWeatherBtn').disabled = false;
+                        document.getElementById('getWeatherBtn').innerHTML = '<i class="fas fa-location-arrow mr-2"></i> Attiva GPS';
+                    }
+                );
+            }
+        });
+
+        // Fetch meteo da Open-Meteo
+        async function fetchWeather(lat, lon) {
+            try {
+                const response = await fetch(
+                    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,pressure_msl&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&timezone=Europe/Rome`
+                );
+                const data = await response.json();
+                displayWeather(data);
+            } catch (error) {
+                console.error('Errore API meteo:', error);
+            }
+        }
+
+        // Visualizza meteo
+        function displayWeather(data) {
+            const current = data.current;
+            
+            // Meteo Attuale
+            document.getElementById('tempCurrent').textContent = Math.round(current.temperature_2m) + '°C';
+            document.getElementById('humidity').textContent = current.relative_humidity_2m + '%';
+            document.getElementById('windSpeed').textContent = Math.round(current.wind_speed_10m) + ' km/h';
+            document.getElementById('pressure').textContent = Math.round(current.pressure_msl) + ' mb';
+
+            // Descrizione meteo e icona
+            const weatherInfo = getWeatherInfo(current.weather_code);
+            document.getElementById('weatherIcon').textContent = weatherInfo.emoji;
+            document.getElementById('weatherDesc').textContent = weatherInfo.description;
+
+            // Avvisi
+            displayAlerts(current, data.daily);
+
+            // Previsioni
+            displayForecast(data.daily);
+
+            // Consigli viaggio
+            displayTravelAdvice(current, data.daily);
+        }
+
+        // Mapping codici meteo
+        function getWeatherInfo(code) {
+            const weatherMap = {
+                0: { emoji: '☀️', description: 'Cielo sereno', severity: 0 },
+                1: { emoji: '🌤️', description: 'Prevalentemente sereno', severity: 0 },
+                2: { emoji: '⛅', description: 'Parzialmente nuvoloso', severity: 0 },
+                3: { emoji: '☁️', description: 'Nuvoloso', severity: 0 },
+                45: { emoji: '🌫️', description: 'Nebbiosa', severity: 1 },
+                48: { emoji: '🌫️', description: 'Nebbia con brina', severity: 1 },
+                51: { emoji: '🌧️', description: 'Leggera pioggerella', severity: 1 },
+                53: { emoji: '🌧️', description: 'Pioggerella moderata', severity: 1 },
+                55: { emoji: '🌧️', description: 'Pioggerella forte', severity: 2 },
+                61: { emoji: '🌧️', description: 'Leggera pioggia', severity: 1 },
+                63: { emoji: '🌧️', description: 'Pioggia moderata', severity: 2 },
+                65: { emoji: '⛈️', description: 'Pioggia forte', severity: 3 },
+                71: { emoji: '❄️', description: 'Leggera nevicata', severity: 2 },
+                73: { emoji: '❄️', description: 'Nevicata moderata', severity: 3 },
+                75: { emoji: '❄️', description: 'Nevicata forte', severity: 3 },
+                80: { emoji: '⛈️', description: 'Temporali', severity: 3 },
+                81: { emoji: '⛈️', description: 'Temporali forti', severity: 3 },
+                82: { emoji: '⛈️', description: 'Temporali violenti', severity: 4 },
+                95: { emoji: '⛈️', description: 'Temporale con grandine', severity: 4 }
+            };
+            return weatherMap[code] || { emoji: '❓', description: 'Sconosciuto', severity: 0 };
+        }
+
+        // Visualizza avvisi
+        function displayAlerts(current, daily) {
+            const alertsList = document.getElementById('alertsList');
+            alertsList.innerHTML = '';
+
+            const alerts = [];
+
+            // Controlli
+            if (current.wind_speed_10m > 40) {
+                alerts.push({ type: 'danger', icon: '💨', text: 'Vento forte: ' + Math.round(current.wind_speed_10m) + ' km/h - Guidare con cautela!' });
+            }
+            if ([45, 48, 51, 53, 55, 61, 63, 65].includes(current.weather_code)) {
+                alerts.push({ type: 'warning', icon: '🌧️', text: 'Pioggia - Ridurre velocità e aumentare distanza di sicurezza' });
+            }
+            if ([71, 73, 75].includes(current.weather_code)) {
+                alerts.push({ type: 'danger', icon: '❄️', text: 'Neve - Condizioni difficili. Catene/gomme invernali consigliate!' });
+            }
+            if ([80, 81, 82, 95].includes(current.weather_code)) {
+                alerts.push({ type: 'danger', icon: '⛈️', text: 'TEMPORALE/GRANDINE - Assoluta cautela!' });
+            }
+            if (current.relative_humidity_2m > 90) {
+                alerts.push({ type: 'warning', icon: '🌫️', text: 'Umidità alta - Visibilità ridotta, accendere i fari' });
+            }
+
+            if (alerts.length === 0) {
+                alertsList.innerHTML = '<div class="alert-info p-4 rounded-lg"><p class="text-sm text-blue-200"><i class="fas fa-check-circle mr-2"></i>Condizioni meteo normali - Strada in buone condizioni</p></div>';
+            } else {
+                alerts.forEach(alert => {
+                    const div = document.createElement('div');
+                    div.className = `alert-${alert.type} p-4 rounded-lg`;
+                    div.innerHTML = `<p class="text-sm"><span class="mr-2">${alert.icon}</span>${alert.text}</p>`;
+                    alertsList.appendChild(div);
+                });
+            }
+        }
+
+        // Previsioni 7 giorni
+        function displayForecast(daily) {
+            const forecastsList = document.getElementById('forecastsList');
+            forecastsList.innerHTML = '';
+
+            for (let i = 0; i < Math.min(7, daily.time.length); i++) {
+                const date = new Date(daily.time[i]);
+                const weatherInfo = getWeatherInfo(daily.weather_code[i]);
+                
+                const card = document.createElement('div');
+                card.className = 'glass-card p-4 text-center';
+                card.innerHTML = `
+                    <p class="text-sm font-semibold text-gray-300 mb-3">${date.toLocaleDateString('it-IT', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
+                    <div class="text-2xl mb-3">${weatherInfo.emoji}</div>
+                    <div class="bg-gray-800 rounded p-2 mb-3">
+                        <p class="text-xs text-gray-400">Temp</p>
+                        <p class="text-sm font-bold text-accent">${Math.round(daily.temperature_2m_max[i])}°</p>
+                    </div>
+                    <p class="text-xs text-gray-400">${weatherInfo.description.substring(0, 15)}</p>
+                `;
+                forecastsList.appendChild(card);
+            }
+        }
+
+        // Consigli viaggio
+        function displayTravelAdvice(current, daily) {
+            const weatherInfo = getWeatherInfo(current.weather_code);
+            let status = '✅ Ottimale';
+            let advice = 'Condizioni perfette per guidare. Buon viaggio!';
+
+            if (weatherInfo.severity === 1) {
+                status = '⚠️ Cautela';
+                advice = 'Condizioni moderate. Ridurre velocità leggermente.';
+            } else if (weatherInfo.severity === 2) {
+                status = '⚠️ Attenzione';
+                advice = 'Attiva luci e aumenta distanza di sicurezza.';
+            } else if (weatherInfo.severity >= 3) {
+                status = '🛑 Pericolo';
+                advice = 'Valuta di rinviare il viaggio o procedere con massima cautela!';
+            }
+
+            if (current.wind_speed_10m > 50) {
+                advice = '⚠️ Vento molto forte - Manovre delicate di sterzo consigliate!';
+            }
+
+            document.getElementById('roadStatus').textContent = status;
+            document.getElementById('advice').textContent = advice;
+        }
+
+        // Auto-attiva GPL al caricamento
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('getWeatherBtn').click();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
