@@ -390,10 +390,87 @@
         }
 
         function getDescription(tags) {
-            if (tags.cuisine) return `Cucina: ${tags.cuisine}`;
-            if (tags.opening_hours) return `${tags.opening_hours}`;
-            if (tags.description) return tags.description.substring(0, 50) + '...';
-            return 'Scopri questo luogo interessante';
+            // Descrizioni dettagliate per tipo di attrazione
+            const typeDescriptions = {
+                // Musei e Cultura
+                'museum': '🏛️ Scopri collezioni d\'arte, storia naturale e reperti archeologici. Perfetto per immergersi nella cultura locale.',
+                'gallery': '🎨 Esponi artisti contemporanei e opere d\'arte moderna. Ideale per gli appassionati di arte.',
+                'theater': '🎭 Spettacoli dal vivo, rappresentazioni teatrali e concerti. Intrattenimento di qualità.',
+                'archaeology': '🏺 Siti archeologici con resti di civiltà antiche. Un viaggio nel passato.',
+                'artwork': '🖼️ Installazioni artistiche e murales pubblici. Arte a cielo aperto.',
+                'monument': '🗿 Monumento storico importante. Un pezzo di storia locale da ammirare.',
+                'historic': '🏰 Struttura storica con valore architettonico e culturale. Testimone del passato.',
+
+                // Ristorazione
+                'restaurant': '🍽️ Ristorante con piatti tradizionali e ricette locali. Esperienza gastronomica autentica.',
+                'cafe': '☕ Caffetteria accogliente per una pausa rilassante. Perfetto per colazione o merenda.',
+                'pub': '🍺 Locale conviviale per bevande e divertimento. Atmosfera rilassata.',
+                'bar': '🍻 Bar moderno con cocktail e drink. Social e vivace.',
+                'fast_food': '🍔 Cibo rapido e conveniente. Ideale quando hai fretta.',
+                'ice_cream': '🍦 Gelateria artigianale con gusti deliziosi. Dolcezza garantita.',
+
+                // Intrattenimento
+                'cinema': '🎬 Cinematica con film recenti e major. Intrattenimento al grande schermo.',
+                'theme_park': '🎪 Parco tematico con attrazioni e giostre. Divertimento per tutta la famiglia.',
+                'zoo': '🦁 Zoo con animali da tutto il mondo. Avventura nella natura.',
+                'arcade': '🕹️ Sala giochi arcade e retrò. Nostalgia e divertimento garantiti.',
+
+                // Natura e Outdoor
+                'park': '🌳 Parco verde con spazi per passeggiare e rilassarsi. Tranquillità e natura.',
+                'playground': '🎡 Area giochi per bambini con attrezzature divertenti. Divertimento sicuro.',
+                'viewpoint': '🏞️ Punto panoramico con vista spettacolare. Foto memorable garantite.',
+                'swimming_pool': '🏊 Piscina pubblica per nuotare e rilassarsi. Perfetto in estate.',
+                'sports_centre': '⚽ Centro sportivo con impianti moderni. Attività fisica e fitness.',
+
+                // Servizi
+                'shop': '🛍️ Negozio con prodotti e articoli. Shopping conveniente.',
+                'mall': '🏢 Centro commerciale grande con molti negozi. Shopping completo.',
+                'supermarket': '🏪 Supermercato con ampia scelta di prodotti. Grocery essenziale.',
+                'antiques': '🏺 Negozio di antiquariato e oggetti vintage. Tesori da scoprire.',
+                
+                // Piazze e Viewpoint
+                'viewpoint': '📸 Punto di osservazione con vista panoramica. Non perdere il tramonto qui!'
+            };
+
+            // Descrizioni specifiche per tipo OSM
+            if (tags.cuisine) {
+                const cuisineMap = {
+                    'italian': '🍝 Cucina italiana autentica con pasta, risotto e specialità regionali.',
+                    'pizza': '🍕 Pizzeria tradizionale con forno a legna. Pizza come in Italia.',
+                    'chinese': '🥢 Cucina orientale con piatti aromatici e speziati.',
+                    'japanese': '🍣 Cucina giapponese con sushi, ramen e tempura.',
+                    'thai': '🌶️ Cucina tailandese con sapori intensi e bilanciati.',
+                    'indian': '🍛 Cucina indiana con curry e spezie ricche. Sapore autentico.',
+                    'mexican': '🌮 Cucina messicana con tacos, burritos e salse piccanti.',
+                    'spanish': '🫘 Cucina spagnola con paella e tapas di qualità.',
+                    'french': '🥖 Cuina francese gourmet. Eleganza e raffinatezza.',
+                    'vegan': '🥗 Ristorante vegano con piatti sani e sostenibili.',
+                    'vegetarian': '🥬 Cucina vegetariana ricca di sapori e nutrienti.',
+                    'seafood': '🦞 Specialità di pesce fresco e frutti di mare.',
+                };
+                return cuisineMap[tags.cuisine] || `🍽️ Ristorante con cucina locale. Sapori autentici.`;
+            }
+
+            if (tags.tourism) {
+                return typeDescriptions[tags.tourism] || '🎯 Attrazione turistica interessante da scoprire.';
+            }
+
+            if (tags.amenity) {
+                return typeDescriptions[tags.amenity] || '📍 Struttura con servizi pubblici disponibili.';
+            }
+
+            if (tags.leisure) {
+                return typeDescriptions[tags.leisure] || '🎉 Luogo ricreativo con attività e divertimento.';
+            }
+
+            if (tags.shop) {
+                return typeDescriptions[tags.shop] || '🛒 Negozio con articoli da scoprire.';
+            }
+
+            if (tags.opening_hours) return `⏰ Orari: ${tags.opening_hours}`;
+            if (tags.description) return tags.description.substring(0, 60) + '...';
+            
+            return '✨ Scopri questo luogo affascinante e crea un ricordo speciale!';
         }
 
         function openMaps(lat, lon, name) {
