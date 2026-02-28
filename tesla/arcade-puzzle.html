@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Games Arcade</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0a0e27',
+                        'cobalt': '#0066ff',
+                        'accent': '#00d4ff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; transition: all 0.4s; }
+        .glass-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-8px); }
+        .tab-btn { padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
+        .game-section { display: none; }
+        .game-section.active { display: block; }
+        
+        /* Wordle Styles */
+        .wordle-grid { display: grid; grid-template-columns: repeat(5, 50px); gap: 8px; margin: 20px auto; }
+        .wordle-tile { width: 50px; height: 50px; border: 2px solid #555; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; background: rgba(0,102,255,0.1); }
+        .wordle-tile.correct { background: #10b981; border-color: #10b981; }
+        .wordle-tile.present { background: #f59e0b; border-color: #f59e0b; }
+        .wordle-tile.absent { background: #6b7280; border-color: #6b7280; }
+        .keyboard-row { display: flex; gap: 4px; margin: 8px 0; justify-content: center; }
+        .key-btn { padding: 8px 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; color: white; }
+        .key-btn:hover { background: rgba(0,212,255,0.3); }
+        
+        /* Sudoku Styles */
+        .sudoku-grid { display: grid; grid-template-columns: repeat(9, 40px); gap: 0; margin: 20px auto; border: 3px solid #0066ff; }
+        .sudoku-cell { width: 40px; height: 40px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; font-weight: bold; background: rgba(0,102,255,0.05); cursor: pointer; }
+        .sudoku-cell:hover { background: rgba(0,102,255,0.2); }
+        .sudoku-cell.given { background: rgba(0,212,255,0.1); color: #00d4ff; font-weight: bold; }
+        .sudoku-cell.selected { background: rgba(0,212,255,0.4); }
+        .sudoku-grid > .sudoku-cell:nth-child(3n) { border-right: 3px solid #0066ff; }
+        .sudoku-grid > .sudoku-cell:nth-child(n+19):nth-child(-n+27) { border-bottom: 3px solid #0066ff; }
+        
+        /* Tetris Styles */
+        #tetrisCanvas { border: 3px solid #0066ff; background: #000; display: block; margin: 20px auto; }
+        
+        /* Memory Styles */
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 80px); gap: 12px; margin: 20px auto; }
+        .memory-card { width: 80px; height: 80px; background: linear-gradient(135deg,#0066ff,#00d4ff); border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: bold; transition: all 0.3s; transform-style: preserve-3d; perspective: 1000px; }
+        .memory-card:hover { transform: scale(1.1); }
+        .memory-card.flipped { background: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold"><a href="tesla.html" class="text-accent">LDM4APP Arcade</a></div>
+                <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Torna a Giochi</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">🎮 Puzzle Games Arcade</h1>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center gap-4 mb-8 flex-wrap">
+                <button class="tab-btn active" onclick="switchGame('wordle')">🎯 Wordle</button>
+                <button class="tab-btn inactive" onclick="switchGame('sudoku')">🔢 Sudoku</button>
+                <button class="tab-btn inactive" onclick="switchGame('tetris')">🧱 Tetris</button>
+                <button class="tab-btn inactive" onclick="switchGame('memory')">🧠 Memory</button>
+            </div>
+
+            <!-- Wordle Game -->
+            <div id="wordle" class="game-section active">
+                <div class="glass-card p-8 max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center mb-4">🎯 Wordle - Indovina la Parola</h2>
+                    <p class="text-center text-gray-300 mb-6">Hai 6 tentativi per indovinare la parola di 5 lettere</p>
+                    <div id="wordleContainer" class="text-center">
+                        <div id="wordleGrid" class="wordle-grid"></div>
+                        <div id="keyboard" style="margin-top: 30px;"></div>
+                        <div id="wordleMessage" class="mt-6 text-lg font-bold"></div>
+                        <button class="btn-primary text-white px-6 py-3 rounded-full mt-6" onclick="resetWordle()">Nuova Partita</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sudoku Game -->
+            <div id="sudoku" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center mb-4">🔢 Sudoku - Risolvi il Puzzle</h2>
+                    <p class="text-center text-gray-300 mb-6">Completa la griglia: ogni riga, colonna e blocco 3x3 contiene numeri 1-9</p>
+                    <div class="text-center">
+                        <div id="sudokuGrid" class="sudoku-grid"></div>
+                        <div id="numpad" style="display: grid; grid-template-columns: repeat(3, 50px); gap: 8px; margin: 20px auto; width: fit-content;"></div>
+                        <div id="sudokuMessage" class="mt-6 text-lg font-bold"></div>
+                        <button class="btn-primary text-white px-6 py-3 rounded-full mt-6" onclick="resetSudoku()">Nuova Partita</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tetris Game -->
+            <div id="tetris" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center mb-4">🧱 Tetris - Classico</h2>
+                    <p class="text-center text-gray-300 mb-6">Usa frecce/WASD | Spazio per ruotare | Velocità aumenta con i punti</p>
+                    <div class="text-center">
+                        <div class="flex justify-center gap-8">
+                            <div>
+                                <canvas id="tetrisCanvas" width="200" height="400"></canvas>
+                            </div>
+                            <div style="text-align: left;">
+                                <p class="text-lg mb-4"><strong>Punti:</strong> <span id="tetrisScore">0</span></p>
+                                <p class="text-lg mb-4"><strong>Linee:</strong> <span id="tetrisLines">0</span></p>
+                                <p class="text-lg mb-4"><strong>Velocità:</strong> <span id="tetrisLevel">1</span></p>
+                                <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="toggleTetris()">⏸️ Pausa</button>
+                            </div>
+                        </div>
+                        <button class="btn-primary text-white px-6 py-3 rounded-full mt-6" onclick="resetTetris()">Nuova Partita</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory Game -->
+            <div id="memory" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center mb-4">🧠 Memory - Ricorda le Coppie</h2>
+                    <p class="text-center text-gray-300 mb-6">Clicca le carte per trovare le coppie uguali</p>
+                    <div class="text-center">
+                        <p class="text-lg mb-4">Coppie trovate: <span id="memoryMatches">0</span>/8 | Mosse: <span id="memoryMoves">0</span></p>
+                        <div id="memoryGrid" class="memory-grid"></div>
+                        <div id="memoryMessage" class="mt-6 text-lg font-bold"></div>
+                        <button class="btn-primary text-white px-6 py-3 rounded-full mt-6" onclick="resetMemory()">Nuova Partita</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== WORDLE ====================
+        const wordleWords = ['TESLA', 'GUIDA', 'VIAGGIO', 'VELOCE', 'TITANO', 'COMPUTER', 'RICARICA', 'AUTONOMIA', 'BATTERIA', 'MOTORE'];
+        let wordleTarget, wordleAttempts, wordleGuesses;
+
+        function initWordle() {
+            wordleTarget = wordleWords[Math.floor(Math.random() * wordleWords.length)].toUpperCase();
+            wordleAttempts = 0;
+            wordleGuesses = [];
+            document.getElementById('wordleGrid').innerHTML = '';
+            document.getElementById('wordleMessage').innerHTML = '';
+            renderWordleGrid();
+            renderKeyboard();
+        }
+
+        function renderWordleGrid() {
+            const container = document.getElementById('wordleGrid');
+            for (let i = 0; i < 30; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'wordle-tile';
+                tile.id = `tile-${i}`;
+                container.appendChild(tile);
+            }
+        }
+
+        function renderKeyboard() {
+            const container = document.getElementById('keyboard');
+            container.innerHTML = '';
+            const rows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+            rows.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'keyboard-row';
+                [...row].forEach(letter => {
+                    const btn = document.createElement('button');
+                    btn.className = 'key-btn';
+                    btn.textContent = letter;
+                    btn.onclick = () => addLetter(letter);
+                    rowDiv.appendChild(btn);
+                });
+                container.appendChild(rowDiv);
+            });
+            const enterRow = document.createElement('div');
+            enterRow.className = 'keyboard-row';
+            const enterBtn = document.createElement('button');
+            enterBtn.className = 'key-btn';
+            enterBtn.textContent = 'INVIO';
+            enterBtn.onclick = submitWordle;
+            const backBtn = document.createElement('button');
+            backBtn.className = 'key-btn';
+            backBtn.textContent = 'BACK';
+            backBtn.onclick = () => removeLetter();
+            enterRow.appendChild(enterBtn);
+            enterRow.appendChild(backBtn);
+            container.appendChild(enterRow);
+        }
+
+        let currentGuess = '';
+        function addLetter(letter) {
+            if (currentGuess.length < 5 && wordleAttempts < 6) {
+                currentGuess += letter;
+                updateWordleDisplay();
+            }
+        }
+
+        function removeLetter() {
+            currentGuess = currentGuess.slice(0, -1);
+            updateWordleDisplay();
+        }
+
+        function updateWordleDisplay() {
+            for (let i = 0; i < 5; i++) {
+                const tile = document.getElementById(`tile-${wordleAttempts * 5 + i}`);
+                tile.textContent = currentGuess[i] || '';
+            }
+        }
+
+        function submitWordle() {
+            if (currentGuess.length !== 5) {
+                alert('La parola deve contenere 5 lettere!');
+                return;
+            }
+            wordleGuesses.push(currentGuess);
+            for (let i = 0; i < 5; i++) {
+                const tile = document.getElementById(`tile-${wordleAttempts * 5 + i}`);
+                const letter = currentGuess[i];
+                if (letter === wordleTarget[i]) {
+                    tile.classList.add('correct');
+                } else if (wordleTarget.includes(letter)) {
+                    tile.classList.add('present');
+                } else {
+                    tile.classList.add('absent');
+                }
+            }
+            wordleAttempts++;
+            if (currentGuess === wordleTarget) {
+                document.getElementById('wordleMessage').innerHTML = `🎉 Hai vinto! La parola era: ${wordleTarget}`;
+            } else if (wordleAttempts >= 6) {
+                document.getElementById('wordleMessage').innerHTML = `😢 Hai perso! La parola era: ${wordleTarget}`;
+            }
+            currentGuess = '';
+        }
+
+        function resetWordle() {
+            initWordle();
+        }
+
+        // ==================== SUDOKU ====================
+        let sudokuGrid, sudokuOriginal, sudokuSelected;
+
+        function generateSudoku() {
+            const grid = Array(81).fill(0);
+            // Semplice sudoku pre-generato
+            const puzzle = [
+                [5,3,0,0,7,0,0,0,0],
+                [6,0,0,1,9,5,0,0,0],
+                [0,9,8,0,0,0,0,6,0],
+                [8,0,0,0,6,0,0,0,3],
+                [4,0,0,8,0,3,0,0,1],
+                [7,0,0,0,2,0,0,0,6],
+                [0,6,0,0,0,0,2,8,0],
+                [0,0,0,4,1,9,0,0,5],
+                [0,0,0,0,8,0,0,7,9]
+            ];
+            for (let i = 0; i < 81; i++) {
+                grid[i] = puzzle[Math.floor(i/9)][i%9];
+            }
+            return grid;
+        }
+
+        function initSudoku() {
+            sudokuGrid = generateSudoku();
+            sudokuOriginal = [...sudokuGrid];
+            sudokuSelected = null;
+            renderSudokuGrid();
+        }
+
+        function renderSudokuGrid() {
+            const container = document.getElementById('sudokuGrid');
+            container.innerHTML = '';
+            for (let i = 0; i < 81; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'sudoku-cell';
+                if (sudokuOriginal[i] !== 0) cell.classList.add('given');
+                cell.textContent = sudokuGrid[i] || '';
+                cell.onclick = () => selectSudokuCell(i);
+                cell.id = `sudoku-${i}`;
+                container.appendChild(cell);
+            }
+            renderNumpad();
+        }
+
+        function renderNumpad() {
+            const container = document.getElementById('numpad');
+            container.innerHTML = '';
+            for (let i = 1; i <= 9; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'btn-primary text-white px-4 py-2 rounded';
+                btn.textContent = i;
+                btn.onclick = () => setSudokuNumber(i);
+                container.appendChild(btn);
+            }
+            const clearBtn = document.createElement('button');
+            clearBtn.className = 'bg-red-600 text-white px-4 py-2 rounded';
+            clearBtn.textContent = 'Cancella';
+            clearBtn.onclick = () => setSudokuNumber(0);
+            container.appendChild(clearBtn);
+        }
+
+        function selectSudokuCell(index) {
+            if (sudokuOriginal[index] === 0) {
+                if (sudokuSelected !== null) {
+                    document.getElementById(`sudoku-${sudokuSelected}`).classList.remove('selected');
+                }
+                sudokuSelected = index;
+                document.getElementById(`sudoku-${index}`).classList.add('selected');
+            }
+        }
+
+        function setSudokuNumber(num) {
+            if (sudokuSelected !== null && sudokuOriginal[sudokuSelected] === 0) {
+                sudokuGrid[sudokuSelected] = num;
+                renderSudokuGrid();
+            }
+        }
+
+        function resetSudoku() {
+            initSudoku();
+        }
+
+        // ==================== TETRIS ====================
+        const tetrisCanvas = document.getElementById('tetrisCanvas');
+        const ctx = tetrisCanvas.getContext('2d');
+        const gridWidth = 200, gridHeight = 400;
+        const blockSize = 20;
+        let tetrisBoard = Array(20).fill(null).map(() => Array(10).fill(0));
+        let tetrisScore = 0, tetrisLines = 0, tetrisLevel = 1;
+        let tetrisPaused = false, tetrisGameOver = false;
+        let tetrisCurrentPiece, tetrisCurrentX, tetrisCurrentY;
+
+        const tetrisPieces = [
+            [[1,1,1,1]], // I
+            [[1,1],[1,1]], // O
+            [[0,1,1],[1,1,0]], // S
+            [[1,1,0],[0,1,1]], // Z
+            [[1,0,0],[1,1,1]], // L
+            [[0,0,1],[1,1,1]], // J
+            [[0,1,0],[1,1,1]] // T
+        ];
+
+        function initTetris() {
+            tetrisBoard = Array(20).fill(null).map(() => Array(10).fill(0));
+            tetrisScore = 0;
+            tetrisLines = 0;
+            tetrisLevel = 1;
+            tetrisPaused = false;
+            tetrisGameOver = false;
+            spawnTetrisPiece();
+            gameLoopTetris();
+        }
+
+        function spawnTetrisPiece() {
+            tetrisCurrentPiece = tetrisPieces[Math.floor(Math.random() * tetrisPieces.length)];
+            tetrisCurrentX = 3;
+            tetrisCurrentY = 0;
+        }
+
+        function drawTetrisBoard() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, gridWidth, gridHeight);
+            ctx.strokeStyle = '#333';
+            for (let y = 0; y < 20; y++) {
+                for (let x = 0; x < 10; x++) {
+                    if (tetrisBoard[y][x]) {
+                        ctx.fillStyle = '#0066ff';
+                        ctx.fillRect(x * blockSize, y * blockSize, blockSize-1, blockSize-1);
+                    }
+                    ctx.strokeRect(x * blockSize, y * blockSize, blockSize, blockSize);
+                }
+            }
+            drawTetrisPiece();
+        }
+
+        function drawTetrisPiece() {
+            ctx.fillStyle = '#00d4ff';
+            for (let y = 0; y < tetrisCurrentPiece.length; y++) {
+                for (let x = 0; x < tetrisCurrentPiece[y].length; x++) {
+                    if (tetrisCurrentPiece[y][x]) {
+                        ctx.fillRect((tetrisCurrentX + x) * blockSize, (tetrisCurrentY + y) * blockSize, blockSize-1, blockSize-1);
+                    }
+                }
+            }
+        }
+
+        function canMoveTetris(newX, newY, piece = tetrisCurrentPiece) {
+            for (let y = 0; y < piece.length; y++) {
+                for (let x = 0; x < piece[y].length; x++) {
+                    if (piece[y][x]) {
+                        const boardX = newX + x;
+                        const boardY = newY + y;
+                        if (boardX < 0 || boardX >= 10 || boardY >= 20) return false;
+                        if (boardY >= 0 && tetrisBoard[boardY][boardX]) return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function placeTetrisPiece() {
+            for (let y = 0; y < tetrisCurrentPiece.length; y++) {
+                for (let x = 0; x < tetrisCurrentPiece[y].length; x++) {
+                    if (tetrisCurrentPiece[y][x]) {
+                        const boardY = tetrisCurrentY + y;
+                        if (boardY >= 0) {
+                            tetrisBoard[boardY][tetrisCurrentX + x] = 1;
+                        }
+                    }
+                }
+            }
+            clearTetrisLines();
+            spawnTetrisPiece();
+            if (!canMoveTetris(tetrisCurrentX, tetrisCurrentY)) {
+                tetrisGameOver = true;
+            }
+        }
+
+        function clearTetrisLines() {
+            let linesCleared = 0;
+            for (let y = 19; y >= 0; y--) {
+                if (tetrisBoard[y].every(val => val)) {
+                    tetrisBoard.splice(y, 1);
+                    tetrisBoard.unshift(Array(10).fill(0));
+                    linesCleared++;
+                }
+            }
+            if (linesCleared > 0) {
+                tetrisLines += linesCleared;
+                tetrisScore += linesCleared * 100 * tetrisLevel;
+                tetrisLevel = Math.floor(tetrisLines / 10) + 1;
+            }
+        }
+
+        function gameLoopTetris() {
+            if (!tetrisPaused && !tetrisGameOver) {
+                if (canMoveTetris(tetrisCurrentX, tetrisCurrentY + 1)) {
+                    tetrisCurrentY++;
+                } else {
+                    placeTetrisPiece();
+                }
+            }
+            drawTetrisBoard();
+            document.getElementById('tetrisScore').textContent = tetrisScore;
+            document.getElementById('tetrisLines').textContent = tetrisLines;
+            document.getElementById('tetrisLevel').textContent = tetrisLevel;
+            if (!tetrisGameOver) {
+                setTimeout(() => gameLoopTetris(), 500 / tetrisLevel);
+            }
+        }
+
+        function toggleTetris() {
+            tetrisPaused = !tetrisPaused;
+        }
+
+        function resetTetris() {
+            initTetris();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!tetrisPaused && !tetrisGameOver) {
+                if (['ArrowLeft', 'a', 'A'].includes(e.key) && canMoveTetris(tetrisCurrentX - 1, tetrisCurrentY)) {
+                    tetrisCurrentX--;
+                } else if (['ArrowRight', 'd', 'D'].includes(e.key) && canMoveTetris(tetrisCurrentX + 1, tetrisCurrentY)) {
+                    tetrisCurrentX++;
+                } else if (e.key === ' ') {
+                    let rotated = tetrisCurrentPiece[0].map((_, i) => tetrisCurrentPiece.map(row => row[i])).reverse();
+                    if (canMoveTetris(tetrisCurrentX, tetrisCurrentY, rotated)) {
+                        tetrisCurrentPiece = rotated;
+                    }
+                }
+            }
+        });
+
+        // ==================== MEMORY ====================
+        const memoryEmojis = ['🚗', '⚡', '🔋', '🛞', '🎯', '🏆', '💨', '🌟'];
+        let memoryCards, memoryFlipped, memoryMatched, memoryMoves;
+
+        function initMemory() {
+            memoryCards = [...memoryEmojis, ...memoryEmojis].sort(() => Math.random() - 0.5);
+            memoryFlipped = Array(16).fill(false);
+            memoryMatched = Array(16).fill(false);
+            memoryMoves = 0;
+            renderMemoryGrid();
+        }
+
+        function renderMemoryGrid() {
+            const container = document.getElementById('memoryGrid');
+            container.innerHTML = '';
+            memoryCards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                if (memoryFlipped[index]) card.classList.add('flipped');
+                card.textContent = memoryFlipped[index] || memoryMatched[index] ? emoji : '?';
+                card.onclick = () => flipMemoryCard(index);
+                container.appendChild(card);
+            });
+            document.getElementById('memoryMatches').textContent = memoryMatched.filter(Boolean).length / 2;
+            document.getElementById('memoryMoves').textContent = memoryMoves;
+        }
+
+        let memoryFirstFlip = null;
+        function flipMemoryCard(index) {
+            if (memoryMatched[index] || memoryFlipped[index] || memoryFirstFlip !== null) return;
+            memoryFlipped[index] = true;
+            memoryFirstFlip = index;
+            renderMemoryGrid();
+            setTimeout(() => {
+                memoryFlipped[index] = false;
+                memoryFirstFlip = null;
+                renderMemoryGrid();
+            }, 500);
+        }
+
+        function resetMemory() {
+            initMemory();
+        }
+
+        function switchGame(game) {
+            document.querySelectorAll('.game-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('inactive');
+            });
+            document.getElementById(game).classList.add('active');
+            event.target.classList.add('active');
+            event.target.classList.remove('inactive');
+            if (game === 'wordle') initWordle();
+            else if (game === 'sudoku') initSudoku();
+            else if (game === 'tetris') initTetris();
+            else if (game === 'memory') initMemory();
+        }
+
+        window.addEventListener('load', () => initWordle());
+    </script>
+</body>
+</html>

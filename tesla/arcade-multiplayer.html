@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Games</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .tab-btn { padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
+        .game-section { display: none; }
+        .game-section.active { display: block; }
+        
+        .tictac-grid { display: grid; grid-template-columns: repeat(3, 80px); gap: 8px; margin: 20px auto; }
+        .tictac-cell { width: 80px; height: 80px; background: rgba(0,102,255,0.1); border: 2px solid #0066ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .tictac-cell:hover { background: rgba(0,212,255,0.2); }
+        
+        #pongCanvas { border: 3px solid #0066ff; background: #000; display: block; margin: 20px auto; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold"><a href="tesla.html" class="text-accent">LDM4APP Multiplayer</a></div>
+            <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Torna a Giochi</a>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">👥 2-Player Games</h1>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center gap-4 mb-8 flex-wrap">
+                <button class="tab-btn active" onclick="switchGame('tictac')">⭕ Tic-Tac-Toe</button>
+                <button class="tab-btn inactive" onclick="switchGame('pong')">🎾 Pong</button>
+            </div>
+
+            <!-- Tic-Tac-Toe Game -->
+            <div id="tictac" class="game-section active">
+                <div class="glass-card p-8 max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center mb-6">⭕ Tic-Tac-Toe</h2>
+                    <p class="text-center text-gray-300 mb-6">Giocatore 1 (X) vs Giocatore 2 (O)</p>
+                    
+                    <div class="text-center">
+                        <p class="text-lg mb-6" id="tictacStatus">Turno: Giocatore 1 (X)</p>
+                        <div class="tictac-grid" id="tictacGrid"></div>
+                        <div id="tictacMessage" class="text-xl font-bold mt-6 h-8"></div>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full mt-6" onclick="resetTictac()">Nuova Partita</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pong Game -->
+            <div id="pong" class="game-section">
+                <div class="glass-card p-8 max-w-3xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center mb-6">🎾 Pong</h2>
+                    <p class="text-center text-gray-300 mb-4">P1: W/S | P2: ↑/↓</p>
+                    
+                    <div class="text-center">
+                        <div class="flex justify-between mb-4 text-lg">
+                            <div>
+                                <p class="text-sm text-gray-400">Giocatore 1</p>
+                                <p id="pongScore1" class="text-2xl font-bold">0</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Giocatore 2</p>
+                                <p id="pongScore2" class="text-2xl font-bold">0</p>
+                            </div>
+                        </div>
+                        <canvas id="pongCanvas" width="600" height="400"></canvas>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full mt-6" onclick="togglePong()">⏸️ Pausa/Riprendi</button>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full mt-6 ml-2" onclick="resetPong()">Nuova Partita</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== TIC-TAC-TOE ====================
+        let tictacBoard = Array(9).fill(null);
+        let tictacPlayer = 'X';
+        let tictacGameActive = true;
+
+        function renderTictac() {
+            const grid = document.getElementById('tictacGrid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'tictac-cell';
+                cell.textContent = tictacBoard[i] || '';
+                cell.onclick = () => playTictac(i);
+                grid.appendChild(cell);
+            }
+        }
+
+        function playTictac(index) {
+            if (!tictacGameActive || tictacBoard[index] !== null) return;
+            tictacBoard[index] = tictacPlayer;
+            const winner = checkTictacWinner();
+            if (winner) {
+                document.getElementById('tictacMessage').textContent = `🎉 Giocatore ${winner} Vince!`;
+                tictacGameActive = false;
+            } else if (tictacBoard.every(cell => cell !== null)) {
+                document.getElementById('tictacMessage').textContent = '🤝 Pareggio!';
+                tictacGameActive = false;
+            } else {
+                tictacPlayer = tictacPlayer === 'X' ? 'O' : 'X';
+                const playerNum = tictacPlayer === 'X' ? '1' : '2';
+                document.getElementById('tictacStatus').textContent = `Turno: Giocatore ${playerNum} (${tictacPlayer})`;
+            }
+            renderTictac();
+        }
+
+        function checkTictacWinner() {
+            const lines = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+            for (let line of lines) {
+                if (tictacBoard[line[0]] && tictacBoard[line[0]] === tictacBoard[line[1]] && tictacBoard[line[1]] === tictacBoard[line[2]]) {
+                    return tictacBoard[line[0]];
+                }
+            }
+            return null;
+        }
+
+        function resetTictac() {
+            tictacBoard = Array(9).fill(null);
+            tictacPlayer = 'X';
+            tictacGameActive = true;
+            document.getElementById('tictacStatus').textContent = 'Turno: Giocatore 1 (X)';
+            document.getElementById('tictacMessage').textContent = '';
+            renderTictac();
+        }
+
+        // ==================== PONG ====================
+        const pongCanvas = document.getElementById('pongCanvas');
+        const pongCtx = pongCanvas.getContext('2d');
+        
+        let pongP1 = { x: 10, y: pongCanvas.height / 2 - 50, width: 15, height: 100, dy: 0 };
+        let pongP2 = { x: pongCanvas.width - 25, y: pongCanvas.height / 2 - 50, width: 15, height: 100, dy: 0 };
+        let pongBall = { x: pongCanvas.width / 2, y: pongCanvas.height / 2, radius: 8, dx: 4, dy: 4 };
+        let pongScore1 = 0, pongScore2 = 0;
+        let pongPaused = false;
+        let pongGameRunning = false;
+
+        const pongKeys = {};
+        document.addEventListener('keydown', (e) => { pongKeys[e.key] = true; });
+        document.addEventListener('keyup', (e) => { pongKeys[e.key] = false; });
+
+        function drawPong() {
+            pongCtx.fillStyle = '#000';
+            pongCtx.fillRect(0, 0, pongCanvas.width, pongCanvas.height);
+
+            // Linea di centro
+            pongCtx.strokeStyle = '#0066ff';
+            pongCtx.setLineDash([5, 5]);
+            pongCtx.beginPath();
+            pongCtx.moveTo(pongCanvas.width / 2, 0);
+            pongCtx.lineTo(pongCanvas.width / 2, pongCanvas.height);
+            pongCtx.stroke();
+            pongCtx.setLineDash([]);
+
+            // Paddle
+            pongCtx.fillStyle = '#00d4ff';
+            pongCtx.fillRect(pongP1.x, pongP1.y, pongP1.width, pongP1.height);
+            pongCtx.fillRect(pongP2.x, pongP2.y, pongP2.width, pongP2.height);
+
+            // Ball
+            pongCtx.beginPath();
+            pongCtx.arc(pongBall.x, pongBall.y, pongBall.radius, 0, Math.PI * 2);
+            pongCtx.fillStyle = '#fbbf24';
+            pongCtx.fill();
+        }
+
+        function updatePong() {
+            if (pongPaused || !pongGameRunning) return;
+
+            // Player 1 movement
+            if (pongKeys['w'] || pongKeys['W']) pongP1.y -= 6;
+            if (pongKeys['s'] || pongKeys['S']) pongP1.y += 6;
+
+            // Player 2 movement
+            if (pongKeys['ArrowUp']) pongP2.y -= 6;
+            if (pongKeys['ArrowDown']) pongP2.y += 6;
+
+            // Boundaries
+            pongP1.y = Math.max(0, Math.min(pongP1.y, pongCanvas.height - pongP1.height));
+            pongP2.y = Math.max(0, Math.min(pongP2.y, pongCanvas.height - pongP2.height));
+
+            // Ball movement
+            pongBall.x += pongBall.dx;
+            pongBall.y += pongBall.dy;
+
+            // Ball collision with top/bottom
+            if (pongBall.y - pongBall.radius < 0 || pongBall.y + pongBall.radius > pongCanvas.height) {
+                pongBall.dy = -pongBall.dy;
+            }
+
+            // Ball collision with paddles
+            if (pongBall.x - pongBall.radius < pongP1.x + pongP1.width &&
+                pongBall.y > pongP1.y &&
+                pongBall.y < pongP1.y + pongP1.height) {
+                pongBall.dx = -pongBall.dx;
+            }
+
+            if (pongBall.x + pongBall.radius > pongP2.x &&
+                pongBall.y > pongP2.y &&
+                pongBall.y < pongP2.y + pongP2.height) {
+                pongBall.dx = -pongBall.dx;
+            }
+
+            // Scoring
+            if (pongBall.x < 0) {
+                pongScore2++;
+                resetPongBall();
+            }
+            if (pongBall.x > pongCanvas.width) {
+                pongScore1++;
+                resetPongBall();
+            }
+
+            document.getElementById('pongScore1').textContent = pongScore1;
+            document.getElementById('pongScore2').textContent = pongScore2;
+        }
+
+        function resetPongBall() {
+            pongBall.x = pongCanvas.width / 2;
+            pongBall.y = pongCanvas.height / 2;
+            pongBall.dx = (Math.random() > 0.5 ? 1 : -1) * 4;
+            pongBall.dy = (Math.random() - 0.5) * 4;
+        }
+
+        function pongGameLoop() {
+            updatePong();
+            drawPong();
+            requestAnimationFrame(pongGameLoop);
+        }
+
+        function togglePong() {
+            pongPaused = !pongPaused;
+        }
+
+        function resetPong() {
+            pongP1.y = pongCanvas.height / 2 - 50;
+            pongP2.y = pongCanvas.height / 2 - 50;
+            pongScore1 = 0;
+            pongScore2 = 0;
+            pongPaused = false;
+            pongGameRunning = true;
+            resetPongBall();
+            document.getElementById('pongScore1').textContent = '0';
+            document.getElementById('pongScore2').textContent = '0';
+        }
+
+        function switchGame(game) {
+            document.querySelectorAll('.game-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('inactive');
+            });
+            document.getElementById(game).classList.add('active');
+            event.target.classList.add('active');
+            event.target.classList.remove('inactive');
+            if (game === 'tictac') resetTictac();
+            else if (game === 'pong') {
+                resetPong();
+                pongGameLoop();
+            }
+        }
+
+        renderTictac();
+    </script>
+</body>
+</html>

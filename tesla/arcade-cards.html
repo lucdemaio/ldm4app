@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Games</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .tab-btn { padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
+        .game-section { display: none; }
+        .game-section.active { display: block; }
+        
+        .card { width: 80px; height: 120px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.3s; border: 2px solid #333; }
+        .card:hover { transform: translateY(-8px); }
+        .card.spade { color: #000; }
+        .card.heart { color: #f44336; }
+        .card.diamond { color: #f44336; }
+        .card.club { color: #000; }
+        .red-card { background: #ffe8e8; }
+        .black-card { background: #e8e8e8; }
+        
+        .uno-card { width: 80px; height: 120px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3); color: white; font-size: 32px; }
+        .uno-card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+        .uno-red { background: #ef4444; }
+        .uno-blue { background: #3b82f6; }
+        .uno-yellow { background: #fbbf24; }
+        .uno-green { background: #10b981; }
+        .uno-wild { background: linear-gradient(135deg, #8b5cf6, #3b82f6); }
+        
+        .hand-container { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 20px 0; }
+        .game-info { text-align: center; margin: 20px 0; }
+        .action-buttons { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold"><a href="tesla.html" class="text-accent">LDM4APP Cards</a></div>
+            <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Torna a Giochi</a>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">🃏 Card Games</h1>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center gap-4 mb-8 flex-wrap">
+                <button class="tab-btn active" onclick="switchGame('blackjack')">🎰 Blackjack</button>
+                <button class="tab-btn inactive" onclick="switchGame('uno')">🌈 UNO</button>
+            </div>
+
+            <!-- Blackjack Game -->
+            <div id="blackjack" class="game-section active">
+                <div class="glass-card p-8 max-w-3xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center mb-6">🎰 Blackjack - Raggiungi 21</h2>
+                    
+                    <div class="game-info">
+                        <p class="text-lg mb-2">Banco: <span id="dealerCards"></span> = <span id="dealerScore">0</span></p>
+                    </div>
+                    <div class="flex justify-center gap-4 mb-6" id="dealerHand"></div>
+
+                    <div class="game-info">
+                        <p class="text-lg mb-2">Tu: <span id="playerCards"></span> = <span id="playerScore">0</span></p>
+                    </div>
+                    <div class="flex justify-center gap-4 mb-6" id="playerHand"></div>
+
+                    <div class="game-info" id="gameMessage"></div>
+
+                    <div class="action-buttons">
+                        <button class="btn-primary text-white px-6 py-2 rounded-full" id="hitBtn" onclick="blackjackHit()">Hit</button>
+                        <button class="bg-gray-700 text-white px-6 py-2 rounded-full" id="standBtn" onclick="blackjackStand()">Stand</button>
+                        <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetBlackjack()">Nuova Partita</button>
+                    </div>
+                    
+                    <div class="game-info mt-4">
+                        <p class="text-sm text-gray-300">Bilancio: $<span id="balance">100</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNO Game -->
+            <div id="uno" class="game-section">
+                <div class="glass-card p-8 max-w-3xl mx-auto">
+                    <h2 class="text-2xl font-bold text-center mb-6">🌈 UNO - Scarta le Carte</h2>
+                    
+                    <div class="game-info">
+                        <p class="text-lg mb-4" id="unoTurnText">Turno: Tu</p>
+                        <div class="flex justify-center gap-4 mb-6">
+                            <div style="text-align: center;">
+                                <p class="text-xs text-gray-400 mb-2">Mazzo</p>
+                                <div class="uno-card uno-wild" id="unoDeck" onclick="drawUNOCard()">📚</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <p class="text-xs text-gray-400 mb-2">Tavolo</p>
+                                <div class="uno-card" id="unoTable"></div>
+                            </div>
+                            <div style="text-align: center;">
+                                <p class="text-xs text-gray-400 mb-2">AI Carte</p>
+                                <div class="uno-card uno-wild" style="opacity: 0.7;">📚</div>
+                                <p class="text-xs text-gray-300 mt-2"><span id="aiCardCount">7</span> carte</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-sm text-gray-300 mb-4">Le Tue Carte:</p>
+                    <div class="hand-container" id="unoHand"></div>
+
+                    <div class="action-buttons">
+                        <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="playUNO()">Gioca Carta</button>
+                        <button class="bg-gray-700 text-white px-6 py-2 rounded-full" onclick="drawUNOCard()">Pesca</button>
+                        <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetUNO()">Nuova Partita</button>
+                    </div>
+
+                    <div class="game-info mt-6" id="unoMessage"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== BLACKJACK ====================
+        const suits = ['♠', '♥', '♦', '♣'];
+        const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+        let deck = [];
+        let playerHand = [];
+        let dealerHand = [];
+        let balance = 100;
+        let currentBet = 10;
+        let gameActive = false;
+
+        function createDeck() {
+            deck = [];
+            for (let suit of suits) {
+                for (let rank of ranks) {
+                    deck.push(rank + suit);
+                }
+            }
+            deck = deck.sort(() => Math.random() - 0.5);
+        }
+
+        function getCardValue(card) {
+            const rank = card.slice(0, -1);
+            if (rank === 'A') return 11;
+            if (['J', 'Q', 'K'].includes(rank)) return 10;
+            return parseInt(rank);
+        }
+
+        function getHandValue(hand) {
+            let value = 0;
+            let aces = 0;
+            for (let card of hand) {
+                const val = getCardValue(card);
+                if (card.startsWith('A')) aces++;
+                value += val;
+            }
+            while (value > 21 && aces > 0) {
+                value -= 10;
+                aces--;
+            }
+            return value;
+        }
+
+        function drawCard() {
+            if (deck.length === 0) createDeck();
+            return deck.pop();
+        }
+
+        function renderBlackjack() {
+            document.getElementById('dealerCards').textContent = dealerHand.map(c => c.slice(0, -1)).join(' ');
+            document.getElementById('dealerScore').textContent = getHandValue(dealerHand);
+            document.getElementById('playerCards').textContent = playerHand.map(c => c.slice(0, -1)).join(' ');
+            document.getElementById('playerScore').textContent = getHandValue(playerHand);
+
+            const dealerDiv = document.getElementById('dealerHand');
+            dealerDiv.innerHTML = dealerHand.map(c => `<div class="card ${['♥', '♦'].includes(c.slice(-1)) ? 'red-card' : 'black-card'}">${c.slice(0, -1)}<br>${c.slice(-1)}</div>`).join('');
+
+            const playerDiv = document.getElementById('playerHand');
+            playerDiv.innerHTML = playerHand.map(c => `<div class="card ${['♥', '♦'].includes(c.slice(-1)) ? 'red-card' : 'black-card'}">${c.slice(0, -1)}<br>${c.slice(-1)}</div>`).join('');
+        }
+
+        function resetBlackjack() {
+            createDeck();
+            playerHand = [drawCard(), drawCard()];
+            dealerHand = [drawCard(), drawCard()];
+            gameActive = true;
+            document.getElementById('gameMessage').textContent = '';
+            document.getElementById('hitBtn').disabled = false;
+            document.getElementById('standBtn').disabled = false;
+            renderBlackjack();
+            
+            if (getHandValue(playerHand) === 21) {
+                document.getElementById('gameMessage').textContent = '🎉 Blackjack! Hai vinto!';
+                balance += currentBet * 2;
+                gameActive = false;
+                
+            }
+        }
+
+        function blackjackHit() {
+            if (!gameActive) return;
+            playerHand.push(drawCard());
+            renderBlackjack();
+            if (getHandValue(playerHand) > 21) {
+                document.getElementById('gameMessage').textContent = '💥 Hai sballato! Hai perso.';
+                balance -= currentBet;
+                gameActive = false;
+                document.getElementById('hitBtn').disabled = true;
+                document.getElementById('standBtn').disabled = true;
+            }
+            document.getElementById('balance').textContent = balance;
+        }
+
+        function blackjackStand() {
+            if (!gameActive) return;
+            document.getElementById('hitBtn').disabled = true;
+            document.getElementById('standBtn').disabled = true;
+            
+            while (getHandValue(dealerHand) < 17) {
+                dealerHand.push(drawCard());
+            }
+            renderBlackjack();
+
+            const playerScore = getHandValue(playerHand);
+            const dealerScore = getHandValue(dealerHand);
+
+            let message = '';
+            if (dealerScore > 21) {
+                message = '🎉 Banco ha sballato! Hai vinto!';
+                balance += currentBet;
+            } else if (playerScore > dealerScore) {
+                message = '🎉 Hai vinto!';
+                balance += currentBet;
+            } else if (dealerScore > playerScore) {
+                message = '😢 Il banco ha vinto.';
+                balance -= currentBet;
+            } else {
+                message = '🤝 Pareggio!';
+            }
+            document.getElementById('gameMessage').textContent = message;
+            gameActive = false;
+            document.getElementById('balance').textContent = balance;
+        }
+
+        // ==================== UNO ====================
+        const unoColors = ['red', 'blue', 'yellow', 'green'];
+        const unoNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        const unoActions = ['Skip', 'Reverse', '+2'];
+
+        let unoPlayerHand = [];
+        let unoAIHand = [];
+        let unoTable = null;
+        let unoPlayerTurn = true;
+        let unoGameRunning = false;
+        let selectedUNOCard = null;
+
+        function createUNODeck() {
+            let cards = [];
+            for (let color of unoColors) {
+                for (let num of unoNumbers) {
+                    cards.push(`${num}-${color}`);
+                    if (num !== '0') cards.push(`${num}-${color}`);
+                }
+                for (let action of unoActions) {
+                    cards.push(`${action}-${color}`);
+                    cards.push(`${action}-${color}`);
+                }
+            }
+            for (let i = 0; i < 4; i++) cards.push('Wild-none');
+            cards.push('+4-none');
+            return cards.sort(() => Math.random() - 0.5);
+        }
+
+        let unoDeck = createUNODeck();
+
+        function drawUNOCard() {
+            if (unoDeck.length === 0) unoDeck = createUNODeck();
+            return unoDeck.pop();
+        }
+
+        function resetUNO() {
+            unoDeck = createUNODeck();
+            unoPlayerHand = [drawUNOCard(), drawUNOCard(), drawUNOCard(), drawUNOCard(), drawUNOCard(), drawUNOCard(), drawUNOCard()];
+            unoAIHand = Array(7).fill('back');
+            unoTable = drawUNOCard();
+            unoPlayerTurn = true;
+            unoGameRunning = true;
+            selectedUNOCard = null;
+            renderUNO();
+        }
+
+        function renderUNO() {
+            const tableDiv = document.getElementById('unoTable');
+            const [num, color] = unoTable.split('-');
+            tableDiv.className = `uno-card uno-${color || 'wild'}`;
+            tableDiv.textContent = num === 'Wild' ? '🌟' : num;
+
+            const handDiv = document.getElementById('unoHand');
+            handDiv.innerHTML = unoPlayerHand.map((card, idx) => {
+                const [num, color] = card.split('-');
+                return `<div class="uno-card uno-${color || 'wild'} ${selectedUNOCard === idx ? 'ring-4 ring-accent' : ''}" onclick="selectUNOCard(${idx})">${num === 'Wild' ? '🌟' : num}</div>`;
+            }).join('');
+
+            document.getElementById('aiCardCount').textContent = unoAIHand.length;
+            document.getElementById('unoTurnText').textContent = `Turno: ${unoPlayerTurn ? 'Tu' : 'AI'}`;
+
+            if (!unoPlayerTurn) {
+                setTimeout(aiPlayUNO, 1500);
+            }
+            
+            if (unoPlayerHand.length === 0) {
+                document.getElementById('unoMessage').textContent = '🎉 Hai vinto!';
+                unoGameRunning = false;
+            } else if (unoAIHand.length === 0) {
+                document.getElementById('unoMessage').textContent = '😢 AI ha vinto!';
+                unoGameRunning = false;
+            }
+        }
+
+        function selectUNOCard(idx) {
+            selectedUNOCard = selectedUNOCard === idx ? null : idx;
+            renderUNO();
+        }
+
+        function playUNO() {
+            if (!unoPlayerTurn || selectedUNOCard === null) return;
+            const card = unoPlayerHand[selectedUNOCard];
+            const [cardNum, cardColor] = card.split('-');
+            const [tableNum, tableColor] = unoTable.split('-');
+
+            if (cardNum === 'Wild' || cardNum === '+4' || cardNum === tableNum || cardColor === tableColor) {
+                unoTable = card;
+                unoPlayerHand.splice(selectedUNOCard, 1);
+                selectedUNOCard = null;
+                unoPlayerTurn = false;
+                renderUNO();
+            } else {
+                alert('Carta non valida!');
+            }
+        }
+
+        function aiPlayUNO() {
+            const playableCards = unoAIHand.filter(card => {
+                const [num, color] = card.split('-');
+                const [tableNum, tableColor] = unoTable.split('-');
+                return num === 'Wild' || num === '+4' || num === tableNum || color === tableColor;
+            });
+
+            if (playableCards.length > 0) {
+                unoTable = playableCards[0];
+                unoAIHand = unoAIHand.filter(c => c !== playableCards[0]);
+            } else {
+                unoAIHand.push(drawUNOCard());
+            }
+            unoPlayerTurn = true;
+            renderUNO();
+        }
+
+        function switchGame(game) {
+            document.querySelectorAll('.game-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('inactive');
+            });
+            document.getElementById(game).classList.add('active');
+            event.target.classList.add('active');
+            event.target.classList.remove('inactive');
+            if (game === 'blackjack') resetBlackjack();
+            else if (game === 'uno') resetUNO();
+        }
+
+        document.getElementById('balance').textContent = balance;
+        resetBlackjack();
+    </script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scacchi vs AI</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; transition: all 0.4s; }
+        .chessboard { display: grid; grid-template-columns: repeat(8, 60px); grid-template-rows: repeat(8, 60px); gap: 0; border: 3px solid #0066ff; margin: 20px auto; }
+        .square { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; border: 1px solid rgba(0,212,255,0.2); }
+        .square.white { background: #e8e8e8; }
+        .square.black { background: #666; }
+        .square.selected { background: rgba(0,212,255,0.5); }
+        .square.possible { background: rgba(0, 255, 0, 0.3); }
+        .square.enemy { background: rgba(255, 0, 0, 0.3); }
+        .piece { font-weight: bold; }
+        .info-section { text-align: left; margin: 20px 0; }
+        .history { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; max-height: 200px; overflow-y: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold"><a href="tesla.html" class="text-accent">LDM4APP Chess</a></div>
+            <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Torna a Giochi</a>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">♟️ Scacchi vs AI</h1>
+            
+            <div class="glass-card p-8 max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Chessboard -->
+                    <div class="md:col-span-2">
+                        <h2 class="text-lg font-bold mb-4 text-center">Gioca con i Bianchi</h2>
+                        <div class="chessboard" id="chessboard"></div>
+                        <p class="text-sm text-gray-400 text-center mt-4">Clicca due volte su due caselle per muovere</p>
+                        <div class="flex gap-4 justify-center mt-6">
+                            <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetChess()">Nuova Partita</button>
+                            <button class="bg-gray-700 text-white px-6 py-2 rounded-full hover:bg-gray-600" onclick="undoMove()">↶ Annulla</button>
+                        </div>
+                    </div>
+
+                    <!-- Info Panel -->
+                    <div class="md:col-span-1">
+                        <div class="info-section">
+                            <h3 class="font-bold mb-2">📊 Stato Partita</h3>
+                            <p id="statusText" class="text-sm text-gray-300">Turno: Bianco (Tu)</p>
+                            <p id="capturedText" class="text-xs text-gray-400 mt-2">Pezzi catturati: Nessuno</p>
+                        </div>
+
+                        <div class="info-section">
+                            <h3 class="font-bold mb-2">♚ Ultima Mossa</h3>
+                            <p id="lastMoveText" class="text-sm text-gray-300 font-mono">--</p>
+                        </div>
+
+                        <div class="info-section">
+                            <h3 class="font-bold mb-2">📋 Storico</h3>
+                            <div class="history" id="historyLog"></div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3 class="font-bold mb-2">⚙️ Difficoltà</h3>
+                            <select id="difficultySelect" class="bg-gray-700 text-white px-4 py-2 rounded w-full text-sm">
+                                <option value="easy">Facile</option>
+                                <option value="medium" selected>Medio</option>
+                                <option value="hard">Difficile</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Semplice implementazione di scacchi
+        const pieces = {
+            'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',
+            'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
+        };
+
+        let board = [
+            ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+            ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null],
+            ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+            ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+        ];
+
+        let selectedSquare = null;
+        let moves = [];
+        let whiteTurn = true;
+        let moveHistory = [];
+        let capturedPieces = [];
+
+        function renderBoard() {
+            const boardEl = document.getElementById('chessboard');
+            boardEl.innerHTML = '';
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    const square = document.createElement('div');
+                    square.className = 'square ' + ((row + col) % 2 === 0 ? 'white' : 'black');
+                    square.id = `square-${row}-${col}`;
+                    
+                    if (selectedSquare && selectedSquare[0] === row && selectedSquare[1] === col) {
+                        square.classList.add('selected');
+                    }
+
+                    if (board[row][col]) {
+                        const piece = document.createElement('span');
+                        piece.className = 'piece';
+                        piece.textContent = pieces[board[row][col]];
+                        square.appendChild(piece);
+                    }
+
+                    square.onclick = () => selectSquare(row, col);
+                    boardEl.appendChild(square);
+                }
+            }
+            updateStatus();
+        }
+
+        function selectSquare(row, col) {
+            if (!selectedSquare) {
+                if (board[row][col] && ((board[row][col] === board[row][col].toUpperCase()) === whiteTurn)) {
+                    selectedSquare = [row, col];
+                    renderBoard();
+                }
+            } else {
+                if (selectedSquare[0] === row && selectedSquare[1] === col) {
+                    selectedSquare = null;
+                    renderBoard();
+                } else {
+                    makeMove(selectedSquare[0], selectedSquare[1], row, col);
+                }
+            }
+        }
+
+        function makeMove(fromRow, fromCol, toRow, toCol) {
+            const piece = board[fromRow][fromCol];
+            if (isValidMove(fromRow, fromCol, toRow, toCol)) {
+                if (board[toRow][toCol]) {
+                    capturedPieces.push(board[toRow][toCol]);
+                }
+                board[toRow][toCol] = piece;
+                board[fromRow][fromCol] = null;
+                moveHistory.push({
+                    from: [fromRow, fromCol],
+                    to: [toRow, toCol],
+                    piece: piece
+                });
+                selectedSquare = null;
+                whiteTurn = !whiteTurn;
+                renderBoard();
+                updateStatus();
+                
+                if (whiteTurn === false) {
+                    setTimeout(aiMove, 1000);
+                }
+            }
+        }
+
+        function isValidMove(fromRow, fromCol, toRow, toCol) {
+            if (toRow < 0 || toRow > 7 || toCol < 0 || toCol > 7) return false;
+            if (board[toRow][toCol] && ((board[toRow][toCol] === board[toRow][toCol].toUpperCase()) === (board[fromRow][fromCol] === board[fromRow][fromCol].toUpperCase()))) return false;
+            const piece = board[fromRow][fromCol].toLowerCase();
+            const rowDiff = Math.abs(toRow - fromRow);
+            const colDiff = Math.abs(toCol - fromCol);
+
+            if (piece === 'p') {
+                const direction = board[fromRow][fromCol] === 'P' ? 1 : -1;
+                if (fromCol === toCol && rowDiff === 1 && !board[toRow][toCol]) return true;
+                if (fromCol === toCol && rowDiff === 2 && (fromRow === 6 || fromRow === 1) && !board[toRow][toCol]) return true;
+                if (colDiff === 1 && rowDiff === 1 && board[toRow][toCol]) return true;
+            } else if (piece === 'n') {
+                if ((rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2)) return true;
+            } else if (piece === 'b') {
+                if (rowDiff === colDiff) return true;
+            } else if (piece === 'r') {
+                if (fromRow === toRow || fromCol === toCol) return true;
+            } else if (piece === 'q') {
+                if (fromRow === toRow || fromCol === toCol || Math.abs(toRow - fromRow) === Math.abs(toCol - fromCol)) return true;
+            } else if (piece === 'k') {
+                if (rowDiff <= 1 && colDiff <= 1) return true;
+            }
+            return false;
+        }
+
+        function aiMove() {
+            const difficulty = document.getElementById('difficultySelect').value;
+            const validMoves = [];
+
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    if (board[row][col] && board[row][col] === board[row][col].toLowerCase()) {
+                        for (let toRow = 0; toRow < 8; toRow++) {
+                            for (let toCol = 0; toCol < 8; toCol++) {
+                                if (isValidMove(row, col, toRow, toCol)) {
+                                    validMoves.push([row, col, toRow, toCol]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (validMoves.length > 0) {
+                let move;
+                if (difficulty === 'easy') {
+                    move = validMoves[Math.floor(Math.random() * validMoves.length)];
+                } else if (difficulty === 'medium') {
+                    move = validMoves[Math.floor(Math.random() * Math.min(validMoves.length, 5))];
+                } else {
+                    move = getBestMove(validMoves);
+                }
+                makeMove(move[0], move[1], move[2], move[3]);
+            }
+        }
+
+        function getBestMove(validMoves) {
+            let bestScore = -Infinity;
+            let bestMove = validMoves[0];
+            for (let move of validMoves) {
+                let score = 0;
+                if (board[move[2]][move[3]]) score += 10;
+                bestScore = score;
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = move;
+                }
+            }
+            return bestMove;
+        }
+
+        function undoMove() {
+            if (moveHistory.length > 0) {
+                const lastMove = moveHistory.pop();
+                board[lastMove.from[0]][lastMove.from[1]] = lastMove.piece;
+                board[lastMove.to[0]][lastMove.to[1]] = null;
+                whiteTurn = !whiteTurn;
+                renderBoard();
+            }
+        }
+
+        function resetChess() {
+            board = [
+                ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+                ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+                [null, null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null, null],
+                ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+                ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+            ];
+            selectedSquare = null;
+            whiteTurn = true;
+            moveHistory = [];
+            capturedPieces = [];
+            renderBoard();
+        }
+
+        function updateStatus() {
+            document.getElementById('statusText').textContent = `Turno: ${whiteTurn ? 'Bianco (Tu)' : 'Nero (AI)'}`;
+            
+            const captured = {};
+            capturedPieces.forEach(p => {
+                captured[p] = (captured[p] || 0) + 1;
+            });
+            const capturedText = Object.entries(captured).map(([k, v]) => `${pieces[k]}${v}`).join(' ');
+            document.getElementById('capturedText').textContent = `Catturati: ${capturedText || 'Nessuno'}`;
+
+            if (moveHistory.length > 0) {
+                const lastMove = moveHistory[moveHistory.length - 1];
+                const pos1 = String.fromCharCode(97 + lastMove.from[1]) + (8 - lastMove.from[0]);
+                const pos2 = String.fromCharCode(97 + lastMove.to[1]) + (8 - lastMove.to[0]);
+                document.getElementById('lastMoveText').textContent = `${pos1} → ${pos2}`;
+            }
+
+            const history = moveHistory.map((m, i) => {
+                const pos1 = String.fromCharCode(97 + m.from[1]) + (8 - m.from[0]);
+                const pos2 = String.fromCharCode(97 + m.to[1]) + (8 - m.to[0]);
+                return `${i + 1}. ${pos1}→${pos2}`;
+            }).reverse().slice(0, 10).join('\n');
+            document.getElementById('historyLog').textContent = history || 'Nessuna mossa';
+        }
+
+        renderBoard();
+    </script>
+</body>
+</html>

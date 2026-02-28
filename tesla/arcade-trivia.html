@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quiz</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; }
+        h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; transition: all 0.4s; }
+        .tab-btn { padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
+        .quiz-section { display: none; }
+        .quiz-section.active { display: block; }
+        .option-btn { width: 100%; padding: 16px; background: rgba(0,102,255,0.1); border: 2px solid rgba(0,212,255,0.3); border-radius: 12px; cursor: pointer; transition: all 0.3s; text-align: left; margin: 8px 0; }
+        .option-btn:hover { background: rgba(0,102,255,0.2); border-color: rgba(0,212,255,0.6); }
+        .option-btn.correct { background: #10b981; border-color: #10b981; }
+        .option-btn.wrong { background: #ef4444; border-color: #ef4444; }
+        .option-btn.disabled { cursor: not-allowed; opacity: 0.6; }
+        .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg,#0066ff,#00d4ff); transition: width 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold"><a href="tesla.html" class="text-accent">LDM4APP Trivia</a></div>
+            <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Torna a Giochi</a>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">🧠 Quiz Trivia</h1>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center gap-4 mb-8 flex-wrap">
+                <button class="tab-btn active" onclick="switchCategory('storia')">📚 Storia</button>
+                <button class="tab-btn inactive" onclick="switchCategory('geografia')">🌍 Geografia</button>
+                <button class="tab-btn inactive" onclick="switchCategory('cinema')">🎬 Cinema</button>
+                <button class="tab-btn inactive" onclick="switchCategory('scienza')">🔬 Scienza</button>
+            </div>
+
+            <!-- Quiz Container -->
+            <div class="glass-card p-8 max-w-3xl mx-auto">
+                <div id="stastoStartScreen" class="text-center">
+                    <p class="text-lg text-gray-300 mb-6">Seleziona una categoria e inizia il quiz!</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startQuiz()">Inizia Quiz</button>
+                </div>
+
+                <div id="quizContent" style="display: none;">
+                    <!-- Progress -->
+                    <div class="mb-8">
+                        <div class="flex justify-between mb-2">
+                            <span id="questionNumber">Domanda 1 di 10</span>
+                            <span id="score">Punteggio: 0/10</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question -->
+                    <div class="mb-8">
+                        <h2 id="question" class="text-2xl font-bold text-white mb-6"></h2>
+                        <div id="optionsContainer"></div>
+                    </div>
+
+                    <!-- Next Button -->
+                    <div class="text-center">
+                        <button class="btn-primary text-white px-8 py-3 rounded-full" id="nextBtn" onclick="nextQuestion()" style="display: none;">Prossima Domanda</button>
+                    </div>
+                </div>
+
+                <div id="resultsScreen" style="display: none;" class="text-center">
+                    <h2 class="text-3xl font-bold mb-6">📊 Risultati Finali</h2>
+                    <div class="text-6xl font-bold text-accent mb-6" id="finalScore"></div>
+                    <p class="text-xl text-gray-300 mb-8" id="resultMessage"></p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="resetQuiz()">Ricomincia Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Database
+        const quizData = {
+            storia: [
+                { q: "In che anno è caduto il muro di Berlino?", a: ["1987", "1989", "1991", "1985"], correct: 1 },
+                { q: "Chi era il primo presidente degli USA?", a: ["Thomas Jefferson", "George Washington", "Benjamin Franklin", "James Madison"], correct: 1 },
+                { q: "In che anno è iniziata la II Guerra Mondiale?", a: ["1937", "1938", "1939", "1940"], correct: 2 },
+                { q: "Quale civiltà costruì le piramidi d'Egitto?", a: ["Babilonese", "Assira", "Egizia", "Persiana"], correct: 2 },
+                { q: "Chi era Napoleone?", a: ["Re francese", "Generale e imperatore francese", "Filosofo", "Scienziato"], correct: 1 },
+                { q: "Quando è stata scoperto il Nuovo Mondo da Colombo?", a: ["1490", "1492", "1495", "1500"], correct: 1 },
+                { q: "In che anno cadde l'Impero Romano d'Occidente?", a: ["410 d.C.", "476 d.C.", "500 d.C.", "550 d.C."], correct: 1 },
+                { q: "Chi scrisse la Dichiarazione di Indipendenza USA?", a: ["Benjamin Franklin", "George Washington", "Thomas Jefferson", "James Madison"], correct: 2 },
+                { q: "Quante erano le Crociate medievali?", a: ["5", "7", "8", "10"], correct: 1 },
+                { q: "Chi fu il primo imperatore romano?", a: ["Giulio Cesare", "Ottaviano Augusto", "Tiberio", "Caligola"], correct: 1 }
+            ],
+            geografia: [
+                { q: "Quale è la capitale dell'Italia?", a: ["Milano", "Roma", "Venezia", "Firenze"], correct: 1 },
+                { q: "Qual è il fiume più lungo del mondo?", a: ["Congo", "Amazzonia", "Nilo", "Yangtze"], correct: 2 },
+                { q: "Quale paese ha più isole?", a: ["Norvegia", "Canada", "Svezia", "Indonesia"], correct: 3 },
+                { q: "Qual è la montagna più alta del mondo?", a: ["K2", "Kilimanjaro", "Everest", "Denali"], correct: 2 },
+                { q: "Quale è la capitale della Francia?", a: ["Lione", "Parigi", "Marsiglia", "Tolosa"], correct: 1 },
+                { q: "Quali sono i 5 continenti?", a: ["Europa, Asia, Africa, America, Oceania", "European, Asiatico, Africano, Americano, Oceanico", "Nord, Sud, Est, Ovest, Centro", "Artico, Tropicale, Temperato, Equatoriale, Polare"], correct: 0 },
+                { q: "Quale è la capitale della Spagna?", a: ["Barcelona", "Madrid", "Valencia", "Siviglia"], correct: 1 },
+                { q: "Qual è l'oceano più grande?", a: ["Atlantico", "Indiano", "Artico", "Pacifico"], correct: 3 },
+                { q: "Quale è la capitale del Giappone?", a: ["Osaka", "Kyoto", "Tokyo", "Tokushima"], correct: 2 },
+                { q: "Qual è il deserto più grande del mondo?", a: ["Sahara", "Gobi", "Kalahari", "Atacama"], correct: 0 }
+            ],
+            cinema: [
+                { q: "In che anno è uscito il primo film di Star Wars?", a: ["1975", "1977", "1979", "1981"], correct: 1 },
+                { q: "Chi ha vinto l'Oscar come Miglior Attore nel 2024?", a: ["Leonardo DiCaprio", "Timothée Chalamet", "Cillian Murphy", "Paul Giamatti"], correct: 2 },
+                { q: "Quale film ha vinto l'Oscar come Miglior Film nel 2024?", a: ["Oppenheimer", "Killers of the Flower Moon", "The Zone of Interest", "American Fiction"], correct: 0 },
+                { q: "Che anno è stato girato 'Titanic'?", a: ["1996", "1997", "1998", "1999"], correct: 1 },
+                { q: "Chi ha diretto 'Avatar'?", a: ["Ridley Scott", "James Cameron", "PeterJackson", "Denis Villeneuve"], correct: 1 },
+                { q: "In quale anno è uscito 'Jaws'?", a: ["1973", "1974", "1975", "1976"], correct: 2 },
+                { q: "Chi ha interpretato Spider-Man nella trilogia recente?", a: ["Stan Lee", "Tobey Maguire", "Andrew Garfield", "Tom Holland"], correct: 2 },
+                { q: "Quanti film hanno i Fratelli Russo nella MCU?", a: ["3", "4", "5", "6"], correct: 1 },
+                { q: "In che anno è uscito 'Il Signore degli Anelli' (primo film)?", a: ["1999", "2000", "2001", "2002"], correct: 2 },
+                { q: "Chi ha vinto come Miglior Regia agli Oscar 2024?", a: ["Christopher Nolan", "Justine Triet", "Yorgos Lanthimos", "Jonathan Glazer"], correct: 0 }
+            ],
+            scienza: [
+                { q: "Quale elemento ha il simbolo chimico 'Au'?", a: ["Argento", "Oro", "Alluminio", "Arsenico"], correct: 1 },
+                { q: "Quanti pianeti ha il nostro sistema solare?", a: ["7", "8", "9", "10"], correct: 1 },
+                { q: "Chi ha scoperto la penicillina?", a: ["Marie Curie", "Alexander Fleming", "Jonas Salk", "Edward Jenner"], correct: 1 },
+                { q: "Qual è la velocità della luce?", a: ["200.000 km/s", "299.792 km/s", "350.000 km/s", "250.000 km/s"], correct: 1 },
+                { q: "Quanti cromosomi ha l'uomo?", a: ["23", "46", "48", "50"], correct: 1 },
+                { q: "Chi ha sviluppato la teoria della relatività?", a: ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Stephen Hawking"], correct: 1 },
+                { q: "Quale è l'elemento più abbondante nell'universo?", a: ["Elio", "Idrogeno", "Carbonio", "Ossigeno"], correct: 1 },
+                { q: "Che cosa è una black hole?", a: ["Una stella morta", "Una regione dello spazio con gravità estrema", "Un'eclissi", "Una supernova"], correct: 1 },
+                { q: "Quanto tempo impiega la luce del Sole a raggiungere la Terra?", a: ["6 minuti", "8 minuti", "10 minuti", "12 minuti"], correct: 1 },
+                { q: "Qual è la particella elementare più piccola conosciuta?", a: ["Atomo", "Elettrone", "Quark", "Fotone"], correct: 2 }
+            ]
+        };
+
+        let currentCategory = 'storia';
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        function switchCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('inactive');
+            });
+            event.target.classList.add('active');
+            event.target.classList.remove('inactive');
+        }
+
+        function startQuiz() {
+            currentQuestions = [...quizData[currentCategory]].sort(() => Math.random() - 0.5);
+            currentQuestionIndex = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('stastoStartScreen').style.display = 'none';
+            document.getElementById('quizContent').style.display = 'block';
+            document.getElementById('resultsScreen').style.display = 'none';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                showResults();
+                return;
+            }
+            const q = currentQuestions[currentQuestionIndex];
+            document.getElementById('question').textContent = q.q;
+            document.getElementById('questionNumber').textContent = `Domanda ${currentQuestionIndex + 1} di ${currentQuestions.length}`;
+            document.getElementById('score').textContent = `Punteggio: ${score}/${currentQuestions.length}`;
+            document.getElementById('progressFill').style.width = `${(currentQuestionIndex / currentQuestions.length) * 100}%`;
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => selectAnswer(index, q.correct);
+                container.appendChild(btn);
+            });
+            answered = false;
+            document.getElementById('nextBtn').style.display = 'none';
+        }
+
+        function selectAnswer(selected, correct) {
+            if (answered) return;
+            answered = true;
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach((btn, idx) => {
+                btn.classList.add('disabled');
+                if (idx === correct) {
+                    btn.classList.add('correct');
+                }
+                if (idx === selected && selected !== correct) {
+                    btn.classList.add('wrong');
+                }
+            });
+            if (selected === correct) {
+                score++;
+            }
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.getElementById('score').textContent = `Punteggio: ${score}/${currentQuestions.length}`;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        function showResults() {
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            const percentage = (score / currentQuestions.length) * 100;
+            document.getElementById('finalScore').textContent = `${score}/${currentQuestions.length}`;
+            
+            let message = '';
+            if (percentage === 100) message = '🏆 Perfetto! Sei un genio!';
+            else if (percentage >= 80) message = '🌟 Ottimo risultato!';
+            else if (percentage >= 60) message = '👍 Buon lavoro!';
+            else if (percentage >= 40) message = '📚 Continua a studiare!';
+            else message = '💪 Prova ancora!';
+            
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        function resetQuiz() {
+            document.getElementById('stastoStartScreen').style.display = 'block';
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
