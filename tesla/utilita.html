@@ -11,6 +11,14 @@
         gtag('js', new Date());
         gtag('config', 'G-TWZ6YZH6JT');
     </script>
+    <script>
+        // Filtra i warning di Tailwind dalla console
+        const originalWarn = console.warn;
+        console.warn = function(...args) {
+            if (args[0] && args[0].includes('tailwindcss.com')) return;
+            originalWarn.apply(console, args);
+        };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>
