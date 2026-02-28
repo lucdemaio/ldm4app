@@ -341,7 +341,7 @@
     <script>
         function openCalc() { 
             const calcWindow = window.open('', 'calculator', 'width=400,height=600');
-            const html = `
+            calcWindow.document.write(`
                 <!DOCTYPE html>
                 <html lang="it">
                 <head>
@@ -687,7 +687,7 @@
                             const bmr = gender === 'Maschio' ? 88.362 + (13.397 * w) + (4.799 * 100 * h) - (5.677 * age) : 447.593 + (9.247 * w) + (3.098 * 100 * h) - (4.330 * age);
                             const tdee = (bmr * activity).toFixed(0);
                             const status = bmi < 18.5 ? 'Sottopeso' : bmi < 25 ? 'Normale' : bmi < 30 ? 'Sovrappeso' : 'Obeso';
-                            document.getElementById('result').innerHTML = `<strong>BMI:</strong> ${bmi} (${status})<br><strong>TDEE:</strong> ${tdee} cal/giorno<br><strong>Consiglio:</strong> ${tdee < 2000 ? 'Mantieni una dieta equilibrata' : 'Aumenta l'attività fisica'}`;
+                            document.getElementById('result').innerHTML = '<strong>BMI:</strong> ' + bmi + ' (' + status + ')<br><strong>TDEE:</strong> ' + tdee + ' cal/giorno<br><strong>Consiglio:</strong> ' + (tdee < 2000 ? 'Mantieni una dieta equilibrata' : 'Aumenta l\\'attività fisica');
                         }
                     </script>
                 </body>
