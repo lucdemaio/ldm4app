@@ -466,17 +466,18 @@
 
         let unoDeck = createUNODeck();
 
+        function drawUNOCardFromDeck() {
+            if (unoDeck.length === 0) unoDeck = createUNODeck();
+            return unoDeck.pop();
+        }
+
         function drawUNOCard() {
-            if (!unoGameRunning) return;
+            if (!unoGameRunning || !unoPlayerTurn) return;
             
-            if (unoPlayerTurn) {
-                // Player draws a card
-                if (unoDeck.length === 0) unoDeck = createUNODeck();
-                const card = unoDeck.pop();
-                unoPlayerHand.push(card);
-                unoPlayerTurn = false;
-                renderUNO();
-            }
+            const card = drawUNOCardFromDeck();
+            unoPlayerHand.push(card);
+            unoPlayerTurn = false;
+            renderUNO();
         }
 
         function resetUNOGame() {
@@ -490,9 +491,12 @@
 
         function resetUNO() {
             unoDeck = createUNODeck();
-            unoPlayerHand = [drawUNOCard(), drawUNOCard(), drawUNOCard(), drawUNOCard(), drawUNOCard(), drawUNOCard(), drawUNOCard()];
+            unoPlayerHand = [];
+            for (let i = 0; i < 7; i++) {
+                unoPlayerHand.push(drawUNOCardFromDeck());
+            }
             unoAIHand = Array(7).fill('back');
-            unoTable = drawUNOCard();
+            unoTable = drawUNOCardFromDeck();
             unoPlayerTurn = true;
             unoGameRunning = true;
             selectedUNOCard = null;
@@ -543,6 +547,7 @@
                 unoPlayerHand.splice(selectedUNOCard, 1);
                 selectedUNOCard = null;
                 unoPlayerTurn = false;
+                document.getElementById('unoMessage').textContent = '';
                 renderUNO();
             } else {
                 alert('Carta non valida!');
