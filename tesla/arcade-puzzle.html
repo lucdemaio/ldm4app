@@ -71,6 +71,7 @@
         .memory-card:hover { transform: scale(1.1); }
         .memory-card:active { transform: scale(0.95); }
         .memory-card.flipped { background: rgba(255,255,255,0.1); }
+        .memory-card.matched { background: #10b981; border: 2px solid #0d9488; cursor: default !important; }
         
         /* Media Queries */
         @media (max-width: 768px) {
@@ -552,12 +553,15 @@
         // ==================== MEMORY ====================
         const memoryEmojis = ['🚗', '⚡', '🔋', '🛞', '🎯', '🏆', '💨', '🌟'];
         let memoryCards, memoryFlipped, memoryMatched, memoryMoves;
+        let memoryFirstFlip = null, memorySecondFlip = null;
 
         function initMemory() {
             memoryCards = [...memoryEmojis, ...memoryEmojis].sort(() => Math.random() - 0.5);
             memoryFlipped = Array(16).fill(false);
             memoryMatched = Array(16).fill(false);
             memoryMoves = 0;
+            memoryFirstFlip = null;
+            memorySecondFlip = null;
             renderMemoryGrid();
         }
 
@@ -568,6 +572,7 @@
                 const card = document.createElement('div');
                 card.className = 'memory-card';
                 if (memoryFlipped[index]) card.classList.add('flipped');
+                if (memoryMatched[index]) card.classList.add('matched');
                 card.textContent = memoryFlipped[index] || memoryMatched[index] ? emoji : '?';
                 card.onclick = () => flipMemoryCard(index);
                 container.appendChild(card);
@@ -576,17 +581,42 @@
             document.getElementById('memoryMoves').textContent = memoryMoves;
         }
 
-        let memoryFirstFlip = null;
         function flipMemoryCard(index) {
-            if (memoryMatched[index] || memoryFlipped[index] || memoryFirstFlip !== null) return;
-            memoryFlipped[index] = true;
-            memoryFirstFlip = index;
-            renderMemoryGrid();
-            setTimeout(() => {
-                memoryFlipped[index] = false;
-                memoryFirstFlip = null;
+            // Se già matched o bloccato, ritorna
+            if (memoryMatched[index] || memoryFlipped[index] || (memoryFirstFlip !== null && memorySecondFlip !== null)) return;
+            
+            // Se è la prima carta
+            if (memoryFirstFlip === null) {
+                memoryFlipped[index] = true;
+                memoryFirstFlip = index;
                 renderMemoryGrid();
-            }, 500);
+                return;
+            }
+            
+            // Se è la seconda carta
+            memoryFlipped[index] = true;
+            memorySecondFlip = index;
+            renderMemoryGrid();
+            memoryMoves++;
+            
+            // Check se sono uguali
+            if (memoryCards[memoryFirstFlip] === memoryCards[memorySecondFlip]) {
+                // COPPIA CORRETTA! Marcar come matched
+                memoryMatched[memoryFirstFlip] = true;
+                memoryMatched[memorySecondFlip] = true;
+                memoryFirstFlip = null;
+                memorySecondFlip = null;
+                renderMemoryGrid();
+            } else {
+                // Non sono uguali, girarle indietro dopo un delay
+                setTimeout(() => {
+                    memoryFlipped[memoryFirstFlip] = false;
+                    memoryFlipped[memorySecondFlip] = false;
+                    memoryFirstFlip = null;
+                    memorySecondFlip = null;
+                    renderMemoryGrid();
+                }, 1000);
+            }
         }
 
         function resetMemory() {

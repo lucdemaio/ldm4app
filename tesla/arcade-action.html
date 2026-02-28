@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Arcade Games</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="leaderboard.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; overflow-x: hidden; }
+        h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; padding: 12px 24px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .tab-btn { padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; min-height: 48px; display: inline-flex; align-items: center; touch-action: manipulation; font-size: 13px; }
+        .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
+        .game-section { display: none; }
+        .game-section.active { display: block; }
+        .game-canvas { display: block; border: 2px solid #00d4ff; background: #000; margin: 20px auto; border-radius: 8px; }
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 16px; background: rgba(0,102,255,0.1); border-radius: 8px; margin: 8px 0; border-left: 4px solid #0066ff; }
+        .leaderboard-rank { font-weight: bold; color: #00d4ff; min-width: 30px; }
+        .leaderboard-name { flex: 1; margin-left: 16px; }
+        .leaderboard-score { font-weight: bold; color: #10b981; }
+        .player-info { text-align: center; padding: 12px; background: rgba(0,102,255,0.1); border-radius: 8px; margin-bottom: 16px; }
+        
+        @media (max-width: 768px) {
+            .tab-btn { padding: 10px 14px; font-size: 12px; }
+        }
+        
+        @media (max-width: 480px) {
+            .tab-btn { padding: 8px 10px; font-size: 11px; padding: 10px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold"><a href="tesla.html">LDM4APP Action</a></div>
+            <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Giochi</a>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">⚡ Action Games</h1>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center gap-2 mb-8 flex-wrap">
+                <button class="tab-btn active" onclick="switchActionGame('start')">🎮 Menu</button>
+                <button class="tab-btn inactive" onclick="switchActionGame('reaction')">⚡ Reazione</button>
+                <button class="tab-btn inactive" onclick="switchActionGame('clicker')">🖱️ Clicker</button>
+                <button class="tab-btn inactive" onclick="switchActionGame('whack')">🔨 Whack</button>
+                <button class="tab-btn inactive" onclick="switchActionGame('catch')">🎯 Catch</button>
+                <button class="tab-btn inactive" onclick="switchActionGame('balloon')">🎈 Balloons</button>
+            </div>
+
+            <!-- Menu Screen -->
+            <div id="startScreen" class="game-section active">
+                <div class="glass-card p-8 max-w-3xl mx-auto text-center">
+                    <h2 class="text-2xl font-bold mb-6">Inserisci il tuo nome</h2>
+                    <input type="text" id="actionPlayerName" placeholder="Il tuo nome..." class="w-full max-w-md px-4 py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-white mb-6" maxlength="20">
+                    <button class="btn-primary text-white px-8 py-3 rounded-full mr-4" onclick="initAction()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600" onclick="showActionLeaderboard()">📊 Classifica</button>
+                </div>
+            </div>
+
+            <!-- Reaction Game -->
+            <div id="reactionScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="reactionPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">⚡ Test di Reazione</h2>
+                    <p class="text-gray-300 mb-8">Clicca il bottone quando il colore cambia!</p>
+                    <div id="reactionBox" class="w-48 h-48 bg-red-500 mx-auto rounded-lg mb-6 cursor-pointer" onclick="reactionClick()"></div>
+                    <p id="reactionTime" class="text-2xl font-bold mb-6">Pronto...</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startReactionTest()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goActionMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Clicker Game -->
+            <div id="clickerScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="clickerPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🖱️ Clicker Game</h2>
+                    <p class="text-gray-300 mb-4">Clicca il bottone il più velocemente possibile!</p>
+                    <p id="clickerTimer" class="text-lg text-cyan-400 mb-6">Tempo: <span id="clickerTimeLeft">30</span>s</p>
+                    <button id="clickerBtn" class="w-48 h-48 bg-gradient-to-br from-cyan-500 to-blue-600 text-6xl font-bold rounded-lg mx-auto mb-6 hover:scale-105 transition-transform" onclick="clickerClick()">👆</button>
+                    <p id="clickerCount" class="text-4xl font-bold mb-6">Clic: 0</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startClicker()">Inizia (30s)</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goActionMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Whack a Mole -->
+            <div id="whackScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="whackPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🔨 Whack-a-Mole</h2>
+                    <p class="text-gray-300 mb-4">Colpisci le talpe che appaiono!</p>
+                    <div class="flex justify-around mb-6">
+                        <div><p class="text-sm text-gray-400">Tempo</p><p id="whackTimer" class="text-2xl font-bold">30s</p></div>
+                        <div><p class="text-sm text-gray-400">Score</p><p id="whackScore" class="text-2xl font-bold">0</p></div>
+                    </div>
+                    <div id="whackGrid" class="grid grid-cols-3 gap-4 w-80 mx-auto mb-6">
+                        <div class="w-20 h-20 bg-gray-700 rounded-full cursor-pointer" onclick="whackHit(this)">🐹</div>
+                        <div class="w-20 h-20 bg-gray-700 rounded-full cursor-pointer" onclick="whackHit(this)">🐹</div>
+                        <div class="w-20 h-20 bg-gray-700 rounded-full cursor-pointer" onclick="whackHit(this)">🐹</div>
+                        <div class="w-20 h-20 bg-gray-700 rounded-full cursor-pointer" onclick="whackHit(this)">🐹</div>
+                        <div class="w-20 h-20 bg-gray-700 rounded-full cursor-pointer" onclick="whackHit(this)">🐹</div>
+                        <div class="w-20 h-20 bg-gray-700 rounded-full cursor-pointer" onclick="whackHit(this)">🐹</div>
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startWhack()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goActionMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Catch Game -->
+            <div id="catchScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="catchPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🎯 Catch the Items</h2>
+                    <p class="text-gray-300 mb-4">Cattura gli oggetti che cadono!</p>
+                    <p id="catchStats" class="text-lg mb-6">Catturati: <span id="catchCount">0</span> | Persi: <span id="catchMissed">0</span></p>
+                    <canvas id="catchCanvas" class="game-canvas" width="400" height="300"></canvas>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startCatchGame()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goActionMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Balloon Pop -->
+            <div id="balloonScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="balloonPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🎈 Pop the Balloons</h2>
+                    <p class="text-gray-300 mb-4">Scoppia i palloncini il più velocemente possibile!</p>
+                    <p id="balloonStats" class="text-lg mb-6">Scoppiate: <span id="balloonCount">0</span> | Tempo: <span id="balloonTime">30</span>s</p>
+                    <div id="balloonContainer" class="w-96 h-96 relative mx-auto bg-blue-900/30 rounded-lg mb-6 border-2 border-blue-500">
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startBalloon()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goActionMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div id="actionLeaderboardScreen" style="display: none;">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold mb-8">🏆 Classifica Action Games</h2>
+                    <div id="actionLeaderboardList" class="mb-8"></div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="goActionMenu()">← Torna Indietro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let actionLeaderboard = new ArcadeLeaderboard('action-arcade');
+        let currentActionPlayer = '';
+
+        function switchActionGame(game) {
+            document.querySelectorAll('.game-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(game + 'Screen').classList.add('active');
+        }
+
+        function initAction() {
+            const name = document.getElementById('actionPlayerName').value.trim();
+            if (!name) { alert('Inserisci nome!'); return; }
+            currentActionPlayer = name;
+            actionLeaderboard.setPlayerName(name);
+            document.getElementById('reactionPlayerDisplay').textContent = name;
+            document.getElementById('clickerPlayerDisplay').textContent = name;
+            document.getElementById('whackPlayerDisplay').textContent = name;
+            document.getElementById('catchPlayerDisplay').textContent = name;
+            document.getElementById('balloonPlayerDisplay').textContent = name;
+            switchActionGame('reaction');
+        }
+
+        function goActionMenu() {
+            switchActionGame('start');
+        }
+
+        function showActionLeaderboard() {
+            const html = actionLeaderboard.generateLeaderboardHTML(20);
+            document.getElementById('actionLeaderboardList').innerHTML = html;
+            switchActionGame('action' + 'Leaderboard');
+        }
+
+        // ==================== REACTION TEST ====================
+        let reactionStartTime, reactionRunning = false;
+
+        function startReactionTest() {
+            const box = document.getElementById('reactionBox');
+            const timeEl = document.getElementById('reactionTime');
+            box.style.background = '#ef4444';
+            timeEl.textContent = 'Aspetta...';
+            reactionRunning = false;
+            const delay = Math.random() * 3000 + 2000;
+            setTimeout(() => {
+                box.style.background = '#10b981';
+                timeEl.textContent = 'CLICCA!';
+                reactionStartTime = Date.now();
+                reactionRunning = true;
+            }, delay);
+        }
+
+        function reactionClick() {
+            if (!reactionRunning) return;
+            const time = Date.now() - reactionStartTime;
+            document.getElementById('reactionTime').textContent = `${time}ms!`;
+            reactionRunning = false;
+            actionLeaderboard.saveScore(currentActionPlayer, time);
+        }
+
+        // ==================== CLICKER GAME ====================
+        let clickerCount = 0, clickerActive = false;
+
+        function startClicker() {
+            clickerCount = 0;
+            clickerActive = true;
+            document.getElementById('clickerCount').textContent = 'Clic: 0';
+            let timeLeft = 30;
+            const interval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('clickerTimeLeft').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    clickerActive = false;
+                    actionLeaderboard.saveScore(currentActionPlayer, clickerCount);
+                    alert(`Fine! Hai fatto ${clickerCount} clic!`);
+                }
+            }, 1000);
+        }
+
+        function clickerClick() {
+            if (clickerActive) clickerCount++;
+            document.getElementById('clickerCount').textContent = `Clic: ${clickerCount}`;
+        }
+
+        // ==================== WHACK A MOLE ====================
+        let whackScore = 0, whackActive = false;
+
+        function startWhack() {
+            whackScore = 0;
+            whackActive = true;
+            document.getElementById('whackScore').textContent = '0';
+            let time = 30;
+            const interval = setInterval(() => {
+                time--;
+                document.getElementById('whackTimer').textContent = time + 's';
+                if (time <= 0) {
+                    clearInterval(interval);
+                    whackActive = false;
+                    actionLeaderboard.saveScore(currentActionPlayer, whackScore);
+                    alert(`Fine! Punteggio: ${whackScore}`);
+                }
+            }, 1000);
+        }
+
+        function whackHit(el) {
+            if (!whackActive) return;
+            whackScore++;
+            document.getElementById('whackScore').textContent = whackScore;
+            el.style.background = '#ef4444';
+            setTimeout(() => el.style.background = '#6b7280', 200);
+        }
+
+        // ==================== CATCH GAME ====================
+        let catchCount = 0, catchMissed = 0, catchActive = false;
+
+        function startCatchGame() {
+            catchCount = 0;
+            catchMissed = 0;
+            catchActive = true;
+            document.getElementById('catchCount').textContent = '0';
+            document.getElementById('catchMissed').textContent = '0';
+            setTimeout(() => {
+                catchActive = false;
+                actionLeaderboard.saveScore(currentActionPlayer, catchCount);
+                alert(`Fine! Catturati: ${catchCount}, Persi: ${catchMissed}`);
+            }, 30000);
+        }
+
+        // ==================== BALLOON POP ====================
+        let balloonCount = 0, balloonActive = false;
+
+        function startBalloon() {
+            balloonCount = 0;
+            balloonActive = true;
+            document.getElementById('balloonCount').textContent = '0';
+            for (let i = 0; i < 8; i++) createBalloon();
+            setTimeout(() => {
+                balloonActive = false;
+                document.getElementById('balloonContainer').innerHTML = '';
+                actionLeaderboard.saveScore(currentActionPlayer, balloonCount);
+                alert(`Fine! Balloons popped: ${balloonCount}`);
+            }, 30000);
+        }
+
+        function createBalloon() {
+            if (!balloonActive) return;
+            const container = document.getElementById('balloonContainer');
+            const balloon = document.createElement('div');
+            balloon.style.position = 'absolute';
+            balloon.style.left = Math.random() * 320 + 'px';
+            balloon.style.top = Math.random() * 320 + 'px';
+            balloon.style.width = '40px';
+            balloon.style.height = '50px';
+            balloon.style.background = ['#ef4444', '#3b82f6', '#f59e0b', '#10b981'][Math.floor(Math.random() * 4)];
+            balloon.style.borderRadius = '50% 50% 50% 0';
+            balloon.style.cursor = 'pointer';
+            balloon.style.transition = '0.3s';
+            balloon.onclick = () => {
+                balloonCount++;
+                document.getElementById('balloonCount').textContent = balloonCount;
+                balloon.remove();
+                if (balloonActive) setTimeout(createBalloon, 200);
+            };
+            container.appendChild(balloon);
+        }
+    </script>
+</body>
+</html>

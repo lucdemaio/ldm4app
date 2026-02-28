@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scacchi vs AI</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script src="leaderboard.js"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -32,6 +33,11 @@
         .piece { font-weight: bold; }
         .info-section { text-align: left; margin: 20px 0; }
         .history { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; max-height: 200px; overflow-y: auto; font-size: 12px; }
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 16px; background: rgba(0,102,255,0.1); border-radius: 8px; margin: 8px 0; border-left: 4px solid #0066ff; }
+        .leaderboard-rank { font-weight: bold; color: #00d4ff; min-width: 30px; }
+        .leaderboard-name { flex: 1; margin-left: 16px; }
+        .leaderboard-score { font-weight: bold; color: #10b981; }
+        .player-info { text-align: center; padding: 12px; background: rgba(0,102,255,0.1); border-radius: 8px; margin-bottom: 16px; }
         
         /* Media Queries */
         @media (max-width: 768px) {
@@ -58,6 +64,23 @@
             <h1 class="text-4xl font-bold text-center mb-8">♟️ Scacchi vs AI</h1>
             
             <div class="glass-card p-8 max-w-4xl mx-auto">
+                <!-- Start Screen -->
+                <div id="chessStartScreen" class="text-center">
+                    <h2 class="text-2xl font-bold mb-6">♟️ Scacchi vs AI</h2>
+                    <p class="text-lg text-gray-300 mb-6">Inserisci il tuo nome per iniziare:</p>
+                    <input type="text" id="chessPlayerName" placeholder="Il tuo nome..." class="w-full max-w-md px-4 py-3 rounded-lg bg-rgba(0,102,255,0.2) border border-rgba(0,212,255,0.5) text-white mb-6" maxlength="20">
+                    <br>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="initializeChess()">Inizia a Giocare</button>
+                    <br><br>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600" onclick="showChessLeaderboard()">📊 Classifica</button>
+                </div>
+
+                <!-- Game Screen -->
+                <div id="chessGameScreen" style="display: none;">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="chessPlayerDisplay"></strong></p>
+                    </div>
+
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- Chessboard -->
                     <div class="md:col-span-2">
@@ -67,6 +90,7 @@
                         <div class="flex gap-4 justify-center mt-6">
                             <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetChess()">Nuova Partita</button>
                             <button class="bg-gray-700 text-white px-6 py-2 rounded-full hover:bg-gray-600" onclick="undoMove()">↶ Annulla</button>
+                            <button class="btn-primary text-white px-6 py-2 rounded-full bg-gray-700 hover:bg-gray-600" onclick="goToChessMenu()">← Menu</button>
                         </div>
                     </div>
 
@@ -98,11 +122,58 @@
                         </div>
                     </div>
                 </div>
+                </div>
+
+                <!-- Leaderboard Screen -->
+                <div id="chessLeaderboardScreen" style="display: none;" class="text-center">
+                    <h2 class="text-3xl font-bold mb-8">🏆 Classifica Scacchi</h2>
+                    <div id="chessLeaderboardList" class="mb-8"></div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="goToChessMenu()">← Torna Indietro</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // ==================== CHESS LEADERBOARD ====================
+        let chessLeaderboard = new ArcadeLeaderboard('chess');
+        let chessPlayerName = '';
+
+        function initializeChess() {
+            const nameInput = document.getElementById('chessPlayerName').value.trim();
+            if (!nameInput) {
+                alert('Inserisci il tuo nome per continuare!');
+                return;
+            }
+            chessPlayerName = nameInput;
+            chessLeaderboard.setPlayerName(chessPlayerName);
+            document.getElementById('chessStartScreen').style.display = 'none';
+            document.getElementById('chessGameScreen').style.display = 'block';
+            document.getElementById('chessLeaderboardScreen').style.display = 'none';
+            document.getElementById('chessPlayerDisplay').textContent = chessPlayerName;
+            initBoard();
+        }
+
+        function goToChessMenu() {
+            if (chessPlayerName) {
+                const moves = historyLog.length;
+                chessLeaderboard.saveScore(chessPlayerName, moves);
+            }
+            chessPlayerName = '';
+            document.getElementById('chessStartScreen').style.display = 'block';
+            document.getElementById('chessGameScreen').style.display = 'none';
+            document.getElementById('chessLeaderboardScreen').style.display = 'none';
+            document.getElementById('chessPlayerName').value = '';
+        }
+
+        function showChessLeaderboard() {
+            const html = chessLeaderboard.generateLeaderboardHTML(20);
+            document.getElementById('chessLeaderboardList').innerHTML = html;
+            document.getElementById('chessStartScreen').style.display = 'none';
+            document.getElementById('chessGameScreen').style.display = 'none';
+            document.getElementById('chessLeaderboardScreen').style.display = 'block';
+        }
+
         // Semplice implementazione di scacchi
         const pieces = {
             'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',

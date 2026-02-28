@@ -48,6 +48,11 @@
         .hand-container { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 20px 0; }
         .game-info { text-align: center; margin: 20px 0; }
         .action-buttons { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 16px; background: rgba(0,102,255,0.1); border-radius: 8px; margin: 8px 0; border-left: 4px solid #0066ff; }
+        .leaderboard-rank { font-weight: bold; color: #00d4ff; min-width: 30px; }
+        .leaderboard-name { flex: 1; margin-left: 16px; }
+        .leaderboard-score { font-weight: bold; color: #10b981; }
+        .player-info { text-align: center; padding: 12px; background: rgba(0,102,255,0.1); border-radius: 8px; margin-bottom: 16px; }
         
         /* Media Queries */
         @media (max-width: 768px) {
@@ -82,28 +87,55 @@
             <!-- Blackjack Game -->
             <div id="blackjack" class="game-section active">
                 <div class="glass-card p-8 max-w-3xl mx-auto">
-                    <h2 class="text-2xl font-bold text-center mb-6">🎰 Blackjack - Raggiungi 21</h2>
-                    
-                    <div class="game-info">
-                        <p class="text-lg mb-2">Banco: <span id="dealerCards"></span> = <span id="dealerScore">0</span></p>
+                    <!-- Start Screen -->
+                    <div id="cardsStartScreen" class="text-center">
+                        <h2 class="text-2xl font-bold text-center mb-6">🎮 Benvenuto nei Card Games!</h2>
+                        <p class="text-lg text-gray-300 mb-6">Inserisci il tuo nome per iniziare:</p>
+                        <input type="text" id="cardsPlayerName" placeholder="Il tuo nome..." class="w-full max-w-md px-4 py-3 rounded-lg bg-rgba(0,102,255,0.2) border border-rgba(0,212,255,0.5) text-white mb-6" maxlength="20">
+                        <br>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="initializeCards()">Inizia a Giocare</button>
+                        <br><br>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600" onclick="showCardsLeaderboard('blackjack')">📊 Classifica</button>
                     </div>
-                    <div class="flex justify-center gap-4 mb-6" id="dealerHand"></div>
 
-                    <div class="game-info">
-                        <p class="text-lg mb-2">Tu: <span id="playerCards"></span> = <span id="playerScore">0</span></p>
-                    </div>
-                    <div class="flex justify-center gap-4 mb-6" id="playerHand"></div>
+                    <!-- Game Screen -->
+                    <div id="cardsGameScreen" style="display: none;">
+                        <div class="player-info">
+                            <p class="text-sm text-gray-300">Giocatore: <strong id="cardsPlayerDisplay"></strong></p>
+                        </div>
 
-                    <div class="game-info" id="gameMessage"></div>
+                        <h2 class="text-2xl font-bold text-center mb-6">🎰 Blackjack - Raggiungi 21</h2>
+                        
+                        <div class="game-info">
+                            <p class="text-lg mb-2">Banco: <span id="dealerCards"></span> = <span id="dealerScore">0</span></p>
+                        </div>
+                        <div class="flex justify-center gap-4 mb-6" id="dealerHand"></div>
 
-                    <div class="action-buttons">
-                        <button class="btn-primary text-white px-6 py-2 rounded-full" id="hitBtn" onclick="blackjackHit()">Hit</button>
+                        <div class="game-info">
+                            <p class="text-lg mb-2">Tu: <span id="playerCards"></span> = <span id="playerScore">0</span></p>
+                        </div>
+                        <div class="flex justify-center gap-4 mb-6" id="playerHand"></div>
+
+                        <div class="game-info" id="gameMessage"></div>
+
+                        <div class="action-buttons">
+                            <button class="btn-primary text-white px-6 py-2 rounded-full" id="hitBtn" onclick="blackjackHit()">Hit</button>
                         <button class="bg-gray-700 text-white px-6 py-2 rounded-full" id="standBtn" onclick="blackjackStand()">Stand</button>
-                        <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetBlackjack()">Nuova Partita</button>
+                        <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetBlackjackGame()">Nuova Partita</button>
+                        <button class="btn-primary text-white px-6 py-2 rounded-full bg-gray-700 hover:bg-gray-600" onclick="goToCardsMenù()">← Menu Principale</button>
                     </div>
                     
                     <div class="game-info mt-4">
                         <p class="text-sm text-gray-300">Bilancio: $<span id="balance">100</span></p>
+                        <p class="text-sm text-gray-300">Puntata: $<span id="currentBet">10</span></p>
+                    </div>
+                    </div>
+
+                    <!-- Leaderboard Screen -->
+                    <div id="cardsLeaderboardScreen" style="display: none;" class="text-center">
+                        <h2 class="text-3xl font-bold mb-8">🏆 Classifica</h2>
+                        <div id="cardsLeaderboardList" class="mb-8"></div>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="goToCardsMenù()">← Torna Indietro</button>
                     </div>
                 </div>
             </div>
@@ -111,43 +143,166 @@
             <!-- UNO Game -->
             <div id="uno" class="game-section">
                 <div class="glass-card p-8 max-w-3xl mx-auto">
-                    <h2 class="text-2xl font-bold text-center mb-6">🌈 UNO - Scarta le Carte</h2>
-                    
-                    <div class="game-info">
-                        <p class="text-lg mb-4" id="unoTurnText">Turno: Tu</p>
-                        <div class="flex justify-center gap-4 mb-6">
-                            <div style="text-align: center;">
-                                <p class="text-xs text-gray-400 mb-2">Mazzo</p>
-                                <div class="uno-card uno-wild" id="unoDeck" onclick="drawUNOCard()">📚</div>
-                            </div>
-                            <div style="text-align: center;">
-                                <p class="text-xs text-gray-400 mb-2">Tavolo</p>
-                                <div class="uno-card" id="unoTable"></div>
-                            </div>
-                            <div style="text-align: center;">
-                                <p class="text-xs text-gray-400 mb-2">AI Carte</p>
-                                <div class="uno-card uno-wild" style="opacity: 0.7;">📚</div>
-                                <p class="text-xs text-gray-300 mt-2"><span id="aiCardCount">7</span> carte</p>
+                    <!-- Start Screen -->
+                    <div id="unoStartScreen" class="text-center">
+                        <h2 class="text-2xl font-bold text-center mb-6">🌈 UNO - Scarta le Carte</h2>
+                        <p class="text-lg text-gray-300 mb-6">Inserisci il tuo nome per iniziare:</p>
+                        <input type="text" id="unoPlayerName" placeholder="Il tuo nome..." class="w-full max-w-md px-4 py-3 rounded-lg bg-rgba(0,102,255,0.2) border border-rgba(0,212,255,0.5) text-white mb-6" maxlength="20">
+                        <br>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="initializeUNO()">Inizia a Giocare</button>
+                        <br><br>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600" onclick="showCardsLeaderboard('uno')">📊 Classifica</button>
+                    </div>
+
+                    <!-- Game Screen -->
+                    <div id="unoGameScreen" style="display: none;">
+                        <div class="player-info">
+                            <p class="text-sm text-gray-300">Giocatore: <strong id="unoPlayerDisplay"></strong></p>
+                        </div>
+
+                        <h2 class="text-2xl font-bold text-center mb-6">🌈 UNO - Scarta le Carte</h2>
+                        
+                        <div class="game-info">
+                            <p class="text-lg mb-4" id="unoTurnText">Turno: Tu</p>
+                            <div class="flex justify-center gap-4 mb-6">
+                                <div style="text-align: center;">
+                                    <p class="text-xs text-gray-400 mb-2">Mazzo</p>
+                                    <div class="uno-card uno-wild" id="unoDeck" onclick="drawUNOCard()">📚</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <p class="text-xs text-gray-400 mb-2">Tavolo</p>
+                                    <div class="uno-card" id="unoTable"></div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <p class="text-xs text-gray-400 mb-2">AI Carte</p>
+                                    <div class="uno-card uno-wild" style="opacity: 0.7;">📚</div>
+                                    <p class="text-xs text-gray-300 mt-2"><span id="aiCardCount">7</span> carte</p>
+                                </div>
                             </div>
                         </div>
+
+                        <p class="text-center text-sm text-gray-300 mb-4">Le Tue Carte:</p>
+                        <div class="hand-container" id="unoHand"></div>
+
+                        <div class="action-buttons">
+                            <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="playUNO()">Gioca Carta</button>
+                            <button class="bg-gray-700 text-white px-6 py-2 rounded-full" onclick="drawUNOCard()">Pesca</button>
+                            <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetUNOGame()">Nuova Partita</button>
+                            <button class="btn-primary text-white px-6 py-2 rounded-full bg-gray-700 hover:bg-gray-600" onclick="goToCardsMenù()">← Menu Principale</button>
+                        </div>
+
+                        <div class="game-info mt-6" id="unoMessage"></div>
                     </div>
 
-                    <p class="text-center text-sm text-gray-300 mb-4">Le Tue Carte:</p>
-                    <div class="hand-container" id="unoHand"></div>
-
-                    <div class="action-buttons">
-                        <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="playUNO()">Gioca Carta</button>
-                        <button class="bg-gray-700 text-white px-6 py-2 rounded-full" onclick="drawUNOCard()">Pesca</button>
-                        <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetUNO()">Nuova Partita</button>
+                    <!-- Leaderboard Screen -->
+                    <div id="unoLeaderboardScreen" style="display: none;" class="text-center">
+                        <h2 class="text-3xl font-bold mb-8">🏆 Classifica UNO</h2>
+                        <div id="unoLeaderboardList" class="mb-8"></div>
+                        <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="goToCardsMenù()">← Torna Indietro</button>
                     </div>
-
-                    <div class="game-info mt-6" id="unoMessage"></div>
-                </div>
-            </div>
         </div>
     </div>
 
     <script>
+        // ==================== PLAYER & LEADERBOARD MANAGEMENT ====================
+        const CARDS_GAME_NAME = 'cards';
+        let cardsPlayerName = '';
+        let currentCardGame = 'blackjack';
+
+        function initializeCards() {
+            const nameInput = document.getElementById('cardsPlayerName').value.trim();
+            if (!nameInput) {
+                alert('Inserisci il tuo nome per continuare!');
+                return;
+            }
+            cardsPlayerName = nameInput;
+            document.getElementById('cardsStartScreen').style.display = 'none';
+            document.getElementById('cardsGameScreen').style.display = 'block';
+            document.getElementById('cardsLeaderboardScreen').style.display = 'none';
+            document.getElementById('cardsPlayerDisplay').textContent = cardsPlayerName;
+            resetBlackjack();
+        }
+
+        function initializeUNO() {
+            const nameInput = document.getElementById('unoPlayerName').value.trim();
+            if (!nameInput) {
+                alert('Inserisci il tuo nome per continuare!');
+                return;
+            }
+            cardsPlayerName = nameInput;
+            document.getElementById('unoStartScreen').style.display = 'none';
+            document.getElementById('unoGameScreen').style.display = 'block';
+            document.getElementById('unoLeaderboardScreen').style.display = 'none';
+            document.getElementById('unoPlayerDisplay').textContent = cardsPlayerName;
+            resetUNO();
+        }
+
+        function goToCardsMenù() {
+            // Salva il punteggio attuale prima di tornare al menu
+            if (currentCardGame === 'blackjack' && cardsPlayerName) {
+                saveCardsScore('blackjack', cardsPlayerName, balance);
+            }
+            cardsPlayerName = '';
+            document.getElementById('cardsStartScreen').style.display = 'block';
+            document.getElementById('cardsGameScreen').style.display = 'none';
+            document.getElementById('cardsLeaderboardScreen').style.display = 'none';
+            document.getElementById('unoStartScreen').style.display = 'block';
+            document.getElementById('unoGameScreen').style.display = 'none';
+            document.getElementById('unoLeaderboardScreen').style.display = 'none';
+            document.getElementById('cardsPlayerName').value = '';
+            document.getElementById('unoPlayerName').value = '';
+        }
+
+        function saveCardsScore(game, name, score) {
+            const key = `${CARDS_GAME_NAME}_${game}`;
+            let scores = JSON.parse(localStorage.getItem(key) || '[]');
+            scores.push({
+                name: name || 'Anonimo',
+                score: score,
+                date: new Date().toLocaleDateString('it-IT')
+            });
+            scores.sort((a, b) => b.score - a.score);
+            localStorage.setItem(key, JSON.stringify(scores.slice(0, 20))); // Top 20
+        }
+
+        function getCardsLeaderboard(game) {
+            const key = `${CARDS_GAME_NAME}_${game}`;
+            return JSON.parse(localStorage.getItem(key) || '[]');
+        }
+
+        function showCardsLeaderboard(game) {
+            currentCardGame = game;
+            const scores = getCardsLeaderboard(game);
+            const gameLabel = game === 'blackjack' ? '🎰 Blackjack' : '🌈 UNO';
+            
+            let html = '';
+            if (scores.length === 0) {
+                html = '<p class="text-gray-400">Ancora nessun punteggio registrato. Inizia il gioco!</p>';
+            } else {
+                scores.forEach((entry, index) => {
+                    html += `
+                        <div class="leaderboard-item">
+                            <span class="leaderboard-rank">#${index + 1}</span>
+                            <span class="leaderboard-name">${entry.name}</span>
+                            <span class="leaderboard-score">$${entry.score} - ${entry.date}</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            if (game === 'blackjack') {
+                document.getElementById('cardsStartScreen').style.display = 'none';
+                document.getElementById('cardsGameScreen').style.display = 'none';
+                document.getElementById('cardsLeaderboardScreen').style.display = 'block';
+                document.getElementById('cardsLeaderboardList').innerHTML = html;
+            } else {
+                document.getElementById('unoStartScreen').style.display = 'none';
+                document.getElementById('unoGameScreen').style.display = 'none';
+                document.getElementById('unoLeaderboardScreen').style.display = 'block';
+                document.getElementById('unoLeaderboardList').innerHTML = html;
+            }
+        }
+
         // ==================== BLACKJACK ====================
         const suits = ['♠', '♥', '♦', '♣'];
         const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -207,6 +362,14 @@
 
             const playerDiv = document.getElementById('playerHand');
             playerDiv.innerHTML = playerHand.map(c => `<div class="card ${['♥', '♦'].includes(c.slice(-1)) ? 'red-card' : 'black-card'}">${c.slice(0, -1)}<br>${c.slice(-1)}</div>`).join('');
+        }
+
+        function resetBlackjackGame() {
+            if (cardsPlayerName) {
+                saveCardsScore('blackjack', cardsPlayerName, balance);
+            }
+            balance = 100;
+            resetBlackjack();
         }
 
         function resetBlackjack() {
@@ -306,6 +469,15 @@
         function drawUNOCard() {
             if (unoDeck.length === 0) unoDeck = createUNODeck();
             return unoDeck.pop();
+        }
+
+        function resetUNOGame() {
+            if (cardsPlayerName) {
+                // In UNO, il punteggio è il numero di carte rimanenti (minore è meglio)
+                let unoScore = 100 - unoPlayerHand.length * 5;
+                saveCardsScore('uno', cardsPlayerName, Math.max(0, unoScore));
+            }
+            resetUNO();
         }
 
         function resetUNO() {

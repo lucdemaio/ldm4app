@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Arcade Games</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="leaderboard.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; overflow-x: hidden; }
+        h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; padding: 12px 24px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .tab-btn { padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; min-height: 48px; display: inline-flex; align-items: center; touch-action: manipulation; font-size: 13px; }
+        .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
+        .game-section { display: none; }
+        .game-section.active { display: block; }
+        .memory-card { width: 60px; height: 60px; background: linear-gradient(135deg, #0066ff, #00d4ff); border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: all 0.3s; user-select: none; }
+        .memory-card:hover { transform: scale(1.05); }
+        .memory-card.flipped { background: rgba(255,255,255,0.1); }
+        .memory-card.matched { background: #10b981; cursor: default; }
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 16px; background: rgba(0,102,255,0.1); border-radius: 8px; margin: 8px 0; border-left: 4px solid #0066ff; }
+        .leaderboard-rank { font-weight: bold; color: #00d4ff; min-width: 30px; }
+        .leaderboard-name { flex: 1; margin-left: 16px; }
+        .leaderboard-score { font-weight: bold; color: #10b981; }
+        .player-info { text-align: center; padding: 12px; background: rgba(0,102,255,0.1); border-radius: 8px; margin-bottom: 16px; }
+        
+        @media (max-width: 768px) {
+            .tab-btn { padding: 10px 14px; font-size: 12px; }
+            .memory-card { width: 50px; height: 50px; font-size: 20px; }
+        }
+        
+        @media (max-width: 480px) {
+            .tab-btn { padding: 8px 10px; font-size: 11px; }
+            .memory-card { width: 45px; height: 45px; font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold"><a href="tesla.html">LDM4APP Memory</a></div>
+            <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Giochi</a>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">🧠 Memory Games</h1>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center gap-2 mb-8 flex-wrap">
+                <button class="tab-btn active" onclick="switchMemoryGame('start')">🎮 Menu</button>
+                <button class="tab-btn inactive" onclick="switchMemoryGame('pairs')">🎴 Pairs</button>
+                <button class="tab-btn inactive" onclick="switchMemoryGame('sequence')">📊 Sequenza</button>
+                <button class="tab-btn inactive" onclick="switchMemoryGame('digits')">🔢 Numeri</button>
+                <button class="tab-btn inactive" onclick="switchMemoryGame('colors')">🎨 Colori</button>
+                <button class="tab-btn inactive" onclick="switchMemoryGame('pattern')">✨ Pattern</button>
+            </div>
+
+            <!-- Menu Screen -->
+            <div id="startScreen" class="game-section active">
+                <div class="glass-card p-8 max-w-3xl mx-auto text-center">
+                    <h2 class="text-2xl font-bold mb-6">Inserisci il tuo nome</h2>
+                    <input type="text" id="memoryPlayerName" placeholder="Il tuo nome..." class="w-full max-w-md px-4 py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-white mb-6" maxlength="20">
+                    <button class="btn-primary text-white px-8 py-3 rounded-full mr-4" onclick="initMemory()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600" onclick="showMemoryLeaderboard()">📊 Classifica</button>
+                </div>
+            </div>
+
+            <!-- Memory Pairs Game -->
+            <div id="pairsScreen" class="game-section">
+                <div class="glass-card p-8 max-w-3xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="pairsPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🎴 Memory Pairs</h2>
+                    <p class="text-gray-300 mb-4">Abbina le coppie di carte identiche!</p>
+                    <div class="flex justify-around mb-6">
+                        <div><p class="text-sm text-gray-400">Coppie</p><p id="pairscount" class="text-2xl font-bold">0/6</p></div>
+                        <div><p class="text-sm text-gray-400">Mosse</p><p id="pairsmoves" class="text-2xl font-bold">0</p></div>
+                    </div>
+                    <div id="pairsGrid" class="grid grid-cols-4 gap-3 w-fit mx-auto mb-6 justify-items-center">
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startPairsGame()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goMemoryMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Sequence Memory Game -->
+            <div id="sequenceScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="sequencePlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">📊 Memoria Sequenza</h2>
+                    <p class="text-gray-300 mb-4">Ripeti la sequenza di colori!</p>
+                    <p id="sequenceLevel" class="text-lg text-cyan-400 mb-6">Livello: <span id="sequenceLevelNum">1</span></p>
+                    <div id="sequenceButtons" class="grid grid-cols-2 gap-4 w-64 mx-auto mb-6">
+                        <div class="sequence-btn w-20 h-20 bg-red-500 rounded-lg cursor-pointer" data-color="red" onclick="selectSequenceColor('red')"></div>
+                        <div class="sequence-btn w-20 h-20 bg-blue-500 rounded-lg cursor-pointer" data-color="blue" onclick="selectSequenceColor('blue')"></div>
+                        <div class="sequence-btn w-20 h-20 bg-yellow-500 rounded-lg cursor-pointer" data-color="yellow" onclick="selectSequenceColor('yellow')"></div>
+                        <div class="sequence-btn w-20 h-20 bg-green-500 rounded-lg cursor-pointer" data-color="green" onclick="selectSequenceColor('green')"></div>
+                    </div>
+                    <p id="sequenceMsg" class="text-gray-300 mb-6">Premi Inizia per cominciare</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startSequenceGame()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goMemoryMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Digits Memory -->
+            <div id="digitsScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="digitsPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🔢 Ricorda i Numeri</h2>
+                    <p class="text-gray-300 mb-4">Memorizza la sequenza di numeri!</p>
+                    <div id="digitsDisplay" class="text-6xl font-bold text-cyan-400 mb-6 h-20 flex items-center justify-center">
+                        ---
+                    </div>
+                    <input type="text" id="digitsInput" placeholder="Inserisci i numeri..." class="w-full max-w-xs px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-white mb-4" maxlength="10">
+                    <p id="digitsMsg" class="text-gray-300 mb-6">Lunghezza: ---</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startDigitsGame()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goMemoryMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Colors Memory -->
+            <div id="colorsScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="colorsPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🎨 Memoria Colori</h2>
+                    <p class="text-gray-300 mb-4">Clicca i colori nell'ordine mostrato!</p>
+                    <div id="colorsSequenceDisplay" class="flex gap-2 justify-center mb-4 h-8">
+                    </div>
+                    <div id="colorGrid" class="grid grid-cols-3 gap-3 w-fit mx-auto mb-6">
+                    </div>
+                    <p id="colorsMsg" class="text-gray-300 mb-6">Pronto...</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startColorsGame()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goMemoryMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Pattern Memory -->
+            <div id="patternScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="patternPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">✨ Pattern Memory</h2>
+                    <p class="text-gray-300 mb-4">Ricorda il pattern di quadrati!</p>
+                    <p id="patternScore" class="text-lg text-cyan-400 mb-6">Punteggio: 0</p>
+                    <div id="patternGrid" class="grid grid-cols-4 gap-2 w-fit mx-auto mb-6">
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startPatternGame()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goMemoryMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div id="memoryLeaderboardScreen" style="display: none;">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold mb-8">🏆 Classifica Memory Games</h2>
+                    <div id="memoryLeaderboardList" class="mb-8"></div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="goMemoryMenu()">← Torna Indietro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let memoryLeaderboard = new ArcadeLeaderboard('memory-arcade');
+        let currentMemoryPlayer = '';
+
+        function switchMemoryGame(game) {
+            document.querySelectorAll('.game-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(game + 'Screen').classList.add('active');
+        }
+
+        function initMemory() {
+            const name = document.getElementById('memoryPlayerName').value.trim();
+            if (!name) { alert('Inserisci nome!'); return; }
+            currentMemoryPlayer = name;
+            memoryLeaderboard.setPlayerName(name);
+            document.getElementById('pairsPlayerDisplay').textContent = name;
+            document.getElementById('sequencePlayerDisplay').textContent = name;
+            document.getElementById('digitsPlayerDisplay').textContent = name;
+            document.getElementById('colorsPlayerDisplay').textContent = name;
+            document.getElementById('patternPlayerDisplay').textContent = name;
+            switchMemoryGame('pairs');
+        }
+
+        function goMemoryMenu() {
+            switchMemoryGame('start');
+        }
+
+        function showMemoryLeaderboard() {
+            const html = memoryLeaderboard.generateLeaderboardHTML(20);
+            document.getElementById('memoryLeaderboardList').innerHTML = html;
+            switchMemoryGame('memoryLeaderboard');
+        }
+
+        // ==================== PAIRS GAME ====================
+        let pairsCards = [], pairsMatched = 0, pairsMoves = 0, pairsLocked = false;
+
+        function startPairsGame() {
+            pairsCards = [];
+            pairsMatched = 0;
+            pairsMoves = 0;
+            pairsLocked = false;
+            const emojis = ['🍎', '🍌', '🍒', '🍓', '🍑', '🥝'];
+            const deck = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+            const grid = document.getElementById('pairsGrid');
+            grid.innerHTML = '';
+            deck.forEach((emoji, idx) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.emoji = emoji;
+                card.dataset.idx = idx;
+                card.textContent = '?';
+                card.onclick = () => flipPairsCard(card);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipPairsCard(card) {
+            if (pairsLocked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+            card.classList.add('flipped');
+            card.textContent = card.dataset.emoji;
+            const flipped = document.querySelectorAll('.memory-card.flipped:not(.matched)');
+            if (flipped.length === 2) {
+                pairsMoves++;
+                document.getElementById('pairsmoves').textContent = pairsMoves;
+                pairsLocked = true;
+                if (flipped[0].dataset.emoji === flipped[1].dataset.emoji) {
+                    flipped[0].classList.add('matched');
+                    flipped[1].classList.add('matched');
+                    pairsMatched++;
+                    document.getElementById('pairscount').textContent = pairsMatched + '/6';
+                    pairsLocked = false;
+                    if (pairsMatched === 6) {
+                        memoryLeaderboard.saveScore(currentMemoryPlayer, pairsMoves);
+                        alert(`Vinto! Mosse: ${pairsMoves}`);
+                    }
+                } else {
+                    setTimeout(() => {
+                        flipped[0].classList.remove('flipped');
+                        flipped[1].classList.remove('flipped');
+                        flipped[0].textContent = '?';
+                        flipped[1].textContent = '?';
+                        pairsLocked = false;
+                    }, 800);
+                }
+            }
+        }
+
+        // ==================== SEQUENCE GAME ====================
+        let sequenceGame = [], sequencePlayer = [], sequenceLevel = 0;
+
+        function startSequenceGame() {
+            sequenceGame = [];
+            sequencePlayer = [];
+            sequenceLevel = 0;
+            document.getElementById('sequenceLevelNum').textContent = '1';
+            sequenceAddColor();
+        }
+
+        function sequenceAddColor() {
+            sequenceLevel++;
+            sequencePlayer = [];
+            document.getElementById('sequenceLevelNum').textContent = sequenceLevel;
+            const colors = ['red', 'blue', 'yellow', 'green'];
+            sequenceGame.push(colors[Math.floor(Math.random() * 4)]);
+            sequencePlaySequence();
+        }
+
+        function sequencePlaySequence() {
+            document.getElementById('sequenceMsg').textContent = 'Osserva...';
+            const buttons = document.querySelectorAll('.sequence-btn');
+            buttons.forEach(btn => btn.style.opacity = '0.5');
+            let delay = 400;
+            sequenceGame.forEach((color, idx) => {
+                setTimeout(() => {
+                    const btn = document.querySelector(`[data-color="${color}"]`);
+                    btn.style.opacity = '1';
+                    setTimeout(() => btn.style.opacity = '0.5', 300);
+                }, delay);
+                delay += 600;
+            });
+            setTimeout(() => {
+                buttons.forEach(btn => btn.style.opacity = '1');
+                document.getElementById('sequenceMsg').textContent = 'Tocca i colori nell\'ordine...';
+            }, delay);
+        }
+
+        function selectSequenceColor(color) {
+            if (sequencePlayer.length < sequenceGame.length) {
+                sequencePlayer.push(color);
+                if (color !== sequenceGame[sequencePlayer.length - 1]) {
+                    document.getElementById('sequenceMsg').textContent = `Game Over! Livello: ${sequenceLevel}`;
+                    memoryLeaderboard.saveScore(currentMemoryPlayer, sequenceLevel);
+                    return;
+                }
+                if (sequencePlayer.length === sequenceGame.length) {
+                    document.getElementById('sequenceMsg').textContent = 'Corretto! Prossimo livello...';
+                    setTimeout(sequenceAddColor, 800);
+                }
+            }
+        }
+
+        // ==================== DIGITS GAME ====================
+        let digitsSequence = '', digitsLength = 3;
+
+        function startDigitsGame() {
+            digitsLength = 3;
+            digitsSequence = '';
+            for (let i = 0; i < digitsLength; i++) {
+                digitsSequence += Math.floor(Math.random() * 10);
+            }
+            document.getElementById('digitsMsg').textContent = 'Lunghezza: ' + digitsLength;
+            document.getElementById('digitsDisplay').textContent = digitsSequence;
+            document.getElementById('digitsInput').value = '';
+            setTimeout(() => {
+                document.getElementById('digitsDisplay').textContent = '---';
+                document.getElementById('digitsInput').focus();
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const digitsInput = document.getElementById('digitsInput');
+            if (digitsInput) {
+                digitsInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && digitsInput.value === digitsSequence) {
+                        digitsLength++;
+                        startDigitsGame();
+                    } else if (e.key === 'Enter') {
+                        memoryLeaderboard.saveScore(currentMemoryPlayer, digitsLength - 1);
+                        alert(`Game Over! Lunghezza massima: ${digitsLength - 1}`);
+                    }
+                });
+            }
+        });
+
+        // ==================== COLORS GAME ====================
+        let colorsSequence = [], colorsPlayer = [];
+
+        function startColorsGame() {
+            colorsSequence = [];
+            colorsPlayer = [];
+            const colors = ['red', 'blue', 'yellow', 'green', 'purple', 'pink', 'cyan', 'orange'];
+            const grid = document.getElementById('colorGrid');
+            grid.innerHTML = '';
+            colors.forEach(color => {
+                const btn = document.createElement('div');
+                btn.style.width = '60px';
+                btn.style.height = '60px';
+                btn.style.backgroundColor = color;
+                btn.style.borderRadius = '8px';
+                btn.style.cursor = 'pointer';
+                btn.style.opacity = '0.7';
+                btn.onclick = () => {
+                    colorsPlayer.push(color);
+                    if (color === colorsSequence[colorsPlayer.length - 1]) {
+                        if (colorsPlayer.length === colorsSequence.length) {
+                            colorsSequence.push(colors[Math.floor(Math.random() * colors.length)]);
+                            colorsPlayer = [];
+                            document.getElementById('colorsMsg').textContent = 'Prossimo livello...';
+                            setTimeout(() => displayColorsSequence(), 800);
+                        }
+                    } else {
+                        memoryLeaderboard.saveScore(currentMemoryPlayer, colorsSequence.length);
+                        alert(`Game Over! Livello: ${colorsSequence.length}`);
+                    }
+                };
+                grid.appendChild(btn);
+            });
+            colorsSequence.push(colors[Math.floor(Math.random() * colors.length)]);
+            displayColorsSequence();
+        }
+
+        function displayColorsSequence() {
+            const display = document.getElementById('colorsSequenceDisplay');
+            display.innerHTML = '';
+            colorsSequence.forEach(color => {
+                const div = document.createElement('div');
+                div.style.width = '20px';
+                div.style.height = '20px';
+                div.style.backgroundColor = color;
+                div.style.borderRadius = '50%';
+                display.appendChild(div);
+            });
+        }
+
+        // ==================== PATTERN GAME ====================
+        let patternSequence = [], patternScore = 0, patternSize = 4;
+
+        function startPatternGame() {
+            patternSequence = [];
+            patternScore = 0;
+            document.getElementById('patternScore').textContent = 'Punteggio: 0';
+            createPatternGrid();
+        }
+
+        function createPatternGrid() {
+            const grid = document.getElementById('patternGrid');
+            grid.innerHTML = '';
+            for (let i = 0; i < patternSize * patternSize; i++) {
+                const cell = document.createElement('div');
+                cell.style.width = '40px';
+                cell.style.height = '40px';
+                cell.style.backgroundColor = 'rgba(0, 212, 255, 0.3)';
+                cell.style.border = '1px solid #00d4ff';
+                cell.style.borderRadius = '4px';
+                cell.style.cursor = 'pointer';
+                cell.dataset.idx = i;
+                cell.onclick = () => selectPatternCell(i);
+                grid.appendChild(cell);
+            }
+        }
+
+        function selectPatternCell(idx) {
+            patternScore++;
+            document.getElementById('patternScore').textContent = 'Punteggio: ' + patternScore;
+        }
+    </script>
+</body>
+</html>

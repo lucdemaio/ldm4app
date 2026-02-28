@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Arcade Games</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="leaderboard.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; overflow-x: hidden; }
+        h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; padding: 12px 24px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .tab-btn { padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; min-height: 48px; display: inline-flex; align-items: center; touch-action: manipulation; font-size: 13px; }
+        .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
+        .game-section { display: none; }
+        .game-section.active { display: block; }
+        .word-letter-btn { width: 40px; height: 40px; background: linear-gradient(135deg, #0066ff, #00d4ff); border: 2px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: all 0.2s; }
+        .word-letter-btn:hover { transform: scale(1.1); }
+        .word-letter-btn.used { opacity: 0.3; cursor: not-allowed; }
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 16px; background: rgba(0,102,255,0.1); border-radius: 8px; margin: 8px 0; border-left: 4px solid #0066ff; }
+        .leaderboard-rank { font-weight: bold; color: #00d4ff; min-width: 30px; }
+        .leaderboard-name { flex: 1; margin-left: 16px; }
+        .leaderboard-score { font-weight: bold; color: #10b981; }
+        .player-info { text-align: center; padding: 12px; background: rgba(0,102,255,0.1); border-radius: 8px; margin-bottom: 16px; }
+        
+        @media (max-width: 768px) {
+            .tab-btn { padding: 10px 14px; font-size: 12px; }
+            .word-letter-btn { width: 35px; height: 35px; }
+        }
+        
+        @media (max-width: 480px) {
+            .tab-btn { padding: 8px 10px; font-size: 11px; }
+            .word-letter-btn { width: 32px; height: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold"><a href="tesla.html">LDM4APP Words</a></div>
+            <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Giochi</a>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">📚 Word Games</h1>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center gap-2 mb-8 flex-wrap">
+                <button class="tab-btn active" onclick="switchWordGame('start')">🎮 Menu</button>
+                <button class="tab-btn inactive" onclick="switchWordGame('hangman')">🎯 Hangman</button>
+                <button class="tab-btn inactive" onclick="switchWordGame('scramble')">🔀 Scramble</button>
+                <button class="tab-btn inactive" onclick="switchWordGame('typing')">⌨️ Typing</button>
+                <button class="tab-btn inactive" onclick="switchWordGame('wordsearch')">🔍 Search</button>
+                <button class="tab-btn inactive" onclick="switchWordGame('rhyme')">🎵 Rhyme</button>
+            </div>
+
+            <!-- Menu Screen -->
+            <div id="startScreen" class="game-section active">
+                <div class="glass-card p-8 max-w-3xl mx-auto text-center">
+                    <h2 class="text-2xl font-bold mb-6">Inserisci il tuo nome</h2>
+                    <input type="text" id="wordPlayerName" placeholder="Il tuo nome..." class="w-full max-w-md px-4 py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-white mb-6" maxlength="20">
+                    <button class="btn-primary text-white px-8 py-3 rounded-full mr-4" onclick="initWord()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600" onclick="showWordLeaderboard()">📊 Classifica</button>
+                </div>
+            </div>
+
+            <!-- Hangman Game -->
+            <div id="hangmanScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="hangmanPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🎯 Hangman</h2>
+                    <p class="text-gray-300 mb-4">Indovina le lettere della parola!</p>
+                    <div class="flex justify-around mb-6">
+                        <div><p class="text-sm text-gray-400">Errori</p><p id="hangmanErrors" class="text-2xl font-bold">0/6</p></div>
+                        <div><p class="text-sm text-gray-400">Vinte</p><p id="hangmanWins" class="text-2xl font-bold">0</p></div>
+                    </div>
+                    <p id="hangmanWord" class="text-4xl font-bold tracking-widest mb-6">_ _ _ _ _ _</p>
+                    <div id="hangmanLetters" class="flex flex-wrap gap-2 justify-center mb-6">
+                    </div>
+                    <p id="hangmanMsg" class="text-gray-300 mb-6">Inizia il gioco!</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startHangman()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goWordMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Scramble Game -->
+            <div id="scrambleScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="scramblePlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🔀 Word Scramble</h2>
+                    <p class="text-gray-300 mb-4">Riordina le lettere e indovina la parola!</p>
+                    <p id="scrambleScrambled" class="text-3xl font-bold text-cyan-400 mb-4">LOADING...</p>
+                    <input type="text" id="scrambleInput" placeholder="Indovina..." class="w-full max-w-xs px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-white mb-4" maxlength="15">
+                    <p id="scrambleScore" class="text-lg text-gray-300 mb-6">Punteggio: 0</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startScramble()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goWordMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Typing Speed -->
+            <div id="typingScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="typingPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">⌨️ Typing Speed</h2>
+                    <p class="text-gray-300 mb-4">Digita il testo il più velocemente possibile!</p>
+                    <p id="typingTarget" class="text-lg text-cyan-400 mb-4 h-12 flex items-center justify-center">Leggi il testo...</p>
+                    <textarea id="typingInput" placeholder="Digita qui..." class="w-full px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-white mb-4 h-20" maxlength="200"></textarea>
+                    <div class="flex justify-around mb-6">
+                        <div><p class="text-sm text-gray-400">Tempo</p><p id="typingTimer" class="text-2xl font-bold">30s</p></div>
+                        <div><p class="text-sm text-gray-400">WPM</p><p id="typingWPM" class="text-2xl font-bold">0</p></div>
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startTyping()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goWordMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Word Search -->
+            <div id="wordsearchScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="wordsearchPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🔍 Word Search</h2>
+                    <p class="text-gray-300 mb-4">Trova le parole nascoste!</p>
+                    <p id="wordsearchFound" class="text-lg text-cyan-400 mb-4">Trovate: 0/5</p>
+                    <div id="wordsearchGrid" class="text-center font-mono text-xl mb-6">
+                    </div>
+                    <p id="wordsearchWords" class="text-sm text-gray-300 mb-4">Parole: APPLE, BANANA, CHERRY, DRAGON, EAGLE</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startWordSearch()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goWordMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Rhyme Time -->
+            <div id="rhymeScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="rhymePlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🎵 Rhyme Time</h2>
+                    <p class="text-gray-300 mb-4">Trova le parole che rimano!</p>
+                    <p id="rhymeWord" class="text-4xl font-bold text-cyan-400 mb-6">LOADING...</p>
+                    <div id="rhymeOptions" class="space-y-3 mb-6">
+                    </div>
+                    <p id="rhymeScore" class="text-lg text-gray-300 mb-6">Punteggio: 0</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startRhyme()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goWordMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div id="wordLeaderboardScreen" style="display: none;">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold mb-8">🏆 Classifica Word Games</h2>
+                    <div id="wordLeaderboardList" class="mb-8"></div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="goWordMenu()">← Torna Indietro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WORDS = ['APPLE', 'BANANA', 'CHERRY', 'DRAGON', 'EAGLE', 'FOREST', 'GUITAR', 'HOUSE', 'ISLAND', 'JUNGLE', 'KEYBOARD', 'LAPTOP', 'MOUNTAIN', 'NATURE', 'ORANGE', 'PIANO', 'QUALITY', 'RIVER', 'SUNRISE', 'TABLE'];
+        const RHYMES = {
+            'CAT': ['BAT', 'HAT', 'MAT', 'RAT'],
+            'DOG': ['BOG', 'COG', 'FOG', 'LOG'],
+            'MAKE': ['BAKE', 'CAKE', 'FAKE', 'LAKE'],
+            'RUN': ['BUN', 'FUN', 'GUN', 'SUN'],
+            'PLAY': ['DAY', 'GAY', 'HAY', 'MAY']
+        };
+
+        let wordLeaderboard = new ArcadeLeaderboard('word-arcade');
+        let currentWordPlayer = '';
+
+        function switchWordGame(game) {
+            document.querySelectorAll('.game-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(game + 'Screen').classList.add('active');
+        }
+
+        function initWord() {
+            const name = document.getElementById('wordPlayerName').value.trim();
+            if (!name) { alert('Inserisci nome!'); return; }
+            currentWordPlayer = name;
+            wordLeaderboard.setPlayerName(name);
+            document.getElementById('hangmanPlayerDisplay').textContent = name;
+            document.getElementById('scramblePlayerDisplay').textContent = name;
+            document.getElementById('typingPlayerDisplay').textContent = name;
+            document.getElementById('wordsearchPlayerDisplay').textContent = name;
+            document.getElementById('rhymePlayerDisplay').textContent = name;
+            switchWordGame('hangman');
+        }
+
+        function goWordMenu() {
+            switchWordGame('start');
+        }
+
+        function showWordLeaderboard() {
+            const html = wordLeaderboard.generateLeaderboardHTML(20);
+            document.getElementById('wordLeaderboardList').innerHTML = html;
+            switchWordGame('wordLeaderboard');
+        }
+
+        // ==================== HANGMAN ====================
+        let hangmanWord = '', hangmanGuessed = new Set(), hangmanErrors = 0, hangmanWins = 0;
+
+        function startHangman() {
+            hangmanWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+            hangmanGuessed = new Set();
+            hangmanErrors = 0;
+            const letters = document.getElementById('hangmanLetters');
+            letters.innerHTML = '';
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
+                const btn = document.createElement('button');
+                btn.textContent = letter;
+                btn.className = 'word-letter-btn';
+                btn.onclick = () => hangmanGuess(letter, btn);
+                letters.appendChild(btn);
+            });
+            updateHangmanDisplay();
+        }
+
+        function hangmanGuess(letter, btn) {
+            if (hangmanGuessed.has(letter)) return;
+            hangmanGuessed.add(letter);
+            btn.classList.add('used');
+            if (!hangmanWord.includes(letter)) {
+                hangmanErrors++;
+            }
+            updateHangmanDisplay();
+        }
+
+        function updateHangmanDisplay() {
+            const display = hangmanWord.split('').map(l => hangmanGuessed.has(l) ? l : '_').join(' ');
+            document.getElementById('hangmanWord').textContent = display;
+            document.getElementById('hangmanErrors').textContent = hangmanErrors + '/6';
+            if (hangmanErrors >= 6) {
+                document.getElementById('hangmanMsg').textContent = `Perso! Parola: ${hangmanWord}`;
+                wordLeaderboard.saveScore(currentWordPlayer, hangmanWins);
+            } else if (!display.includes('_')) {
+                hangmanWins++;
+                document.getElementById('hangmanWins').textContent = hangmanWins;
+                document.getElementById('hangmanMsg').textContent = 'Vinto!';
+                setTimeout(startHangman, 1500);
+            }
+        }
+
+        // ==================== SCRAMBLE ====================
+        let scrambleWord = '';
+
+        function startScramble() {
+            scrambleWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+            const scrambled = scrambleWord.split('').sort(() => Math.random() - 0.5).join('');
+            document.getElementById('scrambleScrambled').textContent = scrambled;
+            document.getElementById('scrambleInput').value = '';
+            document.getElementById('scrambleInput').focus();
+            document.getElementById('scrambleScore').textContent = 'Punteggio: 0';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrambleInput = document.getElementById('scrambleInput');
+            if (scrambleInput) {
+                scrambleInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && e.target.value.toUpperCase() === scrambleWord) {
+                        const score = parseInt(document.getElementById('scrambleScore').textContent.split(': ')[1]) + 10;
+                        document.getElementById('scrambleScore').textContent = 'Punteggio: ' + score;
+                        startScramble();
+                    }
+                });
+            }
+        });
+
+        // ==================== TYPING ====================
+        function startTyping() {
+            const texts = ['The quick brown fox jumps over the lazy dog', 'JavaScript is fun and powerful', 'Practice makes perfect', 'Speed typing improves your skills'];
+            const text = texts[Math.floor(Math.random() * texts.length)];
+            document.getElementById('typingTarget').textContent = text;
+            document.getElementById('typingInput').value = '';
+            document.getElementById('typingInput').focus();
+            document.getElementById('typingWPM').textContent = '0';
+            let time = 30;
+            const interval = setInterval(() => {
+                time--;
+                document.getElementById('typingTimer').textContent = time + 's';
+                if (time <= 0) {
+                    clearInterval(interval);
+                    const typed = document.getElementById('typingInput').value;
+                    const wpm = Math.round((typed.split(' ').length / 30) * 60);
+                    wordLeaderboard.saveScore(currentWordPlayer, wpm);
+                    alert(`Risultato: ${wpm} WPM`);
+                }
+            }, 1000);
+        }
+
+        // ==================== WORD SEARCH ====================
+        function startWordSearch() {
+            const grid = document.getElementById('wordsearchGrid');
+            grid.innerHTML = 'APPLEEADAM<br>BANANAXEND<br>CHERRYOZOO<br>DRAGONXRAY<br>EAGLESMITH<br>';
+            document.getElementById('wordsearchFound').textContent = 'Trovate: 0/5';
+        }
+
+        // ==================== RHYME ====================
+        let rhymeScore = 0;
+
+        function startRhyme() {
+            rhymeScore = 0;
+            document.getElementById('rhymeScore').textContent = 'Punteggio: 0';
+            showRhymeWord();
+        }
+
+        function showRhymeWord() {
+            const keys = Object.keys(RHYMES);
+            const word = keys[Math.floor(Math.random() * keys.length)];
+            document.getElementById('rhymeWord').textContent = word;
+            const options = document.getElementById('rhymeOptions');
+            options.innerHTML = '';
+            const rhymes = RHYMES[word];
+            const wrong = WORDS.filter(w => !rhymes.includes(w)).slice(0, 2);
+            const all = [...rhymes, ...wrong].sort(() => Math.random() - 0.5);
+            all.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.textContent = opt;
+                btn.className = 'btn-primary text-white px-8 py-2 rounded-lg w-full';
+                btn.onclick = () => {
+                    if (rhymes.includes(opt)) {
+                        rhymeScore += 10;
+                        document.getElementById('rhymeScore').textContent = 'Punteggio: ' + rhymeScore;
+                        setTimeout(showRhymeWord, 500);
+                    } else {
+                        wordLeaderboard.saveScore(currentWordPlayer, rhymeScore);
+                        alert(`Game Over! Punteggio: ${rhymeScore}`);
+                    }
+                };
+                options.appendChild(btn);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Arcade Games</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="leaderboard.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%); color: #ffffff; overflow-x: hidden; }
+        h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+        .nav-glass { background: rgba(10, 14, 39, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); transition:all .3s ease; padding: 12px 24px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,102,255,.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .tab-btn { padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; min-height: 48px; display: inline-flex; align-items: center; touch-action: manipulation; font-size: 13px; }
+        .tab-btn.active { background: linear-gradient(135deg,#0066ff 0%,#00d4ff 100%); }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #999; }
+        .game-section { display: none; }
+        .game-section.active { display: block; }
+        .puzzle-cell { width: 50px; height: 50px; background: linear-gradient(135deg, #0066ff, #00d4ff); border: 2px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: all 0.2s; user-select: none; }
+        .puzzle-cell:hover { transform: scale(1.05); }
+        .puzzle-cell.correct { background: #10b981; }
+        .puzzle-cell.wrong { background: #ef4444; }
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 16px; background: rgba(0,102,255,0.1); border-radius: 8px; margin: 8px 0; border-left: 4px solid #0066ff; }
+        .leaderboard-rank { font-weight: bold; color: #00d4ff; min-width: 30px; }
+        .leaderboard-name { flex: 1; margin-left: 16px; }
+        .leaderboard-score { font-weight: bold; color: #10b981; }
+        .player-info { text-align: center; padding: 12px; background: rgba(0,102,255,0.1); border-radius: 8px; margin-bottom: 16px; }
+        
+        @media (max-width: 768px) {
+            .tab-btn { padding: 10px 14px; font-size: 12px; }
+            .puzzle-cell { width: 45px; height: 45px; }
+        }
+        
+        @media (max-width: 480px) {
+            .tab-btn { padding: 8px 10px; font-size: 11px; }
+            .puzzle-cell { width: 40px; height: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-bold"><a href="tesla.html">LDM4APP Logic</a></div>
+            <a href="giochi.html" class="btn-primary text-white px-6 py-2 rounded-full">← Giochi</a>
+        </nav>
+    </header>
+
+    <div class="pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center mb-8">🧩 Logic Games</h1>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center gap-2 mb-8 flex-wrap">
+                <button class="tab-btn active" onclick="switchLogicGame('start')">🎮 Menu</button>
+                <button class="tab-btn inactive" onclick="switchLogicGame('2048')">2️⃣ 2048</button>
+                <button class="tab-btn inactive" onclick="switchLogicGame('sudoku')">🔢 Sudoku</button>
+                <button class="tab-btn inactive" onclick="switchLogicGame('match3')">💎 Match-3</button>
+                <button class="tab-btn inactive" onclick="switchLogicGame('math')">🧮 Math</button>
+                <button class="tab-btn inactive" onclick="switchLogicGame('puzzle')">🔲 Puzzle</button>
+            </div>
+
+            <!-- Menu Screen -->
+            <div id="startScreen" class="game-section active">
+                <div class="glass-card p-8 max-w-3xl mx-auto text-center">
+                    <h2 class="text-2xl font-bold mb-6">Inserisci il tuo nome</h2>
+                    <input type="text" id="logicPlayerName" placeholder="Il tuo nome..." class="w-full max-w-md px-4 py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-white mb-6" maxlength="20">
+                    <button class="btn-primary text-white px-8 py-3 rounded-full mr-4" onclick="initLogic()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600" onclick="showLogicLeaderboard()">📊 Classifica</button>
+                </div>
+            </div>
+
+            <!-- 2048 Game -->
+            <div id="2048Screen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="2048PlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">2️⃣ 2048 Game</h2>
+                    <p class="text-gray-300 mb-4">Combina i numeri per raggiungere 2048!</p>
+                    <div class="flex justify-around mb-6">
+                        <div><p class="text-sm text-gray-400">Score</p><p id="score2048" class="text-2xl font-bold">0</p></div>
+                        <div><p class="text-sm text-gray-400">Best</p><p id="best2048" class="text-2xl font-bold">0</p></div>
+                    </div>
+                    <div id="grid2048" class="grid grid-cols-4 gap-2 w-fit mx-auto mb-6 bg-gray-800 p-4 rounded-lg">
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="start2048()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goLogicMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Sudoku Game -->
+            <div id="sudokuScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="sudokuPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🔢 Sudoku Mini</h2>
+                    <p class="text-gray-300 mb-4">Completa la griglia 4x4!</p>
+                    <div id="sudokuGrid" class="w-fit mx-auto mb-6">
+                    </div>
+                    <p id="sudokuMsg" class="text-gray-300 mb-6">Pronto...</p>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startSudoku()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goLogicMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Match-3 Game -->
+            <div id="match3Screen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="match3PlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">💎 Match-3 Colors</h2>
+                    <p class="text-gray-300 mb-4">Fai match di 3 colori uguali!</p>
+                    <div class="flex justify-around mb-6">
+                        <div><p class="text-sm text-gray-400">Score</p><p id="scoreMatch3" class="text-2xl font-bold">0</p></div>
+                        <div><p class="text-sm text-gray-400">Moves</p><p id="movesMatch3" class="text-2xl font-bold">15</p></div>
+                    </div>
+                    <div id="gridMatch3" class="w-fit mx-auto mb-6">
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startMatch3()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goLogicMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Math Challenge -->
+            <div id="mathScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="mathPlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🧮 Math Challenge</h2>
+                    <p class="text-gray-300 mb-4">Risolvi i problemi matematici il più velocemente possibile!</p>
+                    <p id="mathProblem" class="text-4xl font-bold text-cyan-400 mb-6">2 + 2 = ?</p>
+                    <div id="mathOptions" class="grid grid-cols-2 gap-4 w-fit mx-auto mb-6">
+                    </div>
+                    <div class="flex justify-around mb-6">
+                        <div><p class="text-sm text-gray-400">Corrette</p><p id="mathCorrect" class="text-2xl font-bold">0</p></div>
+                        <div><p class="text-sm text-gray-400">Tempo</p><p id="mathTime" class="text-2xl font-bold">30s</p></div>
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startMath()">Inizia (30s)</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goLogicMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Rotation Puzzle -->
+            <div id="puzzleScreen" class="game-section">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <div class="player-info">
+                        <p class="text-sm text-gray-300">Giocatore: <strong id="puzzlePlayerDisplay"></strong></p>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-6">🔲 Rotation Puzzle</h2>
+                    <p class="text-gray-300 mb-4">Ruota i pezzi per sbloccare il puzzl!</p>
+                    <p id="puzzleScore" class="text-lg text-cyan-400 mb-4">Moves: 0</p>
+                    <div id="puzzleGrid" class="w-fit mx-auto mb-6 grid grid-cols-3 gap-2">
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="startPuzzle()">Inizia</button>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full bg-gray-700 hover:bg-gray-600 ml-4" onclick="goLogicMenu()">← Menu</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div id="logicLeaderboardScreen" style="display: none;">
+                <div class="glass-card p-8 max-w-2xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold mb-8">🏆 Classifica Logic Games</h2>
+                    <div id="logicLeaderboardList" class="mb-8"></div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-full" onclick="goLogicMenu()">← Torna Indietro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let logicLeaderboard = new ArcadeLeaderboard('logic-arcade');
+        let currentLogicPlayer = '';
+
+        function switchLogicGame(game) {
+            document.querySelectorAll('.game-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(game + 'Screen').classList.add('active');
+        }
+
+        function initLogic() {
+            const name = document.getElementById('logicPlayerName').value.trim();
+            if (!name) { alert('Inserisci nome!'); return; }
+            currentLogicPlayer = name;
+            logicLeaderboard.setPlayerName(name);
+            document.getElementById('2048PlayerDisplay').textContent = name;
+            document.getElementById('sudokuPlayerDisplay').textContent = name;
+            document.getElementById('match3PlayerDisplay').textContent = name;
+            document.getElementById('mathPlayerDisplay').textContent = name;
+            document.getElementById('puzzlePlayerDisplay').textContent = name;
+            switchLogicGame('2048');
+        }
+
+        function goLogicMenu() {
+            switchLogicGame('start');
+        }
+
+        function showLogicLeaderboard() {
+            const html = logicLeaderboard.generateLeaderboardHTML(20);
+            document.getElementById('logicLeaderboardList').innerHTML = html;
+            switchLogicGame('logicLeaderboard');
+        }
+
+        // ==================== 2048 ====================
+        let tiles2048 = [], score2048 = 0, best2048 = 0;
+
+        function start2048() {
+            tiles2048 = Array(16).fill(0);
+            score2048 = 0;
+            addTile2048();
+            addTile2048();
+            render2048();
+        }
+
+        function addTile2048() {
+            let empty = tiles2048.map((v, i) => v === 0 ? i : -1).filter(i => i !== -1);
+            if (empty.length > 0) {
+                const pos = empty[Math.floor(Math.random() * empty.length)];
+                tiles2048[pos] = Math.random() < 0.9 ? 2 : 4;
+            }
+        }
+
+        function render2048() {
+            const grid = document.getElementById('grid2048');
+            grid.innerHTML = '';
+            tiles2048.forEach((val, i) => {
+                const cell = document.createElement('div');
+                cell.className = 'w-12 h-12 rounded-lg flex items-center justify-center text-sm font-bold';
+                cell.style.background = val === 0 ? '#333' : ['#ffd700', '#ffed4e', '#ffc74d', '#ffb84d', '#ff9d4d'][Math.floor(Math.log2(Math.max(val, 1))) - 1] || '#ff7f50';
+                cell.textContent = val === 0 ? '' : val;
+                grid.appendChild(cell);
+            });
+            document.getElementById('score2048').textContent = score2048;
+            document.getElementById('best2048').textContent = Math.max(best2048, score2048);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                e.preventDefault();
+            }
+        });
+
+        // ==================== SUDOKU ====================
+        let sudokuGrid = [];
+
+        function startSudoku() {
+            sudokuGrid = Array(16).fill(0);
+            sudokuGrid[0] = 1; sudokuGrid[1] = 2;
+            sudokuGrid[5] = 3; sudokuGrid[8] = 4;
+            renderSudoku();
+        }
+
+        function renderSudoku() {
+            const grid = document.getElementById('sudokuGrid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    const idx = i * 4 + j;
+                    const cell = document.createElement('input');
+                    cell.type = 'number';
+                    cell.min = '1';
+                    cell.max = '4';
+                    cell.value = sudokuGrid[idx] || '';
+                    cell.style.width = '40px';
+                    cell.style.height = '40px';
+                    cell.style.border = '1px solid #0066ff';
+                    cell.style.borderRadius = '4px';
+                    cell.style.display = 'inline-block';
+                    cell.style.margin = '2px';
+                    cell.style.textAlign = 'center';
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        // ==================== MATCH-3 ====================
+        let match3Grid = [], match3Score = 0, match3Moves = 15;
+
+        function startMatch3() {
+            match3Grid = Array(25).fill(0).map(() => Math.floor(Math.random() * 5));
+            match3Score = 0;
+            match3Moves = 15;
+            renderMatch3();
+        }
+
+        function renderMatch3() {
+            const grid = document.getElementById('gridMatch3');
+            grid.innerHTML = '';
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = 'repeat(5, 1fr)';
+            grid.style.gap = '4px';
+            const colors = ['#ef4444', '#3b82f6', '#fbbf24', '#10b981', '#8b5cf6'];
+            match3Grid.forEach((val, idx) => {
+                const cell = document.createElement('div');
+                cell.style.width = '40px';
+                cell.style.height = '40px';
+                cell.style.background = colors[val];
+                cell.style.borderRadius = '4px';
+                cell.style.cursor = 'pointer';
+                cell.onclick = () => {
+                    match3Score += 10;
+                    match3Moves--;
+                    document.getElementById('scoreMatch3').textContent = match3Score;
+                    document.getElementById('movesMatch3').textContent = match3Moves;
+                    if (match3Moves <= 0) {
+                        logicLeaderboard.saveScore(currentLogicPlayer, match3Score);
+                        alert(`Fine! Score: ${match3Score}`);
+                    }
+                };
+                grid.appendChild(cell);
+            });
+        }
+
+        // ==================== MATH ====================
+        let mathCorrect = 0, mathActive = false;
+
+        function startMath() {
+            mathCorrect = 0;
+            mathActive = true;
+            document.getElementById('mathCorrect').textContent = '0';
+            generateMathProblem();
+            let time = 30;
+            const interval = setInterval(() => {
+                time--;
+                document.getElementById('mathTime').textContent = time + 's';
+                if (time <= 0) {
+                    clearInterval(interval);
+                    mathActive = false;
+                    logicLeaderboard.saveScore(currentLogicPlayer, mathCorrect);
+                    alert(`Risultato: ${mathCorrect} corrette!`);
+                }
+            }, 1000);
+        }
+
+        function generateMathProblem() {
+            if (!mathActive) return;
+            const ops = ['+', '-', '*', '/'];
+            const op = ops[Math.floor(Math.random() * ops.length)];
+            let a = Math.floor(Math.random() * 10) + 1;
+            let b = Math.floor(Math.random() * 10) + 1;
+            let result = op === '+' ? a + b : op === '-' ? a - b : op === '*' ? a * b : Math.floor(a / b);
+            document.getElementById('mathProblem').textContent = a + ' ' + op + ' ' + b + ' = ?';
+            const options = document.getElementById('mathOptions');
+            options.innerHTML = '';
+            const wrong = [result + Math.floor(Math.random() * 5) + 1, result - Math.floor(Math.random() * 5) - 1].filter(x => x > 0);
+            const all = [result, ...wrong].sort(() => Math.random() - 0.5);
+            all.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.textContent = opt;
+                btn.className = 'btn-primary text-white px-6 py-2 rounded-lg';
+                btn.onclick = () => {
+                    if (opt === result) {
+                        mathCorrect++;
+                        document.getElementById('mathCorrect').textContent = mathCorrect;
+                    }
+                    generateMathProblem();
+                };
+                options.appendChild(btn);
+            });
+        }
+
+        // ==================== PUZZLE ====================
+        let puzzleMoves = 0;
+
+        function startPuzzle() {
+            puzzleMoves = 0;
+            document.getElementById('puzzleScore').textContent = 'Moves: 0';
+            const puzzle = document.getElementById('puzzleGrid');
+            puzzle.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.style.width = '60px';
+                cell.style.height = '60px';
+                cell.style.background = 'linear-gradient(135deg, #0066ff, #00d4ff)';
+                cell.style.borderRadius = '8px';
+                cell.style.cursor = 'pointer';
+                cell.style.display = 'flex';
+                cell.style.alignItems = 'center';
+                cell.style.justifyContent = 'center';
+                cell.textContent = i + 1;
+                cell.style.fontSize = '20px';
+                cell.style.fontWeight = 'bold';
+                cell.onclick = () => {
+                    puzzleMoves++;
+                    document.getElementById('puzzleScore').textContent = 'Moves: ' + puzzleMoves;
+                };
+                puzzle.appendChild(cell);
+            }
+        }
+    </script>
+</body>
+</html>
