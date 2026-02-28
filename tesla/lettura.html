@@ -288,22 +288,16 @@
         });
 
         // Fetch Notizie
-        async function fetchNews() {
-            try {
-                const response = await fetch('https://newsdata.io/api/1/news?q=tesla%20electric%20vehicle%20technology&language=it&sortby=publishedAt&limit=9');
-                const data = await response.json();
-                displayNews(data.results || []);
-            } catch (error) {
-                console.error('Errore fetch notizie:', error);
-                displayDefaultNews();
-            }
+        function fetchNews() {
+            // Utilizziamo solo le notizie predefinite per evitare dipendenze da API key
+            displayDefaultNews();
         }
 
         function displayNews(articles) {
             const newsList = document.getElementById('newsList');
             newsList.innerHTML = '';
 
-            if (articles.length === 0) {
+            if (!articles || articles.length === 0) {
                 displayDefaultNews();
                 return;
             }
