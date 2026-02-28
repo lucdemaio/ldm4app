@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiplayer Games</title>
+    <title>Giochi Multigiocatore</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -92,7 +92,7 @@
             <div id="pong" class="game-section">
                 <div class="glass-card p-8 max-w-3xl mx-auto">
                     <h2 class="text-2xl font-bold text-center mb-6">🎾 Pong</h2>
-                    <p class="text-center text-gray-300 mb-4">P1: W/S | P2: ↑/↓</p>
+                    <p class="text-center text-gray-300 mb-4">Giocatore 1: W/S | Giocatore 2: ↑/↓</p>
                     
                     <div class="text-center">
                         <div class="flex justify-between mb-4 text-lg">
@@ -200,10 +200,31 @@
         let pongScore1 = 0, pongScore2 = 0;
         let pongPaused = false;
         let pongGameRunning = false;
+        let pongMouseY = 200;
 
         const pongKeys = {};
         document.addEventListener('keydown', (e) => { pongKeys[e.key] = true; });
         document.addEventListener('keyup', (e) => { pongKeys[e.key] = false; });
+
+        // Mouse/Touch controls for paddle movement
+        pongCanvas.addEventListener('mousemove', (e) => {
+            const rect = pongCanvas.getBoundingClientRect();
+            pongMouseY = e.clientY - rect.top;
+        });
+
+        pongCanvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const rect = pongCanvas.getBoundingClientRect();
+            if (e.touches[0].clientX < pongCanvas.width / 2) {
+                // Left side - Player 1
+                pongP1.y = Math.max(0, Math.min(e.touches[0].clientY - rect.top - pongP1.height / 2, 400 - pongP1.height));
+            } else {
+                // Right side - Player 2
+                pongP2.y = Math.max(0, Math.min(e.touches[0].clientY - rect.top - pongP2.height / 2, 400 - pongP2.height));
+            }
+        });
+
+        pongCanvas.addEventListener('touchstart', (e) => e.preventDefault());
 
         function drawPong() {
             pongCtx.fillStyle = '#000';

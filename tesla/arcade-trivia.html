@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivia Quiz</title>
+    <title>Quiz Trivia</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -858,7 +858,9 @@
                 return;
             }
             playerName = nameInput;
-            currentQuestions = [...quizData[currentCategory]].sort(() => Math.random() - 0.5);
+            // Randomize all questions and select only 10 Maximum
+            const allQuestions = [...quizData[currentCategory]].sort(() => Math.random() - 0.5);
+            currentQuestions = allQuestions.slice(0, 10);
             currentQuestionIndex = 0;
             score = 0;
             answered = false;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logic Arcade Games</title>
+    <title>Giochi di Logica Arcade</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="leaderboard.js"></script>
@@ -210,6 +210,7 @@
 
         // ==================== 2048 ====================
         let tiles2048 = [], score2048 = 0, best2048 = 0;
+        let touchStartX = 0, touchStartY = 0;
 
         function start2048() {
             tiles2048 = Array(16).fill(0);
@@ -217,6 +218,96 @@
             addTile2048();
             addTile2048();
             render2048();
+            
+            // Keyboard controls
+            document.onkeydown = (e) => {
+                if (e.key === 'ArrowLeft') { move2048('left'); e.preventDefault(); }
+                else if (e.key === 'ArrowRight') { move2048('right'); e.preventDefault(); }
+                else if (e.key === 'ArrowUp') { move2048('up'); e.preventDefault(); }
+                else if (e.key === 'ArrowDown') { move2048('down'); e.preventDefault(); }
+            };
+            
+            // Touch controls (swipe)
+            document.getElementById('grid2048').ontouchstart = (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            };
+            
+            document.getElementById('grid2048').ontouchend = (e) => {
+                const endX = e.changedTouches[0].clientX;
+                const endY = e.changedTouches[0].clientY;
+                const diffX = endX - touchStartX;
+                const diffY = endY - touchStartY;
+                
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    move2048(diffX > 0 ? 'right' : 'left');
+                } else {
+                    move2048(diffY > 0 ? 'down' : 'up');
+                }
+            };
+        }
+
+        function move2048(dir) {
+            let newTiles = [...tiles2048];
+            let moved = false;
+            
+            if (dir === 'left') {
+                for (let i = 0; i < 4; i++) {
+                    let row = [tiles2048[i*4], tiles2048[i*4+1], tiles2048[i*4+2], tiles2048[i*4+3]];
+                    row = compress(row);
+                    row = merge(row);
+                    row = compress(row);
+                    for (let j = 0; j < 4; j++) newTiles[i*4+j] = row[j];
+                }
+            } else if (dir === 'right') {
+                for (let i = 0; i < 4; i++) {
+                    let row = [tiles2048[i*4+3], tiles2048[i*4+2], tiles2048[i*4+1], tiles2048[i*4]];
+                    row = compress(row);
+                    row = merge(row);
+                    row = compress(row);
+                    row.reverse();
+                    for (let j = 0; j < 4; j++) newTiles[i*4+j] = row[j];
+                }
+            } else if (dir === 'up') {
+                for (let j = 0; j < 4; j++) {
+                    let col = [tiles2048[j], tiles2048[4+j], tiles2048[8+j], tiles2048[12+j]];
+                    col = compress(col);
+                    col = merge(col);
+                    col = compress(col);
+                    for (let i = 0; i < 4; i++) newTiles[i*4+j] = col[i];
+                }
+            } else if (dir === 'down') {
+                for (let j = 0; j < 4; j++) {
+                    let col = [tiles2048[12+j], tiles2048[8+j], tiles2048[4+j], tiles2048[j]];
+                    col = compress(col);
+                    col = merge(col);
+                    col = compress(col);
+                    col.reverse();
+                    for (let i = 0; i < 4; i++) newTiles[i*4+j] = col[i];
+                }
+            }
+            
+            if (JSON.stringify(tiles2048) !== JSON.stringify(newTiles)) {
+                tiles2048 = newTiles;
+                addTile2048();
+                render2048();
+            }
+        }
+
+        function compress(arr) {
+            return arr.filter(v => v !== 0);
+        }
+
+        function merge(arr) {
+            for (let i = 0; i < arr.length - 1; i++) {
+                if (arr[i] === arr[i+1]) {
+                    arr[i] *= 2;
+                    score2048 += arr[i];
+                    arr.splice(i+1, 1);
+                }
+            }
+            while (arr.length < 4) arr.push(0);
+            return arr;
         }
 
         function addTile2048() {
@@ -275,6 +366,24 @@
                     cell.style.display = 'inline-block';
                     cell.style.margin = '2px';
                     cell.style.textAlign = 'center';
+                    cell.style.fontSize = '18px';
+                    cell.style.fontWeight = 'bold';
+                    cell.style.color = '#fff';
+                    cell.style.background = '#1f2937';
+                    cell.style.padding = '4px';
+                    cell.onchange = (e) => {
+                        const val = parseInt(e.target.value) || 0;
+                        if (val >= 1 && val <= 4) {
+                            sudokuGrid[idx] = val;
+                        } else {
+                            e.target.value = sudokuGrid[idx] || '';
+                        }
+                    };
+                    cell.oninput = (e) => {
+                        if (e.target.value.length > 1) {
+                            e.target.value = e.target.value.slice(0, 1);
+                        }
+                    };
                     grid.appendChild(cell);
                 }
             }
@@ -304,18 +413,31 @@
                 cell.style.background = colors[val];
                 cell.style.borderRadius = '4px';
                 cell.style.cursor = 'pointer';
-                cell.onclick = () => {
-                    match3Score += 10;
-                    match3Moves--;
-                    document.getElementById('scoreMatch3').textContent = match3Score;
-                    document.getElementById('movesMatch3').textContent = match3Moves;
-                    if (match3Moves <= 0) {
-                        logicLeaderboard.saveScore(currentLogicPlayer, match3Score);
-                        alert(`Fine! Score: ${match3Score}`);
-                    }
+                cell.style.userSelect = 'none';
+                cell.style.transition = '0.1s';
+                cell.ontouchstart = (e) => {
+                    e.preventDefault();
+                    cell.style.transform = 'scale(0.9)';
                 };
+                cell.ontouchend = (e) => {
+                    e.preventDefault();
+                    cell.style.transform = 'scale(1)';
+                    handleMatch3Click(idx);
+                };
+                cell.onclick = () => handleMatch3Click(idx);
                 grid.appendChild(cell);
             });
+        }
+        
+        function handleMatch3Click(idx) {
+            match3Score += 10;
+            match3Moves--;
+            document.getElementById('scoreMatch3').textContent = match3Score;
+            document.getElementById('movesMatch3').textContent = match3Moves;
+            if (match3Moves <= 0) {
+                logicLeaderboard.saveScore(currentLogicPlayer, match3Score);
+                alert(`Fine! Punteggio: ${match3Score}`);
+            }
         }
 
         // ==================== MATH ====================
@@ -387,6 +509,20 @@
                 cell.textContent = i + 1;
                 cell.style.fontSize = '20px';
                 cell.style.fontWeight = 'bold';
+                cell.style.userSelect = 'none';
+                cell.style.transition = '0.1s';
+                cell.ontouchstart = (e) => {
+                    e.preventDefault();
+                    cell.style.transform = 'scale(0.9)';
+                    cell.style.background = 'linear-gradient(135deg, #00d4ff, #0066ff)';
+                };
+                cell.ontouchend = (e) => {
+                    e.preventDefault();
+                    cell.style.transform = 'scale(1)';
+                    cell.style.background = 'linear-gradient(135deg, #0066ff, #00d4ff)';
+                    puzzleMoves++;
+                    document.getElementById('puzzleScore').textContent = 'Moves: ' + puzzleMoves;
+                };
                 cell.onclick = () => {
                     puzzleMoves++;
                     document.getElementById('puzzleScore').textContent = 'Moves: ' + puzzleMoves;

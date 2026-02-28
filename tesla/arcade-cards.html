@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Games</title>
+    <title>Giochi di Carte</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -119,8 +119,8 @@
                         <div class="game-info" id="gameMessage"></div>
 
                         <div class="action-buttons">
-                            <button class="btn-primary text-white px-6 py-2 rounded-full" id="hitBtn" onclick="blackjackHit()">Hit</button>
-                        <button class="bg-gray-700 text-white px-6 py-2 rounded-full" id="standBtn" onclick="blackjackStand()">Stand</button>
+                            <button class="btn-primary text-white px-6 py-2 rounded-full" id="hitBtn" onclick="blackjackHit()">Copri</button>
+                        <button class="bg-gray-700 text-white px-6 py-2 rounded-full" id="standBtn" onclick="blackjackStand()">Stai</button>
                         <button class="btn-primary text-white px-6 py-2 rounded-full" onclick="resetBlackjackGame()">Nuova Partita</button>
                         <button class="btn-primary text-white px-6 py-2 rounded-full bg-gray-700 hover:bg-gray-600" onclick="goToCardsMenù()">← Menu Principale</button>
                     </div>
@@ -467,8 +467,16 @@
         let unoDeck = createUNODeck();
 
         function drawUNOCard() {
-            if (unoDeck.length === 0) unoDeck = createUNODeck();
-            return unoDeck.pop();
+            if (!unoGameRunning) return;
+            
+            if (unoPlayerTurn) {
+                // Player draws a card
+                if (unoDeck.length === 0) unoDeck = createUNODeck();
+                const card = unoDeck.pop();
+                unoPlayerHand.push(card);
+                unoPlayerTurn = false;
+                renderUNO();
+            }
         }
 
         function resetUNOGame() {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Action Arcade Games</title>
+    <title>Giochi d'Azione Arcade</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="leaderboard.js"></script>
@@ -252,12 +252,34 @@
         }
 
         // ==================== WHACK A MOLE ====================
-        let whackScore = 0, whackActive = false;
+        let whackScore = 0, whackActive = false, whackMoles = [];
 
         function startWhack() {
             whackScore = 0;
             whackActive = true;
             document.getElementById('whackScore').textContent = '0';
+            const grid = document.getElementById('whackGrid');
+            grid.innerHTML = '';
+            whackMoles = [];
+            for (let i = 0; i < 6; i++) {
+                const mole = document.createElement('div');
+                mole.style.width = '60px';
+                mole.style.height = '60px';
+                mole.style.background = '#6b7280';
+                mole.style.borderRadius = '50%';
+                mole.style.cursor = 'pointer';
+                mole.style.display = 'flex';
+                mole.style.alignItems = 'center';
+                mole.style.justifyContent = 'center';
+                mole.style.fontSize = '40px';
+                mole.style.transition = '0.2s';
+                mole.dataset.active = 'false';
+                mole.textContent = '🐹';
+                mole.onclick = () => whackHit(mole);
+                grid.appendChild(mole);
+                whackMoles.push(mole);
+            }
+            whackStartPopups();
             let time = 30;
             const interval = setInterval(() => {
                 time--;
@@ -265,33 +287,126 @@
                 if (time <= 0) {
                     clearInterval(interval);
                     whackActive = false;
+                    whackMoles.forEach(m => m.style.opacity = '0.3');
                     actionLeaderboard.saveScore(currentActionPlayer, whackScore);
                     alert(`Fine! Punteggio: ${whackScore}`);
                 }
             }, 1000);
         }
 
-        function whackHit(el) {
+        function whackStartPopups() {
             if (!whackActive) return;
+            const randomMole = whackMoles[Math.floor(Math.random() * whackMoles.length)];
+            randomMole.style.opacity = '1';
+            randomMole.style.background = '#ef4444';
+            randomMole.dataset.active = 'true';
+            setTimeout(() => {
+                randomMole.style.opacity = '0.3';
+                randomMole.style.background = '#6b7280';
+                randomMole.dataset.active = 'false';
+                setTimeout(whackStartPopups, 300);
+            }, 800);
+        }
+
+        function whackHit(mole) {
+            if (!whackActive || mole.dataset.active !== 'true') return;
             whackScore++;
             document.getElementById('whackScore').textContent = whackScore;
-            el.style.background = '#ef4444';
-            setTimeout(() => el.style.background = '#6b7280', 200);
+            mole.style.background = '#10b981';
+            mole.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                mole.style.transform = 'scale(1)';
+                mole.style.background = '#6b7280';
+                mole.data.active = 'false';
+            }, 300);
         }
 
         // ==================== CATCH GAME ====================
         let catchCount = 0, catchMissed = 0, catchActive = false;
+        let catchObjects = [];
+        let catchBasketX = 180;
+        const catchCanvas = document.getElementById('catchCanvas');
+        const catchCtx = catchCanvas.getContext('2d');
 
         function startCatchGame() {
             catchCount = 0;
             catchMissed = 0;
             catchActive = true;
+            catchObjects = [];
+            catchBasketX = 180;
             document.getElementById('catchCount').textContent = '0';
             document.getElementById('catchMissed').textContent = '0';
+            
+            // Mouse/Touch movement
+            catchCanvas.onmousemove = (e) => {
+                const rect = catchCanvas.getBoundingClientRect();
+                catchBasketX = e.clientX - rect.left - 30;
+            };
+            catchCanvas.ontouchmove = (e) => {
+                const rect = catchCanvas.getBoundingClientRect();
+                catchBasketX = e.touches[0].clientX - rect.left - 30;
+            };
+            
+            // Game loop
+            const gameLoop = setInterval(() => {
+                if (!catchActive) {
+                    clearInterval(gameLoop);
+                    catchCanvas.onmousemove = null;
+                    catchCanvas.ontouchmove = null;
+                    actionLeaderboard.saveScore(currentActionPlayer, catchCount);
+                    alert(`Fine! Catturati: ${catchCount}, Persi: ${catchMissed}`);
+                    return;
+                }
+                
+                // Create new objects
+                if (Math.random() < 0.3) {
+                    catchObjects.push({
+                        x: Math.random() * 360,
+                        y: 0,
+                        size: 20,
+                        emoji: ['🍎', '🍌', '🍇', '🍊', '🌟'][Math.floor(Math.random() * 5)]
+                    });
+                }
+                
+                // Update objects
+                for (let i = catchObjects.length - 1; i >= 0; i--) {
+                    catchObjects[i].y += 5;
+                    
+                    // Check collision with basket
+                    if (catchObjects[i].y > 250 && 
+                        catchObjects[i].x > catchBasketX && 
+                        catchObjects[i].x < catchBasketX + 60) {
+                        catchCount++;
+                        document.getElementById('catchCount').textContent = catchCount;
+                        catchObjects.splice(i, 1);
+                    } else if (catchObjects[i].y > 300) {
+                        catchMissed++;
+                        document.getElementById('catchMissed').textContent = catchMissed;
+                        catchObjects.splice(i, 1);
+                    }
+                }
+                
+                // Draw
+                catchCtx.fillStyle = '#1f2937';
+                catchCtx.fillRect(0, 0, 400, 300);
+                
+                // Draw objects
+                catchCtx.font = '25px Arial';
+                catchCtx.textAlign = 'center';
+                catchCtx.textBaseline = 'middle';
+                catchObjects.forEach(obj => {
+                    catchCtx.fillText(obj.emoji, obj.x, obj.y);
+                });
+                
+                // Draw basket
+                catchCtx.fillStyle = '#f59e0b';
+                catchCtx.fillRect(catchBasketX, 260, 60, 30);
+                catchCtx.fillStyle = 'black';
+                catchCtx.fillText('🧺', catchBasketX + 30, 275);
+            }, 50);
+            
             setTimeout(() => {
                 catchActive = false;
-                actionLeaderboard.saveScore(currentActionPlayer, catchCount);
-                alert(`Fine! Catturati: ${catchCount}, Persi: ${catchMissed}`);
             }, 30000);
         }
 
