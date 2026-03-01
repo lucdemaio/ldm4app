@@ -169,11 +169,15 @@ class AnalysisService {
         try {
             console.log('[DEBUG] Cercando in Wikidata:', query);
             
-            // Timeout di 3 secondi per la fetch
+            // Timeout di 5 secondi per la fetch
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 3000);
+            const timeout = setTimeout(() => {
+                console.log('[DEBUG] Wikidata TIMEOUT - passando a Wikipedia');
+                controller.abort();
+            }, 5000);
             
             try {
+                console.log('[DEBUG] Wikidata: iniziando fetch...');
                 const response = await fetch(
                     `https://www.wikidata.org/w/api.php?` +
                     `action=wbsearchentities&search=${encodeURIComponent(query)}&language=it` +
@@ -185,31 +189,37 @@ class AnalysisService {
                 );
 
                 clearTimeout(timeout);
+                console.log('[DEBUG] Wikidata: risposta ricevuta, status:', response.status);
 
                 if (!response.ok) {
                     console.warn('[DEBUG] Wikidata API risposta non OK:', response.status);
+                    console.log('[DEBUG] Wikidata: fallendo a Wikipedia...');
                     return await this.searchWikipedia(query);
                 }
 
                 const data = await response.json();
-                console.log('[DEBUG] Wikidata risposta:', data);
+                console.log('[DEBUG] Wikidata: JSON parsato, risultati:', data.search?.length || 0);
                 
                 if (data.search && data.search.length > 0) {
                     console.log('[DEBUG] Trovati', data.search.length, 'risultati in Wikidata');
                     // Ritorna i primi 3 risultati
-                    return {
+                    const result = {
                         type: 'wikidata',
                         results: data.search.slice(0, 3),
                         source: 'Wikidata',
                         query: query
                     };
+                    console.log('[DEBUG] Wikidata: ritornando risultati:', result);
+                    return result;
                 }
                 
-                console.log('[DEBUG] Nessun risultato in Wikidata, provo Wikipedia...');
+                console.log('[DEBUG] Nessun risultato in Wikidata (data.search vuoto)');
+                console.log('[DEBUG] Wikidata: passando a Wikipedia...');
                 return await this.searchWikipedia(query);
             } catch (fetchError) {
                 clearTimeout(timeout);
-                console.warn('[DEBUG] Errore Wikidata fetch:', fetchError.message);
+                console.warn('[DEBUG] Errore Wikidata fetch:', fetchError.message, fetchError.name);
+                console.log('[DEBUG] Wikidata: errore, passando a Wikipedia...');
                 return await this.searchWikipedia(query);
             }
         } catch (error) {
@@ -220,24 +230,29 @@ class AnalysisService {
 
     async searchWikipedia(query) {
         try {
-            console.log('[DEBUG] Cercando in Wikipedia:', query);
+            console.log('[DEBUG] ==> WIKIPEDIA: Cercando per:', query);
             
-            // Timeout di 3 secondi
+            // Timeout di 5 secondi
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 3000);
+            const timeout = setTimeout(() => {
+                console.log('[DEBUG] Wikipedia TIMEOUT');
+                controller.abort();
+            }, 5000);
             
             try {
-                const response = await fetch(
-                    `https://it.wikipedia.org/w/api.php?` +
+                console.log('[DEBUG] Wikipedia: iniziando fetch...');
+                const url = `https://it.wikipedia.org/w/api.php?` +
                     `action=query&titles=${encodeURIComponent(query)}&` +
-                    `prop=extracts&explaintext=true&formatversion=2&format=json&origin=*`,
-                    { 
-                        mode: 'cors',
-                        signal: controller.signal
-                    }
-                );
+                    `prop=extracts&explaintext=true&format=json&origin=*`;
+                console.log('[DEBUG] Wikipedia URL:', url);
+
+                const response = await fetch(url, { 
+                    mode: 'cors',
+                    signal: controller.signal
+                });
 
                 clearTimeout(timeout);
+                console.log('[DEBUG] Wikipedia: risposta ricevuta, status:', response.status);
 
                 if (!response.ok) {
                     console.warn('[DEBUG] Wikipedia API risposta non OK:', response.status);
@@ -245,30 +260,38 @@ class AnalysisService {
                 }
 
                 const data = await response.json();
-                console.log('[DEBUG] Wikipedia risposta:', data);
+                console.log('[DEBUG] Wikipedia: JSON parsato');
+                console.log('[DEBUG] Wikipedia data:', data);
 
-                if (data.query && data.query.pages && data.query.pages.length > 0) {
-                    const pages = data.query.pages.filter(p => !p.missing);
+                if (data.query && data.query.pages) {
+                    console.log('[DEBUG] Wikipedia: trovate', data.query.pages.length, 'pagine');
+                    const pages = data.query.pages.filter(p => !p.missing && p.extract);
                     
                     if (pages.length > 0) {
-                        console.log('[DEBUG] Trovati', pages.length, 'risultati in Wikipedia');
-                        return {
+                        console.log('[DEBUG] Wikipedia: pagine valide:', pages.length);
+                        const result = {
                             type: 'wikipedia',
-                            results: pages.map(p => ({
+                            results: pages.slice(0, 3).map(p => ({
                                 label: p.title,
-                                description: p.extract ? p.extract.substring(0, 200) + '...' : 'Articolo trovato'
+                                description: p.extract ? p.extract.substring(0, 300) : 'Articolo trovato'
                             })),
                             source: 'Wikipedia',
                             query: query
                         };
+                        console.log('[DEBUG] Wikipedia: ritornando risultati');
+                        return result;
+                    } else {
+                        console.log('[DEBUG] Wikipedia: nessuna pagina valida con extract');
                     }
+                } else {
+                    console.log('[DEBUG] Wikipedia: nessun query.pages nella risposta');
                 }
                 
-                console.log('[DEBUG] Nessun risultato in Wikipedia');
+                console.log('[DEBUG] Wikipedia: nessun risultato trovato');
                 return null;
             } catch (fetchError) {
                 clearTimeout(timeout);
-                console.warn('[DEBUG] Errore Wikipedia fetch:', fetchError.message);
+                console.warn('[DEBUG] Errore Wikipedia fetch:', fetchError.message, fetchError.name);
                 return null;
             }
         } catch (error) {
