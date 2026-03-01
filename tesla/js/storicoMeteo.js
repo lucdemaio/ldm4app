@@ -25,6 +25,12 @@ async function fetchStoricoMeteo(lat, lon) {
         );
         const dataRecent = await responseRecent.json();
         
+        // Validazione dati
+        if (!dataRecent.daily || !dataRecent.daily.time) {
+            console.warn('Dati storici non disponibili per periodo recente');
+            return;
+        }
+        
         // Anno scorso
         const endDateAnnoScorso = new Date(oggi.getFullYear() - 1, oggi.getMonth(), oggi.getDate() + 1).toISOString().split('T')[0];
         const responseAnnoScorso = await fetch(
@@ -32,10 +38,15 @@ async function fetchStoricoMeteo(lat, lon) {
         );
         const dataAnnoScorso = await responseAnnoScorso.json();
         
+        // Validazione dati anno scorso
+        if (!dataAnnoScorso.daily || !dataAnnoScorso.daily.time) {
+            console.warn('Dati storici anno scorso non disponibili');
+        }
+        
         // Estrai dati specifici
         const indexIeri = dataRecent.daily.time.indexOf(ieriDateStr);
         const indexSettimanascorsa = dataRecent.daily.time.indexOf(settimanascorsaDateStr);
-        const indexAnnoScorso = dataAnnoScorso.daily.time.indexOf(annoScorsoDateStr);
+        const indexAnnoScorso = (dataAnnoScorso.daily && dataAnnoScorso.daily.time) ? dataAnnoScorso.daily.time.indexOf(annoScorsoDateStr) : -1;
 
         storicoData.ieri = {
             date: ieriDateStr,
@@ -53,7 +64,7 @@ async function fetchStoricoMeteo(lat, lon) {
             precipitation: dataRecent.daily.precipitation_sum[indexSettimanascorsa]
         };
 
-        if (indexAnnoScorso >= 0) {
+        if (indexAnnoScorso >= 0 && dataAnnoScorso.daily) {
             storicoData.annoScorso = {
                 date: annoScorsoDateStr,
                 tempMax: dataAnnoScorso.daily.temperature_2m_max[indexAnnoScorso],

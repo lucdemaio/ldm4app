@@ -22,7 +22,7 @@ async function fetchQualitaNeve() {
             const data = await response.json();
             
             // Verifica che i dati siano validi
-            if (!data.current) {
+            if (!data || !data.current) {
                 console.warn(`Dati incompleti per ${mountain.name}`);
                 continue;
             }
@@ -30,8 +30,8 @@ async function fetchQualitaNeve() {
             qualitaNeveDati[key] = {
                 ...mountain,
                 current: data.current,
-                daily: data.daily,
-                quality: calculateSnowQuality(data.current, data.daily)
+                daily: data.daily || {},
+                quality: calculateSnowQuality(data.current, data.daily || {})
             };
         }
 
