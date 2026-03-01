@@ -340,6 +340,39 @@
         .share-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 10px 24px rgba(0,0,0,0.3); }
         .share-whatsapp { background: #25D366; }
         .share-telegram { background: #0088cc; }
+
+        /* Bookmark Button */
+        .bookmark-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1f2937;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            font-size: 0.9rem;
+        }
+        .bookmark-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(251, 191, 36, 0.3);
+            background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
+        }
+        .bookmark-btn i {
+            font-size: 1.1rem;
+        }
+        @media (max-width: 768px) {
+            .bookmark-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
         @media (max-width: 640px) {
             .share-bar { right: 12px; bottom: 12px; gap: 8px; }
             .share-btn { width: 48px; height: 48px; }
@@ -365,6 +398,12 @@
                     <li><a href="https://www.ldm4app.com/soccer/soccer-app.html" class="text-cobalt hover:text-accent font-semibold transition" target="_blank" rel="noopener noreferrer">LDM Soccer</a></li>
                     <li><a href="https://www.ldm4app.com/sviluppatori.html" class="text-yellow-300 hover:text-accent font-semibold transition" target="_blank" rel="noopener noreferrer">Giochi Gratuiti</a></li>
                     <li><a href="https://www.ldm4app.com/tesla/tesla.html" class="text-red-400 hover:text-accent font-semibold transition" target="_blank" rel="noopener noreferrer">Tesla</a></li>
+                    <li>
+                        <button id="bookmark-btn" class="bookmark-btn" title="Aggiungi ai Preferiti">
+                            <i class="fas fa-star"></i>
+                            <span>Aggiungi ai Preferiti</span>
+                        </button>
+                    </li>
                     <li><a href="#contatti" class="btn-primary text-white px-6 py-2 rounded-full font-semibold">Contatti</a></li>
                 </ul>
                 <!-- Mobile Menu Button -->
@@ -381,6 +420,12 @@
                 <li><a href="https://www.ldm4app.com/soccer/soccer-app.html" class="block text-cobalt hover:text-accent transition" target="_blank" rel="noopener noreferrer">LDM Soccer</a></li>
                 <li><a href="https://www.ldm4app.com/sviluppatori.html" class="block text-yellow-300 hover:text-accent transition" target="_blank" rel="noopener noreferrer">Giochi Gratuiti</a></li>
                 <li><a href="https://www.ldm4app.com/tesla/tesla.html" class="block text-red-400 hover:text-accent transition" target="_blank" rel="noopener noreferrer">Tesla</a></li>
+                <li>
+                    <button id="bookmark-btn-mobile" class="bookmark-btn w-full text-center" title="Aggiungi ai Preferiti">
+                        <i class="fas fa-star"></i>
+                        <span>Aggiungi ai Preferiti</span>
+                    </button>
+                </li>
                 <li><a href="#contatti" class="block btn-primary text-white px-6 py-3 rounded-full text-center">Contatti</a></li>
             </ul>
         </nav>
@@ -956,6 +1001,59 @@
             el.style.transition = 'all 0.6s ease-out';
             observer.observe(el);
         });
+
+        // Bookmark functionality
+        function handleBookmark() {
+            const title = document.title;
+            const url = window.location.href;
+            
+            if (window.sidebar && window.sidebar.addPanel) {
+                // Firefox
+                window.sidebar.addPanel(title, url, 'bar');
+            } else if (window.external && window.external.AddFavorite) {
+                // Internet Explorer
+                window.external.AddFavorite(url, title);
+            } else {
+                // Fallback: show instructions modal
+                showBookmarkInstructions();
+            }
+        }
+
+        function showBookmarkInstructions() {
+            const message = `📌 Salva nei Preferiti
+
+Per aggiungere questa pagina ai tuoi preferiti:
+
+🖥️ Desktop:
+• Windows: Ctrl + D
+• Mac: Cmd + D
+
+📱 Mobile:
+• Tocca il menu (⋯)
+• Seleziona "Aggiungi ai Preferiti"
+
+Grazie per seguire LDM4APP! ⭐`;
+            
+            alert(message);
+        }
+
+        // Attach bookmark listeners
+        const bookmarkBtn = document.getElementById('bookmark-btn');
+        const bookmarkBtnMobile = document.getElementById('bookmark-btn-mobile');
+        
+        if (bookmarkBtn) {
+            bookmarkBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleBookmark();
+            });
+        }
+        
+        if (bookmarkBtnMobile) {
+            bookmarkBtnMobile.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleBookmark();
+            });
+        }
     </script>
 </body>
 </html>
