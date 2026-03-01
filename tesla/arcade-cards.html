@@ -44,6 +44,7 @@
         .uno-yellow { background: #fbbf24; }
         .uno-green { background: #10b981; }
         .uno-wild { background: linear-gradient(135deg, #8b5cf6, #3b82f6); }
+        .uno-none { background: linear-gradient(135deg, #8b5cf6, #3b82f6); }
         
         .hand-container { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 20px 0; }
         .game-info { text-align: center; margin: 20px 0; }
@@ -509,13 +510,15 @@
         function renderUNO() {
             const tableDiv = document.getElementById('unoTable');
             const [num, color] = unoTable.split('-');
-            tableDiv.className = `uno-card uno-${color || 'wild'}`;
-            tableDiv.textContent = num === 'Wild' ? '🌟' : num;
+            const colorClass = color === 'none' ? 'wild' : color;
+            tableDiv.className = `uno-card uno-${colorClass}`;
+            tableDiv.textContent = num === 'Wild' ? '🌟' : (num === '+4' ? '+4' : num);
 
             const handDiv = document.getElementById('unoHand');
             handDiv.innerHTML = unoPlayerHand.map((card, idx) => {
                 const [num, color] = card.split('-');
-                return `<div class="uno-card uno-${color || 'wild'} ${selectedUNOCard === idx ? 'ring-4 ring-accent' : ''}" onclick="selectUNOCard(${idx})">${num === 'Wild' ? '🌟' : num}</div>`;
+                const colorClass = color === 'none' ? 'wild' : color;
+                return `<div class="uno-card uno-${colorClass} ${selectedUNOCard === idx ? 'ring-4 ring-accent' : ''}" onclick="selectUNOCard(${idx})">${num === 'Wild' ? '🌟' : (num === '+4' ? '+4' : num)}</div>`;
             }).join('');
 
             document.getElementById('aiCardCount').textContent = unoAIHand.length;
@@ -545,7 +548,7 @@
             const [cardNum, cardColor] = card.split('-');
             const [tableNum, tableColor] = unoTable.split('-');
 
-            if (cardNum === 'Wild' || cardNum === '+4' || cardNum === tableNum || cardColor === tableColor) {
+            if (cardNum === 'Wild' || cardNum === '+4' || cardNum === tableNum || (cardColor !== 'none' && cardColor === tableColor)) {
                 unoTable = card;
                 unoPlayerHand.splice(selectedUNOCard, 1);
                 selectedUNOCard = null;
@@ -562,7 +565,7 @@
                 if (!card || typeof card !== 'string' || !card.includes('-')) return false;
                 const [num, color] = card.split('-');
                 const [tableNum, tableColor] = unoTable.split('-');
-                return num === 'Wild' || num === '+4' || num === tableNum || color === tableColor;
+                return num === 'Wild' || num === '+4' || num === tableNum || (color !== 'none' && color === tableColor);
             });
 
             if (playableCards.length > 0) {
