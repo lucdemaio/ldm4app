@@ -548,7 +548,7 @@
             const [cardNum, cardColor] = card.split('-');
             const [tableNum, tableColor] = unoTable.split('-');
 
-            if (cardNum === 'Wild' || cardNum === '+4' || cardNum === tableNum || (cardColor !== 'none' && cardColor === tableColor)) {
+            if (cardNum === 'Wild' || cardNum === '+4' || cardNum === tableNum || tableColor === 'none' || (cardColor !== 'none' && cardColor === tableColor)) {
                 unoTable = card;
                 unoPlayerHand.splice(selectedUNOCard, 1);
                 selectedUNOCard = null;
@@ -565,7 +565,7 @@
                 if (!card || typeof card !== 'string' || !card.includes('-')) return false;
                 const [num, color] = card.split('-');
                 const [tableNum, tableColor] = unoTable.split('-');
-                return num === 'Wild' || num === '+4' || num === tableNum || (color !== 'none' && color === tableColor);
+                return num === 'Wild' || num === '+4' || num === tableNum || tableColor === 'none' || (color !== 'none' && color === tableColor);
             });
 
             if (playableCards.length > 0) {
