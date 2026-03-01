@@ -129,6 +129,8 @@ class AnalysisService {
                     response = this.formatProductResponse(relevantInfo.data, userMessage);
                 } else if (relevantInfo.type === 'service') {
                     response = this.formatServiceResponse(relevantInfo.data, userMessage);
+                } else if (relevantInfo.type === 'general') {
+                    response = this.formatGeneralResponse(relevantInfo.data, userMessage);
                 }
             }
 
@@ -209,6 +211,12 @@ class AnalysisService {
     formatServiceResponse(service, userMessage) {
         let response = `**${service.name}** ℹ️\n\n`;
         response += service.description;
+        return response;
+    }
+
+    formatGeneralResponse(general, userMessage) {
+        let response = `**${general.name}** 📚\n\n`;
+        response += general.description;
         return response;
     }
 
