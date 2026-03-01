@@ -322,3 +322,6 @@ COSTO RICARICA:
         return null;
     }
 };
+
+// Rendi disponibile globalmente per i moduli
+window.teslaKnowledgeBase = teslaKnowledgeBase;

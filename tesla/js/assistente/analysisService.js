@@ -106,13 +106,18 @@ class AnalysisService {
 
     async generateResponse(userMessage) {
         try {
+            console.log('[DEBUG] Generando risposta per:', userMessage);
+            
             // Analizza il messaggio
             const sentiment = await this.analyzeSentiment(userMessage);
             const intent = await this.classifyIntent(userMessage);
             const keywords = this.extractKeywords(userMessage);
+            
+            console.log('[DEBUG] Knowledge Base disponibile?', !!window.teslaKnowledgeBase);
 
             // Cerca informazioni rilevanti nella KB
-            const relevantInfo = teslaKnowledgeBase.findRelevantInfo(userMessage);
+            const relevantInfo = window.teslaKnowledgeBase ? window.teslaKnowledgeBase.findRelevantInfo(userMessage) : null;
+            console.log('[DEBUG] Informazioni rilevanti trovate:', !!relevantInfo);
 
             let response = '';
             let hasAnswer = false;
