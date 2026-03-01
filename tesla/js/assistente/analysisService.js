@@ -232,19 +232,44 @@ class AnalysisService {
         try {
             console.log('[DEBUG] ==> WIKIPEDIA: Cercando per:', query);
             
-            // Timeout di 5 secondi
+            // Genera query alternative
+            const alternativeQueries = await this.generateAlternativeQueries(query);
+            console.log('[DEBUG] Provando', alternativeQueries.length, 'query alternative');
+
+            // Prova ogni query fino a trovare risultati
+            for (let qIndex = 0; qIndex < alternativeQueries.length; qIndex++) {
+                const currentQuery = alternativeQueries[qIndex];
+                console.log(`[DEBUG] Tentativo ${qIndex + 1}/${alternativeQueries.length}: "${currentQuery}"`);
+
+                const result = await this.tryWikipediaSearch(currentQuery);
+                
+                if (result && result.results && result.results.length > 0) {
+                    console.log(`[DEBUG] ✓ Successo con query: "${currentQuery}"`);
+                    return result;
+                }
+            }
+
+            console.log('[DEBUG] Nessun risultato trovato con nessuna query alternativa');
+            return null;
+        } catch (error) {
+            console.warn('[DEBUG] Errore generale searchWikipedia:', error);
+            return null;
+        }
+    }
+
+    async tryWikipediaSearch(query) {
+        try {
+            // Timeout di 3 secondi per singola query
             const controller = new AbortController();
             const timeout = setTimeout(() => {
-                console.log('[DEBUG] Wikipedia TIMEOUT');
+                console.log(`[DEBUG] Wikipedia TIMEOUT per query: "${query}"`);
                 controller.abort();
-            }, 5000);
+            }, 3000);
             
             try {
-                console.log('[DEBUG] Wikipedia: iniziando fetch...');
                 const url = `https://it.wikipedia.org/w/api.php?` +
                     `action=query&titles=${encodeURIComponent(query)}&` +
                     `prop=extracts&explaintext=true&format=json&origin=*`;
-                console.log('[DEBUG] Wikipedia URL:', url);
 
                 const response = await fetch(url, { 
                     mode: 'cors',
@@ -252,50 +277,44 @@ class AnalysisService {
                 });
 
                 clearTimeout(timeout);
-                console.log('[DEBUG] Wikipedia: risposta ricevuta, status:', response.status);
 
                 if (!response.ok) {
-                    console.warn('[DEBUG] Wikipedia API risposta non OK:', response.status);
+                    console.log(`[DEBUG] Wikipedia risposta non OK (${response.status}) per: "${query}"`);
                     return null;
                 }
 
                 const data = await response.json();
-                console.log('[DEBUG] Wikipedia: JSON parsato');
-                console.log('[DEBUG] Wikipedia data:', data);
 
                 if (data.query && data.query.pages) {
-                    console.log('[DEBUG] Wikipedia: trovate', data.query.pages.length, 'pagine');
-                    const pages = data.query.pages.filter(p => !p.missing && p.extract);
+                    const pages = data.query.pages.filter(p => !p.missing && p.extract && p.extract.length > 50);
                     
                     if (pages.length > 0) {
-                        console.log('[DEBUG] Wikipedia: pagine valide:', pages.length);
-                        const result = {
+                        console.log(`[DEBUG] ✓ Wikipedia trovate ${pages.length} pagine valide`);
+                        return {
                             type: 'wikipedia',
                             results: pages.slice(0, 3).map(p => ({
                                 label: p.title,
-                                description: p.extract ? p.extract.substring(0, 300) : 'Articolo trovato'
+                                description: p.extract ? p.extract.substring(0, 350) : 'Articolo trovato'
                             })),
                             source: 'Wikipedia',
-                            query: query
+                            query: query,
+                            pagesCount: pages.length
                         };
-                        console.log('[DEBUG] Wikipedia: ritornando risultati');
-                        return result;
-                    } else {
-                        console.log('[DEBUG] Wikipedia: nessuna pagina valida con extract');
                     }
-                } else {
-                    console.log('[DEBUG] Wikipedia: nessun query.pages nella risposta');
                 }
                 
-                console.log('[DEBUG] Wikipedia: nessun risultato trovato');
                 return null;
             } catch (fetchError) {
                 clearTimeout(timeout);
-                console.warn('[DEBUG] Errore Wikipedia fetch:', fetchError.message, fetchError.name);
+                if (fetchError.name === 'AbortError') {
+                    console.log(`[DEBUG] Fetch abortato per timeout su query: "${query}"`);
+                } else {
+                    console.warn(`[DEBUG] Errore fetch Wikipedia per query "${query}":`, fetchError.message);
+                }
                 return null;
             }
         } catch (error) {
-            console.warn('[DEBUG] Errore generale searchWikipedia:', error);
+            console.warn('[DEBUG] Errore tryWikipediaSearch:', error);
             return null;
         }
     }
@@ -309,6 +328,80 @@ class AnalysisService {
             .filter(word => !['come', 'qual', 'dove', 'quando', 'quale', 'che', 'per', 'del', 'una', 'con'].includes(word));
 
         return [...new Set(keywords)]; // Rimuovi duplicati
+    }
+
+    async generateAlternativeQueries(userMessage) {
+        try {
+            console.log('[DEBUG] Generando query alternative per:', userMessage);
+            
+            // Estrai keywords usando estrazione avanzata
+            const words = userMessage.toLowerCase().split(/\s+/);
+            
+            // Nomi comuni di oggetti e concetti per ricerca Wikipedia
+            const contextWords = {
+                'vinto': ['vincitore', 'vittoria', 'campione'],
+                'primo': ['primo', 'iniziale', 'origins'],
+                'mondiale': ['mondiale', 'world', 'internazionale'],
+                'calcio': ['calcio', 'football', 'soccer'],
+                'chi': ['chi', 'quale', 'nome'],
+                'cosa': ['cosa', 'argomento', 'tema'],
+                'come': ['come', 'metodo', 'modalità'],
+                'quando': ['quando', 'date', 'periodo', 'anno'],
+                'dove': ['dove', 'luogo', 'location'],
+                'fiore': ['fiore', 'pianta', 'flowers', 'botanica'],
+                'colore': ['colore', 'color', 'bianco', 'giallo', 'blu', 'rosso'],
+                'bianco': ['bianco', 'white', 'bianca'],
+                'giallo': ['giallo', 'yellow', 'oro'],
+            };
+
+            // Genera varianti di query
+            const queries = [
+                userMessage, // Query originale
+            ];
+
+            // Variante 1: Solo keywords importanti
+            const importantWords = words.filter(w => 
+                w.length > 2 && 
+                !['il', 'la', 'lo', 'di', 'da', 'per', 'che', 'chi', 'cosa', 'come', 'dove', 'quando', 'quale'].includes(w)
+            );
+            if (importantWords.length > 0) {
+                queries.push(importantWords.join(' '));
+            }
+
+            // Variante 2: Con sinonimi/espansioni
+            let expandedQuery = userMessage;
+            for (const [key, synonyms] of Object.entries(contextWords)) {
+                if (userMessage.toLowerCase().includes(key)) {
+                    // Aggiungi il sinonimo più rilevante
+                    expandedQuery += ' ' + synonyms[0];
+                }
+            }
+            if (expandedQuery !== userMessage) {
+                queries.push(expandedQuery);
+            }
+
+            // Variante 3: Query inversa (primo elemento principale)
+            if (importantWords.length >= 2) {
+                const inverted = [importantWords[importantWords.length - 1], ...importantWords.slice(0, -1)].join(' ');
+                queries.push(inverted);
+            }
+
+            // Variante 4: Aggiunta di contesto comune
+            queries.push(userMessage + ' wikipedia');
+            queries.push(userMessage + ' enciclopedia');
+            queries.push(userMessage + ' storia');
+
+            // Rimuovi duplicati e filtra stringhe vuote
+            const uniqueQueries = [...new Set(queries)].filter(q => q.trim().length > 0);
+            
+            console.log('[DEBUG] Query alternative generate:');
+            uniqueQueries.forEach((q, i) => console.log(`  ${i + 1}. "${q}"`));
+            
+            return uniqueQueries;
+        } catch (error) {
+            console.warn('[DEBUG] Errore generazione query alternative:', error);
+            return [userMessage]; // Fallback alla query originale
+        }
     }
 
     async generateResponse(userMessage) {
