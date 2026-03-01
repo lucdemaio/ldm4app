@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Assistente Tesla AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            space-y: 16px;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 16px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            word-wrap: break-word;
+        }
+
+        .message.assistant .message-content {
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 1px solid rgba(118, 75, 162, 0.3);
+        }
+
+        .message-meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+            padding: 0 12px;
+        }
+
+        .message .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 12px;
+            font-size: 20px;
+        }
+
+        .message.assistant .icon {
+            background: rgba(0, 100, 255, 0.2);
+        }
+
+        .message.user .icon {
+            background: rgba(118, 75, 162, 0.2);
+        }
+
+        .input-area {
+            padding: 20px;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            background: rgba(0, 102, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="text"]:focus {
+            background: rgba(0, 102, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        button {
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: rgba(0, 100, 255, 0.1);
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        .header {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0, 255, 100, 0.1);
+            border: 1px solid rgba(0, 255, 100, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #00ff64;
+        }
+
+        .status-badge.loading {
+            background: rgba(255, 180, 0, 0.1);
+            border-color: rgba(255, 180, 0, 0.3);
+            color: #ffb400;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: currentColor;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.loading {
+            animation: pulse-fast 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .sentiment-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .sentiment-positive {
+            background: rgba(0, 255, 100, 0.2);
+            color: #00ff64;
+            border: 1px solid rgba(0, 255, 100, 0.5);
+        }
+
+        .sentiment-negative {
+            background: rgba(255, 60, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 60, 60, 0.5);
+        }
+
+        .sentiment-neutral {
+            background: rgba(100, 150, 255, 0.2);
+            color: #6496ff;
+            border: 1px solid rgba(100, 150, 255, 0.5);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .action-btn {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #00d4ff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .error-message {
+            background: rgba(255, 60, 60, 0.1);
+            border: 1px solid rgba(255, 60, 60, 0.3);
+            color: #ff6b6b;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .loading-bar {
+            height: 3px;
+            background: linear-gradient(90deg, #0066ff 0%, #00d4ff 100%);
+            animation: loading 2s infinite;
+        }
+
+        @keyframes loading {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">
+                🤖 Assistente Tesla AI
+            </div>
+            <div class="status-badge" id="statusBadge">
+                <span class="status-dot"></span>
+                In Caricamento...
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message assistant" style="justify-content: flex-start;">
+                <div class="icon">🤖</div>
+                <div>
+                    <div class="message-content">
+                        Ciao! 👋 Sono l'Assistente Tesla AI. Sono qui per aiutarti con informazioni su prodotti Tesla, caratteristiche tecniche, e supporto generale. 
+                        <br><br>
+                        Puoi chiedermi:
+                        <ul style="margin-top: 8px; padding-left: 20px;">
+                            <li>📱 Informazioni su Model 3, Model S, Model X</li>
+                            <li>🔌 Funzionamento Supercharger e ricarica</li>
+                            <li>⚡ Autonomia e prestazioni</li>
+                            <li>💰 Prezzi e disponibilità</li>
+                            <li>🛠️ Manutenzione e servizio</li>
+                        </ul>
+                    </div>
+                    <div class="message-meta">Assistente AI • ora</div>
+                </div>
+            </div>
+
+            <div class="quick-actions" style="padding: 0 20px;">
+                <button class="action-btn" onclick="sendQuestion('Quanto costa il Model 3?')">💰 Prezzi</button>
+                <button class="action-btn" onclick="sendQuestion('Come funziona il Supercharger?')">🔌 Supercharger</button>
+                <button class="action-btn" onclick="sendQuestion('Quali sono le caratteristiche del Model S?')">📋 Caratteristiche</button>
+                <button class="action-btn" onclick="sendQuestion('Qual è l\'autonomia della batteria?')">⚡ Batteria</button>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    placeholder="Fai una domanda sull'Assistente Tesla..." 
+                    autocomplete="off"
+                >
+                <button id="sendBtn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i> Invia
+                </button>
+                <button id="clearBtn" onclick="clearChat()" title="Cancella chat">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <small style="display: block; margin-top: 12px; color: #888; text-align: center;">
+                💡 I modelli AI vengono caricati localmente nel tuo browser (nessun dato inviato a server)
+            </small>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@huggingface/transformers"></script>
+    <script src="js/assistente/knowledgeBase.js"></script>
+    <script src="js/assistente/modelManager.js"></script>
+    <script src="js/assistente/analysisService.js"></script>
+    <script src="js/assistente/chatInterface.js"></script>
+
+    <script>
+        // Inizializza al caricamento
+        window.addEventListener('load', async () => {
+            await initializeAssistant();
+        });
+
+        // Enter per inviare
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
