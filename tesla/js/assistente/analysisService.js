@@ -93,6 +93,77 @@ class AnalysisService {
         }
     }
 
+    searchAllKnowledgeBases(query) {
+        // Raccoglidi tutti i knowledge base disponibili
+        const allKBs = [
+            { name: 'Tesla', kb: window.teslaKnowledgeBase, type: 'tesla' },
+            { name: 'Science', kb: window.scienceKnowledge, type: 'general' },
+            { name: 'Arts', kb: window.artsKnowledge, type: 'general' },
+            { name: 'History', kb: window.historyKnowledge, type: 'general' },
+            { name: 'Society', kb: window.societyKnowledge, type: 'general' },
+            { name: 'Nature', kb: window.natureKnowledge, type: 'general' },
+            { name: 'Technology', kb: window.technologyKnowledge, type: 'general' },
+            { name: 'Humanities', kb: window.humanitiesKnowledge, type: 'general' },
+            { name: 'Sports', kb: window.sportsKnowledge, type: 'general' }
+        ];
+
+        const queryLower = query.toLowerCase();
+        let bestMatch = null;
+        let bestMatchScore = 0;
+
+        // Cerca in cada KB
+        for (const kbSource of allKBs) {
+            if (!kbSource.kb) continue;
+
+            // Se è Tesla KB (con struttura speciale)
+            if (kbSource.type === 'tesla' && kbSource.kb.findRelevantInfo) {
+                const match = kbSource.kb.findRelevantInfo(query);
+                if (match) {
+                    return { ...match, source: kbSource.name };
+                }
+            } else if (kbSource.type === 'general') {
+                // Per gli altri KB, cerca nei topics
+                for (const [key, topic] of Object.entries(kbSource.kb)) {
+                    if (!topic.keywords || !topic.description) continue;
+
+                    // Calcola score di somiglianza
+                    let currentScore = 0;
+                    
+                    // Controlla keywords
+                    for (const keyword of topic.keywords) {
+                        if (queryLower.includes(keyword.toLowerCase())) {
+                            currentScore += 2; // Peso maggiore per match di parole chiave
+                        }
+                    }
+
+                    // Controlla nome topic
+                    if (queryLower.includes(topic.name.toLowerCase())) {
+                        currentScore += 1.5;
+                    }
+
+                    // Controlla descrizione (primi 100 caratteri)
+                    const descStart = topic.description.substring(0, 200).toLowerCase();
+                    if (queryLower.split(/\s+/).some(word => word.length > 3 && descStart.includes(word))) {
+                        currentScore += 1;
+                    }
+
+                    // Se trovo un match migliore, lo salvo
+                    if (currentScore > bestMatchScore) {
+                        bestMatchScore = currentScore;
+                        bestMatch = {
+                            type: 'topic',
+                            name: topic.name,
+                            data: topic,
+                            source: kbSource.name + ' - ' + topic.name
+                        };
+                    }
+                }
+            }
+        }
+
+        return bestMatch;
+    }
+
     extractKeywords(text) {
         // Estrai parole chiave (implementazione semplice)
         const keywords = text
@@ -113,10 +184,10 @@ class AnalysisService {
             const intent = await this.classifyIntent(userMessage);
             const keywords = this.extractKeywords(userMessage);
             
-            console.log('[DEBUG] Knowledge Base disponibile?', !!window.teslaKnowledgeBase);
+            console.log('[DEBUG] Cercando in tutte le knowledge base disponibili...');
 
-            // Cerca informazioni rilevanti nella KB
-            const relevantInfo = window.teslaKnowledgeBase ? window.teslaKnowledgeBase.findRelevantInfo(userMessage) : null;
+            // Cerca informazioni rilevanti in TUTTI i KB
+            const relevantInfo = this.searchAllKnowledgeBases(userMessage);
             console.log('[DEBUG] Informazioni rilevanti trovate:', !!relevantInfo);
 
             let response = '';
@@ -216,19 +287,28 @@ class AnalysisService {
 
     formatGeneralResponse(general, userMessage) {
         let response = `**${general.name}** 📚\n\n`;
-        response += general.description;
+        
+        // Se è un topic da un KB generale, mostra nome + descrizione
+        if (general.description) {
+            response += general.description;
+        } else {
+            response += 'Informazioni disponibili su questo argomento.';
+        }
+        
         return response;
     }
 
     generateGenericResponse(userMessage, intent, keywords) {
         const responses = [
-            `Ho cercato di trovare informazioni su "${keywords[0] || 'questo'}" ma non ho trovato corrispondenze esatte nella mia knowledge base Tesla. Prova a chiedere di un modello specifico (Model 3, Model S, Model X, Model Y) o di servizi come Supercharger, Autopilot, o Batteria.`,
+            `Ho cercato di trovare informazioni su "${keywords[0] || 'questo'}" ma non ho trovato corrispondenze esatte. La mia knowledge base copre: Scienze, Arti, Storia, Società, Natura, Tecnologia, Filosofia e Sport. Prova a chiedere su questi argomenti!`,
             
-            `Non sono sicuro di come rispondere a questo. Conosco bene i prodotti Tesla, i prezzi, le caratteristiche tecniche, il funzionamento del Supercharger e dell'Autopilot. Cosa vorresti sapere su questi argomenti?`,
+            `Non sono sicuro di come rispondere a questo. Conosco bene i prodotti Tesla, scienze, storia mondiale, arte, società, ecologia, tecnologia e sport. Cosa vorresti sapere?`,
 
-            `Questa è una domanda interessante! Sfortunatamente non ho informazioni su questo nella mia knowledge base. Puoi contattare Tesla direttamente o visitare tesla.com per più dettagli.`,
+            `Questa è una domanda interessante! Sfortunatamente non ho informazioni specifiche su questo nella mia knowledge base. Prova a cercatori con parole chiave diverse o chiedimi di argomenti come scienza, storia, arte, filosofia o sport.`,
 
-            `Mi dispiace, non riesco a trovare una risposta precisa nel mio database. Prova a riformulare la domanda o chiedimi di un prodotto Tesla specifico.`
+            `Mi dispiace, non riesco a trovare una risposta precisa nel mio database. Prova a riformulare la domanda o chiedimi di altri argomenti nella mia knowledge base.`,
+
+            `Non ho trovato informazioni su questo. La mia knowledge base è molto estesa e copre molti argomenti - prova a chiedere su: prodotti Tesla, scienze, storia, arti, società, natura, tecnologia, filosofia o sport!`
         ];
 
         return responses[Math.floor(Math.random() * responses.length)];

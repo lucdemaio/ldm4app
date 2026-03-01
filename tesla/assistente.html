@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🤖 Assistente Tesla AI</title>
+    <title>� Cervello Universale AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -18,6 +19,46 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
             min-height: 100vh;
+        }
+
+        .nav-glass {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0,102,255,.5);
         }
 
         .glass-card {
@@ -353,11 +394,30 @@
     </style>
 </head>
 <body>
-    <div class="chat-container">
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold gradient-text">
+                    <a href="https://www.ldm4app.com" target="_blank" rel="noopener noreferrer">LDM4APP</a>
+                </div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <li><a href="tesla.html" class="text-gray-300 hover:text-cyan-400 transition">Home</a></li>
+                    <li><a href="giochi.html" class="text-yellow-300 hover:text-cyan-400 transition">Giochi</a></li>
+                    <li><a href="utilita.html" class="text-green-300 hover:text-cyan-400 transition">Utilità</a></li>
+                    <li><a href="assistente.html" class="text-cyan-400 hover:text-white font-semibold transition">Assistente</a></li>
+                    <li><a href="attrazioni.html" class="text-purple-300 hover:text-cyan-400 transition">Attrazioni</a></li>
+                    <li><a href="meteo.html" class="text-sky-300 hover:text-cyan-400 transition">Meteo</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="chat-container" style="margin-top: 70px;">
         <!-- Header -->
         <div class="header">
             <div class="header-title">
-                🤖 Assistente Tesla AI
+                � Cervello Universale AI - 1000+ Argomenti
             </div>
             <div class="status-badge" id="statusBadge">
                 <span class="status-dot"></span>
@@ -368,29 +428,33 @@
         <!-- Messages -->
         <div class="chat-messages" id="chatMessages">
             <div class="message assistant" style="justify-content: flex-start;">
-                <div class="icon">🤖</div>
+                <div class="icon">�</div>
                 <div>
                     <div class="message-content">
-                        Ciao! 👋 Sono l'Assistente Tesla AI. Sono qui per aiutarti con informazioni su prodotti Tesla, caratteristiche tecniche, e supporto generale. 
+                        Benvenuto! 👋 Sono il tuo Assistente Universale AI impoverato con migliaia di argomenti dalla conoscenza umana globale. 
                         <br><br>
-                        Puoi chiedermi:
+                        Posso aiutarti con:
                         <ul style="margin-top: 8px; padding-left: 20px;">
-                            <li>📱 Informazioni su Model 3, Model S, Model X</li>
-                            <li>🔌 Funzionamento Supercharger e ricarica</li>
-                            <li>⚡ Autonomia e prestazioni</li>
-                            <li>💰 Prezzi e disponibilità</li>
-                            <li>🛠️ Manutenzione e servizio</li>
+                            <li>🚗 Prodotti Tesla e caratteristiche tecniche</li>
+                            <li>🔬 Scienza (fisica, biologia, chimica, astrofisica, AI, quantum computing...)</li>
+                            <li>📚 Storia mondiale (dall'antichità al presente)</li>
+                            <li>🎨 Arti, cinema, musica, letteratura globale</li>
+                            <li>🌍 Società, economia, politica, diritto</li>
+                            <li>🌿 Natura, ecologia, zoologia, botanica</li>
+                            <li>💻 Tecnologia, informatica, internet, programmazione</li>
+                            <li>🧘 Filosofia, psicologia, sociologia, antropologia</li>
+                            <li>⚽ Sport e ricreazione mondiale</li>
                         </ul>
                     </div>
-                    <div class="message-meta">Assistente AI • ora</div>
+                    <div class="message-meta">Assistente AI Universale • ora</div>
                 </div>
             </div>
 
             <div class="quick-actions" style="padding: 0 20px;">
-                <button class="action-btn" onclick="sendQuestion('Quanto costa il Model 3?')">💰 Prezzi</button>
-                <button class="action-btn" onclick="sendQuestion('Come funziona il Supercharger?')">🔌 Supercharger</button>
-                <button class="action-btn" onclick="sendQuestion('Quali sono le caratteristiche del Model S?')">📋 Caratteristiche</button>
-                <button class="action-btn" onclick="sendQuestion('Qual è l\'autonomia della batteria?')">⚡ Batteria</button>
+                <button class="action-btn" onclick="sendQuestion('Quale è la velocità della luce?')">🔬 Scienza</button>
+                <button class="action-btn" onclick="sendQuestion('Chi era Napoleone?')">📚 Storia</button>
+                <button class="action-btn" onclick="sendQuestion('Come funziona il machine learning?')">💻 Tecnologia</button>
+                <button class="action-btn" onclick="sendQuestion('Quali sono gli sport olimpici estivi?')">⚽ Sport</button>
             </div>
         </div>
 
@@ -400,7 +464,7 @@
                 <input 
                     type="text" 
                     id="messageInput" 
-                    placeholder="Fai una domanda sull'Assistente Tesla..." 
+                    placeholder="Fai una domanda su qualsiasi argomento: Tesla, scienza, storia, arti, tecnologia, sport..." 
                     autocomplete="off"
                 >
                 <button id="sendBtn" onclick="sendMessage()">
@@ -411,13 +475,24 @@
                 </button>
             </div>
             <small style="display: block; margin-top: 12px; color: #888; text-align: center;">
-                💡 I modelli AI vengono caricati localmente nel tuo browser (nessun dato inviato a server)
+                🧠 Cervello Universale AI - 9 Knowledge Base con 1000+ argomenti • Elaborazione 100% locale nel browser • Nessun dato inviato a server
             </small>
         </div>
     </div>
 
     <!-- Scripts -->
+    <!-- Knowledge Bases - Caricati globalmente nel window -->
     <script src="js/assistente/knowledgeBase.js"></script>
+    <script src="js/assistente/knowledgeBase_science.js"></script>
+    <script src="js/assistente/knowledgeBase_arts.js"></script>
+    <script src="js/assistente/knowledgeBase_history.js"></script>
+    <script src="js/assistente/knowledgeBase_society.js"></script>
+    <script src="js/assistente/knowledgeBase_nature.js"></script>
+    <script src="js/assistente/knowledgeBase_technology.js"></script>
+    <script src="js/assistente/knowledgeBase_humanities.js"></script>
+    <script src="js/assistente/knowledgeBase_sports.js"></script>
+    
+    <!-- Module Scripts -->
     <script type="module" src="js/assistente/modelManager.js"></script>
     <script type="module" src="js/assistente/analysisService.js"></script>
     <script type="module" src="js/assistente/chatInterface.js"></script>
