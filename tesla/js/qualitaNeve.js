@@ -11,12 +11,21 @@ let qualitaNeveDati = {};
 
 async function fetchQualitaNeve() {
     try {
+        const oggi = new Date();
+        const oggiStr = oggi.toISOString().split('T')[0];
+        
         // Chiama i dati meteo per ogni montagna
         for (const [key, mountain] of Object.entries(montagne)) {
             const response = await fetch(
                 `https://api.open-meteo.com/v1/forecast?latitude=${mountain.lat}&longitude=${mountain.lon}&current=temperature_2m,weather_code,snow_depth&daily=temperature_2m_min,snowfall,weather_code&timezone=Europe/Rome`
             );
             const data = await response.json();
+            
+            // Verifica che i dati siano validi
+            if (!data.current) {
+                console.warn(`Dati incompleti per ${mountain.name}`);
+                continue;
+            }
             
             qualitaNeveDati[key] = {
                 ...mountain,
@@ -33,10 +42,15 @@ async function fetchQualitaNeve() {
 }
 
 function calculateSnowQuality(current, daily) {
-    const temp = current.temperature_2m;
+    // Validazione dati
+    if (!current || !daily) {
+        return { quality: 'N/A', color: 'text-gray-400', icon: '❓', snowDepth: 0, temp: 0, nextSnowfall: 0 };
+    }
+    
+    const temp = current.temperature_2m || 0;
     const snowDepth = current.snow_depth || 0;
-    const nextSnowfall = daily.snowfall[0] || 0;
-    const nextMinTemp = daily.temperature_2m_min[0] || 0;
+    const nextSnowfall = (daily && daily.snowfall && daily.snowfall[0]) || 0;
+    const nextMinTemp = (daily && daily.temperature_2m_min && daily.temperature_2m_min[0]) || 0;
 
     let quality = 'Pessima';
     let color = 'text-red-400';

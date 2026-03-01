@@ -3,26 +3,22 @@ let alertiCivili = [];
 
 async function fetchAlertiCivili() {
     try {
-        // Protezione Civile API
-        const response = await fetch('https://mappe.protezionecivile.it/mappe/api/alert');
-        const data = await response.json();
-        
-        alertiCivili = data.alerts || [];
-        displayAlertiCivili();
+        // Protezione Civile API ha problemi CORS - usiamo fallback diretto
+        loadFallbackAlerts();
     } catch (error) {
-        console.log('Servizio allerte Protezione Civile temporaneamente non disponibile');
+        console.log('Servizio allerte Protezione Civile non disponibile - usando dati simulati');
         loadFallbackAlerts();
     }
 }
 
 function loadFallbackAlerts() {
-    // Dati di fallback basati su meteo attuale
+    // Dati di fallback basati su meteo attuale - semplificato
     alertiCivili = [
         {
-            region: 'Lazio',
-            level: 'yellow',
-            description: 'Temporali isolati possibili',
-            until: '23:59'
+            region: 'Sistema',
+            level: 'green',
+            description: 'Sistema di allerte Protezione Civile disponibile online su protezionecivile.it',
+            until: '24:00'
         }
     ];
     displayAlertiCivili();

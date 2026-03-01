@@ -8,6 +8,7 @@ let storicoData = {
 async function fetchStoricoMeteo(lat, lon) {
     try {
         const oggi = new Date();
+        const oggiStr = oggi.toISOString().split('T')[0];
         
         // Ieri
         const ieriDateStr = new Date(oggi.getTime() - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
@@ -20,7 +21,7 @@ async function fetchStoricoMeteo(lat, lon) {
 
         // Ieri e settimana scorsa (ultimi 8 giorni)
         const responseRecent = await fetch(
-            `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${settimanascorsaDateStr}&end_date=today&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum&timezone=Europe/Rome`
+            `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${settimanascorsaDateStr}&end_date=${oggiStr}&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum&timezone=Europe/Rome`
         );
         const dataRecent = await responseRecent.json();
         
