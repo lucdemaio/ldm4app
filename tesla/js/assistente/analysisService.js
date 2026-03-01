@@ -1,6 +1,8 @@
 // Analysis Service - Analisi testi con AI
 // Usa i modelli per sentiment, classificazione, QA
 
+import { modelManager } from './modelManager.js';
+
 class AnalysisService {
     constructor() {
         this.sentimentThreshold = 0.8;
@@ -220,4 +222,5 @@ class AnalysisService {
 }
 
 // Singleton globale
-const analysisService = new AnalysisService();
+export const analysisService = new AnalysisService();
+window.analysisService = analysisService;

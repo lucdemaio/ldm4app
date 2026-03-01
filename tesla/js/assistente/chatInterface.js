@@ -1,6 +1,9 @@
 // Chat Interface - Gestione UI e logica chat
 // Coordina il flusso di messaggi, visualizzazione e interazioni
 
+import { modelManager } from './modelManager.js';
+import { analysisService } from './analysisService.js';
+
 let chatHistory = [];
 let isProcessing = false;
 
@@ -274,7 +277,11 @@ function getAssistantStats() {
     };
 }
 
-// Esponi globalmente per console debug
+// Esponi globalmente per console debug e DOM onclick
+window.initializeAssistant = initializeAssistant;
+window.sendMessage = sendMessage;
+window.sendQuestion = sendQuestion;
+window.clearChat = clearChat;
 window.getAssistantStats = getAssistantStats;
-window.getChatHistory = () => chatHistory;
 window.downloadChatHistory = downloadChatHistory;
+window.getChatHistory = () => chatHistory;

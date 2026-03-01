@@ -1,7 +1,7 @@
 // Model Manager - Gestione modelli Transformers.js
 // Carica e gestisce i modelli AI locali
 
-const { pipeline, env } = window;
+import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers';
 
 class ModelManager {
     constructor() {
@@ -121,4 +121,5 @@ class ModelManager {
 }
 
 // Singleton globale
-const modelManager = new ModelManager();
+export const modelManager = new ModelManager();
+window.modelManager = modelManager;
