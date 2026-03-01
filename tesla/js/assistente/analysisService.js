@@ -119,7 +119,7 @@ class AnalysisService {
             if (kbSource.type === 'tesla' && kbSource.kb.findRelevantInfo) {
                 const match = kbSource.kb.findRelevantInfo(query);
                 if (match) {
-                    return { ...match, source: kbSource.name };
+                    return { ...match, source: kbSource.name, score: bestMatchScore };
                 }
             } else if (kbSource.type === 'general') {
                 // Per gli altri KB, cerca nei topics
@@ -154,7 +154,8 @@ class AnalysisService {
                             type: 'topic',
                             name: topic.name,
                             data: topic,
-                            source: kbSource.name + ' - ' + topic.name
+                            source: kbSource.name + ' - ' + topic.name,
+                            score: currentScore
                         };
                     }
                 }
@@ -162,6 +163,41 @@ class AnalysisService {
         }
 
         return bestMatch;
+    }
+
+    async searchWikidata(query) {
+        try {
+            console.log('[DEBUG] Cercando in Wikidata:', query);
+            
+            const response = await fetch(
+                `https://www.wikidata.org/w/api.php?` +
+                `action=wbsearchentities&search=${encodeURIComponent(query)}&language=it` +
+                `&format=json&origin=*`,
+                { mode: 'cors' }
+            );
+
+            if (!response.ok) {
+                console.warn('Wikidata API non disponibile');
+                return null;
+            }
+
+            const data = await response.json();
+            
+            if (data.search && data.search.length > 0) {
+                // Ritorna i primi 3 risultati
+                return {
+                    type: 'wikidata',
+                    results: data.search.slice(0, 3),
+                    source: 'Wikidata',
+                    query: query
+                };
+            }
+            
+            return null;
+        } catch (error) {
+            console.warn('Errore ricerca Wikidata:', error);
+            return null;
+        }
     }
 
     extractKeywords(text) {
@@ -188,12 +224,13 @@ class AnalysisService {
 
             // Cerca informazioni rilevanti in TUTTI i KB
             const relevantInfo = this.searchAllKnowledgeBases(userMessage);
-            console.log('[DEBUG] Informazioni rilevanti trovate:', !!relevantInfo);
+            console.log('[DEBUG] Informazioni rilevanti trovate:', !!relevantInfo, 'Score:', relevantInfo?.score);
 
             let response = '';
             let hasAnswer = false;
 
-            if (relevantInfo) {
+            if (relevantInfo && relevantInfo.score > 0.5) {
+                // Se il match è buono, usa il KB locale
                 hasAnswer = true;
                 
                 if (relevantInfo.type === 'product') {
@@ -202,6 +239,30 @@ class AnalysisService {
                     response = this.formatServiceResponse(relevantInfo.data, userMessage);
                 } else if (relevantInfo.type === 'general') {
                     response = this.formatGeneralResponse(relevantInfo.data, userMessage);
+                }
+            } else if (relevantInfo && relevantInfo.score <= 0.5) {
+                // Score basso, prova Wikidata per disambiguazione
+                console.log('[DEBUG] Score basso, cercando in Wikidata...');
+                const wikidataResult = await this.searchWikidata(userMessage);
+                
+                if (wikidataResult && wikidataResult.results.length > 0) {
+                    hasAnswer = true;
+                    response = this.formatWikidataResponse(wikidataResult);
+                } else {
+                    // Nessun risultato neanche in Wikidata
+                    response = this.generateGenericResponse(userMessage, intent, keywords);
+                }
+            } else {
+                // Non trovato nei KB locali, prova Wikidata
+                console.log('[DEBUG] Nessun match nei KB locali, cercando in Wikidata...');
+                const wikidataResult = await this.searchWikidata(userMessage);
+                
+                if (wikidataResult && wikidataResult.results.length > 0) {
+                    hasAnswer = true;
+                    response = this.formatWikidataResponse(wikidataResult);
+                } else {
+                    // Fallback generico
+                    response = this.generateGenericResponse(userMessage, intent, keywords);
                 }
             }
 
@@ -222,11 +283,6 @@ class AnalysisService {
                 }
             }
 
-            // Fallback generico
-            if (!hasAnswer) {
-                response = this.generateGenericResponse(userMessage, intent, keywords);
-            }
-
             return {
                 userMessage,
                 response,
@@ -236,7 +292,7 @@ class AnalysisService {
                 metadata: {
                     hasAnswer,
                     timestamp: new Date().toISOString(),
-                    modelUsed: 'Transformers.js (Xenova)'
+                    modelUsed: 'Transformers.js (Xenova) + Wikidata'
                 }
             };
         } catch (error) {
@@ -294,6 +350,22 @@ class AnalysisService {
         } else {
             response += 'Informazioni disponibili su questo argomento.';
         }
+        
+        return response;
+    }
+
+    formatWikidataResponse(wikidataResult) {
+        let response = `🌐 **Risultati da Wikidata**\n\n`;
+        
+        wikidataResult.results.forEach((item, index) => {
+            response += `**${index + 1}. ${item.label}**`;
+            if (item.description) {
+                response += ` - ${item.description}`;
+            }
+            response += '\n';
+        });
+
+        response += '\n_📖 Informazioni fornite da Wikidata - Enciclopedia globale libera_';
         
         return response;
     }
