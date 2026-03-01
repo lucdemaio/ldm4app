@@ -110,7 +110,7 @@ function createPlayerNameModal(gameName, onConfirm) {
                 <h2 class="text-2xl font-bold mb-6">🎮 Benvenuto!</h2>
                 <p class="text-gray-300 mb-6">Inserisci il tuo nome per iniziare:</p>
                 <input type="text" id="playerNameInput" placeholder="Il tuo nome..." 
-                    class="w-full px-4 py-3 rounded-lg bg-blue-500/20 border border-cyan-500/50 text-white mb-6" 
+                    class="w-full px-4 py-3 rounded-lg bg-blue-500/20 border border-cyan-500/50 text-black mb-6" 
                     maxlength="20">
                 <button class="btn-primary text-white px-8 py-3 rounded-full w-full" 
                     onclick="${onConfirm}">
