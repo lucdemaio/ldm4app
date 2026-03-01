@@ -169,33 +169,110 @@ class AnalysisService {
         try {
             console.log('[DEBUG] Cercando in Wikidata:', query);
             
-            const response = await fetch(
-                `https://www.wikidata.org/w/api.php?` +
-                `action=wbsearchentities&search=${encodeURIComponent(query)}&language=it` +
-                `&format=json&origin=*`,
-                { mode: 'cors' }
-            );
+            // Timeout di 3 secondi per la fetch
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 3000);
+            
+            try {
+                const response = await fetch(
+                    `https://www.wikidata.org/w/api.php?` +
+                    `action=wbsearchentities&search=${encodeURIComponent(query)}&language=it` +
+                    `&format=json&origin=*`,
+                    { 
+                        mode: 'cors',
+                        signal: controller.signal
+                    }
+                );
 
-            if (!response.ok) {
-                console.warn('Wikidata API non disponibile');
+                clearTimeout(timeout);
+
+                if (!response.ok) {
+                    console.warn('[DEBUG] Wikidata API risposta non OK:', response.status);
+                    return await this.searchWikipedia(query);
+                }
+
+                const data = await response.json();
+                console.log('[DEBUG] Wikidata risposta:', data);
+                
+                if (data.search && data.search.length > 0) {
+                    console.log('[DEBUG] Trovati', data.search.length, 'risultati in Wikidata');
+                    // Ritorna i primi 3 risultati
+                    return {
+                        type: 'wikidata',
+                        results: data.search.slice(0, 3),
+                        source: 'Wikidata',
+                        query: query
+                    };
+                }
+                
+                console.log('[DEBUG] Nessun risultato in Wikidata, provo Wikipedia...');
+                return await this.searchWikipedia(query);
+            } catch (fetchError) {
+                clearTimeout(timeout);
+                console.warn('[DEBUG] Errore Wikidata fetch:', fetchError.message);
+                return await this.searchWikipedia(query);
+            }
+        } catch (error) {
+            console.warn('[DEBUG] Errore generale searchWikidata:', error);
+            return null;
+        }
+    }
+
+    async searchWikipedia(query) {
+        try {
+            console.log('[DEBUG] Cercando in Wikipedia:', query);
+            
+            // Timeout di 3 secondi
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 3000);
+            
+            try {
+                const response = await fetch(
+                    `https://it.wikipedia.org/w/api.php?` +
+                    `action=query&titles=${encodeURIComponent(query)}&` +
+                    `prop=extracts&explaintext=true&formatversion=2&format=json&origin=*`,
+                    { 
+                        mode: 'cors',
+                        signal: controller.signal
+                    }
+                );
+
+                clearTimeout(timeout);
+
+                if (!response.ok) {
+                    console.warn('[DEBUG] Wikipedia API risposta non OK:', response.status);
+                    return null;
+                }
+
+                const data = await response.json();
+                console.log('[DEBUG] Wikipedia risposta:', data);
+
+                if (data.query && data.query.pages && data.query.pages.length > 0) {
+                    const pages = data.query.pages.filter(p => !p.missing);
+                    
+                    if (pages.length > 0) {
+                        console.log('[DEBUG] Trovati', pages.length, 'risultati in Wikipedia');
+                        return {
+                            type: 'wikipedia',
+                            results: pages.map(p => ({
+                                label: p.title,
+                                description: p.extract ? p.extract.substring(0, 200) + '...' : 'Articolo trovato'
+                            })),
+                            source: 'Wikipedia',
+                            query: query
+                        };
+                    }
+                }
+                
+                console.log('[DEBUG] Nessun risultato in Wikipedia');
+                return null;
+            } catch (fetchError) {
+                clearTimeout(timeout);
+                console.warn('[DEBUG] Errore Wikipedia fetch:', fetchError.message);
                 return null;
             }
-
-            const data = await response.json();
-            
-            if (data.search && data.search.length > 0) {
-                // Ritorna i primi 3 risultati
-                return {
-                    type: 'wikidata',
-                    results: data.search.slice(0, 3),
-                    source: 'Wikidata',
-                    query: query
-                };
-            }
-            
-            return null;
         } catch (error) {
-            console.warn('Errore ricerca Wikidata:', error);
+            console.warn('[DEBUG] Errore generale searchWikipedia:', error);
             return null;
         }
     }
@@ -354,10 +431,16 @@ class AnalysisService {
         return response;
     }
 
-    formatWikidataResponse(wikidataResult) {
-        let response = `🌐 **Risultati da Wikidata**\n\n`;
+    formatWikidataResponse(result) {
+        let response = '';
         
-        wikidataResult.results.forEach((item, index) => {
+        if (result.type === 'wikidata') {
+            response = `🌐 **Risultati da Wikidata**\n\n`;
+        } else if (result.type === 'wikipedia') {
+            response = `📖 **Risultati da Wikipedia**\n\n`;
+        }
+        
+        result.results.forEach((item, index) => {
             response += `**${index + 1}. ${item.label}**`;
             if (item.description) {
                 response += ` - ${item.description}`;
@@ -365,7 +448,11 @@ class AnalysisService {
             response += '\n';
         });
 
-        response += '\n_📖 Informazioni fornite da Wikidata - Enciclopedia globale libera_';
+        if (result.type === 'wikidata') {
+            response += '\n_📚 Informazioni fornite da Wikidata - Enciclopedia globale libera_';
+        } else if (result.type === 'wikipedia') {
+            response += '\n_📚 Informazioni fornite da Wikipedia - Enciclopedia online_';
+        }
         
         return response;
     }
