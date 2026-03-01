@@ -1,8 +1,8 @@
 // Chat Interface - Gestione UI e logica chat
 // Coordina il flusso di messaggi, visualizzazione e interazioni
 
-import { modelManager } from './modelManager.js';
-import { analysisService } from './analysisService.js';
+import { getModelManager } from './modelManager.js';
+import { getAnalysisService } from './analysisService.js';
 
 let chatHistory = [];
 let isProcessing = false;
@@ -11,6 +11,14 @@ async function initializeAssistant() {
     try {
         console.log('Inizializzazione assistente...');
         updateStatus('Caricamento modelli AI...', true);
+        
+        // Ottieni istanza modelManager
+        const modelManager = getModelManager();
+        window.modelManager = modelManager;
+        
+        // Ottieni istanza analysisService
+        const analysisService = getAnalysisService();
+        window.analysisService = analysisService;
         
         // Inizializza i modelli
         const success = await modelManager.initializeModels();
@@ -109,6 +117,7 @@ async function sendMessage() {
 
         // Genera risposta
         updateStatus('Elaborazione...', true);
+        const analysisService = getAnalysisService();
         const result = await analysisService.generateResponse(message);
 
         // Rimuovi typing indicator

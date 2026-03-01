@@ -9,9 +9,11 @@ class ModelManager {
         this.isInitializing = false;
         this.initError = null;
         
-        // Configura cache per modelli
-        env.allowLocalModels = true;
-        env.allowRemoteModels = true;
+        // Configura cache per modelli (solo se env è disponibile)
+        if (env) {
+            env.allowLocalModels = true;
+            env.allowRemoteModels = true;
+        }
         
         // USA cache locale se disponibile
         // env.localModelPath = '/models/';
@@ -120,6 +122,15 @@ class ModelManager {
     }
 }
 
-// Singleton globale
-export const modelManager = new ModelManager();
-window.modelManager = modelManager;
+// Singleton globale - creato al primo utilizzo
+let modelManagerInstance = null;
+
+export function getModelManager() {
+    if (!modelManagerInstance) {
+        modelManagerInstance = new ModelManager();
+    }
+    return modelManagerInstance;
+}
+
+// Istanza predefinita per l'uso diretto
+window.modelManager = null;

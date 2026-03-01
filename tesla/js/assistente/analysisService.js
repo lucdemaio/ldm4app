@@ -1,7 +1,7 @@
 // Analysis Service - Analisi testi con AI
 // Usa i modelli per sentiment, classificazione, QA
 
-import { modelManager } from './modelManager.js';
+import { getModelManager } from './modelManager.js';
 
 class AnalysisService {
     constructor() {
@@ -10,6 +10,7 @@ class AnalysisService {
 
     async analyzeSentiment(text) {
         try {
+            const modelManager = getModelManager();
             const analyzer = await modelManager.getSentimentAnalyzer();
             const result = await analyzer(text);
 
@@ -29,6 +30,7 @@ class AnalysisService {
 
     async classifyIntent(text) {
         try {
+            const modelManager = getModelManager();
             const classifier = await modelManager.getZeroShotClassifier();
             
             const categories = [
@@ -62,8 +64,7 @@ class AnalysisService {
     }
 
     async answerQuestion(question, context) {
-        try {
-            const qa = await modelManager.getQAModel();
+        try {            const modelManager = getModelManager();            const qa = await modelManager.getQAModel();
 
             // Limita il contesto a lunghezza massima (512 token)
             const maxContextLength = 500;
@@ -221,6 +222,15 @@ class AnalysisService {
     }
 }
 
-// Singleton globale
-export const analysisService = new AnalysisService();
-window.analysisService = analysisService;
+// Singleton globale - creato al primo utilizzo
+let analysisServiceInstance = null;
+
+export function getAnalysisService() {
+    if (!analysisServiceInstance) {
+        analysisServiceInstance = new AnalysisService();
+    }
+    return analysisServiceInstance;
+}
+
+// Istanza predefinita per l'uso diretto
+window.analysisService = null;
