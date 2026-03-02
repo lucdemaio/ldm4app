@@ -431,20 +431,22 @@
                 <div class="icon">�</div>
                 <div>
                     <div class="message-content">
-                        Benvenuto! 👋 Sono il tuo Assistente Universale AI impoverato con migliaia di argomenti dalla conoscenza umana globale. 
+                        Benvenuto! 👋 Sono il tuo Assistente Universale AI alimentato con 1000+ argomenti dalla conoscenza umana globale + Wikipedia, Wikidata, e altre 4 API pubbliche globali. 
                         <br><br>
                         Posso aiutarti con:
                         <ul style="margin-top: 8px; padding-left: 20px;">
                             <li>🚗 Prodotti Tesla e caratteristiche tecniche</li>
                             <li>🔬 Scienza (fisica, biologia, chimica, astrofisica, AI, quantum computing...)</li>
-                            <li>📚 Storia mondiale (dall'antichità al presente)</li>
-                            <li>🎨 Arti, cinema, musica, letteratura globale</li>
-                            <li>🌍 Società, economia, politica, diritto</li>
+                            <li>📚 Storia mondiale (dall'antichità al presente) + Letteratura globale</li>
+                            <li>🎨 Arti, cinema, musica, letteratura, poesia</li>
+                            <li>🌍 Società, economia, politica, diritto + Paesi del mondo</li>
                             <li>🌿 Natura, ecologia, zoologia, botanica</li>
                             <li>💻 Tecnologia, informatica, internet, programmazione</li>
                             <li>🧘 Filosofia, psicologia, sociologia, antropologia</li>
                             <li>⚽ Sport e ricreazione mondiale</li>
                         </ul>
+                        <br>
+                        <strong>🔗 Fonti di ricerca:</strong> 9 Knowledge Base locali + Wikipedia + Wikidata + OpenLibrary + PoetryDB + REST Countries + DBpedia
                     </div>
                     <div class="message-meta">Assistente AI Universale • ora</div>
                 </div>
@@ -475,7 +477,7 @@
                 </button>
             </div>
             <small style="display: block; margin-top: 12px; color: #888; text-align: center;">
-                🧠 Cervello Universale AI - 9 Knowledge Base con 1000+ argomenti • Elaborazione 100% locale nel browser • Nessun dato inviato a server
+                🧠 Cervello Universale AI - 9 KB + Wikipedia + Wikidata + OpenLibrary + PoetryDB + Countries + DBpedia • Elaborazione 100% locale nel browser • Nessun dato inviato a server
             </small>
         </div>
     </div>
@@ -500,14 +502,32 @@
     <script>
         // Inizializza al caricamento
         window.addEventListener('load', async () => {
-            await initializeAssistant();
+            // Attesa che i moduli siano caricati
+            let attempts = 0;
+            while (!window.initializeAssistant && attempts < 50) {
+                await new Promise(r => setTimeout(r, 100));
+                attempts++;
+            }
+            
+            if (window.initializeAssistant) {
+                await window.initializeAssistant();
+            } else {
+                console.error('❌ initializeAssistant non trovato - i moduli potrebbero non essersi caricati');
+            }
         });
 
         // Enter per inviare
-        document.getElementById('messageInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('messageInput');
+            if (input) {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (window.sendMessage) {
+                            window.sendMessage();
+                        }
+                    }
+                });
             }
         });
     </script>
