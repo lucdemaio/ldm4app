@@ -321,7 +321,7 @@ class AnalysisService {
                                     type: 'wikipedia',
                                     results: pages.map(p => ({
                                         label: p.title,
-                                        description: p.extract ? p.extract.substring(0, 400) : 'Articolo trovato'
+                                        description: p.extract || 'Articolo trovato'
                                     })),
                                     source: 'Wikipedia',
                                     query: query,
@@ -382,6 +382,17 @@ class AnalysisService {
             // Estrai keywords usando estrazione avanzata
             const words = userMessage.toLowerCase().split(/\s+/);
             
+            // **NUOVA LOGICA**: Rileva anni (1900-2100)
+            const yearMatch = userMessage.match(/\b(19\d{2}|20\d{2})\b/);
+            const year = yearMatch ? yearMatch[1] : null;
+            
+            // Se c'è un anno, rimuovilo per analizzare il resto
+            let messageWithoutYear = userMessage;
+            if (year) {
+                messageWithoutYear = userMessage.replace(year, '').trim();
+                console.log(`[DEBUG] Anno rilevato: ${year}`);
+            }
+            
             // Nomi comuni di oggetti e concetti per ricerca Wikipedia
             const contextWords = {
                 'vinto': ['vincitore', 'vittoria', 'campione'],
@@ -400,49 +411,105 @@ class AnalysisService {
             };
 
             // Genera varianti di query
-            const queries = [
-                userMessage, // Query originale
-            ];
+            const queries = [];
+            
+            // Variante 0: Query originale
+            queries.push(userMessage);
+
+            // **NUOVA**: Se c'è un anno, crea varianti specifiche per anno
+            if (year) {
+                // Variante: Anno + parole chiave importanti (senza articoli)
+                const keywordsForYear = words
+                    .filter(w => w.length > 2 && 
+                        !['il', 'la', 'lo', 'di', 'da', 'per', 'che', 'chi', 'cosa', 'come', 'dove', 'quando', 'quale', 'ha', 'del'].includes(w) &&
+                        w !== year)
+                    .slice(0, 3) // Prendi max 3 keywords
+                    .join(' ');
+                
+                if (keywordsForYear) {
+                    // "calcio mondiale 1934"
+                    queries.push(`${keywordsForYear} ${year}`);
+                    // "1934 mondiale calcio"
+                    queries.push(`${year} ${keywordsForYear}`);
+                }
+                
+                // Variante: Anno + evento specifico
+                const hasWorld = userMessage.toLowerCase().includes('mondiale') || userMessage.toLowerCase().includes('world');
+                const hasFootball = userMessage.toLowerCase().includes('calcio') || userMessage.toLowerCase().includes('football') || userMessage.toLowerCase().includes('soccer');
+                
+                if (hasWorld && hasFootball) {
+                    queries.push(`FIFA World Cup ${year}`);
+                    queries.push(`Campionato mondiale calcio ${year}`);
+                    queries.push(`World Cup ${year} winner`);
+                }
+            }
 
             // Variante 1: Solo keywords importanti
             const importantWords = words.filter(w => 
                 w.length > 2 && 
-                !['il', 'la', 'lo', 'di', 'da', 'per', 'che', 'chi', 'cosa', 'come', 'dove', 'quando', 'quale'].includes(w)
+                !['il', 'la', 'lo', 'di', 'da', 'per', 'che', 'chi', 'cosa', 'come', 'dove', 'quando', 'quale', 'ha', 'del'].includes(w) &&
+                w !== year // Escludi l'anno se già considerato
             );
             if (importantWords.length > 0) {
                 queries.push(importantWords.join(' '));
             }
 
-            // Variante 2: Con sinonimi/espansioni
-            let expandedQuery = userMessage;
+            // Variante 2: Con sinonimi/espansioni (mantenendo l'anno)
+            let expandedQuery = messageWithoutYear;
             for (const [key, synonyms] of Object.entries(contextWords)) {
-                if (userMessage.toLowerCase().includes(key)) {
-                    // Aggiungi il sinonimo più rilevante
+                if (messageWithoutYear.toLowerCase().includes(key)) {
                     expandedQuery += ' ' + synonyms[0];
                 }
             }
-            if (expandedQuery !== userMessage) {
+            if (year && !expandedQuery.includes(year)) {
+                expandedQuery += ` ${year}`;
+            }
+            if (expandedQuery !== userMessage && expandedQuery.trim().length > 0) {
                 queries.push(expandedQuery);
             }
 
-            // Variante 3: Query inversa (primo elemento principale)
-            if (importantWords.length >= 2) {
-                const inverted = [importantWords[importantWords.length - 1], ...importantWords.slice(0, -1)].join(' ');
-                queries.push(inverted);
+            // Variante 3: Query con Wikipedia/Enciclopedia/Storia + anno
+            if (year) {
+                queries.push(messageWithoutYear + ` ${year} wikipedia`);
+                queries.push(messageWithoutYear + ` ${year} history`);
+            } else {
+                queries.push(userMessage + ' wikipedia');
+                queries.push(userMessage + ' enciclopedia');
+                queries.push(userMessage + ' storia');
             }
 
-            // Variante 4: Aggiunta di contesto comune
-            queries.push(userMessage + ' wikipedia');
-            queries.push(userMessage + ' enciclopedia');
-            queries.push(userMessage + ' storia');
+            // Variante 4: Ricerca con nome evento se contiene parole chiave
+            const eventPatterns = {
+                'mondiale': ['Campionato mondiale', 'World Championship'],
+                'olimpiad': ['Giochi olimpici', 'Olympic Games'],
+                'guerra': ['World War', 'Guerra mondiale'],
+                'guerra mondiale': year ? [`Seconda guerra mondiale ${year}`, `First World War ${year}`] : [],
+            };
+            
+            for (const [pattern, alternatives] of Object.entries(eventPatterns)) {
+                if (userMessage.toLowerCase().includes(pattern)) {
+                    alternatives.forEach(alt => {
+                        if (year && !alt.includes(year)) {
+                            queries.push(`${alt} ${year}`);
+                        } else {
+                            queries.push(alt);
+                        }
+                    });
+                }
+            }
 
             // Rimuovi duplicati e filtra stringhe vuote
-            const uniqueQueries = [...new Set(queries)].filter(q => q.trim().length > 0);
+            const uniqueQueries = [...new Set(queries)]
+                .filter(q => q.trim().length > 0 && q.trim() !== userMessage)
+                .slice(0, 10); // Max 10 varianti
             
-            console.log('[DEBUG] Query alternative generate:');
-            uniqueQueries.forEach((q, i) => console.log(`  ${i + 1}. "${q}"`));
+            // Aggiungi query originale prima
+            const finalQueries = [userMessage, ...uniqueQueries];
             
-            return uniqueQueries;
+            console.log('[DEBUG] Query alternative generate (smart with years):');
+            finalQueries.forEach((q, i) => console.log(`  ${i + 1}. "${q}"`));
+            
+            return finalQueries;
         } catch (error) {
             console.warn('[DEBUG] Errore generazione query alternative:', error);
             return [userMessage]; // Fallback alla query originale
@@ -487,8 +554,22 @@ class AnalysisService {
                     hasAnswer = true;
                     response = this.formatWikidataResponse(wikidataResult);
                 } else {
-                    // Nessun risultato neanche in Wikidata
-                    response = this.generateGenericResponse(userMessage, intent, keywords);
+                    // Prova Wikipedia con varianti
+                    const wikipediaResult = await this.searchWikipedia(userMessage);
+                    if (wikipediaResult && wikipediaResult.results.length > 0) {
+                        hasAnswer = true;
+                        response = this.formatWikidataResponse(wikipediaResult);
+                    } else {
+                        // Prova altre API (OpenLibrary, PoetryDB, Countries, DBpedia)
+                        console.log('[DEBUG] Wikipedia non ha risposto, provando API esterne...');
+                        const apiResults = await this.searchMultipleAPIs(userMessage);
+                        if (apiResults && apiResults.length > 0) {
+                            hasAnswer = true;
+                            response = this.formatMultipleAPIsResponse(apiResults);
+                        } else {
+                            response = this.generateGenericResponse(userMessage, intent, keywords);
+                        }
+                    }
                 }
             } else {
                 // Non trovato nei KB locali, prova Wikidata
@@ -498,6 +579,25 @@ class AnalysisService {
                 if (wikidataResult && wikidataResult.results.length > 0) {
                     hasAnswer = true;
                     response = this.formatWikidataResponse(wikidataResult);
+                } else {
+                    // Prova Wikipedia
+                    const wikipediaResult = await this.searchWikipedia(userMessage);
+                    if (wikipediaResult && wikipediaResult.results.length > 0) {
+                        hasAnswer = true;
+                        response = this.formatWikidataResponse(wikipediaResult);
+                    } else {
+                        // Prova altre API
+                        console.log('[DEBUG] Wikipedia non ha risposto, trying API esterne...');
+                        const apiResults = await this.searchMultipleAPIs(userMessage);
+                        if (apiResults && apiResults.length > 0) {
+                            hasAnswer = true;
+                            response = this.formatMultipleAPIsResponse(apiResults);
+                        } else {
+                            response = this.generateGenericResponse(userMessage, intent, keywords);
+                        }
+                    }
+                }
+            }
                 } else {
                     // Fallback generico
                     response = this.generateGenericResponse(userMessage, intent, keywords);
@@ -530,7 +630,7 @@ class AnalysisService {
                 metadata: {
                     hasAnswer,
                     timestamp: new Date().toISOString(),
-                    modelUsed: 'Transformers.js (Xenova) + Wikidata'
+                    modelUsed: 'Transformers.js (Xenova) + Wikidata + Wikipedia + Multi-APIs (OpenLibrary, PoetryDB, DBpedia, REST Countries)'
                 }
             };
         } catch (error) {
@@ -618,13 +718,241 @@ class AnalysisService {
         return response;
     }
 
+    formatMultipleAPIsResponse(results) {
+        let response = '🔍 **Ricerche da fonti diverse:**\n\n';
+        
+        results.forEach(result => {
+            const icon = this.getAPIIcon(result.source);
+            response += `${icon} **${result.source}**\n`;
+            
+            if (result.type === 'openlibrary') {
+                result.results.forEach(book => {
+                    response += `📕 **${book.label}**\n`;
+                    response += `   ${book.description}\n`;
+                });
+            } else if (result.type === 'poetry') {
+                result.results.forEach(poem => {
+                    response += `✨ **${poem.label}**\n`;
+                    response += `   "_${poem.description}_"\n`;
+                });
+            } else if (result.type === 'countries') {
+                result.results.forEach(country => {
+                    response += `🌍 **${country.label}**\n`;
+                    response += `   ${country.description}\n`;
+                });
+            } else if (result.type === 'dbpedia') {
+                result.results.forEach(item => {
+                    response += `📊 **${item.label}**\n`;
+                    response += `   ${item.description.substring(0, 150)}...\n`;
+                });
+            }
+            
+            response += '\n';
+        });
+        
+        response += '_Informazioni raccolte da OpenLibrary, PoetryDB, REST Countries, e DBpedia_';
+        return response;
+    }
+
+    getAPIIcon(source) {
+        const icons = {
+            'Open Library': '📚',
+            'PoetryDB': '✏️',
+            'REST Countries': '🗺️',
+            'DBpedia': '🔗',
+            'Wikipedia': '📖',
+            'Wikidata': '🌐'
+        };
+        return icons[source] || '📄';
+    }
+
+    async searchOpenLibrary(query) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+            const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5`;
+            const response = await fetch(url, {
+                mode: 'cors',
+                signal: controller.signal,
+                headers: { 'User-Agent': 'Tesla-Assistente/1.0' }
+            });
+
+            clearTimeout(timeoutId);
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.docs && data.docs.length > 0) {
+                    console.log(`[DEBUG] ✓ Open Library trovato: ${data.docs.length} libri`);
+                    return {
+                        type: 'openlibrary',
+                        results: data.docs.slice(0, 3).map(book => ({
+                            label: book.title + (book.first_publish_year ? ` (${book.first_publish_year})` : ''),
+                            description: `Autore: ${book.author_name ? book.author_name[0] : 'Sconosciuto'}. Edizioni: ${book.edition_count || 0}`,
+                            isbn: book.isbn ? book.isbn[0] : null
+                        })),
+                        source: 'Open Library',
+                        query: query,
+                        count: data.docs.length
+                    };
+                }
+            }
+            return null;
+        } catch (error) {
+            console.warn('[DEBUG] Open Library timeout/error:', error.message);
+            return null;
+        }
+    }
+
+    async searchPoetryDB(query) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+            // PoetryDB search by author or title
+            const url = `https://poetrydb.org/author,title/${encodeURIComponent(query)}/lines.json`;
+            const response = await fetch(url, {
+                mode: 'cors',
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (response.ok) {
+                const data = await response.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    console.log(`[DEBUG] ✓ PoetryDB trovato: ${data.length} poesie`);
+                    return {
+                        type: 'poetry',
+                        results: data.slice(0, 3).map(poem => ({
+                            label: `${poem.title} - ${poem.author}`,
+                            description: poem.lines.slice(0, 2).join(' '),
+                            fullLines: poem.lines
+                        })),
+                        source: 'PoetryDB',
+                        query: query,
+                        count: data.length
+                    };
+                }
+            }
+            return null;
+        } catch (error) {
+            console.warn('[DEBUG] PoetryDB timeout/error:', error.message);
+            return null;
+        }
+    }
+
+    async searchCountries(query) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+            const url = `https://restcountries.com/v3.1/name/${encodeURIComponent(query)}?fields=name,capital,region,population,area,flags`;
+            const response = await fetch(url, {
+                mode: 'cors',
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (response.ok) {
+                const data = await response.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    console.log(`[DEBUG] ✓ REST Countries trovato: ${data.length} paesi`);
+                    return {
+                        type: 'countries',
+                        results: data.slice(0, 3).map(country => ({
+                            label: country.name.common || country.name.official,
+                            description: `Capitale: ${country.capital?.[0] || 'N/A'} | Popolazione: ${country.population?.toLocaleString() || 'N/A'} | Regione: ${country.region || 'N/A'}`,
+                            flag: country.flags?.svg || null
+                        })),
+                        source: 'REST Countries',
+                        query: query,
+                        count: data.length
+                    };
+                }
+            }
+            return null;
+        } catch (error) {
+            console.warn('[DEBUG] REST Countries timeout/error:', error.message);
+            return null;
+        }
+    }
+
+    async searchDBpedia(query) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+            // DBpedia SPARQL endpoint - ricerca per abstract
+            const sparqlQuery = `SELECT ?resource ?label ?abstract WHERE {
+                ?resource rdfs:label "${query}"@it ;
+                         rdf:type ?type ;
+                         dbo:abstract ?abstract .
+                FILTER(LANG(?abstract) = "it")
+                LIMIT 3
+            }`;
+
+            const url = `https://dbpedia.org/sparql?query=${encodeURIComponent(sparqlQuery)}&format=json`;
+            const response = await fetch(url, {
+                mode: 'cors',
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.results && data.results.bindings.length > 0) {
+                    console.log(`[DEBUG] ✓ DBpedia trovato: ${data.results.bindings.length} risultati`);
+                    return {
+                        type: 'dbpedia',
+                        results: data.results.bindings.map(item => ({
+                            label: item.label?.value || 'DBpedia',
+                            description: item.abstract?.value || 'Informazione trovata'
+                        })),
+                        source: 'DBpedia',
+                        query: query,
+                        count: data.results.bindings.length
+                    };
+                }
+            }
+            return null;
+        } catch (error) {
+            console.warn('[DEBUG] DBpedia error:', error.message);
+            return null;
+        }
+    }
+
+    async searchMultipleAPIs(query) {
+        console.log(`[DEBUG] 🔍 Ricerca multi-API per: "${query}"`);
+        
+        // Esegui tutte le ricerche in parallelo
+        const [openLibResult, poetryResult, countriesResult, dbpediaResult] = await Promise.all([
+            this.searchOpenLibrary(query),
+            this.searchPoetryDB(query),
+            this.searchCountries(query),
+            this.searchDBpedia(query)
+        ]);
+
+        const results = [openLibResult, poetryResult, countriesResult, dbpediaResult].filter(r => r !== null);
+        
+        if (results.length > 0) {
+            console.log(`[DEBUG] ✓ Trovati ${results.length} risultati da API esterne`);
+            return results;
+        }
+
+        console.log(`[DEBUG] Nessun risultato da API esterne`);
+        return null;
+    }
+
     generateGenericResponse(userMessage, intent, keywords) {
         const responses = [
             `Ho cercato di trovare informazioni su "${keywords[0] || 'questo'}" ma non ho trovato corrispondenze esatte. La mia knowledge base copre: Scienze, Arti, Storia, Società, Natura, Tecnologia, Filosofia e Sport. Prova a chiedere su questi argomenti!`,
             
             `Non sono sicuro di come rispondere a questo. Conosco bene i prodotti Tesla, scienze, storia mondiale, arte, società, ecologia, tecnologia e sport. Cosa vorresti sapere?`,
 
-            `Questa è una domanda interessante! Sfortunatamente non ho informazioni specifiche su questo nella mia knowledge base. Prova a cercatori con parole chiave diverse o chiedimi di argomenti come scienza, storia, arte, filosofia o sport.`,
+            `Questa è una domanda interessante! Sfortunatamente non ho informazioni specifiche su questo nella mia knowledge base. Prova a cercare con parole chiave diverse o chiedimi di argomenti come scienza, storia, arte, filosofia o sport.`,
 
             `Mi dispiace, non riesco a trovare una risposta precisa nel mio database. Prova a riformulare la domanda o chiedimi di altri argomenti nella mia knowledge base.`,
 
