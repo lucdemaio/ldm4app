@@ -598,11 +598,6 @@ class AnalysisService {
                     }
                 }
             }
-                } else {
-                    // Fallback generico
-                    response = this.generateGenericResponse(userMessage, intent, keywords);
-                }
-            }
 
             // Se non ha trovato risposta diretta, prova QA
             if (!hasAnswer && relevantInfo) {
