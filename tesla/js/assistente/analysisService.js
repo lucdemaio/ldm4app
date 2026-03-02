@@ -267,9 +267,13 @@ class AnalysisService {
             }, 3000);
             
             try {
+                // Usa Wikipedia SEARCH API (list=search) per cercare nel contenuto
+                // non solo nei titoli
                 const url = `https://it.wikipedia.org/w/api.php?` +
-                    `action=query&titles=${encodeURIComponent(query)}&` +
-                    `prop=extracts&explaintext=true&format=json&origin=*`;
+                    `action=query&list=search&srsearch=${encodeURIComponent(query)}&` +
+                    `srprop=snippet&srlimit=3&srinfo=totalhits&format=json&origin=*`;
+
+                console.log(`[DEBUG] Wikipedia Search URL (query: "${query}")`);
 
                 const response = await fetch(url, { 
                     mode: 'cors',
@@ -284,25 +288,66 @@ class AnalysisService {
                 }
 
                 const data = await response.json();
+                console.log(`[DEBUG] Wikipedia Search data:`, data);
 
-                if (data.query && data.query.pages) {
-                    const pages = data.query.pages.filter(p => !p.missing && p.extract && p.extract.length > 50);
+                if (data.query && data.query.search && data.query.search.length > 0) {
+                    console.log(`[DEBUG] ✓ Wikipedia trovate ${data.query.search.length} risultati di ricerca`);
                     
-                    if (pages.length > 0) {
-                        console.log(`[DEBUG] ✓ Wikipedia trovate ${pages.length} pagine valide`);
-                        return {
-                            type: 'wikipedia',
-                            results: pages.slice(0, 3).map(p => ({
-                                label: p.title,
-                                description: p.extract ? p.extract.substring(0, 350) : 'Articolo trovato'
-                            })),
-                            source: 'Wikipedia',
-                            query: query,
-                            pagesCount: pages.length
-                        };
+                    // Ora recupera il contenuto completo per ogni risultato trovato
+                    const searchResults = data.query.search.slice(0, 3);
+                    const titles = searchResults.map(r => r.title).join('|');
+                    
+                    // Fetch completo del contenuto usando i titoli trovati
+                    const extractUrl = `https://it.wikipedia.org/w/api.php?` +
+                        `action=query&titles=${encodeURIComponent(titles)}&` +
+                        `prop=extracts&explaintext=true&exintro=true&exsectionformat=plain&format=json&origin=*`;
+                    
+                    const extractResponse = await fetch(extractUrl, {
+                        mode: 'cors',
+                        signal: controller.signal
+                    });
+
+                    if (extractResponse.ok) {
+                        const extractData = await extractResponse.json();
+                        
+                        if (extractData.query && extractData.query.pages) {
+                            const pages = Object.values(extractData.query.pages)
+                                .filter(p => !p.missing && p.extract && p.extract.length > 50)
+                                .slice(0, 3);
+                            
+                            if (pages.length > 0) {
+                                console.log(`[DEBUG] ✓ Estratto contenuto da ${pages.length} pagine`);
+                                return {
+                                    type: 'wikipedia',
+                                    results: pages.map(p => ({
+                                        label: p.title,
+                                        description: p.extract ? p.extract.substring(0, 400) : 'Articolo trovato'
+                                    })),
+                                    source: 'Wikipedia',
+                                    query: query,
+                                    pagesCount: pages.length,
+                                    method: 'search+extract'
+                                };
+                            }
+                        }
                     }
+
+                    // Se non riusciamo ad estrarre, ritorna almeno lo snippet
+                    console.log(`[DEBUG] Usando snippet dalla ricerca Wikipedia`);
+                    return {
+                        type: 'wikipedia',
+                        results: searchResults.map(r => ({
+                            label: r.title,
+                            description: r.snippet ? r.snippet.replace(/<[^>]*>/g, '') : 'Risultato trovato'
+                        })),
+                        source: 'Wikipedia',
+                        query: query,
+                        pagesCount: searchResults.length,
+                        method: 'search-only'
+                    };
                 }
                 
+                console.log(`[DEBUG] Nessun risultato di ricerca per: "${query}"`);
                 return null;
             } catch (fetchError) {
                 clearTimeout(timeout);
