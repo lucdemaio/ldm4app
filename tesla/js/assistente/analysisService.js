@@ -245,7 +245,9 @@ class AnalysisService {
                 
                 if (result && result.results && result.results.length > 0) {
                     console.log(`[DEBUG] ✓ Successo con query: "${currentQuery}"`);
-                    return result;
+                    // ✨ NUOVO: Elabora con QA model per risposta conversazionale
+                    const enhancedResult = await this.enhanceWikipediaWithQA(currentQuery, result);
+                    return enhancedResult || result;
                 }
             }
 
@@ -254,6 +256,63 @@ class AnalysisService {
         } catch (error) {
             console.warn('[DEBUG] Errore generale searchWikipedia:', error);
             return null;
+        }
+    }
+
+    async enhanceWikipediaWithQA(userQuery, wikipediaResult) {
+        try {
+            console.log('[DEBUG] ✨ Elaborazione Wikipedia con QA model...');
+            
+            if (!wikipediaResult || !wikipediaResult.results || wikipediaResult.results.length === 0) {
+                return wikipediaResult;
+            }
+
+            const modelManager = getModelManager();
+            const qa = await modelManager.getQAModel();
+            
+            const enhancedResults = [];
+            
+            for (const item of wikipediaResult.results.slice(0, 2)) {
+                try {
+                    // Limita il contesto a 512 token
+                    const context = item.description.substring(0, 600);
+                    
+                    console.log(`[DEBUG] QA su: "${item.label}"`);
+                    
+                    const qaResult = await qa({
+                        question: userQuery,
+                        context: context
+                    });
+                    
+                    if (qaResult && qaResult.score > 0.1) {
+                        console.log(`[DEBUG] ✓ QA risposta trovata (score: ${qaResult.score.toFixed(3)})`);
+                        
+                        // Creiamo risposta conversazionale
+                        enhancedResults.push({
+                            label: item.label,
+                            description: item.description,
+                            // ✨ NUOVO: Risposta intelligente dal QA model
+                            conversational_answer: qaResult.answer,
+                            qa_confidence: (qaResult.score * 100).toFixed(1),
+                            is_enhanced: true
+                        });
+                    } else {
+                        enhancedResults.push(item);
+                    }
+                } catch (error) {
+                    console.warn(`[DEBUG] QA fallback per "${item.label}":`, error.message);
+                    enhancedResults.push(item);
+                }
+            }
+            
+            return {
+                ...wikipediaResult,
+                results: enhancedResults,
+                is_qa_enhanced: true
+            };
+        } catch (error) {
+            console.warn('[DEBUG] Errore enhanceWikipediaWithQA:', error);
+            return wikipediaResult; // Fallback ai raw results
         }
     }
 
@@ -616,6 +675,18 @@ class AnalysisService {
                 }
             }
 
+            // Se ancora non ha risposta, prova con risposta conversazionale intelligente
+            if (!hasAnswer && !response) {
+                console.log('[DEBUG] Nessuna risposta trovata, usando generateConversationalResponse...');
+                const conversationalResponse = await this.generateConversationalResponse(userMessage);
+                if (conversationalResponse) {
+                    response = conversationalResponse;
+                } else {
+                    // Fallback finale
+                    response = this.generateGenericResponse(userMessage, intent, keywords);
+                }
+            }
+
             return {
                 userMessage,
                 response,
@@ -690,24 +761,47 @@ class AnalysisService {
     formatWikidataResponse(result) {
         let response = '';
         
-        if (result.type === 'wikidata') {
-            response = `🌐 **Risultati da Wikidata**\n\n`;
-        } else if (result.type === 'wikipedia') {
-            response = `📖 **Risultati da Wikipedia**\n\n`;
-        }
-        
-        result.results.forEach((item, index) => {
-            response += `**${index + 1}. ${item.label}**`;
-            if (item.description) {
-                response += ` - ${item.description}`;
+        // ✨ NUOVO: Se è stata elaborata con QA, mostra il risultato conversazionale
+        if (result.is_qa_enhanced && result.results.some(r => r.conversational_answer)) {
+            response = `🧠 **Risposta Intelligente (elaborata con AI)**\n\n`;
+            
+            result.results.forEach((item, index) => {
+                if (item.conversational_answer) {
+                    // Mostra la risposta conversazionale intelligente
+                    response += `**${item.label}**\n`;
+                    response += `${item.conversational_answer}\n\n`;
+                    response += `_Fonte: ${item.label} | Confidenza: ${item.qa_confidence}%_\n\n`;
+                } else {
+                    // Fallback a descrizione raw
+                    response += `**${index + 1}. ${item.label}**\n`;
+                    if (item.description) {
+                        response += `${item.description}\n\n`;
+                    }
+                }
+            });
+            
+            response += '_📚 Elaborato con intelligenza artificiale + Wikipedia - Risposte conversazionali e naturali_';
+        } else {
+            // Formato originale raw (Wikidata / Wikipedia raw)
+            if (result.type === 'wikidata') {
+                response = `🌐 **Risultati da Wikidata**\n\n`;
+            } else if (result.type === 'wikipedia') {
+                response = `📖 **Risultati da Wikipedia**\n\n`;
             }
-            response += '\n';
-        });
+            
+            result.results.forEach((item, index) => {
+                response += `**${index + 1}. ${item.label}**`;
+                if (item.description) {
+                    response += ` - ${item.description}`;
+                }
+                response += '\n';
+            });
 
-        if (result.type === 'wikidata') {
-            response += '\n_📚 Informazioni fornite da Wikidata - Enciclopedia globale libera_';
-        } else if (result.type === 'wikipedia') {
-            response += '\n_📚 Informazioni fornite da Wikipedia - Enciclopedia online_';
+            if (result.type === 'wikidata') {
+                response += '\n_📚 Informazioni fornite da Wikidata - Enciclopedia globale libera_';
+            } else if (result.type === 'wikipedia') {
+                response += '\n_📚 Informazioni fornite da Wikipedia - Enciclopedia online_';
+            }
         }
         
         return response;
@@ -939,6 +1033,64 @@ class AnalysisService {
 
         console.log(`[DEBUG] Nessun risultato da API esterne`);
         return null;
+    }
+
+    async generateConversationalResponse(userMessage) {
+        try {
+            // Se la lunghezza è ragionevole, genera risposta più intelligente
+            if (userMessage.length < 256) {
+                // Analizza intent per adattare la risposta
+                const intent = await this.classifyIntent(userMessage);
+                const sentiment = await this.analyzeSentiment(userMessage);
+                
+                // Estrae la prima categoria di intent
+                const primaryIntent = intent?.primaryCategory || 'altro';
+                
+                // Genera risposta intelligente basata su intent + sentiment
+                let baseResponse = `Ho ricevuto la tua domanda: "${userMessage}". `;
+                
+                // Adatta il tono in base al sentiment
+                const tonalPrefix = sentiment?.isNegative 
+                    ? "Capisco la tua frustrazione. "
+                    : sentiment?.isPositive 
+                    ? "Che bello! "
+                    : "";
+                
+                // Risposta specifica per tipo di domanda
+                if (primaryIntent.includes('domanda su prodotti')) {
+                    return baseResponse + tonalPrefix + 'Sembra che tu voglia sapere qualcosa su un prodotto Tesla. ' +
+                        'Prova a cercare "Tesla Model S", "Tesla Model 3", o altri modelli Tesla per ottenere informazioni dettagliate. ' +
+                        'Puoi anche chiedermi direttamente dei prezzi, delle prestazioni, o della ricarica!';
+                } else if (primaryIntent.includes('domanda su prezzo')) {
+                    return baseResponse + tonalPrefix + 'Stai cercando informazioni sui prezzi. ' +
+                        'Purtroppo, i prezzi variano in base al mercato e alle configurazioni. ' +
+                        'Ti consiglio di visitare il sito ufficiale Tesla per i prezzi aggiornati, oppure chiedimi di un modello specifico!';
+                } else if (primaryIntent.includes('domanda su ricarica')) {
+                    return baseResponse + tonalPrefix + 'Hai domande sulla ricarica dei veicoli Tesla. ' +
+                        'Questo è un argomento importante! Prova a chiedermi "come ricaricare una Tesla", "tempo di ricarica", o "stazioni di ricarica".';
+                } else if (primaryIntent.includes('domanda su tecnologia')) {
+                    return baseResponse + tonalPrefix + 'Interessante! Vuoi sapere di più sulla tecnologia Tesla. ' +
+                        'Puoi chiedermi di Autopilot, batterie, motori elettrici, o altre innovazioni Tesla.';
+                } else if (primaryIntent.includes('saluto')) {
+                    return 'Ciao! 👋 Come posso aiutarti oggi? Puoi chiedermi di Tesla, veicoli elettrici, tecnologia, o qualsiasi argomento tu voglia esplorare!';
+                } else if (primaryIntent.includes('ringraziamento')) {
+                    return 'Di nulla! 😊 Sono sempre qui per aiutarti. Hai altre domande?';
+                } else {
+                    // Fallback generico ma intelligente
+                    return baseResponse + 'Purtroppo non ho trovato informazioni specifiche su questo argomento nel mio database attuale. ' +
+                        'Puoi provare a riformulare la domanda con parole chiave diverse o aggiungere più dettagli? ' +
+                        'Ad esempio, se mi chiedi di una persona, una scoperta scientifica, un evento storico, posso cercare su Wikipedia e altre fonti!';
+                }
+            }
+            
+            // Per messaggi lunghi
+            return 'Ho ricevuto una domanda interessante! Sfortunatamente, il messaggio è molto lungo. ' +
+                   'Prova a formulare una domanda più concisa, e farò del mio meglio per aiutarti!';
+
+        } catch (error) {
+            console.error('[ERROR] Errore in generateConversationalResponse:', error);
+            return null;
+        }
     }
 
     generateGenericResponse(userMessage, intent, keywords) {
