@@ -471,133 +471,319 @@
     <!-- Products Section -->
     <section id="prodotti" class="py-24 section-dark relative overflow-hidden">
         <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center mb-20 animate-fade-in">
-                <h2 class="text-5xl md:text-6xl font-bold text-white mb-6">I Nostri Prodotti</h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-                    Software specializzati per ogni settore
-                </p>
-                
+            <!-- Category Navigation -->
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-5xl md:text-6xl font-bold text-white mb-10">Esplora Tutte le Soluzioni</h2>
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button class="category-tab active px-8 py-3 rounded-full font-semibold transition" data-category="gestionali">
+                        📊 Gestionali
+                    </button>
+                    <button class="category-tab px-8 py-3 rounded-full font-semibold transition" data-category="intrattenimento">
+                        🎮 Intrattenimento
+                    </button>
+                    <button class="category-tab px-8 py-3 rounded-full font-semibold transition" data-category="utilita">
+                        🔧 Utilità
+                    </button>
+                    <button class="category-tab px-8 py-3 rounded-full font-semibold transition" data-category="tesla">
+                        ⚡ Tesla
+                    </button>
+                </div>
+
                 <!-- Info PWA -->
-                <div class="mt-8 inline-block glass-card px-6 py-4 max-w-4xl">
+                <div class="inline-block glass-card px-8 py-5 max-w-4xl">
                     <div class="flex items-start gap-3">
                         <span class="text-2xl">✨</span>
                         <div class="text-left">
                             <strong class="text-yellow-400">Novità:</strong> 
-                            <span class="text-gray-200">Tutti i programmi ora utilizzabili come Progressive Web App (PWA). Nessun download necessario!</span>
-                            <br>
-                            <span class="text-sm text-gray-400 mt-2 block">
-                                🔒 <strong>Privacy:</strong> Tutti i dati rimangono sul tuo dispositivo, nessun invio ai nostri server
-                            </span>
+                            <span class="text-gray-200">Tutti i programmi ora utilizzabili come Progressive Web App (PWA). Nessun download necessario! 🔒 Tutti i dati rimangono sul tuo dispositivo.</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Products Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                
-                <!-- LDM Soccer Manager Pro -->
-                <div class="glass-card p-8 animate-slide-up border-2 border-cyan-400/50 relative">
-                    <div class="absolute top-4 right-4">
-                        <span class="badge bg-cyan-500/20 border-cyan-500 text-cyan-300">🤖 IA Integrata</span>
-                    </div>
-                    <div class="feature-icon mb-6 icon-glow">
-                        <i class="fas fa-futbol text-cobalt"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">LDM Soccer Manager Pro</h3>
-                    <p class="text-gray-300 mb-3 leading-relaxed">
-                        Gestione completa per società sportive: atleti, presenze, finanze e molto altro.
-                    </p>
-                    <div class="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-lg p-3 mb-6">
-                        <p class="text-cyan-300 text-sm leading-relaxed">
-                            <strong>✨ Novità:</strong> Utilizza l'<strong>Intelligenza Artificiale Groq</strong> per aggiungere, modificare e gestire i dati automaticamente. Parla o scrivi comandi naturali all'IA - farà tutto per te!
+            <!-- GESTIONALI CATEGORY -->
+            <div class="category-section mb-32 animate-fade-in" data-category="gestionali">
+                <div class="mb-16">
+                    <h3 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <i class="fas fa-chart-line text-blue-400 text-3xl"></i>
+                        Prodotti Gestionali Professionali
+                    </h3>
+                    <p class="text-gray-300 text-lg">Software specializzati per gestire ogni aspetto del tuo business. Dall'amministrazione allo sport, dall'educazione ai ristoranti.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <!-- LDM Soccer Manager Pro -->
+                    <div class="glass-card p-8 animate-slide-up border-2 border-cyan-400/50 relative">
+                        <div class="absolute top-4 right-4">
+                            <span class="badge bg-cyan-500/20 border-cyan-500 text-cyan-300">Premium</span>
+                        </div>
+                        <div class="feature-icon mb-6 icon-glow">
+                            <i class="fas fa-futbol text-cyan-400"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-3">LDM Soccer Manager Pro</h4>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Gestione completa di società sportive: atleti, presenze, finanze, calendari. Con AI Groq integrata per comandi naturali.
                         </p>
-                    </div>
-                    <a href="https://www.ldm4app.com/soccer/soccer-app.html" target="_blank" rel="noopener noreferrer" 
-                       class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
-                        Apri Soccer Manager 🚀
-                    </a>
-                    <p class="text-xs text-gray-400 mt-4">
-                        💡 Usabile come PWA - Apri nel browser e aggiungi alla schermata Home
-                    </p>
-                </div>
-
-                <!-- Restaurant Manager -->
-                <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.1s;">
-                    <div class="feature-icon mb-6 icon-glow">
-                        <i class="fas fa-utensils text-yellow-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Restaurant Manager</h3>
-                    <p class="text-gray-300 mb-6 leading-relaxed">
-                        Gestione professionale di inventario, fornitori e ordini. Calcolo food cost, SKU e monitoraggio vendite con alert automatici.
-                    </p>
-                    <div class="space-y-3">
-                        <a href="https://www.ldm4app.com/ristorantiebar/index.html" target="_blank" rel="noopener noreferrer" 
+                        <div class="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-lg p-3 mb-6">
+                            <p class="text-cyan-300 text-sm leading-relaxed">
+                                <strong>✨ Powered by AI:</strong> Usa l'IA per gestire dati automaticamente
+                            </p>
+                        </div>
+                        <a href="https://www.ldm4app.com/soccer/soccer-app.html" target="_blank" rel="noopener noreferrer" 
                            class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
-                            Vai all'App 🍽️
+                            Accedi Ora 🚀
                         </a>
-                        <button onclick="document.getElementById('menu-download-modal').style.display='flex'" 
-                                class="btn-secondary text-white px-6 py-3 rounded-full font-medium w-full flex items-center justify-center">
-                            <i class="fas fa-download mr-2"></i> Scarica Esempi
-                        </button>
+                    </div>
+
+                    <!-- Restaurant Manager -->
+                    <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="absolute top-4 right-4">
+                            <span class="badge bg-yellow-500/20 border-yellow-500 text-yellow-300">Pro</span>
+                        </div>
+                        <div class="feature-icon mb-6 icon-glow">
+                            <i class="fas fa-utensils text-yellow-400"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Restaurant Manager</h4>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Gestione inventario, fornitori, ordini. Food cost tracking, analisi SKU e vendite con alert automatici.
+                        </p>
+                        <div class="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-lg p-3 mb-6">
+                            <p class="text-yellow-300 text-sm font-semibold">
+                                📦 Include esempi di configurazione
+                            </p>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="https://www.ldm4app.com/ristorantiebar/index.html" target="_blank" rel="noopener noreferrer" 
+                               class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                                Vai all'App 🍽️
+                            </a>
+                            <button onclick="document.getElementById('menu-download-modal').style.display='flex'" 
+                                    class="btn-secondary text-white px-6 py-3 rounded-full font-medium w-full flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i> Scarica Esempi
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Scuola Manager -->
+                    <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="absolute top-4 right-4">
+                            <span class="badge bg-emerald-500/20 border-emerald-500 text-emerald-300">Educazione</span>
+                        </div>
+                        <div class="feature-icon mb-6 icon-glow">
+                            <i class="fas fa-school text-emerald-300"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Scuola Manager</h4>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Piattaforma didattica modulare con dashboard, attività, monitoraggio. IA Tutor + Code Tutor inclusi.
+                        </p>
+                        <div class="bg-gradient-to-r from-emerald-500/10 to-green-500/10 border border-emerald-500/30 rounded-lg p-3 mb-6">
+                            <p class="text-emerald-300 text-sm font-semibold">
+                                🤖 IA Tutor + Code Tutor
+                            </p>
+                        </div>
+                        <a href="https://www.ldm4app.com/scuola" target="_blank" rel="noopener noreferrer" 
+                           class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                            Apri Manager 🎒
+                        </a>
+                    </div>
+
+                    <!-- Mission App -->
+                    <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.3s;">
+                        <div class="absolute top-4 right-4">
+                            <span class="badge bg-green-500/20 border-green-500 text-green-300">Compiti</span>
+                        </div>
+                        <div class="feature-icon mb-6 icon-glow">
+                            <i class="fas fa-tasks text-green-400"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Mission App</h4>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            Gestione missioni e attività avanzata per team e progetti complessi.
+                        </p>
+                        <div class="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-lg p-3 mb-6">
+                            <p class="text-green-300 text-sm font-semibold">
+                                ✅ Installabile come app nativa
+                            </p>
+                        </div>
+                        <a href="https://www.ldm4app.com/missione/index.html" target="_blank" rel="noopener noreferrer" 
+                           class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center hover:from-green-600 hover:to-emerald-700 transition">
+                            Accedi Ora ✅
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <!-- Scuola Manager -->
-                <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.15s;">
-                    <div class="feature-icon mb-6 icon-glow">
-                        <i class="fas fa-school text-emerald-300"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Scuola Manager</h3>
-                    <p class="text-gray-300 mb-6 leading-relaxed">
-                        Piattaforma didattica modulare: dashboard principale con moduli (Bento Grid), strumenti per attività e monitoraggio, "IA Tutor" (integrazione Google AI Studio) e "Code Tutor" per esercizi di programmazione. Pensata per gestione delle attività didattiche e supporto alla formazione; accessibile come PWA.
-                    </p>
-                    <a href="https://www.ldm4app.com/scuola" target="_blank" rel="noopener noreferrer" 
-                       class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
-                        Apri Scuola Manager 🎒
-                    </a>
-                    <p class="text-xs text-gray-400 mt-4">
-                        💡 Accessibile dal browser e installabile sulla schermata Home (PWA)
-                    </p>
+            <!-- INTRATTENIMENTO CATEGORY -->
+            <div class="category-section mb-32 hidden" data-category="intrattenimento">
+                <div class="mb-16">
+                    <h3 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <i class="fas fa-gamepad text-purple-400 text-3xl"></i>
+                        Giochi e Intrattenimento
+                    </h3>
+                    <p class="text-gray-300 text-lg">Giochi arcade, puzzle e avventure. Tutti direttamente nel browser, nessun download richiesto!</p>
                 </div>
 
-                <!-- Mission App -->
-                <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.2s;">
-                    <div class="feature-icon mb-6 icon-glow">
-                        <i class="fas fa-tasks text-emerald-400"></i>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Stellar -->
+                    <div class="glass-card p-8 animate-slide-up border-2 border-purple-400/50">
+                        <div class="absolute top-4 right-4">
+                            <span class="badge bg-purple-500/20 border-purple-500 text-purple-300">Arcade</span>
+                        </div>
+                        <div class="feature-icon mb-6 icon-glow">
+                            <i class="fas fa-rocket text-purple-400"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Stellar</h4>
+                        <p class="text-gray-300 mb-6">Classico arcade spaziale. Pilota navicella, evita ostacoli, distruggi asteroidi. Grafica retrò!
+                        </p>
+                        <a href="https://www.ldm4app.com/stellar/index.html" target="_blank" rel="noopener noreferrer" 
+                           class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
+                            Gioca Ora 🚀
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Mission App</h3>
-                    <p class="text-gray-300 mb-6 leading-relaxed">
-                        Gestione missioni e attività avanzata. Usala direttamente come Progressive Web App (PWA).
-                    </p>
-                    <a href="https://www.ldm4app.com/missione/index.html" target="_blank" rel="noopener noreferrer" 
-                       class="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center hover:from-emerald-600 hover:to-green-700 transition">
-                        Apri Mission App ✅
-                    </a>
-                    <p class="text-xs text-gray-400 mt-4">
-                        💡 Installabile come app nativa sul tuo dispositivo
-                    </p>
-                </div>
 
-                <!-- Stellar - Arcade Game -->
-                <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.25s;">
-                    <div class="feature-icon mb-6 icon-glow">
-                        <i class="fas fa-gamepad text-indigo-400"></i>
+                    <!-- Giochi Gratuiti Collection -->
+                    <div class="glass-card p-8 animate-slide-up md:col-span-2 lg:col-span-2 border-2 border-pink-400/50 relative">
+                        <div class="absolute top-4 right-4">
+                            <span class="badge bg-pink-500/20 border-pink-500 text-pink-300">Collezione 🎮</span>
+                        </div>
+                        <div class="feature-icon mb-6 icon-glow">
+                            <i class="fas fa-star text-pink-400"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Giochi Gratuiti per Sviluppatori</h4>
+                        <p class="text-gray-300 mb-4">
+                            Una collezione di <strong>6+ giochi open-source</strong> curati da sviluppatori esperti:
+                        </p>
+                        <div class="bg-gradient-to-r from-pink-500/10 to-red-500/10 border border-pink-500/30 rounded-lg p-4 mb-6">
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-pink-300">
+                                <span>🕊️ Floppy Bird</span>
+                                <span>🎲 Hextris</span>
+                                <span>🏎️ HexGL</span>
+                                <span>⚔️ Star Battle</span>
+                                <span>🏰 Tower Game</span>
+                                <span>🐍 Snake</span>
+                            </div>
+                        </div>
+                        <a href="https://www.ldm4app.com/sviluppatori.html" target="_blank" rel="noopener noreferrer" 
+                           class="bg-gradient-to-r from-pink-500 to-red-600 text-white px-8 py-3 rounded-full font-semibold inline-block w-full text-center hover:from-pink-600 hover:to-red-700 transition">
+                            Scopri Tutti i Giochi 🎮
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Stellar - Arcade Game</h3>
-                    <p class="text-gray-300 mb-6 leading-relaxed">
-                        Vivi l'emozione di un classico arcade spaziale! In <strong>Stellar</strong> piloti la tua navicella, eviti ostacoli e distruggi asteroidi per ottenere il punteggio più alto possibile. Grafica retrò, gameplay veloce e sfide sempre nuove!
-                    </p>
-                    <a href="https://www.ldm4app.com/stellar/index.html" target="_blank" rel="noopener noreferrer" 
-                       class="btn-primary text-white px-6 py-3 rounded-full font-semibold inline-block w-full text-center">
-                        Gioca a Stellar 🚀
-                    </a>
-                    <p class="text-xs text-gray-400 mt-4">
-                        💡 Gioca subito dal browser, nessuna installazione richiesta!
-                    </p>
+                </div>
+            </div>
+
+            <!-- UTILITÀ CATEGORY -->
+            <div class="category-section mb-32 hidden" data-category="utilita">
+                <div class="mb-16">
+                    <h3 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <i class="fas fa-tools text-green-400 text-3xl"></i>
+                        Strumenti Utili e Produttività
+                    </h3>
+                    <p class="text-gray-300 text-lg">Strumenti quotidiani per essere più produttivo e comunicare meglio in tutto il mondo.</p>
                 </div>
 
                 <!-- Traduttore MultiLingua -->
+                <div class="glass-card p-8 animate-slide-up lg:col-span-3 border-2 border-green-400/50 relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="badge bg-green-500/20 border-green-500 text-green-300 text-base font-bold">🌍 35 Lingue</span>
+                    </div>
+                    <div class="feature-icon mb-6 icon-glow">
+                        <i class="fas fa-globe text-green-400"></i>
+                    </div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <h4 class="text-2xl font-bold text-white">Traduttore MultiLingua Pro</h4>
+                    </div>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        <strong class="text-green-300">Traduci istantaneamente in 35 lingue diverse</strong> - dalle comuni (Inglese, Spagnolo, Francese) alle lingue asiatiche e slave. API cloud powered by MyMemory.
+                    </p>
+                    <div class="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-lg p-4 mb-6">
+                        <p class="text-green-300 text-sm mb-3 leading-relaxed">
+                            <strong>🎤 Supporto Vocale Avanzato:</strong> Parla nel traduttore usando Web Speech API. Ricevi istantaneamente la traduzione scritta.
+                        </p>
+                        <p class="text-emerald-300 text-sm">
+                            <strong>✨ Lingue:</strong> Inglese, Spagnolo, Francese, Tedesco, Portoghese, Russo, Giapponese, Cinese, Arabo, Hindi, Coreano e 24 altre!
+                        </p>
+                    </div>
+                    <a href="https://www.ldm4app.com/traduttore/selector.html" target="_blank" rel="noopener noreferrer" 
+                       class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-full font-semibold inline-block w-full text-center hover:from-green-600 hover:to-emerald-700 transition text-lg">
+                        Apri Traduttore 🌐
+                    </a>
+                </div>
+            </div>
+
+            <!-- TESLA CATEGORY -->
+            <div class="category-section hidden" data-category="tesla">
+                <div class="mb-16">
+                    <h3 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                        <i class="fas fa-car text-red-400 text-3xl"></i>
+                        Tesla Ecosystem
+                    </h3>
+                    <p class="text-gray-300 text-lg">Applicazioni e giochi ottimizzati per il touchscreen del tuo Tesla. Dall'infotainment all'IA assistente.</p>
+                </div>
+
+                <!-- Tesla Apps & Utilities -->
+                <div class="glass-card p-8 animate-slide-up border-2 border-red-500/50 relative lg:col-span-3">
+                    <div class="absolute top-4 right-4">
+                        <span class="badge bg-red-500/20 border-red-500 text-red-300 text-base font-bold">⚡ Tesla Optimized</span>
+                    </div>
+                    <div class="feature-icon mb-6 icon-glow">
+                        <i class="fas fa-car text-red-400"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-4">Tesla Apps & Utilities</h4>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        <strong class="text-red-300">Giochi e Utilità ottimizzati per il browser Tesla</strong> - Collezione completa di app interat tive, giochi arcade e strumenti utili.
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-gradient-to-br from-red-500/10 to-red-800/10 border border-red-500/30 rounded-lg p-4">
+                            <p class="text-red-300 text-sm font-semibold"><i class="fas fa-gamepad mr-2"></i>6+ Giochi</p>
+                            <p class="text-gray-400 text-xs">Star Battle, Tower Game, Hextris e altri</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-pink-500/10 to-pink-800/10 border border-pink-500/30 rounded-lg p-4">
+                            <p class="text-pink-300 text-sm font-semibold"><i class="fas fa-tools mr-2"></i>Utilità</p>
+                            <p class="text-gray-400 text-xs">Traduttore, Timer, Meteo e altro</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-amber-500/10 to-amber-800/10 border border-amber-500/30 rounded-lg p-4">
+                            <p class="text-amber-300 text-sm font-semibold"><i class="fas fa-brain mr-2"></i>IA Chat</p>
+                            <p class="text-gray-400 text-xs">Assistente intelligente</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <a href="https://www.ldm4app.com/tesla/assistente.html" target="_blank" rel="noopener noreferrer" 
+                           class="bg-gradient-to-r from-amber-500 to-orange-600 text-white px-6 py-3 rounded-full font-semibold text-center hover:from-amber-600 hover:to-orange-700 transition">
+                            Chat IA 🤖
+                        </a>
+                        <a href="https://www.ldm4app.com/tesla/tesla.html" target="_blank" rel="noopener noreferrer" 
+                           class="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-full font-semibold text-center hover:from-red-600 hover:to-pink-700 transition">
+                            Esplora Tutto ⚡
+                        </a>
+                    </div>
+                    <p class="text-xs text-gray-400">
+                        💡 Compatibile Model 3, Y, S, X | Browser Chromium | Funzionamento offline dove possibile
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add CSS for category tabs -->
+    <style>
+        .category-tab {
+            background: rgba(255, 255, 255, 0.05);
+            color: #d1d5db;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        .category-tab:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+        .category-tab.active {
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            color: white;
+            border-color: transparent;
+        }
+        .category-section {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
                 <div class="glass-card p-8 animate-slide-up lg:col-span-2 border-2 border-green-400/50 relative">
                     <div class="absolute top-4 right-4">
                         <span class="badge bg-green-500/20 border-green-500 text-green-300 text-base font-bold">🌍 35 Lingue</span>
@@ -1054,6 +1240,37 @@ Grazie per seguire LDM4APP! ⭐`;
                 handleBookmark();
             });
         }
+
+        // Category tabs functionality
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const categorySections = document.querySelectorAll('.category-section');
+
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const category = tab.dataset.category;
+
+                // Update active tab
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Update visible sections
+                categorySections.forEach(section => {
+                    if (section.dataset.category === category) {
+                        section.classList.remove('hidden');
+                        section.style.opacity = '0';
+                        setTimeout(() => {
+                            section.style.transition = 'opacity 0.3s ease-in';
+                            section.style.opacity = '1';
+                        }, 10);
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+
+                // Scroll to section
+                document.getElementById('prodotti').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
     </script>
 </body>
 </html>
