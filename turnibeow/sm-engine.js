@@ -181,6 +181,50 @@
         }
     }
 
+    // Helper: assegna giorni di riposo intelligentemente (priorità domenica per part-time)
+    function assignRestDaysPriority(employee, restDaysCount) {
+        /**
+         * Assegna i giorni di riposo con priorità:
+         * - Part-time (33.20 o 31.15 ore): priorità domenica (indice 0)
+         * - Full-time (40 ore): distribuisci nei giorni 1-6 (lunedì-sabato)
+         */
+        const contractType = employee.contractType || 40;
+        const isPartTime = (contractType === 33.20 || contractType === 31.15);
+        const restDays = [];
+        
+        if (isPartTime && restDaysCount >= 1) {
+            // Part-time: assegna domenica
+            restDays.push(0);
+            
+            if (restDaysCount > 1) {
+                // Se ha più di 1 riposo, assegna i restanti casualmente dagli altri giorni
+                const availableDays = [1, 2, 3, 4, 5, 6];
+                for (let i = 1; i < restDaysCount; i++) {
+                    if (availableDays.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * availableDays.length);
+                        restDays.push(availableDays[randomIndex]);
+                        availableDays.splice(randomIndex, 1);
+                    }
+                }
+            }
+        } else {
+            // Full-time: distribuisci i riposi nei giorni 1-6 (escludi domenica per quanto possibile)
+            const availableDays = [1, 2, 3, 4, 5, 6];
+            for (let i = 0; i < restDaysCount; i++) {
+                if (availableDays.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * availableDays.length);
+                    restDays.push(availableDays[randomIndex]);
+                    availableDays.splice(randomIndex, 1);
+                } else if (i === 0) {
+                    // Se non ci sono altri giorni (caso raro, es. 7+ riposi), usa domenica
+                    restDays.push(0);
+                }
+            }
+        }
+        
+        return restDays;
+    }
+
     // Helper: validate schedule respects min rest (in minutes)
     function scheduleRespectsMinRest(schedule, minRestMinutes, prevShift) {
         const STATE = SM.STATE || {};
@@ -297,17 +341,13 @@
         }
 
         // riposi (possono essere forzati per test deterministici)
+        // Se non sono forzati, usa la funzione con priorità domenica per part-time
         const restDays = Array.isArray(forcedRestDays) ? forcedRestDays.slice() : [];
         if (restDays.length === 0) {
-            const availableDays = [0,1,2,3,4,5,6];
             const restDaysCount = employee.restDaysPerWeek || CONFIG.REST_DAYS_PER_WEEK;
-            for (let i = 0; i < restDaysCount; i++) {
-                if (availableDays.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * availableDays.length);
-                    restDays.push(availableDays[randomIndex]);
-                    availableDays.splice(randomIndex,1);
-                }
-            }
+            // Usa la nuova funzione di assegnazione intelligente con priorità
+            const priorityRestDays = assignRestDaysPriority(employee, restDaysCount);
+            restDays.push(...priorityRestDays);
         }
 
         let assignedShift = SM.getTimeFromSlotId ? SM.getTimeFromSlotId(assignedSlotId) : null;
@@ -970,10 +1010,12 @@
         window.ShiftManager.generateEmployeeSchedule = generateEmployeeSchedule;
         window.ShiftManager.scheduleRespectsMinRest = scheduleRespectsMinRest;
         window.ShiftManager.minutesBetweenEndAndNextStart = minutesBetweenEndAndNextStart;
+        window.ShiftManager.assignRestDaysPriority = assignRestDaysPriority;
     }
     SM.generateRotationSequence = generateRotationSequence;
     SM.getNextStartIndex = getNextStartIndex;
     SM.getAllowedShiftsForEmployee = getAllowedShiftsForEmployee;
+    SM.assignRestDaysPriority = assignRestDaysPriority;
     SM.generateEmployeeSchedule = generateEmployeeSchedule;
     SM.generateAllShifts = generateAllShifts;
 
