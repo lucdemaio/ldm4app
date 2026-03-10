@@ -18,10 +18,24 @@ const ModuleTest = {
     }
   },
 
-  runAll() {
+  async waitForLibrary(varName, timeout = 3000) {
+    const startTime = Date.now();
+    while(!window[varName] && (Date.now() - startTime) < timeout) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    return !!window[varName];
+  },
+
+  async runAll() {
     console.clear();
     console.log('%c🧪 INTEGRAZIONE TEST v2.0.0', 'font-size:18px;font-weight:bold;color:#2563eb');
     console.log('═'.repeat(50));
+
+    // Wait for external CDN libraries to load
+    console.log('⏳ Waiting for CDN libraries...');
+    await this.waitForLibrary('Chart', 4000);
+    await this.waitForLibrary('jsPDF', 4000);
+    await this.waitForLibrary('QRCode', 4000);
 
     // Test Core Modules
     this.test('Config Module', () => {
@@ -168,10 +182,10 @@ const ModuleTest = {
 console.log('%c⏳ Module tests will run when all modules are loaded', 'color:#8b5cf6');
 console.log('💡 After page fully loads, run: ModuleTest.runAll()');
 
-// Auto-run on DOMContentLoaded with delay for external CDN libraries
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
+// Auto-run on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', async () => {
+  setTimeout(async () => {
     console.log('\n%c[AUTO-RUN] Module integration test starting...', 'color:#2563eb;font-weight:bold');
-    ModuleTest.runAll();
-  }, 3500);  // 3.5s delay for all CDN libraries
+    await ModuleTest.runAll();
+  }, 500);  // Short delay, real wait is inside runAll with waitForLibrary
 });
