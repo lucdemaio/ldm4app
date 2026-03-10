@@ -235,8 +235,8 @@ const AppTornei = (function(){
         }
 
         // simulate remote save attempt -> if fails, add to offline queue
-        try { await fakeServerSave(saved); alert('Torneo salvato'); location.hash = '#/tornei'; }
-        catch(err){ await OfflineQueue.add({ method: 'POST', url: '/api/tornei', body: saved }); alert('Server non raggiungibile: salvataggio locale (offline)'); location.hash = '#/offline'; }
+        try { await fakeServerSave(obj); alert('Torneo salvato'); location.hash = '#/tornei'; }
+        catch(err){ await OfflineQueue.add({ method: 'POST', url: '/api/tornei', body: obj }); alert('Server non raggiungibile: salvataggio locale (offline)'); location.hash = '#/offline'; }
       }catch(err){ alert('Errore salvataggio: '+err.message); }
     });
   }
