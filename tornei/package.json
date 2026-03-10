@@ -1,0 +1,57 @@
+{
+  "name": "gestionale-tornei-pro",
+  "version": "2.0.0",
+  "description": "Il miglior programma gratuito per la gestione di tornei sportivi professionali",
+  "main": "index.html",
+  "type": "module",
+  "keywords": [
+    "tournament",
+    "sports",
+    "management",
+    "free",
+    "open-source",
+    "web-app",
+    "pwa",
+    "organizzazione",
+    "tornei",
+    "sportivi"
+  ],
+  "author": "Gestionale Tornei Pro Community",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/gestionale-tornei-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/gestionale-tornei-pro/issues"
+  },
+  "homepage": "https://tornei-pro.it",
+  "scripts": {
+    "start": "npx http-server",
+    "dev": "npx http-server -p 8000",
+    "build": "echo 'Build script - use vanilla JS, no build needed'",
+    "test": "echo 'Testing'",
+    "lint": "echo 'Linting'",
+    "release": "echo 'Release script'"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "index.html",
+    "manifest.json",
+    "css/",
+    "js/",
+    "examples/",
+    "README.md",
+    "INSTALL.md",
+    "FEATURES.md",
+    "CHANGELOG.md"
+  ]
+}

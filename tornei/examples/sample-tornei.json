@@ -1,0 +1,142 @@
+{
+  "tornei": [
+    {
+      "id": "torneo-calcio-001",
+      "nome": "Coppa Primavera",
+      "sport": "calcio",
+      "formato": "girone",
+      "numGroups": 1,
+      "andataRitorno": true,
+      "dataInizio": "2026-03-01",
+      "dataFine": "2026-05-15"
+    },
+    {
+      "id": "torneo-basket-001",
+      "nome": "Champions Basket",
+      "sport": "basket",
+      "formato": "playoff",
+      "playoffBestOf": 5,
+      "dataInizio": "2026-04-10",
+      "dataFine": "2026-06-20"
+    },
+    {
+      "id": "torneo-volley-001",
+      "nome": "Trofeo Volley Estate",
+      "sport": "pallavolo",
+      "formato": "misto",
+      "numGroups": 2,
+      "qualifyTop": 2,
+      "andataRitorno": false,
+      "dataInizio": "2026-05-05",
+      "dataFine": "2026-07-10"
+    },
+    {
+      "id": "torneo-tennis-001",
+      "nome": "Open Tennis Singolare",
+      "sport": "tennis",
+      "formato": "playoff",
+      "playoffBestOf": 3,
+      "dataInizio": "2026-06-01",
+      "dataFine": "2026-06-14"
+    }
+  ],
+  "squadre": [
+    { "id": "sq-c-1", "nome": "A.S.D. Aurora", "citta": "Torino", "torneoId": "torneo-calcio-001" },
+    { "id": "sq-c-2", "nome": "Polisportiva Blu", "citta": "Milano", "torneoId": "torneo-calcio-001" },
+    { "id": "sq-c-3", "nome": "Real Verde", "citta": "Roma", "torneoId": "torneo-calcio-001" },
+    { "id": "sq-c-4", "nome": "Juventusino FC", "citta": "Torino", "torneoId": "torneo-calcio-001" },
+
+    { "id": "sq-b-1", "nome": "Pallacanestro Nord", "citta": "Bergamo", "torneoId": "torneo-basket-001" },
+    { "id": "sq-b-2", "nome": "Basket City", "citta": "Milano", "torneoId": "torneo-basket-001" },
+    { "id": "sq-b-3", "nome": "Vipers", "citta": "Torino", "torneoId": "torneo-basket-001" },
+    { "id": "sq-b-4", "nome": "Raptors Roma", "citta": "Roma", "torneoId": "torneo-basket-001" },
+    { "id": "sq-b-5", "nome": "Giants", "citta": "Bologna", "torneoId": "torneo-basket-001" },
+    { "id": "sq-b-6", "nome": "Eagles", "citta": "Venezia", "torneoId": "torneo-basket-001" },
+    { "id": "sq-b-7", "nome": "Falchi", "citta": "Treviso", "torneoId": "torneo-basket-001" },
+    { "id": "sq-b-8", "nome": "Olimpia 82", "citta": "Milano", "torneoId": "torneo-basket-001" },
+
+    { "id": "sq-v-1", "nome": "Volley Azzurri", "citta": "Genova", "torneoId": "torneo-volley-001" },
+    { "id": "sq-v-2", "nome": "Spikers", "citta": "Padova", "torneoId": "torneo-volley-001" },
+    { "id": "sq-v-3", "nome": "Mare Volley", "citta": "Rimini", "torneoId": "torneo-volley-001" },
+    { "id": "sq-v-4", "nome": "Pallavolo Sud", "citta": "Lecce", "torneoId": "torneo-volley-001" },
+    { "id": "sq-v-5", "nome": "Net Warriors", "citta": "Bari", "torneoId": "torneo-volley-001" },
+    { "id": "sq-v-6", "nome": "Polisportiva Marina", "citta": "Ancona", "torneoId": "torneo-volley-001" },
+
+    { "id": "sq-t-1", "nome": "Marco Rossi", "citta": "Milano", "torneoId": "torneo-tennis-001" },
+    { "id": "sq-t-2", "nome": "Luca Bianchi", "citta": "Roma", "torneoId": "torneo-tennis-001" },
+    { "id": "sq-t-3", "nome": "Ivan Neri", "citta": "Torino", "torneoId": "torneo-tennis-001" },
+    { "id": "sq-t-4", "nome": "Stefano Gallo", "citta": "Firenze", "torneoId": "torneo-tennis-001" }
+  ],
+  "giornate": [
+    {
+      "id": "g-c-1",
+      "torneoId": "torneo-calcio-001",
+      "torneoNome": "Coppa Primavera",
+      "numero": 1,
+      "data": "2026-03-07",
+      "partite": [
+        { "casaId": "sq-c-1", "trasfertaId": "sq-c-2", "casaNome": "A.S.D. Aurora", "trasfertaNome": "Polisportiva Blu", "golCasa": 2, "golTrasferta": 1, "campo": "Comunale" },
+        { "casaId": "sq-c-3", "trasfertaId": "sq-c-4", "casaNome": "Real Verde", "trasfertaNome": "Juventusino FC", "golCasa": 0, "golTrasferta": 0 }
+      ]
+    },
+    {
+      "id": "g-c-2",
+      "torneoId": "torneo-calcio-001",
+      "torneoNome": "Coppa Primavera",
+      "numero": 2,
+      "data": "2026-03-14",
+      "partite": [
+        { "casaId": "sq-c-1", "trasfertaId": "sq-c-3", "casaNome": "A.S.D. Aurora", "trasfertaNome": "Real Verde" },
+        { "casaId": "sq-c-2", "trasfertaId": "sq-c-4", "casaNome": "Polisportiva Blu", "trasfertaNome": "Juventusino FC" }
+      ]
+    },
+
+    {
+      "id": "g-b-qf1",
+      "torneoId": "torneo-basket-001",
+      "torneoNome": "Champions Basket",
+      "numero": 1,
+      "data": "2026-04-12",
+      "partite": [
+        { "casaId": "sq-b-1", "trasfertaId": "sq-b-8", "casaNome": "Pallacanestro Nord", "trasfertaNome": "Olimpia 82", "bestOf": 5, "games": [ { "golCasa": 78, "golTrasferta": 74, "playedAt": "2026-04-12T20:30:00Z" }, { "golCasa": 82, "golTrasferta": 85, "playedAt": "2026-04-14T20:30:00Z" } ] },
+        { "casaId": "sq-b-2", "trasfertaId": "sq-b-7", "casaNome": "Basket City", "trasfertaNome": "Falchi", "bestOf": 5 }
+      ]
+    },
+
+    {
+      "id": "g-v-1",
+      "torneoId": "torneo-volley-001",
+      "torneoNome": "Trofeo Volley Estate",
+      "numero": 1,
+      "data": "2026-05-10",
+      "partite": [
+        { "casaId": "sq-v-1", "trasfertaId": "sq-v-2", "casaNome": "Volley Azzurri", "trasfertaNome": "Spikers", "stage": "group" },
+        { "casaId": "sq-v-3", "trasfertaId": "sq-v-4", "casaNome": "Mare Volley", "trasfertaNome": "Pallavolo Sud", "stage": "group" }
+      ]
+    },
+
+    {
+      "id": "g-v-2",
+      "torneoId": "torneo-volley-001",
+      "torneoNome": "Trofeo Volley Estate",
+      "numero": 2,
+      "data": "2026-05-17",
+      "partite": [
+        { "casaId": "sq-v-5", "trasfertaId": "sq-v-6", "casaNome": "Net Warriors", "trasfertaNome": "Polisportiva Marina", "stage": "group" }
+      ]
+    },
+
+    {
+      "id": "g-t-1",
+      "torneoId": "torneo-tennis-001",
+      "torneoNome": "Open Tennis Singolare",
+      "numero": 1,
+      "data": "2026-06-02",
+      "partite": [
+        { "casaId": "sq-t-1", "trasfertaId": "sq-t-4", "casaNome": "Marco Rossi", "trasfertaNome": "Stefano Gallo", "golCasa": 2, "golTrasferta": 1 },
+        { "casaId": "sq-t-2", "trasfertaId": "sq-t-3", "casaNome": "Luca Bianchi", "trasfertaNome": "Ivan Neri" }
+      ]
+    }
+  ],
+  "offline": []
+}
