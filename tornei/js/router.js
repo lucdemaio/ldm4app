@@ -128,5 +128,19 @@ const Router = (function(){
     }
   });
 
-  return { init(){ window.addEventListener('hashchange', resolve); /* do not force redirect; keep home if hash is empty */ resolve(); } };
+  return { 
+    init(){ 
+      window.addEventListener('hashchange', resolve); 
+      resolve(); 
+    },
+    navigate(route) {
+      location.hash = '#/' + route;
+    },
+    getCurrentRoute() {
+      return location.hash.replace(/^#\/?/, '').split('/')[0] || '';
+    }
+  };
 })();
+
+// Export to global scope
+window.Router = Router;

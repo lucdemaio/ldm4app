@@ -310,3 +310,6 @@ const AppGiocatori = (function(){
     render
   };
 })();
+
+// Export to global scope
+window.AppGiocatori = AppGiocatori;

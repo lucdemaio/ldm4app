@@ -550,3 +550,6 @@ const AdminPanel = (function(){
     _deleteUser  // Exposed for onclick handlers
   };
 })();
+
+// Export to global scope
+window.AdminPanel = AdminPanel;

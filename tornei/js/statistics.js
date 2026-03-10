@@ -219,3 +219,6 @@ const AppStatistics = (function(){
     render
   };
 })();
+
+// Export to global scope
+window.AppStatistics = AppStatistics;

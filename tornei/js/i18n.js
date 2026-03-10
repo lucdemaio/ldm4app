@@ -211,6 +211,9 @@ const I18n = (function(){
   };
 })();
 
+// Export to global scope
+window.I18n = I18n;
+
 // Apply language on page load
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.lang = I18n.current();
