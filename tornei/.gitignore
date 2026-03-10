@@ -1,0 +1,35 @@
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Browser
+.env
+.env.local
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Tests
+coverage/
+.nyc_output
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# System
+Thumbs.db
+.directory
