@@ -168,10 +168,10 @@ const ModuleTest = {
 console.log('%c⏳ Module tests will run when all modules are loaded', 'color:#8b5cf6');
 console.log('💡 After page fully loads, run: ModuleTest.runAll()');
 
-// Auto-run on DOMContentLoaded with longer delay for external libraries
+// Auto-run on DOMContentLoaded with delay for external CDN libraries
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     console.log('\n%c[AUTO-RUN] Module integration test starting...', 'color:#2563eb;font-weight:bold');
     ModuleTest.runAll();
-  }, 2500);  // Increased delay to 2.5s for external CDN libraries to load
+  }, 3500);  // 3.5s delay for all CDN libraries
 });
