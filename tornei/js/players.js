@@ -24,7 +24,7 @@ const AppGiocatori = (function(){
         <div class="col-md-3">
           <select class="form-select" id="filter-squad">
             <option value="">Tutte le Squadre</option>
-            ${/* squad options will be populated dynamically */}
+            <!-- squad options populated dynamically -->
           </select>
         </div>
         <div class="col-md-3">
