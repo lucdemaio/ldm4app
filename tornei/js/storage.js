@@ -1,9 +1,10 @@
 /* Lightweight IndexedDB wrapper for the static Gestionale Tornei
-   - stores: tornei, squadre, giornate, offlineQueue
+   - stores: tornei, squadre, giornate, offlineQueue (v1)
+   - NEW v2.0: giocatori, utenti, backup, statistiche (professional modules)
    - simple Promise API
 */
 const DB_NAME = 'gestionale-tornei';
-const DB_VERSION = 1;
+const DB_VERSION = 2;  // Upgraded from 1 to 2 for v2.0 modules
 
 const IDB = (function(){
   let db;
@@ -13,10 +14,16 @@ const IDB = (function(){
       const rq = indexedDB.open(DB_NAME, DB_VERSION);
       rq.onupgradeneeded = e => {
         const d = e.target.result;
+        // Original stores (v1.0)
         if(!d.objectStoreNames.contains('tornei')) d.createObjectStore('tornei', { keyPath: 'id' });
         if(!d.objectStoreNames.contains('squadre')) d.createObjectStore('squadre', { keyPath: 'id' });
         if(!d.objectStoreNames.contains('giornate')) d.createObjectStore('giornate', { keyPath: 'id' });
         if(!d.objectStoreNames.contains('offlineQueue')) d.createObjectStore('offlineQueue', { keyPath: 'id' });
+        // New v2.0 stores (professional modules)
+        if(!d.objectStoreNames.contains('giocatori')) d.createObjectStore('giocatori', { keyPath: 'id' });
+        if(!d.objectStoreNames.contains('utenti')) d.createObjectStore('utenti', { keyPath: 'id' });
+        if(!d.objectStoreNames.contains('backup')) d.createObjectStore('backup', { keyPath: 'id' });
+        if(!d.objectStoreNames.contains('statistiche')) d.createObjectStore('statistiche', { keyPath: 'id' });
       };
       rq.onsuccess = () => { db = rq.result; res(db); };
       rq.onerror = () => rej(rq.error);

@@ -164,7 +164,7 @@ const AppTornei = (function(){
       renderEdit(t);
     }));
     // poster button in list
-    root.querySelectorAll('button[data-action="poster"]').forEach(b => b.addEventListener('click', async e => {
+    appRoot.querySelectorAll('button[data-action="poster"]').forEach(b => b.addEventListener('click', async e => {
       const id = e.currentTarget.dataset.id; const t = await TorneiStore.get(id);
       try{ await ExportTools.generatePosterSvg({ title: t.nome, subtitle: (t.sport||'') + ' • ' + (t.formato||''), filename: (t.nome||'poster') + '.svg', qrUrl: 'https://www.ldm4app.com' }); }
       catch(err){ alert('Errore generazione locandina: '+err.message); }
