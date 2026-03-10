@@ -325,7 +325,7 @@ const AppTornei = (function(){
       for(const grp of groups){
         const rounds = roundRobinPairs(grp, opt.andataRitorno);
         for(let r=0;r<rounds.length;r++){
-const partite = rounds[i].map(p => ({ casaNome: p.casaNome, trasfertaNome: p.trasfertaNome, casaId: (savedTeams.find(x=>x.nome===p.casaNome)||{}).id || null, trasfertaId: (savedTeams.find(x=>x.nome===p.trasfertaNome)||{}).id || null, stage: 'group' }));
+          const partite = rounds[r].map(p => ({ casaNome: p.casaNome, trasfertaNome: p.trasfertaNome, casaId: (savedTeams.find(x=>x.nome===p.casaNome)||{}).id || null, trasfertaId: (savedTeams.find(x=>x.nome===p.trasfertaNome)||{}).id || null, stage: 'group' }));
           await saveGiornata(giornataIdx++, partite);
         }
       }
