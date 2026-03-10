@@ -14,6 +14,120 @@ const GiornateUI = (function(){
     URL.revokeObjectURL(url); 
   }
 
+  // Modal per inserire risultato partita
+  async function showResultModal(giornataId, partitaIdx){
+    const giornata = await IDB.get('giornate', giornataId);
+    const partita = giornata.partite[partitaIdx];
+    if(!partita) return alert('Partita non trovata');
+
+    // Creiamo il modale
+    let modal = document.getElementById('result-modal');
+    if(!modal){
+      modal = document.createElement('div');
+      modal.id = 'result-modal';
+      modal.className = 'modal fade';
+      modal.setAttribute('tabindex', '-1');
+      document.body.appendChild(modal);
+    }
+
+    const resultsList = (partita.games || []).map((g, idx) => 
+      `<div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+        <span>${partita.casaNome} <strong>${g.golCasa}-${g.golTrasferta}</strong> ${partita.trasfertaNome}</span>
+        <button type="button" class="btn btn-sm btn-outline-danger" data-delete-idx="${idx}">Elimina</button>
+      </div>`
+    ).join('');
+
+    modal.innerHTML = `
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Risultato: ${escapeHtml(partita.casaNome)} vs ${escapeHtml(partita.trasfertaNome)}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form id="result-form" class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">Gol ${partita.casaNome}</label>
+                <input type="number" name="golCasa" class="form-control" min="0" value="0" required />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Gol ${partita.trasfertaNome}</label>
+                <input type="number" name="golTrasferta" class="form-control" min="0" value="0" required />
+              </div>
+              <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Aggiungi Gara</button>
+              </div>
+            </form>
+            <hr/>
+            <h6 class="mt-3">Gare registrate:</h6>
+            <div id="games-list">${resultsList || '<p class="text-muted">Nessuna gara registrata</p>'}</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+
+    // Form submit
+    document.getElementById('result-form').addEventListener('submit', async ev => {
+      ev.preventDefault();
+      const fd = new FormData(document.getElementById('result-form'));
+      const gara = { golCasa: parseInt(fd.get('golCasa')), golTrasferta: parseInt(fd.get('golTrasferta')) };
+      
+      partita.games = partita.games || [];
+      partita.games.push(gara);
+      
+      // Aggiorna stato della serie
+      const casaVitte = partita.games.filter(g => g.golCasa > g.golTrasferta).length;
+      const trasfertaVitte = partita.games.filter(g => g.golCasa < g.golTrasferta).length;
+      partita.seriesScore = `${casaVitte}-${trasfertaVitte}`;
+      
+      if(partita.bestOf){
+        const winnersNeeded = Math.floor(partita.bestOf / 2) + 1;
+        if(casaVitte >= winnersNeeded) partita.seriesWinner = 'casa';
+        else if(trasfertaVitte >= winnersNeeded) partita.seriesWinner = 'trasferta';
+      }
+
+      await IDB.put('giornate', giornata);
+      
+      // Aggiorna lista risultati
+      const newList = (partita.games || []).map((g, idx) => 
+        `<div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+          <span>${partita.casaNome} <strong>${g.golCasa}-${g.golTrasferta}</strong> ${partita.trasfertaNome}</span>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-delete-idx="${idx}">Elimina</button>
+        </div>`
+      ).join('');
+      document.getElementById('games-list').innerHTML = newList;
+      document.getElementById('result-form').reset();
+
+      // Re-attach delete listeners
+      document.getElementById('games-list').querySelectorAll('[data-delete-idx]').forEach(btn => {
+        btn.addEventListener('click', async e => {
+          const idx = Number(e.target.dataset.deleteIdx);
+          if(!confirm('Eliminare questa gara?')) return;
+          partita.games.splice(idx, 1);
+          await IDB.put('giornate', giornata);
+          showResultModal(giornataId, partitaIdx); // Ricarica modale
+        });
+      });
+    });
+
+    // Delete listeners
+    document.getElementById('games-list').querySelectorAll('[data-delete-idx]').forEach(btn => {
+      btn.addEventListener('click', async e => {
+        const idx = Number(e.target.dataset.deleteIdx);
+        if(!confirm('Eliminare questa gara?')) return;
+        partita.games.splice(idx, 1);
+        await IDB.put('giornate', giornata);
+        showResultModal(giornataId, partitaIdx); // Ricarica modale
+      });
+    });
+  }
+
   function tplList(giornate, tornei){
     const torneoOptions = ['<option value="">-- Filtra per torneo --</option>'].concat(tornei.map(t=>`<option value="${t.id}">${escapeHtml(t.nome)}</option>`)).join('');
     return `
