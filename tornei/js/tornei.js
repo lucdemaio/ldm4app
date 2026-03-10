@@ -228,16 +228,22 @@ const AppTornei = (function(){
         await TorneiStore.save(obj);
         // TorneiStore.save ensures `obj.id` is set on the object; use `obj` when generating
         if(shouldGenerate){
-          await generateTournamentSchedule(obj, teams, obj.formato || 'girone');
-          alert('Torneo salvato e calendario generato');
-          location.hash = '#/giornate';
-          return;
+          try {
+            await generateTournamentSchedule(obj, teams, obj.formato || 'girone');
+            alert('Torneo salvato e calendario generato');
+            location.hash = '#/giornate';
+            return;
+          } catch(genErr) {
+            alert('Torneo salvato ma errore nella generazione calendario: ' + genErr.message);
+            location.hash = '#/tornei';
+            return;
+          }
         }
 
         // simulate remote save attempt -> if fails, add to offline queue
         try { await fakeServerSave(obj); alert('Torneo salvato'); location.hash = '#/tornei'; }
-        catch(err){ await OfflineQueue.add({ method: 'POST', url: '/api/tornei', body: obj }); alert('Server non raggiungibile: salvataggio locale (offline)'); location.hash = '#/offline'; }
-      }catch(err){ alert('Errore salvataggio: '+err.message); }
+        catch(err){ await OfflineQueue.add({ method: 'POST', url: '/api/tornei', body: obj }); alert('Torneo salvato in modalità offline (no server)'); location.hash = '#/tornei'; }
+      }catch(err){ alert('Errore salvataggio torneo: '+err.message); console.error('Save error:', err); }
     });
   }
 
@@ -697,7 +703,18 @@ const partite = rounds[i].map(p => ({ casaNome: p.casaNome, trasfertaNome: p.tra
 
   // ensure home preview + dashboard update after save
   const _origSave = TorneiStore.save.bind(TorneiStore);
-  TorneiStore.save = async function(obj){ const res = await _origSave(obj); try{ await renderHomePreview(); await renderDashboardCards(); await renderStatsAndDashboard(); }catch(e){} return res; };
+  TorneiStore.save = async function(obj){ 
+    try {
+      const res = await _origSave(obj);
+      try{ await renderHomePreview(); } catch(e){ console.warn('renderHomePreview error:', e); }
+      try{ await renderDashboardCards(); } catch(e){ console.warn('renderDashboardCards error:', e); }
+      try{ await renderStatsAndDashboard(); } catch(e){ console.warn('renderStatsAndDashboard error:', e); }
+      return res;
+    } catch(e) {
+      console.error('TorneiStore.save error:', e);
+      throw e;
+    }
+  };
 
   return { init: async () => { await renderHomePreview(); await renderDashboardCards(); await renderStatsAndDashboard(); }, renderList, renderCreate, renderEdit, renderHomePreview, renderHeroNextMatch, renderDashboardCards };
 })();
