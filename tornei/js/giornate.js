@@ -1,6 +1,19 @@
 const GiornateUI = (function(){
   const root = document.getElementById('app-root');
 
+  // Helper function to download JSON
+  function downloadJSON(obj, filename){ 
+    const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' }); 
+    const url = URL.createObjectURL(blob); 
+    const a = document.createElement('a'); 
+    a.href = url; 
+    a.download = filename; 
+    document.body.appendChild(a); 
+    a.click(); 
+    a.remove(); 
+    URL.revokeObjectURL(url); 
+  }
+
   function tplList(giornate, tornei){
     const torneoOptions = ['<option value="">-- Filtra per torneo --</option>'].concat(tornei.map(t=>`<option value="${t.id}">${escapeHtml(t.nome)}</option>`)).join('');
     return `
@@ -112,9 +125,6 @@ const GiornateUI = (function(){
       await IDB.put('giornate', obj);
       alert('Giornata salvata'); location.hash = '#/giornate';
     });
-
-    // helper: download JSON
-    function downloadJSON(obj, filename){ const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
 
   }
 
