@@ -133,7 +133,64 @@
 
       <main class="content container my-5">
         <div id="app-root"></div>
-        <div id="dashboard-root"></div>
+        
+        <!-- DASHBOARD -->
+        <div id="dashboard-root" class="dashboard-wrapper">
+          <!-- Hero Section with Stats -->
+          <div class="hero mb-4">
+            <div class="hero-content">
+              <h1 class="mb-1">Gestionale Tornei Pro</h1>
+              <p class="lead mb-0">Gestisci i tuoi tornei sportivi con facilità</p>
+            </div>
+            <div class="hero-stats"></div>
+          </div>
+
+          <!-- Next Match -->
+          <div id="hero-next-match" class="mb-4"></div>
+
+          <!-- Home Preview (Recent Tournaments) -->
+          <section class="mb-4">
+            <h4 class="mb-3">Ultimi Tornei</h4>
+            <div id="home-preview" class="dashboard-grid">
+              <div id="home-preview-empty" class="mud-paper card-item empty-state">
+                Nessun torneo creato. Inizia creando un nuovo torneo.
+              </div>
+            </div>
+          </section>
+
+          <!-- Tournaments Table -->
+          <section class="mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h4 class="mb-0">Tutti i Tornei</h4>
+              <button id="export-dashboard-pdf" class="btn btn-sm btn-outline-secondary">
+                <i class="fa-solid fa-file-pdf me-1"></i>Esporta
+              </button>
+            </div>
+            <div class="card mud-paper">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th style="width:35%">Nome</th>
+                      <th style="width:15%">Sport</th>
+                      <th style="width:15%">Squadre</th>
+                      <th style="width:15%">Data Inizio</th>
+                      <th style="width:10%">Stato</th>
+                      <th style="width:10%"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashboard-tornei-body">
+                    <tr class="empty-row">
+                      <td colspan="6" class="text-muted text-center py-4">
+                        Nessun torneo presente — crea il primo torneo.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
       </main>
     </div>
 

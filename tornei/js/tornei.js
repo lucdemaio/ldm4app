@@ -390,113 +390,42 @@ const AppTornei = (function(){
   }
 
   async function renderHomePreview(){
-    const root = document.getElementById('home-preview');
+    const homePreview = document.getElementById('home-preview');
+    if(!homePreview) return;
+    
     const tornei = await TorneiStore.list();
     const recent = (tornei || []).slice(-3).reverse();
+    const emptyEl = document.getElementById('home-preview-empty');
 
-    // if there is a dedicated home-preview container, populate it; otherwise skip that part
-    if(root){
-      if(recent.length === 0){ const emptyEl = document.getElementById('home-preview-empty'); if(emptyEl) emptyEl.style.display = ''; root.querySelectorAll('.card-item.dynamic').forEach(n=>n.remove());
-        // hide hero next match when no data
-        const hero = document.getElementById('hero-next-match'); if(hero) hero.style.display = 'none';
-        // continue — we still want to update hero stats and dashboard table below
-      } else {
-        // hide empty message
-        const emptyEl = document.getElementById('home-preview-empty'); if(emptyEl) emptyEl.style.display = 'none';
-        // remove previous dynamic cards
-        root.querySelectorAll('.card-item.dynamic').forEach(n=>n.remove());
-        for(const t of recent){
-          const el = document.createElement('article'); el.className = 'mud-paper card-item dynamic';
-          el.innerHTML = `
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="mb-0">${escapeHtml(t.nome)}</h5>
-              <small class="text-muted">${escapeHtml(t.formato||'')}</small>
+    if(recent.length === 0) {
+      if(emptyEl) emptyEl.style.display = '';
+      homePreview.querySelectorAll('.dynamic').forEach(n => n.remove());
+    } else {
+      if(emptyEl) emptyEl.style.display = 'none';
+      homePreview.querySelectorAll('.dynamic').forEach(n => n.remove());
+      
+      for(const t of recent) {
+        const el = document.createElement('article');
+        el.className = 'mud-paper card-item dynamic';
+        const teamCount = (await SquadreStore.list()).filter(s => s.torneoId === t.id).length;
+        
+        el.innerHTML = `
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h5 class="mb-1">${escapeHtml(t.nome)}</h5>
+              <small class="text-muted">${escapeHtml(t.sport||'')}</small>
             </div>
-            <div class="small text-muted mb-2">${escapeHtml(t.sport||'')}</div>
-            <div class="d-flex gap-2">
-              <a class="btn btn-sm btn-outline-primary" href="#/tornei" data-action="open-torneo" data-id="${t.id}">Dettagli</a>
-              <a class="btn btn-sm btn-primary" href="#/classifica" data-action="open-classifica" data-id="${t.id}">Classifica</a>
-              <button class="btn btn-sm btn-outline-info" data-action="poster" data-id="${t.id}" title="Genera locandina"><i class="fa-solid fa-image"></i></button>
-            </div>
-          `;
-          root.appendChild(el);
-          const posterBtnDyn = el.querySelector('[data-action="poster"]');
-          if(posterBtnDyn){ posterBtnDyn.addEventListener('click', async (ev)=>{ const id = ev.currentTarget.dataset.id; const t = await TorneiStore.get(id); try{ await ExportTools.generatePosterSvg({ title: t.nome, subtitle: (t.sport||'') + ' • ' + (t.formato||''), filename: (t.nome||'poster') + '.svg', qrUrl: 'https://www.ldm4app.com' }); }catch(err){ alert('Errore generazione locandina: '+err.message); } }); }
-        }
+            <span class="badge bg-primary text-white">${escapeHtml(t.formato||'')}</span>
+          </div>
+          <div class="small text-muted mb-3">${teamCount} squadre • ${t.dataInizio||''}</div>
+          <div class="d-flex gap-2">
+            <a class="btn btn-sm btn-outline-primary" href="#/tornei">Dettagli</a>
+            <a class="btn btn-sm btn-primary" href="#/classifica">Classifica</a>
+          </div>
+        `;
+        homePreview.appendChild(el);
       }
     }
-
-    // also update hero 'next match' from giornate if available
-    await renderHeroNextMatch();
-
-    // update hero statistics (totali / in corso / in preparazione / completati)
-    try{
-      const allTornei = await TorneiStore.list();
-      const allGiornate = await IDB.getAll('giornate');
-      const stats = { total: allTornei.length, inCorso: 0, inPreparazione: 0, completati: 0 };
-      for(const t of allTornei){
-        const gs = allGiornate.filter(g => g.torneoId === t.id);
-        const matches = gs.flatMap(g => (g.partite||[]));
-        const anyResult = matches.some(p => p.golCasa!=null || (p.games && p.games.length>0 && p.games.some(g=>g.golCasa!=null)));
-        const allHaveResult = matches.length>0 && matches.every(p => (p.golCasa!=null) || (p.games && p.games.length>0 && p.games.every(gm=>gm.golCasa!=null)));
-        if(allHaveResult) stats.completati++; else if(anyResult) stats.inCorso++; else stats.inPreparazione++;
-      }
-      const hero = document.querySelector('.hero');
-      if(hero){
-        let statsRow = hero.querySelector('.hero-stats');
-        if(!statsRow){ statsRow = document.createElement('div'); statsRow.className = 'hero-stats'; hero.querySelector('.hero-content').appendChild(statsRow); }
-        statsRow.innerHTML = `
-          <div class="stat-card"><div class="num">${stats.total}</div><div class="label">Tornei Totali</div></div>
-          <div class="stat-card"><div class="num">${stats.inCorso}</div><div class="label">In Corso</div></div>
-          <div class="stat-card"><div class="num">${stats.inPreparazione}</div><div class="label">In Preparazione</div></div>
-          <div class="stat-card"><div class="num">${stats.completati}</div><div class="label">Completati</div></div>
-        `;
-      }
-
-      // populate dashboard table (non-intrusive, only visual)
-      const tbody = document.getElementById('dashboard-tornei-body');
-      const allSquadre = await SquadreStore.list();
-      if(tbody){
-        tbody.innerHTML = '';
-        if(allTornei.length === 0){
-          tbody.innerHTML = '<tr class="empty-row"><td colspan="6" class="text-muted text-center py-4">Nessun torneo presente — crea il primo torneo.</td></tr>';
-        } else {
-          for(const t of allTornei){
-            const teamCount = allSquadre.filter(s => s.torneoId === t.id).length;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td><strong>${escapeHtml(t.nome||'—')}</strong><div class="small text-muted">${escapeHtml(t.formato||'')}</div></td>
-              <td class="small text-muted">${escapeHtml(t.sport||'—')}</td>
-              <td class="small text-muted">${teamCount} squadre</td>
-              <td class="small text-muted">${t.dataInizio||''}</td>
-              <td><span class="badge bg-warning text-dark">In preparazione</span></td>
-              <td class="text-end">
-                <a class="btn btn-sm btn-outline-primary me-1" href="#/tornei"><i class="fa-solid fa-eye"></i></a>
-                <a class="btn btn-sm btn-outline-secondary me-1" href="#/tornei"><i class="fa-solid fa-pen"></i></a>
-                <a class="btn btn-sm btn-outline-danger" href="#/tornei"><i class="fa-solid fa-trash"></i></a>
-              </td>
-            `;
-            tbody.appendChild(tr);
-          }
-        }
-      }
-
-    }catch(e){ console.error('[DEBUG] renderStatsAndDashboard error', e); }
-
-    const dbgCards = document.getElementById('dashboard-cards');
-    const dbgTBody = document.getElementById('dashboard-tornei-body');
-    console.log('[DEBUG] post-renderStatsAndDashboard ->', {
-      cardsExists: !!dbgCards,
-      cardsChildren: dbgCards ? dbgCards.children.length : 0,
-      tbodyExists: !!dbgTBody,
-      tbodyChildren: dbgTBody ? dbgTBody.children.length : 0,
-      tbodyHTMLlen: dbgTBody ? dbgTBody.innerHTML.length : 0
-    });
-
-    // attach dashboard export button if present
-    const expDash = document.getElementById('export-dashboard-pdf');
-    if(expDash){ expDash.addEventListener('click', async ()=>{ try{ const el = document.getElementById('dashboard-root') || document.querySelector('.hero'); await ExportTools.exportElementToPdf(el, 'dashboard.pdf'); }catch(err){ alert('Esportazione PDF fallita: '+err.message); } }); }
-
   }
 
   async function renderHeroNextMatch(){
@@ -537,130 +466,37 @@ const AppTornei = (function(){
   }
 
   async function renderDashboardCards(){
-    console.log('[DEBUG] renderDashboardCards called');
-    const container = document.getElementById('dashboard-cards');
-    if(!container) { console.warn('[DEBUG] dashboard-cards non trovato'); return; }
-    const tornei = await TorneiStore.list();
-    const allSquadre = await SquadreStore.list();
-    console.log('[DEBUG] tornei:', tornei);
-    console.log('[DEBUG] squadre:', allSquadre);
-    container.innerHTML = '';
-    if(!tornei || tornei.length===0){
-      container.innerHTML = '<div class="mud-paper card-item empty-state">Nessun torneo creato</div>';
-      console.log('[DEBUG] Nessun torneo creato');
-      return;
-    }
-    for(const t of tornei){
-      const teamCount = allSquadre.filter(s => s.torneoId === t.id).length;
-      const card = document.createElement('article');
-      card.className = 'mud-paper card-item tournament-card';
-      card.innerHTML = `
-        <div class="d-flex justify-content-between align-items-start mb-2">
-          <div>
-            <h5 class="mb-1">${escapeHtml(t.nome)}</h5>
-            <div class="small text-muted">${escapeHtml(t.sport||'')}</div>
-            <div class="tiny-meta small text-muted">${teamCount} squadre • ${t.numGroups? t.numGroups + ' gruppi' : '--'}</div>
-          </div>
-          <div class="text-end">
-            <div class="badge bg-primary text-white mb-2">${escapeHtml(t.formato||'')}</div>
-            <div class="small text-muted">${t.dataInizio||''}</div>
-          </div>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mt-2">
-          <div class="d-flex gap-2">
-            <a class="btn btn-sm btn-outline-primary" href="#/tornei"><i class="fa-solid fa-eye"></i></a>
-            <a class="btn btn-sm btn-outline-secondary" href="#/tornei"><i class="fa-solid fa-pen"></i></a>
-          </div>
-          <div>
-            <a class="btn btn-sm btn-danger" data-id="${t.id}" data-action="delete-torneo"><i class="fa-solid fa-trash"></i></a>
-          </div>
-        </div>
-      `;
-      container.appendChild(card);
-    }
-    console.log('[DEBUG] dashboard-cards renderizzati:', tornei.length);
-    // ensure container visible
-    container.style.display = '';
-    container.style.zIndex = 1;
-    // scroll into view for debugging
-    try{ container.scrollIntoView({ behavior: 'auto', block: 'center' }); }catch(e){}
-    // attach delete handlers
-    container.querySelectorAll('[data-action="delete-torneo"]').forEach(b => b.addEventListener('click', async e => {
-      const id = e.currentTarget.dataset.id;
-      if(!confirm('Eliminare il torneo?')) return;
-      await TorneiStore.remove(id);
-      await renderDashboardCards();
-      await renderHomePreview();
-    }));
-
-    // poster buttons on cards
-    container.querySelectorAll('[data-action="poster"]').forEach(b => b.addEventListener('click', async e => {
-      const id = e.currentTarget.dataset.id;
-      const t = await TorneiStore.get(id);
-      try{ await ExportTools.generatePosterSvg({ title: t.nome, subtitle: (t.sport||'') + ' • ' + (t.formato||''), filename: (t.nome||'poster') + '.svg', qrUrl: 'https://www.ldm4app.com' }); }
-      catch(err){ alert('Errore generazione locandina: '+err.message); }
-    }));
-    console.log('[DEBUG] dashboard-cards innerHTML length:', container.innerHTML.length, 'children:', container.children.length, 'visible:', getComputedStyle(container).display);
+    // This function is no longer used - all rendering is done in renderHomePreview and renderStatsAndDashboard
+    console.log('[INFO] renderDashboardCards deprecated - using renderHomePreview instead');
   }
 
   async function renderStatsAndDashboard(){
-    console.log('[DEBUG] renderStatsAndDashboard called');
-    const dashboardRoot = document.getElementById('dashboard-root');
-    const statTotal = dashboardRoot ? dashboardRoot.querySelector('#stat-total') : document.getElementById('stat-total');
-    const statActive = dashboardRoot ? dashboardRoot.querySelector('#stat-active') : document.getElementById('stat-active');
-    const statPrep = dashboardRoot ? dashboardRoot.querySelector('#stat-prep') : document.getElementById('stat-prep');
-    const statDone = dashboardRoot ? dashboardRoot.querySelector('#stat-done') : document.getElementById('stat-done');
-    const tornei = await TorneiStore.list();
-    const recent = (tornei || []).slice(-3).reverse();
-
-    // if there is a dedicated home-preview container, populate it; otherwise skip that part
-    if(dashboardRoot){
-      if(recent.length === 0){ const emptyEl = document.getElementById('home-preview-empty'); if(emptyEl) emptyEl.style.display = ''; dashboardRoot.querySelectorAll('.card-item.dynamic').forEach(n=>n.remove());
-        // hide hero next match when no data
-        const hero = document.getElementById('hero-next-match'); if(hero) hero.style.display = 'none';
-        // continue — we still want to update hero stats and dashboard table below
-      } else {
-        // hide empty message
-        const emptyEl = document.getElementById('home-preview-empty'); if(emptyEl) emptyEl.style.display = 'none';
-        // remove previous dynamic cards
-        dashboardRoot.querySelectorAll('.card-item.dynamic').forEach(n=>n.remove());
-        for(const t of recent){
-          const el = document.createElement('article'); el.className = 'mud-paper card-item dynamic';
-          el.innerHTML = `
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="mb-0">${escapeHtml(t.nome)}</h5>
-              <small class="text-muted">${escapeHtml(t.formato||'')}</small>
-            </div>
-            <div class="small text-muted mb-2">${escapeHtml(t.sport||'')}</div>
-            <div class="d-flex gap-2">
-              <a class="btn btn-sm btn-outline-primary" href="#/tornei" data-action="open-torneo" data-id="${t.id}">Dettagli</a>
-              <a class="btn btn-sm btn-primary" href="#/classifica" data-action="open-classifica" data-id="${t.id}">Classifica</a>
-            </div>
-          `;
-          dashboardRoot.appendChild(el);
-        }
-      }
-    }
-
-    // also update hero 'next match' from giornate if available
-    await renderHeroNextMatch();
-
-    // update hero statistics (totali / in corso / in preparazione / completati)
-    try{
+    try {
       const allTornei = await TorneiStore.list();
       const allGiornate = await IDB.getAll('giornate');
+      const allSquadre = await SquadreStore.list();
+      
+      // Calculate stats
       const stats = { total: allTornei.length, inCorso: 0, inPreparazione: 0, completati: 0 };
-      for(const t of allTornei){
+      for(const t of allTornei) {
         const gs = allGiornate.filter(g => g.torneoId === t.id);
         const matches = gs.flatMap(g => (g.partite||[]));
-        const anyResult = matches.some(p => p.golCasa!=null || (p.games && p.games.length>0 && p.games.some(g=>g.golCasa!=null)));
-        const allHaveResult = matches.length>0 && matches.every(p => (p.golCasa!=null) || (p.games && p.games.length>0 && p.games.every(gm=>gm.golCasa!=null)));
-        if(allHaveResult) stats.completati++; else if(anyResult) stats.inCorso++; else stats.inPreparazione++;
+        const anyResult = matches.some(p => p.golCasa!=null || (p.games && p.games.length>0));
+        const allHaveResult = matches.length>0 && matches.every(p => (p.golCasa!=null) || (p.games && p.games.length>0));
+        if(allHaveResult) stats.completati++;
+        else if(anyResult) stats.inCorso++;
+        else stats.inPreparazione++;
       }
+      
+      // Update hero stats
       const hero = document.querySelector('.hero');
-      if(hero){
+      if(hero) {
         let statsRow = hero.querySelector('.hero-stats');
-        if(!statsRow){ statsRow = document.createElement('div'); statsRow.className = 'hero-stats'; hero.querySelector('.hero-content').appendChild(statsRow); }
+        if(!statsRow) {
+          statsRow = document.createElement('div');
+          statsRow.className = 'hero-stats';
+          hero.appendChild(statsRow);
+        }
         statsRow.innerHTML = `
           <div class="stat-card"><div class="num">${stats.total}</div><div class="label">Tornei Totali</div></div>
           <div class="stat-card"><div class="num">${stats.inCorso}</div><div class="label">In Corso</div></div>
@@ -668,23 +504,22 @@ const AppTornei = (function(){
           <div class="stat-card"><div class="num">${stats.completati}</div><div class="label">Completati</div></div>
         `;
       }
-
-      // populate dashboard table (non-intrusive, only visual)
+      
+      // Update dashboard table
       const tbody = document.getElementById('dashboard-tornei-body');
-      const allSquadre = await SquadreStore.list();
-      if(tbody){
+      if(tbody) {
         tbody.innerHTML = '';
-        if(allTornei.length === 0){
-          tbody.innerHTML = '<tr class="empty-row"><td colspan="6" class="text-muted text-center py-4">Nessun torneo presente — crea il primo torneo.</td></tr>';
+        if(allTornei.length === 0) {
+          tbody.innerHTML = '<tr class="empty-row"><td colspan="6" class="text-muted text-center">Nessun torneo — crea il primo torneo.</td></tr>';
         } else {
-          for(const t of allTornei){
+          for(const t of allTornei) {
             const teamCount = allSquadre.filter(s => s.torneoId === t.id).length;
             const tr = document.createElement('tr');
             tr.innerHTML = `
-              <td><strong>${escapeHtml(t.nome||'—')}</strong><div class="small text-muted">${escapeHtml(t.formato||'')}</div></td>
-              <td class="small text-muted">${escapeHtml(t.sport||'—')}</td>
-              <td class="small text-muted">${teamCount} squadre</td>
-              <td class="small text-muted">${t.dataInizio||''}</td>
+              <td><strong>${escapeHtml(t.nome||'—')}</strong></td>
+              <td>${escapeHtml(t.sport||'—')}</td>
+              <td>${teamCount}</td>
+              <td>${t.dataInizio||''}</td>
               <td><span class="badge bg-warning text-dark">In preparazione</span></td>
               <td class="text-end">
                 <a class="btn btn-sm btn-outline-primary me-1" href="#/tornei"><i class="fa-solid fa-eye"></i></a>
@@ -696,9 +531,13 @@ const AppTornei = (function(){
           }
         }
       }
-
-    }catch(e){ console.error('[DEBUG] renderHeroNextMatch error', e); }
-
+      
+      // Update next match
+      await renderHeroNextMatch();
+      
+    } catch(e) {
+      console.error('renderStatsAndDashboard error:', e);
+    }
   }
 
   // ensure home preview + dashboard update after save
@@ -716,5 +555,12 @@ const AppTornei = (function(){
     }
   };
 
-  return { init: async () => { await renderHomePreview(); await renderStatsAndDashboard(); }, renderList, renderCreate, renderEdit, renderHomePreview, renderHeroNextMatch, renderDashboardCards };
+  return { init: async () => { 
+    try {
+      await renderHomePreview(); 
+      await renderStatsAndDashboard(); 
+    } catch(e) { 
+      console.error('[Dashboard Init Error]', e); 
+    }
+  }, renderList, renderCreate, renderEdit, renderHomePreview, renderHeroNextMatch, renderDashboardCards };
 })();
