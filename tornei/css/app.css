@@ -93,8 +93,20 @@ small.text-muted{ color:var(--muted); }
 .card-modern .badge{ box-shadow: none; }
 
 /* small adjustments */
-.mud-paper.card-item{ background: #fff; }
-.header-compact h3{ color:#111827; }
+.mud-paper.card-item{ 
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+}
+
+.mud-paper.card-item h5 {
+  color: var(--theme-text);
+}
+
+.mud-paper.card-item .text-muted {
+  color: var(--theme-text-muted) !important;
+}
+
+.header-compact h3{ color: var(--theme-text); }
 
 @media (max-width:1200px){ .content{ margin-left: 0; width:100%; padding-top: 8px; } .sidebar{ position:relative; width:100%; top:0; left:0; border-right:none; } .app-shell{ flex-direction:column; } .hero{ flex-direction:column; align-items:flex-start; } }
 
@@ -420,6 +432,24 @@ body {
 }
 
 /* Improved responsive */
+/* Dashboard cards grid */
+.content > div:not(#app-root) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Stats card fix for dark mode */
+.stat-card {
+  color: white;
+}
+
+.stat-card .num,
+.stat-card .label {
+  color: white;
+}
+
 @media (max-width: 768px) {
   .mud-paper {
     padding: 1.25rem;
@@ -436,6 +466,10 @@ body {
   
   .partita-row {
     padding: 1rem !important;
+  }
+  
+  .content > div:not(#app-root) {
+    grid-template-columns: 1fr;
   }
 }
 
