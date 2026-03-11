@@ -15,11 +15,66 @@ body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvet
 .brand-text{ color:var(--primary); font-weight:800; }
 
 /* HERO */
-.hero{ display:flex; gap:2rem; align-items:center; justify-content:space-between; padding:2rem; background: linear-gradient(135deg, rgba(37,99,235,0.04), rgba(124,58,237,0.02)); }
-.hero-content{ max-width:58%; }
-.hero h1{ color: #0b1220; font-weight:800; }
-.hero p.lead{ margin-bottom:0.6rem; }
-.hero-visual{ max-width:320px; }
+/* HERO SECTION - Dashboard Main */
+.hero {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  background: linear-gradient(135deg, #6d28d9, #4f46e5) !important;
+  color: #fff !important;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+  margin-bottom: 2rem;
+}
+
+.hero-content {
+  max-width: 58%;
+}
+
+.hero h1 {
+  color: #fff !important;
+  font-weight: 800;
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero p.lead {
+  color: rgba(255, 255, 255, 0.85) !important;
+  margin-bottom: 0.6rem;
+}
+
+.hero-visual {
+  max-width: 320px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.06) !important;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  min-width: 140px;
+  color: #fff !important;
+  box-shadow: none;
+  text-align: center;
+}
+
+.stat-card .num {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #fff !important;
+}
+
+.stat-card .label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
 .card-modern{ border-radius:14px; background: linear-gradient(180deg,#fff, #fbfdff); border:1px solid rgba(2,6,23,0.04); box-shadow: 0 8px 24px rgba(2,6,23,0.04); transition: transform .18s ease, box-shadow .18s ease; }
 .card-modern:hover{ transform: translateY(-6px); box-shadow: 0 26px 60px rgba(2,6,23,0.08); }
 
@@ -75,18 +130,6 @@ small.text-muted{ color:var(--muted); }
 /* center the dashboard content inside dashboard-root */
 #dashboard-root > section, #dashboard-root .mud-paper { max-width: 920px; margin: 0 auto; }
 #dashboard-root{ display:block; padding-left: 0.5rem; padding-right: 0.5rem; }
-
-
-
-/* large hero like screenshot */
-.hero{ display:flex; gap:2rem; align-items:center; justify-content:space-between; padding:2rem; background: linear-gradient(135deg,#6d28d9,#4f46e5); color:#fff; border-radius:16px; box-shadow: 0 20px 40px rgba(15,23,42,0.06); }
-.hero .hero-content h1{ font-size:2.2rem; color:#fff; font-weight:800; }
-.hero .lead{ color: rgba(255,255,255,0.85); }
-.hero .btn-primary{ box-shadow:none; background: linear-gradient(135deg,#7c3aed,#4f46e5); }
-.hero-stats{ display:flex; gap:1rem; margin-top:1.25rem; }
-.stat-card{ background: rgba(255,255,255,0.06); padding:1rem 1.25rem; border-radius:12px; min-width:140px; color:#fff; box-shadow: none; text-align:center; }
-.stat-card .num{ font-weight:800; font-size:1.25rem; }
-.stat-card .label{ font-size:.8rem; color: rgba(255,255,255,0.85); }
 
 /* table header gradient */
 .table thead th{ background: linear-gradient(90deg,#7c3aed,#4f46e5); color:#fff; border-bottom: none; }
