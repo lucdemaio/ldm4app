@@ -716,5 +716,5 @@ const AppTornei = (function(){
     }
   };
 
-  return { init: async () => { await renderHomePreview(); await renderDashboardCards(); await renderStatsAndDashboard(); }, renderList, renderCreate, renderEdit, renderHomePreview, renderHeroNextMatch, renderDashboardCards };
+  return { init: async () => { await renderHomePreview(); await renderStatsAndDashboard(); }, renderList, renderCreate, renderEdit, renderHomePreview, renderHeroNextMatch, renderDashboardCards };
 })();
