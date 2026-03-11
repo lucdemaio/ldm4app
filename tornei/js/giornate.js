@@ -180,23 +180,42 @@ const GiornateUI = (function(){
   function tplPartite(g){
     const partite = g.partite || [];
     return `
-      <div class="card mud-paper mt-3">
+      <div class="card mud-paper mt-4">
         <div class="card-body">
-          <h5>Partite - Giornata ${g.numero}</h5>
-          <form id="form-partita" class="row g-2 align-items-end">
-            <div class="col-md-3"><label class="form-label">Casa</label><select class="form-select" name="casaId"></select></div>
-            <div class="col-md-3"><label class="form-label">Trasferta</label><select class="form-select" name="trasfertaId"></select></div>
-            <div class="col-md-2"><label class="form-label">Ora</label><input name="ora" class="form-control" placeholder="HH:MM"/></div>
-            <div class="col-md-2"><label class="form-label">Campo</label><input name="campo" class="form-control"/></div>
-            <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Aggiungi partita</button></div>
-          </form>
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <h5 class="mb-0">Partite - Giornata ${g.numero}</h5>
+            <button class="btn btn-sm btn-outline-secondary" id="export-partite-pdf" title="Esporta PDF"><i class="fa-solid fa-file-pdf me-1"></i>Esporta PDF</button>
+          </div>
+          
+          <div class="p-3 bg-light rounded mb-4">
+            <form id="form-partita" class="row g-3 align-items-end">
+              <div class="col-lg-3">
+                <label class="form-label fw-600">Casa</label>
+                <select class="form-select form-select-lg" name="casaId"></select>
+              </div>
+              <div class="col-lg-3">
+                <label class="form-label fw-600">Trasferta</label>
+                <select class="form-select form-select-lg" name="trasfertaId"></select>
+              </div>
+              <div class="col-lg-2">
+                <label class="form-label fw-600">Ora</label>
+                <input name="ora" class="form-control form-control-lg" placeholder="HH:MM"/>
+              </div>
+              <div class="col-lg-2">
+                <label class="form-label fw-600">Campo</label>
+                <input name="campo" class="form-control form-control-lg"/>
+              </div>
+              <div class="col-lg-2">
+                <button class="btn btn-primary w-100 btn-lg" type="submit"><i class="fa-solid fa-plus me-1"></i>Aggiungi</button>
+              </div>
+            </form>
+          </div>
 
-          <hr/>
-          <div id="partite-list">
+          <div id="partite-list" class="partite-container">
             ${partite.length===0? '<div class="empty-state">Nessuna partita per questa giornata</div>' : partite.map((p,idx)=>{
               const seriesInfo = (p.games && p.games.length)? (function(){ const wins = p.games.reduce((acc,g)=>{ if(g.golCasa>g.golTrasferta) acc.c++; else if(g.golCasa<g.golTrasferta) acc.t++; return acc; }, {c:0,t:0}); return `<small class="text-muted ms-2">Serie: ${wins.c}-${wins.t}${p.seriesWinner? ' • Winner: ' + (p.seriesWinner==='casa'? p.casaNome : p.trasfertaNome) : ''}</small>`; })() : '';
               const stageBadge = p.stage? `<span class="badge bg-info text-dark ms-2">${p.stage}</span>` : '';
-              return `<div class="d-flex align-items-center mb-2" data-idx="${idx}"><div class="me-3" style="min-width:220px">${escapeHtml(p.casaNome)} <strong>${p.golCasa!=null? p.golCasa + ' - ' + p.golTrasferta : 'vs'}</strong> ${escapeHtml(p.trasfertaNome)} ${p.bestOf? '<span class="badge bg-secondary ms-2">best-of-' + p.bestOf + '</span>' : ''}${stageBadge}${seriesInfo}</div><div class="me-2"><button class="btn btn-sm btn-outline-primary me-2" data-action="edit-result">Inserisci Risultato</button><button class="btn btn-sm btn-outline-secondary me-2" data-action="reset-series">Reset serie</button><button class="btn btn-sm btn-outline-danger" data-action="delete-game">Elimina</button></div></div>`;
+              return `<div class="partita-row p-3 mb-3 border rounded-lg d-flex flex-column flex-lg-row align-items-lg-center justify-content-lg-between gap-3" data-idx="${idx}"><div class="flex-grow-1"><div class="partita-match mb-2 mb-lg-0"><strong>${escapeHtml(p.casaNome)}</strong> <span class="score">${p.golCasa!=null? p.golCasa + ' - ' + p.golTrasferta : 'vs'}</span> <strong>${escapeHtml(p.trasfertaNome)}</strong></div><div class="partita-meta"><small class="text-muted">${p.ora? '⏰ ' + p.ora : ''}</small>${p.campo? ' <small class="text-muted">📍 ' + p.campo + '</small>' : ''} ${p.bestOf? '<span class="badge bg-secondary ms-1">best-of-' + p.bestOf + '</span>' : ''}${stageBadge}${seriesInfo}</div></div><div class="partita-actions"><button class="btn btn-sm btn-outline-primary me-2" data-action="edit-result">Risultato</button><button class="btn btn-sm btn-outline-secondary me-2" data-action="reset-series">Reset</button><button class="btn btn-sm btn-outline-danger" data-action="delete-game">Elimina</button></div></div>`;
             }).join('')}
           </div>
         </div>
@@ -251,6 +270,20 @@ const GiornateUI = (function(){
     const elenco = squadre.filter(s => s.torneoId === g.torneoId);
     casaSel.innerHTML = '<option value="">-- Seleziona --</option>' + elenco.map(s=>`<option value="${s.id}">${escapeHtml(s.nome)}</option>`).join('');
     trasSel.innerHTML = casaSel.innerHTML;
+
+    // Aggiungi export PDF handler
+    const expBtn = document.getElementById('export-partite-pdf');
+    if(expBtn){
+      expBtn.addEventListener('click', async ()=>{
+        try{
+          const container = document.querySelector('.partite-container');
+          if(!container) return alert('Sezione partite non trovata');
+          await ExportTools.exportElementToPdf(container, `giornata_${g.numero}_partite.pdf`);
+        }catch(err){
+          alert('Esportazione PDF fallita: '+err.message);
+        }
+      });
+    }
 
     form.addEventListener('submit', async ev => {
       ev.preventDefault();
