@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gestionale Tornei Pro — Il miglior programma gratuito</title>
+    <title>Gestionale tornei pro ldm4app</title>
     <meta name="description" content="Piattaforma professionale gratuita per la gestione di tornei sportivi. Perfetto per pro loco e associazioni sportive.">
     <meta name="theme-color" content="#2563eb">
     <link rel="manifest" href="manifest.json">
@@ -26,7 +26,7 @@
                 <i class="fa-solid fa-circle fa-stack-2x text-primary" style="opacity:.12"></i>
                 <i class="fa-solid fa-trophy fa-stack-1x text-primary"></i>
               </span>
-              <span class="brand-text">Gestionale Tornei Pro</span>
+              <span class="brand-text">Gestionale tornei pro ldm4app</span>
             </a>
           </div>
           <button id="sidebarCollapse" class="btn btn-ghost d-none d-md-inline-block me-2" title="Riduci menu"><i class="fa-solid fa-chevron-left"></i></button>
@@ -44,18 +44,6 @@
           <div class="d-flex align-items-center ms-3 top-actions">
             <span class="badge bg-success-light me-3"><i class="fa-solid fa-bolt me-1"></i>Pro</span>
             <button class="btn btn-ghost me-2" id="theme-toggle" title="Tema"><i class="fa-solid fa-moon"></i></button>
-            <div class="dropdown me-2">
-              <button class="btn btn-ghost dropdown-toggle" id="languageMenu" data-bs-toggle="dropdown" aria-expanded="false" title="Lingua">
-                <i class="fa-solid fa-globe"></i><span class="ms-1">IT</span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageMenu">
-                <li><a class="dropdown-item" href="#" data-lang="it">🇮🇹 Italiano</a></li>
-                <li><a class="dropdown-item" href="#" data-lang="en">🇬🇧 English</a></li>
-                <li><a class="dropdown-item" href="#" data-lang="es">🇪🇸 Español</a></li>
-                <li><a class="dropdown-item" href="#" data-lang="fr">🇫🇷 Français</a></li>
-                <li><a class="dropdown-item" href="#" data-lang="de">🇩🇪 Deutsch</a></li>
-              </ul>
-            </div>
             <button class="btn btn-ghost me-2" id="notifications-btn" title="Notifiche"><i class="fa-solid fa-bell"></i><span class="notif-dot"></span></button>
             <button class="btn btn-ghost me-2" id="cloud-status" title="Cloud Sync"><i class="fa-solid fa-cloud"></i></button>
             
@@ -112,12 +100,10 @@
           <ul class="list-unstyled">
             <li class="sidebar-item"><a href="#/classifiche" class="sidebar-link"><i class="fa-solid fa-list-ol me-2"></i><span>Classifiche</span></a></li>
             <li class="sidebar-item"><a href="#/statistiche" class="sidebar-link"><i class="fa-solid fa-chart-bar me-2"></i><span>Statistiche</span></a></li>
-            <li class="sidebar-item"><a href="#/report" class="sidebar-link"><i class="fa-solid fa-file-lines me-2"></i><span>Report</span></a></li>
           </ul>
           <hr/>
           <div class="sidebar-section small text-muted mb-2">TOOLS</div>
           <ul class="list-unstyled">
-            <li class="sidebar-item"><a href="#/admin" class="sidebar-link text-danger"><i class="fa-solid fa-shield me-2"></i><span>Admin</span></a></li>
             <li class="sidebar-item"><a href="#/impostazioni" class="sidebar-link"><i class="fa-solid fa-sliders me-2"></i><span>Impostazioni</span></a></li>
           </ul>
         </nav>
@@ -274,15 +260,6 @@
         // Theme toggle button
         document.getElementById('theme-toggle')?.addEventListener('click', () => {
           ThemeManager.toggleTheme();
-        });
-
-        // Language switcher
-        document.querySelectorAll('[data-lang]').forEach(btn => {
-          btn.addEventListener('click', e => {
-            e.preventDefault();
-            I18n.set(e.target.dataset.lang);
-            location.reload(); // Reload to apply language changes
-          });
         });
 
         // Initialize router

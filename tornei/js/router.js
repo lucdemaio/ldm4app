@@ -18,13 +18,11 @@ const Router = (function(){
     'offline': () => OfflineUI.render(),
     'giocatori': () => AppGiocatori.render(),
     'statistiche': () => AppStatistics.render(),
-    'admin': () => AdminPanel.render(),
     // application pages
     'squadre': () => SquadreUI.render(),
     'giornate': () => GiornateUI.renderList(),
     'classifica': () => ClassificaUI.render(),
     'classifiche': () => ClassificaUI.render(),
-    'report': () => { document.getElementById('app-root').innerHTML = '<div class="alert alert-info">Report - Prossimamente</div>'; },
     'impostazioni': () => { document.getElementById('app-root').innerHTML = '<div class="alert alert-info">Impostazioni - Prossimamente</div>'; }
   };
 
