@@ -5,18 +5,140 @@ window.ExportTools = (function(){
 
   async function exportElementToPdf(el, filename = 'export.pdf'){
     if(!el) throw new Error('Elemento non trovato');
-    // clone to avoid mutating original DOM
+    
+    // Crea container professionale per il PDF
+    const container = document.createElement('div');
+    container.style.cssText = `
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1f2937;
+      line-height: 1.6;
+    `;
+    
+    // Header
+    const header = document.createElement('div');
+    header.style.cssText = `
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+      text-align: center;
+    `;
+    
+    const title = document.createElement('div');
+    title.style.cssText = `
+      font-size: 28px;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 5px;
+    `;
+    title.textContent = 'Gestionale Tornei Pro';
+    
+    const date = document.createElement('div');
+    date.style.cssText = `
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 8px;
+    `;
+    date.textContent = new Date().toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    
+    header.appendChild(title);
+    header.appendChild(date);
+    container.appendChild(header);
+    
+    // Contenuto - copia pulita
+    const content = document.createElement('div');
+    content.style.cssText = `
+      margin: 20px 0;
+    `;
+    
+    // Clone pulito del contenuto (solo testo e tabelle)
     const clone = el.cloneNode(true);
-    // append footer
+    
+    // Rimuovi stili bruttini e ripulisci
+    const style = document.createElement('style');
+    style.textContent = `
+      #pdf-content * {
+        margin: 0 !important;
+        padding: 8px !important;
+        border-collapse: collapse !important;
+      }
+      #pdf-content table {
+        width: 100% !important;
+        border: 1px solid #d1d5db !important;
+        margin: 15px 0 !important;
+      }
+      #pdf-content th {
+        background-color: #2563eb !important;
+        color: white !important;
+        font-weight: 600 !important;
+        padding: 10px !important;
+        text-align: left !important;
+      }
+      #pdf-content td {
+        border-bottom: 1px solid #e5e7eb !important;
+        padding: 8px !important;
+      }
+      #pdf-content tr:last-child td {
+        border-bottom: none !important;
+      }
+      #pdf-content h1, #pdf-content h2, #pdf-content h3 {
+        color: #1f2937 !important;
+        margin-top: 15px !important;
+        margin-bottom: 10px !important;
+      }
+      #pdf-content h1 { font-size: 24px !important; font-weight: 700 !important; }
+      #pdf-content h2 { font-size: 18px !important; font-weight: 700 !important; }
+      #pdf-content h3 { font-size: 14px !important; font-weight: 600 !important; }
+      #pdf-content p { margin: 8px 0 !important; }
+      #pdf-content button, #pdf-content .btn {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    clone.id = 'pdf-content';
+    content.appendChild(clone);
+    container.appendChild(content);
+    
+    // Footer
     const footer = document.createElement('div');
-    footer.style.marginTop = '12px';
-    footer.style.fontSize = '10px';
-    footer.style.textAlign = 'center';
+    footer.style.cssText = `
+      border-top: 2px solid #e5e7eb;
+      margin-top: 30px;
+      padding-top: 15px;
+      font-size: 10px;
+      color: #6b7280;
+      text-align: center;
+    `;
     footer.textContent = BRAND;
-    clone.appendChild(footer);
-    // convert clone to PDF via html2pdf
-    const opt = { margin: 10, filename, image: { type: 'jpeg', quality: 0.95 }, html2canvas: { scale: 1.5 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-    return html2pdf().set(opt).from(clone).save();
+    container.appendChild(footer);
+    
+    // Aggiungi temporaneamente al DOM per il rendering
+    document.body.appendChild(container);
+    
+    // Genera timestamp per nome unico
+    const ts = new Date().toISOString().split('T')[0];
+    const finalFilename = filename.replace('.pdf', `_${ts}.pdf`);
+    
+    try {
+      // Opzioni ottimizzate per stampa professionale
+      const opt = {
+        margin: 10,
+        filename: finalFilename,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      
+      await html2pdf().set(opt).from(container).save();
+    } finally {
+      // Ripulisci
+      document.body.removeChild(container);
+      document.head.removeChild(style);
+    }
   }
 
   async function generatePosterSvg({ title = '', subtitle = '', filename = 'poster.svg', qrUrl = 'https://www.ldm4app.com' } = {}){
