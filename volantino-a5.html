@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volantino LDM4APP - A5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A5 portrait;
+            margin: 0;
+        }
+
+        html, body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+        }
+
+        .volantino {
+            width: 210mm;
+            height: 297mm;
+            display: flex;
+            flex-direction: column;
+            padding: 12mm;
+            gap: 8px;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+        }
+
+        .logo {
+            width: 60px;
+            height: 72px;
+            margin: 0 auto 4px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 2px 0;
+        }
+
+        .subtitle {
+            font-size: 10px;
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .intro {
+            margin-bottom: 8px;
+            color: #e0e0e0;
+            line-height: 1.4;
+        }
+
+        .intro strong {
+            color: #00d4ff;
+        }
+
+        .section {
+            margin-bottom: 7px;
+        }
+
+        .section-title {
+            font-size: 9px;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 3px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            padding-bottom: 2px;
+        }
+
+        .section-content {
+            font-size: 8px;
+            color: #e0e0e0;
+            line-height: 1.35;
+        }
+
+        .section-content div {
+            margin-bottom: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+
+        .feature {
+            background: rgba(0, 102, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 6px;
+            padding: 4px;
+            font-size: 7px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .feature-icon {
+            font-size: 16px;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        /* QR Section */
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-top: 6px;
+            border-top: 2px solid rgba(0, 212, 255, 0.3);
+            margin-top: auto;
+        }
+
+        .qr-img {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            border-radius: 4px;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .qr-info {
+            flex: 1;
+        }
+
+        .qr-info-label {
+            font-size: 8px;
+            color: #00d4ff;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .qr-info-url {
+            font-size: 12px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 6px;
+            color: #8892b0;
+            margin-top: 4px;
+            padding-top: 2px;
+        }
+
+        @media print {
+            html, body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .volantino {
+                width: 100%;
+                height: 100%;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="volantino">
+        <!-- Header -->
+        <div class="header">
+            <img src="logo-3-scudo-stella.svg" alt="LDM4APP Logo" class="logo">
+            <h1>LDM4APP</h1>
+            <div class="subtitle">Soluzioni Gestionali Professionali</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <div class="intro">
+                <strong>LDM4APP</strong> è la piattaforma che offre <strong>software gestionali professionali 100% gratuiti</strong>, senza download e accessibili da qualsiasi dispositivo.
+            </div>
+
+            <!-- Come Funziona -->
+            <div class="section">
+                <div class="section-title">📊 Come Funziona:</div>
+                <div class="section-content">
+                    <div>✓ Accedi da browser (nessuna installazione)</div>
+                    <div>✓ Gestisci i tuoi dati in sicurezza</div>
+                    <div>✓ I dati rimangono sul TUO dispositivo</div>
+                    <div>✓ Interfaccia moderna e intuitiva</div>
+                </div>
+            </div>
+
+            <!-- Cosa Puoi Fare -->
+            <div class="section">
+                <div class="section-title">🎯 Cosa Puoi Fare:</div>
+                <div class="features-grid">
+                    <div class="feature"><span class="feature-icon">⚽</span>Gestire Società Sportive</div>
+                    <div class="feature"><span class="feature-icon">🍽️</span>Gestire Ristoranti</div>
+                    <div class="feature"><span class="feature-icon">🏆</span>Organizzare Tornei</div>
+                    <div class="feature"><span class="feature-icon">📚</span>Gestire Scuole</div>
+                    <div class="feature"><span class="feature-icon">✅</span>Gestire Missioni</div>
+                    <div class="feature"><span class="feature-icon">🌐</span>Tradurre Testi</div>
+                </div>
+            </div>
+
+            <!-- Vantaggi -->
+            <div class="section">
+                <div class="section-title">✨ Vantaggi Principali:</div>
+                <div class="section-content">
+                    <div>🔒 <strong>Privacy al 100%</strong> - Nessun dato online</div>
+                    <div>💰 <strong>Gratuito per sempre</strong> - Nessun abbonamento</div>
+                    <div>📱 <strong>Su tutti i dispositivi</strong> - PC, tablet, smartphone</div>
+                    <div>🚀 <strong>Sempre aggiornato</strong> - Nuovi strumenti regolarmente</div>
+                </div>
+            </div>
+
+            <!-- Giochi -->
+            <div class="section">
+                <div class="section-title">🎮 Giochi Gratuiti:</div>
+                <div class="section-content">
+                    Stellar • Hextris • Floppy Bird • Star Battle • Tower Game • Snake
+                </div>
+            </div>
+
+            <!-- Tesla -->
+            <div class="section">
+                <div class="section-title">⚡ Tesla Ecosystem:</div>
+                <div class="section-content">
+                    Giochi e app ottimizzati per il touchscreen del tuo Tesla. Scopri tutto su <strong>www.ldm4app.com/tesla</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Section -->
+        <div class="qr-section">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=https://www.ldm4app.com" alt="QR Code LDM4APP" class="qr-img">
+            <div class="qr-info">
+                <div class="qr-info-label">Scopri di più:</div>
+                <div class="qr-info-url">www.ldm4app.com</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            LDM4APP - Software Gestionali Gratuiti | Scansiona il QR per visitare il sito
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            window.print();
+        });
+    </script>
+</body>
+</html>
