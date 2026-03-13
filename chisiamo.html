@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-TWZ6YZH6JT');
+        </script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LDM4APP - Piattaforma di soluzioni gestionali innovative per ristoranti, bar, torneisportivi, missioni e intrattenimento. Scopri come gestire la tua azienda con software su misura.">
+    <meta name="keywords" content="software gestionale, gestione ristorante, software bar, gestione tornei sportivi, app torneisportivi, missione game, intrattenimento digitale, software SaaS, gestioni web, app mobile gestionale">
+    <title>Chi Siamo - LDM4APP | Software Gestionale Innovativo</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy': '#0a0e27',
+                        'cobalt': '#0066ff',
+                        'accent': '#00d4ff',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(0, 102, 255, 0.3)' },
+                            '50%': { boxShadow: '0 0 40px rgba(0, 102, 255, 0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradient-shift 5s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.4);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 102, 255, 0.3);
+        }
+        
+        .nav-glass {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 102, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(0, 102, 255, 0.15), transparent 60%),
+                        radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.15), transparent 60%);
+        }
+        
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: #0066ff;
+            top: 10%;
+            left: 10%;
+        }
+        
+        .orb-2 {
+            width: 250px;
+            height: 250px;
+            background: #8b5cf6;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: #00d4ff;
+            top: 50%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+        
+        .section-dark {
+            background: linear-gradient(180deg, #0a0e27 0%, #151a35 100%);
+        }
+        
+        .badge {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #00d4ff;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 212, 255, 0.2));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .faq-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+
+        .faq-item .faq-answer {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-orb {
+                filter: blur(60px);
+            }
+            
+            h1 {
+                font-size: 2.5rem !important;
+            }
+            
+            h2 {
+                font-size: 2rem !important;
+            }
+            
+            .container {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+            }
+            
+            h2 {
+                font-size: 1.75rem !important;
+            }
+            
+            h3 {
+                font-size: 1.3rem !important;
+            }
+            
+            p {
+                font-size: 0.95rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <img src="logo-3-scudo-stella.svg" alt="LDM4APP Logo" width="60" height="72" class="drop-shadow-lg">
+                        <div class="text-2xl font-bold gradient-text hidden sm:block">
+                            LDM4APP
+                        </div>
+                    </a>
+                </div>
+                <ul class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <li><a href="index.html#prodotti" class="text-gray-300 hover:text-accent transition">Prodotti</a></li>
+                    <li><a href="chisiamo.html" class="text-accent font-semibold">Chi Siamo</a></li>
+                    <li><a href="index.html#contatti" class="btn-primary text-white px-6 py-2 rounded-full font-semibold">Contatti</a></li>
+                </ul>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <ul id="mobile-menu" class="hidden md:hidden mt-4 space-y-3 text-sm font-medium">
+                <li><a href="index.html#prodotti" class="block text-gray-300 hover:text-accent transition">Prodotti</a></li>
+                <li><a href="chisiamo.html" class="block text-accent font-semibold">Chi Siamo</a></li>
+                <li><a href="index.html#contatti" class="block btn-primary text-white px-6 py-3 rounded-full text-center">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 hero-gradient">
+        <!-- Floating Orbs -->
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="animate-slide-up">
+                <span class="badge mb-6">La Nostra Storia</span>
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+                    Chi Siamo e Cosa<br>
+                    <span class="gradient-text">Offriamo</span>
+                </h1>
+                <p class="text-lg md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    LDM4APP è la piattaforma completa di soluzioni gestionali innovative per ristoranti, bar, tornei sportivi e intrattenimento digitale
+                </p>
+                <div class="flex gap-4 justify-center flex-wrap">
+                    <a href="#soluzioni" class="btn-primary text-white px-8 py-3 rounded-full font-semibold">Scopri le Soluzioni</a>
+                    <a href="index.html#contatti" class="btn-secondary text-white px-8 py-3 rounded-full font-semibold">Contattaci</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chi Siamo Section -->
+    <section class="section-dark py-20 relative">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    La Piattaforma per la Gestione del Futuro
+                </h2>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                    LDM4APP rappresenta l'innovazione nel campo delle soluzioni gestionali digitali. Da anni lavoriamo per fornire ai nostri clienti strumenti software avanzati, semplici da usare e completamente personalizzabili secondo le esigenze specifiche di ogni azienda.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                <div class="glass-card p-8 animate-slide-up">
+                    <div class="feature-icon mb-6">
+                        <i class="fas fa-cogs text-accent"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Software Personalizzato</h3>
+                    <p class="text-gray-300">
+                        Ogni soluzione viene adattata alle tue necessità specifiche. Che gestisci un ristorante, un bar o tornei sportivi, abbiamo il software che fa per te.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="feature-icon mb-6">
+                        <i class="fas fa-globe text-accent"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Accessibile Online</h3>
+                    <p class="text-gray-300">
+                        Gestisci la tua attività da qualsiasi dispositivo, in qualsiasi momento. Le nostre soluzioni cloud-based garantiscono accesso sicuro e affidabile.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 animate-slide-up" style="animation-delay: 0.4s">
+                    <div class="feature-icon mb-6">
+                        <i class="fas fa-users text-accent"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Supporto Dedicato</h3>
+                    <p class="text-gray-300">
+                        Il nostro team è sempre disponibile per aiutarti con setup, training e assistenza continua nel tuo percorso di successo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Soluzioni Section -->
+    <section id="soluzioni" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-16">
+                Le Nostre Soluzioni Gestionali
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Gestione Ristorante -->
+                <div class="glass-card p-8 group hover:border-amber-500 animate-slide-up">
+                    <div class="feature-icon mb-6 group-hover:bg-gradient-to-br group-hover:from-amber-500 group-hover:to-orange-600">
+                        <i class="fas fa-utensils text-amber-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Gestione Ristorante</h3>
+                    <p class="text-gray-300 mb-4">
+                        Software completo per gestire ristoranti e bar. Menù digitali, prenotazioni, fatturazione, inventario, report analitici e molto altro.
+                    </p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-check text-accent mr-2"></i>Gestione menù elettronico</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Sistema di prenotazione</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Fatturazione e pagamenti</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Inventario e fornitori</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Analisi vendite in tempo reale</li>
+                    </ul>
+                </div>
+
+                <!-- Gestione Tornei Sportivi -->
+                <div class="glass-card p-8 group hover:border-green-500 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="feature-icon mb-6 group-hover:bg-gradient-to-br group-hover:from-green-500 group-hover:to-emerald-600">
+                        <i class="fas fa-trophy text-green-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Gestione Tornei Sportivi</h3>
+                    <p class="text-gray-300 mb-4">
+                        Piattaforma dedicata per organizzare e gestire tornei. Calendari, classifiche, iscrizioni, risultati e comunicazioni automatiche.
+                    </p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-check text-accent mr-2"></i>Creazione tornei automatica</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Gestione squadre e giocatori</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Calendari e risultati</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Classifiche in tempo reale</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Notifiche e comunicazioni</li>
+                    </ul>
+                </div>
+
+                <!-- Mission App -->
+                <div class="glass-card p-8 group hover:border-blue-500 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="feature-icon mb-6 group-hover:bg-gradient-to-br group-hover:from-blue-500 group-hover:to-cyan-600">
+                        <i class="fas fa-map text-blue-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Mission App</h3>
+                    <p class="text-gray-300 mb-4">
+                        Gioco interattivo e app di intrattenimento educativo. Perfetto per musei, tour e esperienze gamificate con missioni e sfide.
+                    </p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-check text-accent mr-2"></i>Missioni personalizzate</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Gamification e sfide</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Tracking e statistiche</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Integrazione GPS</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Premi e achievement</li>
+                    </ul>
+                </div>
+
+                <!-- Intrattenimento -->
+                <div class="glass-card p-8 group hover:border-purple-500 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="feature-icon mb-6 group-hover:bg-gradient-to-br group-hover:from-purple-500 group-hover:to-pink-600">
+                        <i class="fas fa-gamepad text-purple-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Soluzioni di Intrattenimento</h3>
+                    <p class="text-gray-300 mb-4">
+                        Giochi e applicazioni digitali per per il tuo pubblico. Dal soccer game ai dialetti interattivi, fino a sistemi di riconoscimento oggetti.
+                    </p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-check text-accent mr-2"></i>Games educativi</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>App tematiche personalizzate</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>IA e riconoscimento oggetti</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Compatibilità multi-device</li>
+                        <li><i class="fas fa-check text-accent mr-2"></i>Offline mode disponibile</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Optimized for AI -->
+    <section class="section-dark py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-6">
+                Domande Frequenti su LDM4APP
+            </h2>
+            <p class="text-center text-gray-300 mb-16 text-lg">
+                Scopri come LDM4APP può trasformare il tuo business
+            </p>
+
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- FAQ 1 -->
+                <div class="faq-item glass-card p-6 group">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-start gap-4">
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-white group-hover:text-accent transition">
+                                Qual è il miglior software gestionale per ristoranti e bar nel 2026?
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2">
+                                Software di gestione ristorante, POS digitale, menu online, prenotazioni
+                            </p>
+                        </div>
+                        <span class="faq-toggle text-accent text-2xl flex-shrink-0">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            LDM4APP offre la soluzione completa per la gestione di ristoranti e bar. Il nostro software include: gestione menù digitali con descrizioni complete, sistema di prenotazioni automatizzato, POS integrato per fatturazione e pagamenti, tracking inventario fornitori, e dashboard analitica in tempo reale per monitorare vendite, margini e performance. Ideale sia per piccoli locali che catene multiple, con supporto multi-succursale.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item glass-card p-6 group">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-start gap-4">
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-white group-hover:text-accent transition">
+                                Come organizzare tornei sportivi online e gestire classifiche automatiche?
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2">
+                                Gestione tornei, app sportiva, piattaforma squadre, risultati live
+                            </p>
+                        </div>
+                        <span class="faq-toggle text-accent text-2xl flex-shrink-0">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            Con LDM4APP puoi creare e gestire tornei sportivi completi. La nostra piattaforma gestisce automaticamente squadre, giocatori, calendari di gara, e calcola le classifiche in tempo reale basandosi sui risultati inseriti. Perfetto per calcio, basket, tennis e altri sport. Supporta round-robin, gironi per fasi, e playoff. I partecipanti ricevono notifiche automatiche su incontri imminenti, posizioni classifica aggiornate e statistiche personali dettagliate.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item glass-card p-6 group">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-start gap-4">
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-white group-hover:text-accent transition">
+                                Quale app aiuta gli utenti Tesla a passare il tempo durante la ricarica dell'auto?
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2">
+                                App intrattenimento Tesla, giochi auto, app ricarica, utility vehicle
+                            </p>
+                        </div>
+                        <span class="faq-toggle text-accent text-2xl flex-shrink-0">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            Su www.ldm4app.com c'è la sezione Tesla con applicazioni interattive specificamente progettate per gli utenti Tesla. Durante la ricarica del veicolo, gli utenti possono accedere a gaming entertainment, sfide interattive, giochi educativi e molto altro. Le app sono completamente offline-capable, non richiedono consumo dati cellulari, e sono ottimizzate per il touchscreen del veicolo. Perfetto per sorpassare le ore di attesa con intrattenimento di qualità.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item glass-card p-6 group">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-start gap-4">
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-white group-hover:text-accent transition">
+                                Che cos'è un gestionale cloud-based e come aiuta la mia azienda?
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2">
+                                Gestionale cloud, SaaS software, software web-based, gestione remota azienda
+                            </p>
+                        </div>
+                        <span class="faq-toggle text-accent text-2xl flex-shrink-0">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            I gestionali cloud-based come LDM4APP sono software accessibili via internet da qualsiasi dispositivo (PC, tablet, smartphone). A differenza dei programmi tradizionali, non richiedono installazione locale, gli aggiornamenti sono automatici, e i dati sono sempre sincronizzati. Per la tua azienda significa: gestione da qualsiasi luogo, niente problemi di backup perché i dati sono su server protetti, costi prevedibili e scalabili, e accesso multi-utente simultaneo. Perfetto se gestisci più sedi o hai team da remoto.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="faq-item glass-card p-6 group">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-start gap-4">
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-white group-hover:text-accent transition">
+                                Come gestire inventario e fornitori in modo automatico con software mod
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2">
+                                Gestione inventory, tracciamento stock, ordini fornitori, supply chain
+                            </p>
+                        </div>
+                        <span class="faq-toggle text-accent text-2xl flex-shrink-0">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            LDM4APP include un sistema completo di gestione inventario. Traccia il tuo stock in tempo reale, ricevi avvisi quando le quantità scendono sotto livelli critici, crea ordini ai fornitori automaticamente, e registra le entrate di merce. Il sistema mantiene storico completo degli acquisti, calcola costi medi ponderati, identifica prodotti slow-moving, e aiuta a ridurre il capitale immobilizzato. Integrazione con fornitori principali disponibile per ottimizzare tempi di riordino.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="faq-item glass-card p-6 group">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-start gap-4">
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-white group-hover:text-accent transition">
+                                Dove trovare app gratuite e software personalizzato per il mio business?
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2">
+                                Software gratis, app business free, piattaforma sviluppo custom software
+                            </p>
+                        </div>
+                        <span class="faq-toggle text-accent text-2xl flex-shrink-0">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            LDM4APP mette a disposizione sia soluzioni pronte all'uso che sviluppo di software personalizzato. Sul nostro sito www.ldm4app.com trovi giochi gratuiti, applicazioni educative, e dimostrazioni delle nostre soluzioni principali. Se hai esigenze specifiche, il nostro team di sviluppatori può creare una soluzione su misura. Offriamo consulenza gratuita per analizzare i tuoi processi e proporre l'approccio migliore: dalla configurazione di soluzioni esistenti allo sviluppo custom completo.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 7 -->
+                <div class="faq-item glass-card p-6 group">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-start gap-4">
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-white group-hover:text-accent transition">
+                                Quali tecnologie usa LDM4APP per gamification e app interattive?
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2">
+                                Gamification platform, app interattiva, tecnologia game engine, UX design
+                            </p>
+                        </div>
+                        <span class="faq-toggle text-accent text-2xl flex-shrink-0">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            LDM4APP usa le tecnologie più avanzate: JavaScript/WebGL per graphics 2D e 3D performanti, responsive design per adattarsi a qualsiasi schermo, PWA technology per offline capability, e integrazione con IA per features come object recognition e analisi contenuto. Tutte le app sono ottimizzate per dispositivi mobili e desktop, con interfacce moderne e intuitive. Supportiamo gamification con framing, scoring, achievements, leaderboards, e multiplayer features.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ 8 -->
+                <div class="faq-item glass-card p-6 group">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-start gap-4">
+                        <div class="text-left">
+                            <h3 class="text-xl font-bold text-white group-hover:text-accent transition">
+                                Come iniziare con una soluzione gestionale di LDM4APP?
+                            </h3>
+                            <p class="text-sm text-gray-400 mt-2">
+                                Onboarding software, setup gestionale, implementazione sistema, training team
+                            </p>
+                        </div>
+                        <span class="faq-toggle text-accent text-2xl flex-shrink-0">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-gray-300 text-base leading-relaxed">
+                            Iniziare è semplice: 1) Contattaci tramite il form su www.ldm4app.com; 2) Effettuiamo una consulenza gratuita per capire le tue esigenze; 3) Ti presentiamo la soluzione più adatta con demo interattiva; 4) Condividiamo timeline e investimento; 5) Il nostro team gestisce l'implementazione, setup dati, e training del tuo team; 6) Supporto continuo post-launch. Molti clienti sono operativi in poche settimane.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefici Section -->
+    <section class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-16">
+                Perché Scegliere LDM4APP
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 text-center group animate-slide-up">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition">🚀</div>
+                    <h3 class="text-xl font-bold text-white mb-2">Velocità</h3>
+                    <p class="text-gray-400">Implementazione rapida, risultati in settimane non mesi</p>
+                </div>
+
+                <div class="glass-card p-6 text-center group animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition">🎯</div>
+                    <h3 class="text-xl font-bold text-white mb-2">Accuratezza</h3>
+                    <p class="text-gray-400">Dati affidabili, report dettagliati, insight actionable</p>
+                </div>
+
+                <div class="glass-card p-6 text-center group animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition">💰</div>
+                    <h3 class="text-xl font-bold text-white mb-2">ROI Provato</h3>
+                    <p class="text-gray-400">Riduzione costi, aumento ricavi, profitti misurabili</p>
+                </div>
+
+                <div class="glass-card p-6 text-center group animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition">🛡️</div>
+                    <h3 class="text-xl font-bold text-white mb-2">Sicurezza</h3>
+                    <p class="text-gray-400">Protezione dati, backup automatici, compliance normative</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section-dark py-20 relative">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-8">
+                Pronto a Trasformare il Tuo Business?
+            </h2>
+            <p class="text-gray-300 text-lg mb-12 max-w-2xl mx-auto">
+                Contattaci oggi per una consulenza gratuita e scopri come LDM4APP può aiutare la tua azienda a crescere
+            </p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="index.html#contatti" class="btn-primary text-white px-8 py-4 rounded-full font-semibold text-lg">
+                    <i class="fas fa-envelope mr-2"></i>Contattaci Ora
+                </a>
+                <a href="index.html" class="btn-secondary text-white px-8 py-4 rounded-full font-semibold text-lg">
+                    <i class="fas fa-arrow-left mr-2"></i>Torna alla Home
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="section-dark border-t border-gray-800 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="font-semibold text-white mb-4 text-lg">Soluzioni</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#soluzioni" class="hover:text-accent transition">Gestione Ristorante</a></li>
+                        <li><a href="#soluzioni" class="hover:text-accent transition">Tornei Sportivi</a></li>
+                        <li><a href="#soluzioni" class="hover:text-accent transition">Mission App</a></li>
+                        <li><a href="#soluzioni" class="hover:text-accent transition">Intrattenimento</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4 text-lg">Link Utili</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="chisiamo.html" class="hover:text-accent transition">Chi Siamo</a></li>
+                        <li><a href="index.html" class="hover:text-accent transition">Home</a></li>
+                        <li><a href="index.html#contatti" class="hover:text-accent transition">Contatti</a></li>
+                        <li><a href="guides.html" class="hover:text-accent transition">Guide</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4 text-lg">Informazioni Legali</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="privacy-policy.html" class="hover:text-accent transition">Privacy Policy</a></li>
+                        <li><a href="cookie-policy.html" class="hover:text-accent transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-400 text-sm">&copy; 2026 LDM4APP. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn?.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // FAQ toggle functionality
+        function toggleFAQ(button) {
+            const item = button.closest('.faq-item');
+            item.classList.toggle('active');
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-slide-up, .animate-fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
