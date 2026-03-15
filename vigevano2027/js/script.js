@@ -150,9 +150,19 @@ function setupMobileMenu() {
     // Direct click handler for menu button (not through ripple effect)
     mobileMenuBtn.addEventListener('click', function(e) {
         e.stopPropagation();
+        e.preventDefault();
         console.log('Menu button clicked');
+        console.log('Current classes before toggle:', navMenu.className);
+        console.log('Current display style:', window.getComputedStyle(navMenu).display);
+        
         const isActive = navMenu.classList.contains('active');
+        console.log('Is active before toggle:', isActive);
+        
         navMenu.classList.toggle('active');
+        
+        console.log('Current classes after toggle:', navMenu.className);
+        console.log('Current display style after toggle:', window.getComputedStyle(navMenu).display);
+        
         mobileMenuBtn.setAttribute('aria-expanded', !isActive);
     });
     

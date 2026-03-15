@@ -1160,8 +1160,7 @@ body {
     }
 
     .nav-menu.active {
-        display: flex;
-    }
+        display: flex !important;
     }
 
     .nav-menu a {
