@@ -158,7 +158,15 @@ function setupMobileMenu() {
         const isActive = navMenu.classList.contains('active');
         console.log('Is active before toggle:', isActive);
         
-        navMenu.classList.toggle('active');
+        if (isActive) {
+            navMenu.classList.remove('active');
+            navMenu.style.display = 'none';
+            console.log('Removed active, set display to none');
+        } else {
+            navMenu.classList.add('active');
+            navMenu.style.display = 'flex';
+            console.log('Added active, set display to flex');
+        }
         
         console.log('Current classes after toggle:', navMenu.className);
         console.log('Current display style after toggle:', window.getComputedStyle(navMenu).display);
@@ -171,6 +179,7 @@ function setupMobileMenu() {
     menuLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             navMenu.classList.remove('active');
+            navMenu.style.display = 'none';
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
         });
     });
@@ -179,6 +188,7 @@ function setupMobileMenu() {
     document.addEventListener('click', (e) => {
         if (!navbar.contains(e.target) && navMenu.classList.contains('active')) {
             navMenu.classList.remove('active');
+            navMenu.style.display = 'none';
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
     });
