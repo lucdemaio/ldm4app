@@ -96,6 +96,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .nav-logo {
@@ -1035,6 +1036,13 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.5rem;
+    z-index: 1001;
+    position: relative;
+    transition: var(--transition);
+}
+
+.mobile-menu-toggle:active {
+    transform: scale(0.95);
 }
 
 .nav-menu.active {
@@ -1146,10 +1154,14 @@ body {
         display: none;
         max-height: 60vh;
         overflow-y: auto;
+        z-index: 999;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
     }
 
     .nav-menu.active {
         display: flex;
+    }
     }
 
     .nav-menu a {
