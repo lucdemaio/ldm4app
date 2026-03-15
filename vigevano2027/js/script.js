@@ -50,8 +50,15 @@ function animateCounters() {
     const stats = document.querySelectorAll('.stat-number');
     
     stats.forEach(stat => {
-        const target = parseInt(stat.textContent.replace(/\D/g, ''));
-        const isThousand = stat.textContent.includes('K');
+        const textContent = stat.textContent;
+        const isThousand = textContent.includes('K');
+        let target = parseInt(textContent.replace(/\D/g, ''));
+        
+        // If it's in thousands, multiply by 1000
+        if (isThousand) {
+            target = target * 1000;
+        }
+        
         let current = 0;
         const increment = target / 30;
         
@@ -65,7 +72,7 @@ function animateCounters() {
                 }
                 requestAnimationFrame(updateCount);
             } else {
-                stat.textContent = isThousand ? target / 1000 + 'K+' : target;
+                stat.textContent = isThousand ? (target / 1000).toFixed(0) + 'K+' : target;
             }
         };
         
