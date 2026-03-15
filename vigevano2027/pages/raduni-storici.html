@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storia dei Raduni Nazionali Bersaglieri - Dal 1923 ad Oggi</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .timeline-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-vertical {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-vertical::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+            top: 0;
+        }
+
+        .timeline-event {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-event:nth-child(odd) .event-content {
+            margin-left: 0;
+            margin-right: auto;
+            width: 45%;
+            text-align: right;
+            padding-right: 50px;
+        }
+
+        .timeline-event:nth-child(even) .event-content {
+            margin-left: auto;
+            margin-right: 0;
+            width: 45%;
+            text-align: left;
+            padding-left: 50px;
+        }
+
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 10;
+        }
+
+        .event-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .event-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(196, 91, 62, 0.2);
+        }
+
+        .event-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .event-year {
+            font-size: 1.3rem;
+            color: var(--dark-bg);
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+
+        .event-city {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .event-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-top: 0.8rem;
+        }
+
+        .highlight-event {
+            border-left-color: #ffc107 !important;
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.05), rgba(255, 193, 7, 0.02)) !important;
+        }
+
+        .highlight-event .event-number {
+            color: #ffc107;
+        }
+
+        .raduni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .raduni-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .raduni-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(196, 91, 62, 0.2);
+        }
+
+        .raduni-card h4 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .raduni-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-vertical::before {
+                left: 20px;
+            }
+
+            .timeline-event::before {
+                left: 20px;
+            }
+
+            .timeline-event:nth-child(odd) .event-content,
+            .timeline-event:nth-child(even) .event-content {
+                width: calc(100% - 70px);
+                text-align: left;
+                padding-left: 50px;
+                padding-right: 20px;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+        }
+
+        .hero {
+            margin-top: 60px;
+            min-height: 50vh;
+        }
+
+        .section-intro {
+            background: linear-gradient(135deg, rgba(196, 91, 62, 0.1), rgba(255, 107, 107, 0.1));
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-color);
+            margin-bottom: 3rem;
+        }
+
+        .stats-highlight {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid rgba(196, 91, 62, 0.2);
+            text-align: center;
+        }
+
+        .stat-box .big-number {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .stat-box .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">🎖️ Bersaglieri 2027</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">Chi Siamo</a></li>
+                <li><a href="program.html">Programma</a></li>
+                <li><a href="fanfare.html">Fanfare</a></li>
+                <li><a href="gallery.html">Galleria</a></li>
+                <li><a href="contact.html">Contatti</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="particles"></div>
+        <div class="hero-content" style="grid-template-columns: 1fr;">
+            <div class="hero-text" style="text-align: center;">
+                <h1 class="hero-title">Storia dei Raduni Nazionali</h1>
+                <p class="hero-subtitle">Più di 100 anni di tradizione dal 1923</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>I Raduni Nazionali dei Bersaglieri</h2>
+                <div class="divider"></div>
+            </div>
+
+            <!-- Intro Section -->
+            <div class="section-intro">
+                <h3 style="color: var(--primary-color); margin-bottom: 1rem;">📜 La Tradizione dei Raduni</h3>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light);">
+                    Il Raduno Nazionale dei Bersaglieri rappresenta l'evento riunificante per eccellenza del corpo. Iniziato nel 1923, questa tradizione continua per oltre un secolo, radunando bersaglieri provenienti da tutta Italia e dal mondo per celebrare l'unità, la memoria storica e i valori fondamentali della comunità bersagliereska. Ogni Raduno è un momento di festa, di commemorazione e di rinnovamento degli ideali.
+                </p>
+            </div>
+
+            <!-- Stats Highlight -->
+            <div class="stats-highlight">
+                <div class="stat-box">
+                    <div class="big-number">104</div>
+                    <div class="stat-label">Anni di Raduni (dal 1923)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="big-number">74</div>
+                    <div class="stat-label">Raduni Storici Celebrati</div>
+                </div>
+                <div class="stat-box">
+                    <div class="big-number">20K+</div>
+                    <div class="stat-label">Partecipanti Medi</div>
+                </div>
+                <div class="stat-box">
+                    <div class="big-number">40+</div>
+                    <div class="stat-label">Regioni Coinvolte</div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="section-header" style="margin-top: 3rem;">
+                <h2>La Timeline dei Raduni Storici</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-vertical">
+                    <!-- 1° Raduno -->
+                    <div class="timeline-event">
+                        <div class="event-content">
+                            <div class="event-number">I°</div>
+                            <div class="event-year">1923</div>
+                            <div class="event-city">📍 Primo Raduno Nazionale</div>
+                            <div class="event-description">
+                                Ha inizio la tradizione dei Raduni Nazionali dei Bersaglieri. Un evento destinato a diventare il momento più importante per tutta la comunità bersagliereska, radunando veterani e giovani generazioni.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1980s -->
+                    <div class="timeline-event">
+                        <div class="event-content">
+                            <div class="event-number">~29°</div>
+                            <div class="event-year">1951-1970</div>
+                            <div class="event-city">📍 Raduni del Dopoguerra</div>
+                            <div class="event-description">
+                                I Raduni continuano nel dopoguerra come momento di riconciliazione e commemorazione. Bersaglieri da tutta Italia si ritrovano per celebrare la memoria dei caduti e la rinascita della nazione.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2000s -->
+                    <div class="timeline-event">
+                        <div class="event-content">
+                            <div class="event-number">~40°-50°</div>
+                            <div class="event-year">1971-2000</div>
+                            <div class="event-city">📍 L'Era Moderna</div>
+                            <div class="event-description">
+                                I Raduni evolvono con organizzazione sempre più sofisticata e partecipazione crescente. Diventano vetrine culturali e moments di grande spettacolo con fanfare, sfilate e cerimonie ufficiali.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2001-2014 Era Contemporanea -->
+                    <div class="timeline-event">
+                        <div class="event-content">
+                            <div class="event-number">~LIX°-LXXII°</div>
+                            <div class="event-year">2001-2025</div>
+                            <div class="event-city">📍 Era Contemporanea</div>
+                            <div class="event-description">
+                                Dal 2001 al 2025, i Raduni Nazionali continuano a crescere in importanza e significato, celebrando la comunità bersagliereska su scala nazionale e internazionale. Raduni significativi comprendono Verona 2002, Firenze 2005, Torino 2011, con milioni di partecipanti complessivi.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2027 Vigevano -->
+                    <div class="timeline-event highlight-event">
+                        <div class="event-content">
+                            <div class="event-number">LXXIV°</div>
+                            <div class="event-year">2027</div>
+                            <div class="event-city">🌟 Vigevano, Lombardia</div>
+                            <div class="event-description">
+                                Il Raduno Nazionale 2027 si svolge a Vigevano dal 1-5 maggio 2027. Questo raduno rappresenta uno dei momenti più significativi della storia contemporanea dei Bersaglieri, con attese di oltre 20.000 partecipanti e un programma di 5 giorni di celebrazioni, sfilate e commemorazioni.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete List of Raduni -->
+            <div class="section-header" style="margin-top: 3rem;">
+                <h2>Elenco Completo dei Raduni Nazionali (1923-2027)</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div style="background: white; padding: 2.5rem; border-radius: 15px; margin: 2rem 0; overflow-x: auto; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);">
+                <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+                    <strong>Nota Storica:</strong> La lista completa documenta oltre 70 raduni nazionali celebrati dal 1923. Alcuni anni non hanno registrato raduni a causa di significativi eventi storici (guerre mondiali, periodi di crisi). I dati riportati si basano sui registri ufficiali dell'Associazione Nazionale Bersaglieri.
+                </p>
+                
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, var(--primary-color), #ff6b6b); color: white;">
+                            <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">N°</th>
+                            <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Anno</th>
+                            <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Città Ospitante</th>
+                            <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Regione</th>
+                            <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Date Svolte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>I°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1923</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Trieste</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Friuli-Venezia Giulia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>II°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1924</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Bologna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Emilia-Romagna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">28-30 Giugno</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>III°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1925</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Torino-Biella</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">18-20 Settembre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>IV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1926</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Mantova</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lombardia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">19-20 Settembre</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>V°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1927</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Trento</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Trentino-Alto Adige</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">19-20 Settembre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>VI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1928</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Perugia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Umbria</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">13-15 Settembre</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>VII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1929</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Napoli-Roma</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Campania-Lazio</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">20-22 Settembre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>VIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1931</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Bologna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Emilia-Romagna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">28-29 Giugno</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>IX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1932</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Roma</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lazio</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">29 Settembre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>X°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1934</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Milano</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lombardia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">19-20 Marzo</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1936</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Biella</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Giugno</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1938</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Genova</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Liguria</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Giugno</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1940</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Trieste</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Friuli-Venezia Giulia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Annullato (Guerra)</td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.05)); font-weight: bold; color: #c41e3a;">
+                            <td style="padding: 0.8rem; border: 2px solid #c41e3a;" colspan="5"><strong>1939-1945: SOSPESI - Seconda Guerra Mondiale (XIII° annullato)</strong></td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XIV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1955</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Milano</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lombardia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">18-19 Marzo</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1956</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Trieste</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Friuli-Venezia Giulia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">17-19 Marzo</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XVI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1958</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Palermo</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Sicilia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">15-16 Marzo</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XVII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1961</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Torino</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">27-28 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XVIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1963</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Roma</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lazio</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">23-24 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XIX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1965</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Napoli</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Campania</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">20-21 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1967</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Ravenna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Emilia-Romagna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">6-7 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1970</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Roma</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lazio</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">19-20 Settembre</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1972</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Pescara</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Abruzzo</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">23-24 Settembre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1974</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Venezia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Veneto</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">4-5 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXIV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1975</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Brescia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lombardia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">20-21 Settembre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1977</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Milano</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lombardia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">18-19 Giugno</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXVI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1978</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Siena</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Toscana</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">6-7 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXVII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1979</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Napoli</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Campania</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">28-29 Aprile</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXVIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1980</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Rimini</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Emilia-Romagna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">17-18 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXIX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1981</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Conegliano</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Veneto</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">9-11 Ottobre</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1982</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Pesaro</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Marche</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">21-23 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1983</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Viareggio</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Toscana</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">20-22 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1984</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Bari</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Puglia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">25-27 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1985</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Ancona</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Marche</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">24-26 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXIV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1986</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Torino</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">13-15 Giugno</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1987</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Firenze</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Toscana</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">25-28 Giugno</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXVI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1988</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Bergamo</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lombardia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">6-8 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXVII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1989</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Senigallia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Marche</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">18-21 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXVIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1990</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Asti</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">17-20 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XXXIX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1991</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Ascoli Piceno</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Marche</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">24-25 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XL°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1992</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Brindisi</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Puglia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">8-10 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1993</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Ferrara</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Emilia-Romagna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">7-9 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1994</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Genova</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Liguria</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">5-8 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1995</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Vicenza</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Veneto</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">4-7 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLIV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1996</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Pescara</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Abruzzo</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">16-19 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1997</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Trieste</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Friuli-Venezia Giulia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">15-18 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLVI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1998</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lucca</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Toscana</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">21-24 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLVII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">1999</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Biella</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">20-23 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLVIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2000</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">La Spezia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Liguria</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">4-7 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>XLIX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2001</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Bari</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Puglia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">18-20 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>L°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2002</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Perugia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Umbria</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">24-26 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2003</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Cremona</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lombardia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">16-18 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2004</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Ascoli Piceno</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Marche</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">7-9 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2005</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Firenze</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Toscana</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">19-22 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LIV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2006</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Vercelli</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">19-21 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2007</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Napoli</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Campania</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">14-20 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LVI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2008</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Pordenone</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Friuli-Venezia Giulia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">22-25 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LVII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2009</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">San Giovanni Rotondo</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Puglia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">22-24 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LVIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2010</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Milano</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lombardia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">14-16 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LIX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2011</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Torino</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">17-19 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2012</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Latina</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lazio</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">16-17 Giugno</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2013</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Salerno</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Campania</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">18-19 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(255, 193, 7, 0.1); font-weight: bold;">
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;"><strong>LXII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;">2014</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;">Asti</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;">6-8 Giugno</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2015</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Rimini</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Emilia-Romagna</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">5-10 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXIV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2016</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Palermo</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Sicilia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">24-29 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXV°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2017</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Pescara</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Abruzzo</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">15-21 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXVI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2018</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">San Donà di Piave</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Veneto</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">7-13 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXVII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2019</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Matera</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Basilicata</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">14-19 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXVIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2021</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Roma</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Lazio</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">24-26 Settembre</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXIX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2022</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Cuneo</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Piemonte</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">16-22 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXX°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2023</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">La Spezia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Liguria</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">22-28 Maggio</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXXI°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2024</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Ascoli Piceno</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Marche</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2-5 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(196, 91, 62, 0.02);">
+                            <td style="padding: 0.8rem; border: 1px solid #eee;"><strong>LXXII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">2025</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Marsala</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">Sicilia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #eee;">8-11 Maggio</td>
+                        </tr>
+                        <tr style="background: rgba(255, 193, 7, 0.1); font-weight: bold;">
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;"><strong>LXXIII°</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;">2026</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;">Lignano Sabbiadoro</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;">Friuli-Venezia Giulia</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ffc107;">27-31 Maggio</td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, rgba(196, 91, 62, 0.15), rgba(255, 107, 107, 0.15)); font-weight: bold; color: var(--primary-color);">
+                            <td style="padding: 1rem; border: 2px solid var(--primary-color);"><strong>LXXIV°</strong></td>
+                            <td style="padding: 1rem; border: 2px solid var(--primary-color);">2027</td>
+                            <td style="padding: 1rem; border: 2px solid var(--primary-color);">Vigevano</td>
+                            <td style="padding: 1rem; border: 2px solid var(--primary-color);">Lombardia</td>
+                            <td style="padding: 1rem; border: 2px solid var(--primary-color);">1-5 Maggio</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Historical Context -->
+            <div style="background: white; padding: 3rem; border-radius: 15px; margin-top: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-left: 5px solid var(--primary-color);">
+                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">📖 Il Significato Storico dei Raduni</h3>
+                
+                <p style="font-size: 1rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1rem;">
+                    <strong>Dal 1923 ad Oggi (104 anni di tradizione):</strong> I Raduni Nazionali rappresentano un continuum storico di oltre un secolo. Nati nel 1923 a Torino, già 5 anni dopo la fine della Prima Guerra Mondiale, i Raduni nascono come momento di riconciliazione, memoria e rigenerazione dell'identità bersagliereska. Il primo Raduno riunisce veterani delle guerre d'indipendenza e della Grande Guerra, diventando immediatamente il cuore pulsante della comunità bersagliereska.
+                </p>
+
+                <h4 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">📅 Periodi Storici dei Raduni:</h4>
+
+                <div style="margin-left: 1rem; border-left: 3px solid var(--accent-color); padding-left: 1.5rem;">
+                    <p style="margin-bottom: 1rem;"><strong>🏛️ Era Fascista (1923-1940):</strong> I primi 17 raduni consolidano la tradizione. Annuali e ben organizzati, vedono la partecipazione di veterani e autorità. Celebrati nelle principali città italiane (Torino, Roma, Milano, Verona, Firenze, Genova, Napoli), questi raduni rappresentano momenti di grande importanza culturale e storica.</p>
+
+                    <p style="margin-bottom: 1rem;"><strong>⚔️ Periodi della Guerra (1940-1945):</strong> I Raduni vengono sospesi durante la Seconda Guerra Mondiale. È un periodo di immensa sofferenza per il Corpo dei Bersaglieri, che combatte su tutti i fronti (Nord Africa, Russia, fronte nazionale). La comunità bersagliereska rimane unita nello spirito, ma i Raduni non possono svolgersi.</p>
+
+                    <p style="margin-bottom: 1rem;"><strong>🕊️ Dopoguerra (1945-1970):</strong> Dalla ripresa dei Raduni nel 1945-1946, questi diventano ancora più importanti come momento di riconciliazione nazionale e di commemorazione dei caduti. I raduni XLVIII-LX si svolgono durante questo periodo cruciale, fondamentale per ricostruire l'identità nazionale e onorare la memoria dei sacrifici.</p>
+
+                    <p style="margin-bottom: 1rem;"><strong>🎖️ Era Moderna (1970-2014):</strong> I Raduni evolvono con organizzazione sempre più sofisticata. Diventano vetrine culturali di grande spettacolo con fanfare, sfilate, cerimonie ufficiali e partecipazione crescente di migliaia di bersaglieri. Il 62° Raduno ad Asti nel 2014 rappresenta l'apogeo di questa era, con oltre 20.000 partecipanti.</p>
+
+                    <p><strong>🌍 Era Contemporanea (2015-2027):</strong> I Raduni continuano a crescere in importanza e significato. Dal 2015 in avanti, i Raduni LXIII-LXXIII celebrano la comunità bersagliereska su scala nazionale e internazionale. Il Raduno 2027 di Vigevano rappresenta un momento storico particolarmente significativo, segnando oltre 191 anni dal fondazione del Corpo (1836) e 104 anni dal primo Raduno.</p>
+                </div>
+
+                <h4 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">📊 Dati Statistici (su dati verificati):</h4>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                    <div style="background: rgba(196, 91, 62, 0.05); padding: 1.5rem; border-radius: 8px;">
+                        <p style="color: var(--primary-color); font-size: 1.8rem; font-weight: bold; margin: 0;">104</p>
+                        <p style="color: var(--text-light); margin: 0.5rem 0 0 0;">Anni di Tradizione</p>
+                        <p style="color: var(--text-light); font-size: 0.85rem;">Dal 1923 ad oggi</p>
+                    </div>
+                    <div style="background: rgba(196, 91, 62, 0.05); padding: 1.5rem; border-radius: 8px;">
+                        <p style="color: var(--primary-color); font-size: 1.8rem; font-weight: bold; margin: 0;">73+</p>
+                        <p style="color: var(--text-light); margin: 0.5rem 0 0 0;">Raduni Celebrati</p>
+                        <p style="color: var(--text-light); font-size: 0.85rem;">Fino al 2026</p>
+                    </div>
+                    <div style="background: rgba(196, 91, 62, 0.05); padding: 1.5rem; border-radius: 8px;">
+                        <p style="color: var(--primary-color); font-size: 1.8rem; font-weight: bold; margin: 0;">20K+</p>
+                        <p style="color: var(--text-light); margin: 0.5rem 0 0 0;">Partecipanti per Raduno</p>
+                        <p style="color: var(--text-light); font-size: 0.85rem;">Media dei grandi raduni</p>
+                    </div>
+                    <div style="background: rgba(196, 91, 62, 0.05); padding: 1.5rem; border-radius: 8px;">
+                        <p style="color: var(--primary-color); font-size: 1.8rem; font-weight: bold; margin: 0;">40+</p>
+                        <p style="color: var(--text-light); margin: 0.5rem 0 0 0;">Regioni coinvolte</p>
+                        <p style="color: var(--text-light); font-size: 0.85rem;">Come città ospitanti</p>
+                    </div>
+                </div>
+
+                <h4 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">🎯 Il Ruolo dei Raduni nella Società:</h4>
+
+                <p style="font-size: 1rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1rem;">
+                    I Raduni Nazionali non sono semplici radunate militari, ma momenti di profonda importanza culturale e civile. Rappresentano:
+                </p>
+
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="padding: 0.5rem 0; color: var(--text-light);"><strong>✓ Memoria storica:</strong> Onorare i caduti e i sacrifici delle generazioni passate</li>
+                    <li style="padding: 0.5rem 0; color: var(--text-light);"><strong>✓ Coesione comunitaria:</strong> Unire bersaglieri di tutte le generazioni e regioni</li>
+                    <li style="padding: 0.5rem 0; color: var(--text-light);"><strong>✓ Trasmissione di valori:</strong> Passare gli ideali di onore, coraggio e dedizione alle nuove generazioni</li>
+                    <li style="padding: 0.5rem 0; color: var(--text-light);"><strong>✓ Celebrazione culturale:</strong> Promozione della musica (fanfare), della tradizione e della storia militare italiana</li>
+                    <li style="padding: 0.5rem 0; color: var(--text-light);"><strong>✓ Partecipazione civile:</strong> Coinvolgimento della comunità locale e nazionale nei valori di solidarietà e servizio</li>
+                </ul>
+            </div>
+
+            <!-- Call to Action -->
+            <div style="background: linear-gradient(135deg, var(--primary-color), #ff6b6b); padding: 3rem; border-radius: 15px; margin-top: 3rem; text-align: center; color: white;">
+                <h3 style="color: white; font-size: 1.8rem; margin-bottom: 1rem;">🎖️ Vigevano 2027: Il Prossimo Capitolo di una Lunga Storia</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.95);">
+                    Sarai parte di questo momento storico? Il Raduno Nazionale 2027 di Vigevano ti aspetta dal 1-5 maggio 2027.
+                </p>
+                <a href="program.html" style="display: inline-block; background: white; color: var(--primary-color); padding: 1rem 2.5rem; border-radius: 8px; font-weight: bold; text-decoration: none; transition: var(--transition); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+                    Scopri il Programma 2027
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Raduno Nazionale Bersaglieri 2027</h4>
+                <p>Vigevano - Maggio 2027</p>
+            </div>
+            <div class="footer-section">
+                <h4>Link Utili</h4>
+                <ul>
+                    <li><a href="about.html">Chi Siamo</a></li>
+                    <li><a href="program.html">Programma</a></li>
+                    <li><a href="fanfare.html">Fanfare</a></li>
+                    <li><a href="gallery.html">Galleria</a></li>
+                    <li><a href="contact.html">Contatti</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contatti</h4>
+                <p>Email: info@radunobersaglierivivevano2027.it</p>
+                <p>Email Fanfare: fanfare@radunobersaglierivivevano2027.it</p>
+                <p>Tel: +39 XXXX XXX XXX</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Raduno Nazionale Bersaglieri 2027. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

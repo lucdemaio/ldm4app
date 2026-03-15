@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleria - Raduno Nazionale Bersaglieri 2027</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            height: 300px;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(196, 91, 62, 0.8), rgba(255, 107, 107, 0.8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-text {
+            color: white;
+            text-align: center;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-text {
+            transform: translateY(0);
+        }
+
+        .gallery-text h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 5000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        .modal-caption {
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">🎖️ Bersaglieri 2027</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">Chi Siamo</a></li>
+                <li><a href="program.html">Programma</a></li>
+                <li><a href="raduni-storici.html">Raduni Storici</a></li>
+                <li><a href="fanfare.html">Fanfare</a></li>
+                <li><a href="gallery.html">Galleria</a></li>
+                <li><a href="contact.html">Contatti</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="margin-top: 60px; min-height: 50vh;">
+        <div class="particles"></div>
+        <div class="hero-content" style="grid-template-columns: 1fr;">
+            <div class="hero-text" style="text-align: center;">
+                <h1 class="hero-title">Galleria Fotografica</h1>
+                <p class="hero-subtitle">La Bellezza di Vigevano e dei Bersaglieri</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Content -->
+    <section class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Vigevano - Testimonianze Visive</h2>
+                <div class="divider"></div>
+                <p style="color: var(--text-light); font-size: 1.05rem; margin-top: 1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Scopri la magnificenza di Vigevano attraverso queste immagini suggestive. Luoghi storici, architetture affascinanti e tradizioni che raccontano la storia della città che ospiterà il Raduno 2027.
+                </p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="../castello.jpg" alt="Castello di Vigevano">
+                    <div class="gallery-overlay">
+                        <div class="gallery-text">
+                            <h3>Il Castello Magnifico</h3>
+                            <p>Il Castello Sforzesco</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="../castello2.jpg" alt="Castello di Vigevano 2">
+                    <div class="gallery-overlay">
+                        <div class="gallery-text">
+                            <h3>Fortezza Storica</h3>
+                            <p>Testimone di Secoli</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="../palio.jpg" alt="Il Palio">
+                    <div class="gallery-overlay">
+                        <div class="gallery-text">
+                            <h3>Il Palio</h3>
+                            <p>Tradizione e Festa</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="../torre del bramante.jpg" alt="Torre del Bramante">
+                    <div class="gallery-overlay">
+                        <div class="gallery-text">
+                            <h3>Torre del Bramante</h3>
+                            <p>Capolavoro Architettonico</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="../IMG_6906.jpg" alt="Vigevano - Dettagli">
+                    <div class="gallery-overlay">
+                        <div class="gallery-text">
+                            <h3>Bellezze Nascoste</h3>
+                            <p>I Dettagli di Vigevano</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="../IMG_6916.jpg" alt="Vigevano - Panorama">
+                    <div class="gallery-overlay">
+                        <div class="gallery-text">
+                            <h3>Veduta Panoramica</h3>
+                            <p>Lo Sguardo sulla Città</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="../IMG_7002.jpg" alt="Vigevano - Momento">
+                    <div class="gallery-overlay">
+                        <div class="gallery-text">
+                            <h3>Istanti di Bellezza</h3>
+                            <p>La Vita di Vigevano</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(196, 91, 62, 0.1), rgba(255, 107, 107, 0.1)); padding: 2rem; border-radius: 15px; margin-top: 3rem; border-left: 5px solid var(--primary-color); text-align: center;">
+                <h3 style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 1rem;">📸 Condividi le tue Foto</h3>
+                <p style="font-size: 1.05rem; color: var(--text-light); margin-bottom: 1rem;">
+                    Hai scattato foto affascinanti di Vigevano o del Raduno? Inviaci le tue fotografie!
+                </p>
+                <p style="font-size: 1rem; color: var(--text-light);">
+                    Email: <strong>foto@radunobersaglierivivevano2027.it</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Scopri Vigevano</h2>
+            <p>Una città ricca di storia, arte e tradizione che vi aspetta per il Raduno 2027.</p>
+            <div class="cta-buttons">
+                <a href="about.html" class="btn-primary">Scopri di Più</a>
+                <a href="contact.html" class="btn-secondary">Contattaci</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Raduno Nazionale Bersaglieri 2027</h4>
+                <p>Vigevano - Maggio 2027</p>
+            </div>
+            <div class="footer-section">
+                <h4>Link Utili</h4>
+                <ul>
+                    <li><a href="about.html">Chi Siamo</a></li>
+                    <li><a href="program.html">Programma</a></li>
+                    <li><a href="fanfare.html">Fanfare</a></li>
+                    <li><a href="gallery.html">Galleria</a></li>
+                    <li><a href="contact.html">Contatti</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contatti</h4>
+                <p>Email: info@radunobersaglierivivevano2027.it</p>
+                <p>Tel: +39 XXXX XXX XXX</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Raduno Nazionale Bersaglieri 2027. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            
+            const img = element.querySelector('img');
+            const caption = element.querySelector('.gallery-text h3');
+            
+            modalImage.src = img.src;
+            modalCaption.textContent = caption.textContent;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside the image
+        document.getElementById('imageModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

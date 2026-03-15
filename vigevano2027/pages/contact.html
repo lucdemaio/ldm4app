@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contatti - Raduno Nazionale Bersaglieri 2027</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .contact-item h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .contact-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-bg);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(196, 91, 62, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), #ff6b6b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(196, 91, 62, 0.3);
+        }
+
+        .map-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .quick-link-card {
+            background: linear-gradient(135deg, rgba(196, 91, 62, 0.1), rgba(255, 107, 107, 0.1));
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .quick-link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(196, 91, 62, 0.15);
+        }
+
+        .quick-link-card h4 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-link-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .map-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">🎖️ Bersaglieri 2027</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">Chi Siamo</a></li>
+                <li><a href="program.html">Programma</a></li>
+                <li><a href="raduni-storici.html">Raduni Storici</a></li>
+                <li><a href="fanfare.html">Fanfare</a></li>
+                <li><a href="gallery.html">Galleria</a></li>
+                <li><a href="contact.html">Contatti</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="margin-top: 60px; min-height: 50vh;">
+        <div class="particles"></div>
+        <div class="hero-content" style="grid-template-columns: 1fr;">
+            <div class="hero-text" style="text-align: center;">
+                <h1 class="hero-title">Contatti</h1>
+                <p class="hero-subtitle">Rimani in Contatto con Noi</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Riferimenti Organizzativi</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>📧 Email Principale</h3>
+                        <p>
+                            <strong>info@radunobersaglierivivevano2027.it</strong>
+                            <br>
+                            <em>Per informazioni generali e iscrizioni</em>
+                        </p>
+                    </div>
+
+                    <div class="contact-item">
+                        <h3>📞 Telefono</h3>
+                        <p>
+                            <strong>+39 (XXX) XXX-XXXX</strong>
+                            <br>
+                            <em>Disponibile dal lunedì al venerdì, 9:00-17:00</em>
+                        </p>
+                    </div>
+
+                    <div class="contact-item">
+                        <h3>📍 Ufficio Organizzativo</h3>
+                        <p>
+                            <strong>Vigevano, Provincia di Pavia</strong>
+                            <br>
+                            Piazza Ducale, Vigevano (PV)
+                            <br>
+                            <em>Visitabile su appuntamento</em>
+                        </p>
+                    </div>
+
+                    <div class="contact-item">
+                        <h3>📸 Foto e Media</h3>
+                        <p>
+                            <strong>foto@radunobersaglierivivevano2027.it</strong>
+                            <br>
+                            <em>Per inviare fotografie e materiale multimediale</em>
+                        </p>
+                    </div>
+
+                    <div class="contact-item">
+                        <h3>🎖️ Associazione Nazionale</h3>
+                        <p>
+                            <strong>ANI - Associazione Nazionale Bersaglieri</strong>
+                            <br>
+                            <a href="#">www.radunobersaglieri.it</a>
+                            <br>
+                            <em>Per informazioni sulla tradizione</em>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h3 style="color: var(--dark-bg); margin-bottom: 2rem; font-size: 1.5rem;">Invia un Messaggio</h3>
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Nome e Cognome *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Telefono</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Oggetto *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Seleziona un argomento...</option>
+                                <option value="partecipazione">Informazioni Partecipazione</option>
+                                <option value="alloggio">Alloggio e Logistica</option>
+                                <option value="media">Accreditamento Media</option>
+                                <option value="volontario">Opportunità Volontariato</option>
+                                <option value="general">Domanda Generale</option>
+                                <option value="altro">Altro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Messaggio *</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Invia Messaggio</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Map Section -->
+            <div style="background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); margin-bottom: 3rem;">
+                <h3 style="color: var(--dark-bg); margin-bottom: 1.5rem; font-size: 1.3rem;">📍 Vigevano su Mappa</h3>
+                <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                    <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=8.84375,45.30072,8.88305,45.32108&layer=mapnik&marker=45.31090,8.86340" style="border: none; border-radius: 10px;"></iframe>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-light); text-align: center;">
+                    📍 <strong>Vigevano</strong> - Piazza Ducale, Provincia di Pavia, Lombardia | 
+                    <a href="https://www.openstreetmap.org/#map=13/45.3109/8.8634" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Apri mappa intera</a>
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <div class="quick-link-card">
+                    <h4>❓ FAQ</h4>
+                    <p>Domande frequenti e risposte dettagliate su organizzazione ed eventi</p>
+                </div>
+
+                <div class="quick-link-card">
+                    <h4>📋 Moduli</h4>
+                    <p>Scarica i moduli di iscrizione e autorizzazioni necessarie</p>
+                </div>
+
+                <div class="quick-link-card">
+                    <h4>🔗 Link Utili</h4>
+                    <p>Collegati ai siti ufficiali e risorse informative</p>
+                </div>
+
+                <div class="quick-link-card">
+                    <h4>🎖️ Regolamenti</h4>
+                    <p>Consulta i regolamenti ufficiali del Raduno Nazionale</p>
+                </div>
+
+                <div class="quick-link-card">
+                    <h4>📰 Ufficio Stampa</h4>
+                    <p>Contatti per la stampa e media relations</p>
+                </div>
+
+                <div class="quick-link-card">
+                    <h4>📞 Emergenza</h4>
+                    <p>Numeri di emergenza e contatti di supporto urgente</p>
+                </div>
+            </div>
+
+            <!-- Important Info -->
+            <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(46, 204, 113, 0.1)); padding: 2rem; border-radius: 15px; margin-top: 3rem; border-left: 5px solid var(--accent-color);">
+                <h3 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 1rem;">ℹ️ Informazioni Importanti</h3>
+                <ul style="color: var(--text-light); font-size: 1rem; line-height: 1.8; list-style: none; margin-left: 0;">
+                    <li>✓ Risponderemo a tutte le richieste entro 48 ore lavorative</li>
+                    <li>✓ I moduli di iscrizione devono pervenire entro il 31 marzo 2027</li>
+                    <li>✓ Tutte le informazioni sono validate ufficialmente dall'ANI</li>
+                    <li>✓ Per emergenze contattare direttamente il numero telefonico</li>
+                    <li>✓ Seguici sui social per aggiornamenti in tempo reale</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Links -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Seguici sui Social</h2>
+            <p>Rimani aggiornato con notizie, foto e aggiornamenti in tempo reale.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary" onclick="alert('Facebook - Coming Soon')">Facebook</a>
+                <a href="#" class="btn-primary" onclick="alert('Instagram - Coming Soon')">Instagram</a>
+                <a href="#" class="btn-secondary" onclick="alert('YouTube - Coming Soon')">YouTube</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Raduno Nazionale Bersaglieri 2027</h4>
+                <p>Vigevano - Maggio 2027</p>
+            </div>
+            <div class="footer-section">
+                <h4>Link Utili</h4>
+                <ul>
+                    <li><a href="about.html">Chi Siamo</a></li>
+                    <li><a href="program.html">Programma</a></li>
+                    <li><a href="fanfare.html">Fanfare</a></li>
+                    <li><a href="gallery.html">Galleria</a></li>
+                    <li><a href="contact.html">Contatti</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contatti Rapidi</h4>
+                <p>Email: info@radunobersaglierivivevano2027.it</p>
+                <p>Tel: +39 XXXX XXX XXX</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Raduno Nazionale Bersaglieri 2027. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            
+            alert('Grazie ' + name + '! Il tuo messaggio è stato ricevuto.\n\nRisponderemo al tuo indirizzo email (' + email + ') entro 48 ore.\n\nOggetto: ' + subject);
+            
+            // Reset form
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>

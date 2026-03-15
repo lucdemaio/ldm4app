@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiesta Ospitalità Fanfara - Raduno Nazionale Bersaglieri 2027</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .form-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(196, 91, 62, 0.2);
+            padding-bottom: 0.8rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: var(--dark-bg);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.8rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(196, 91, 62, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group small {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            margin: 1rem 0;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .radio-item input[type="radio"] {
+            width: auto;
+            margin-right: 0.8rem;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .checkbox-item label,
+        .radio-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .privacy-box {
+            background: rgba(196, 91, 62, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .privacy-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-highlight {
+            background: linear-gradient(135deg, rgba(196, 91, 62, 0.1), rgba(255, 107, 107, 0.1));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .info-highlight h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-highlight ol {
+            margin-left: 1.5rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .submit-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .submit-btn,
+        .reset-btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary-color), #ff6b6b);
+            color: white;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(196, 91, 62, 0.3);
+        }
+
+        .reset-btn {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--dark-bg);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .reset-btn:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .required-note {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 8px;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(39, 174, 96, 0.1);
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">🎖️ Bersaglieri 2027</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">Chi Siamo</a></li>
+                <li><a href="program.html">Programma</a></li>
+                <li><a href="raduni-storici.html">Raduni Storici</a></li>
+                <li><a href="fanfare.html">Fanfare</a></li>
+                <li><a href="gallery.html">Galleria</a></li>
+                <li><a href="contact.html">Contatti</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="margin-top: 60px; min-height: 50vh;">
+        <div class="particles"></div>
+        <div class="hero-content" style="grid-template-columns: 1fr;">
+            <div class="hero-text" style="text-align: center;">
+                <h1 class="hero-title">Richiesta Ospitalità</h1>
+                <p class="hero-subtitle">Modulo per Fanfare - Vigevano 2027</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Content -->
+    <section class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Modulo di Richiesta Ospitalità Fanfara</h2>
+                <div class="divider"></div>
+            </div>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                ✅ Modulo inviato con successo! Riceverai una conferma via email entro 48 ore.
+            </div>
+
+            <!-- Info Highlight -->
+            <div class="info-highlight">
+                <h4>📋 Come Funziona</h4>
+                <p style="font-size: 1rem; line-height: 1.8; color: var(--text-light);">
+                    Compila il modulo sottostante per richiedere ospitalità in occasione del <strong>Raduno Nazionale Bersaglieri 2027 di Vigevano</strong> (1-5 maggio 2027). La tua fanfara sarà ospitata in strutture appositamente attrezzate e si impegnerà ad eseguire esibizioni musicali come concordato.
+                </p>
+                <ol style="margin-top: 1rem;">
+                    <li>Compila tutti i campi obbligatori (contrassegnati con *)</li>
+                    <li>Verifica i dati prima di inviare</li>
+                    <li>Accetta le condizioni di ospitalità</li>
+                    <li>Clicca "Invia Richiesta"</li>
+                    <li>Riceverai una conferma via email</li>
+                </ol>
+            </div>
+
+            <!-- Main Form -->
+            <form id="fanfareForm" onsubmit="handleFormSubmit(event)">
+                <!-- DATI FANFARA -->
+                <div class="form-section">
+                    <h3>🎺 Informazioni Fanfara</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fanfaraNome">Nome Fanfara <span class="required">*</span></label>
+                            <input type="text" id="fanfaraNome" name="fanfaraNome" required>
+                            <small>Es: Fanfara Bersaglieri Vigevano</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="regione">Regione di Appartenenza <span class="required">*</span></label>
+                            <select id="regione" name="regione" required onchange="updateProvince()">
+                                <option value="">-- Seleziona Regione --</option>
+                                <option value="lombardia">Lombardia</option>
+                                <option value="piemonte">Piemonte</option>
+                                <option value="veneto">Veneto</option>
+                                <option value="liguria">Liguria</option>
+                                <option value="toscana">Toscana</option>
+                                <option value="emilia">Emilia Romagna</option>
+                                <option value="lazio">Lazio</option>
+                                <option value="campania">Campania</option>
+                                <option value="sicilia">Sicilia</option>
+                                <option value="sardegna">Sardegna</option>
+                                <option value="altre">Altre Regioni</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="provincia">Provincia di Appartenenza <span class="required">*</span></label>
+                            <input type="text" id="provincia" name="provincia" required placeholder="Es: Pavia">
+                        </div>
+                        <div class="form-group">
+                            <label for="sezione">Sezione di Appartenenza <span class="required">*</span></label>
+                            <input type="text" id="sezione" name="sezione" required placeholder="Es: Sezione di Vigevano">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPOSIZIONE FANFARA -->
+                <div class="form-section">
+                    <h3>👥 Composizione Fanfara</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="elementiFantarfa">Numero di Elementi Fanfara <span class="required">*</span></label>
+                            <input type="number" id="elementiFantarfa" name="elementiFantarfa" min="1" required>
+                            <small>Musicisti per i quali si richiede ospitalità</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="accompagnatori">Numero di Accompagnatori</label>
+                            <input type="number" id="accompagnatori" name="accompagnatori" min="0">
+                            <small>Persone al seguito (quota convenzionata con il Comune)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESPONSABILE FANFARA -->
+                <div class="form-section">
+                    <h3>👤 Responsabile Fanfara</h3>
+                    <p style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                        Incaricato ad intrattenere i rapporti con il Comune ospitante
+                    </p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="responsabile">Nome e Cognome <span class="required">*</span></label>
+                            <input type="text" id="responsabile" name="responsabile" required placeholder="Es: Mario Rossi">
+                        </div>
+                        <div class="form-group">
+                            <label for="qualifica">Qualifica/Ruolo <span class="required">*</span></label>
+                            <input type="text" id="qualifica" name="qualifica" required placeholder="Es: Direttore Fanfara">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telefono">Telefono <span class="required">*</span></label>
+                            <input type="tel" id="telefono" name="telefono" required placeholder="Es: 02 1234 5678">
+                        </div>
+                        <div class="form-group">
+                            <label for="cellulare">Cellulare</label>
+                            <input type="tel" id="cellulare" name="cellulare" placeholder="Es: 333 1234 5678">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="Es: mario.rossi@email.it">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IMPEGNI E CONDIZIONI -->
+                <div class="form-section">
+                    <h3>📋 Condizioni di Ospitalità</h3>
+                    <p style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                        La fanfara si impegna a rispettare le seguenti condizioni e accetta di:
+                    </p>
+
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cond1" name="condizioni" value="arrivo" checked disabled>
+                            <label for="cond1">Arrivare nel Comune ospitante nei giorni 1-5 maggio 2027 come concordato</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cond2" name="condizioni" value="esibizione" checked disabled>
+                            <label for="cond2">Eseguire un'esibizione musicale pomeridiana o serale a seconda di quanto concordato con il Comune</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cond3" name="condizioni" value="strutture" checked disabled>
+                            <label for="cond3">Essere ospitata presso locali appositamente attrezzati</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cond4" name="condizioni" value="sfilata" checked disabled>
+                            <label for="cond4">Partecipare alla Grande Sfilata domenicale (4 maggio) con il "Passo di Corsa"</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cond5" name="condizioni" value="coord" checked disabled>
+                            <label for="cond5">Rispettare gli orari e il coordinamento tecnico stabiliti dall'organizzazione</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DATI AGGIUNTIVI -->
+                <div class="form-section">
+                    <h3>📝 Dati Aggiuntivi</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="presidente">Nome Presidente di Sezione <span class="required">*</span></label>
+                            <input type="text" id="presidente" name="presidente" required placeholder="Es: Giovanni Bianchi">
+                        </div>
+                        <div class="form-group">
+                            <label for="data">Data Compilazione <span class="required">*</span></label>
+                            <input type="date" id="data" name="data" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="note">Note Aggiuntive</label>
+                            <textarea id="note" name="note" placeholder="Informazioni aggiuntive utili per l'organizzazione..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRIVACY -->
+                <div class="form-section">
+                    <h3>🔒 Privacy e Consenso</h3>
+
+                    <div class="privacy-box">
+                        <h4>Informazioni Importanti</h4>
+                        <p>
+                            I dati personali forniti tramite questo modulo saranno utilizzati esclusivamente per l'organizzazione del Raduno Nazionale Bersaglieri 2027 di Vigevano e per comunicazioni correlate all'evento. 
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            Con l'invio del presente modulo, l'interessato dichiara di essere a conoscenza delle informazioni e diritti previsti dalla normativa sulla protezione dei dati (GDPR e D.Lgs. 196/2003 e successive modifiche).
+                        </p>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="privacy" name="privacy" required>
+                            <label for="privacy">
+                                <strong>Accetto il trattamento dei dati personali</strong> <span class="required">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="required-note">
+                        <strong>⚠️ Nota Importante:</strong> I campi contrassegnati con <span class="required">*</span> sono obbligatori. Senza il consenso alla privacy, il modulo non potrà essere inviato.
+                    </div>
+                </div>
+
+                <!-- SUBMIT BUTTONS -->
+                <div class="submit-group">
+                    <button type="submit" class="submit-btn">✅ Invia Richiesta Ospitalità</button>
+                    <button type="reset" class="reset-btn">↺ Cancella Modulo</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Domande sul Modulo?</h2>
+            <p>Se hai dubbi o hai bisogno di assistenza nella compilazione, contattaci direttamente.</p>
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn-primary">Contatta il Team</a>
+                <a href="fanfare.html" class="btn-secondary">Torna alle Fanfare</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Raduno Nazionale Bersaglieri 2027</h4>
+                <p>Vigevano - Maggio 2027</p>
+            </div>
+            <div class="footer-section">
+                <h4>Link Utili</h4>
+                <ul>
+                    <li><a href="about.html">Chi Siamo</a></li>
+                    <li><a href="program.html">Programma</a></li>
+                    <li><a href="fanfare.html">Fanfare</a></li>
+                    <li><a href="gallery.html">Galleria</a></li>
+                    <li><a href="contact.html">Contatti</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contatti</h4>
+                <p>Email: info@radunobersaglierivivevano2027.it</p>
+                <p>Email Fanfare: fanfare@radunobersaglierivivevano2027.it</p>
+                <p>Tel: +39 XXXX XXX XXX</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Raduno Nazionale Bersaglieri 2027. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        function updateProvince() {
+            // Placeholder per futuro collegamento con liste province
+            console.log("Regione selezionata");
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            // Validazione
+            const form = document.getElementById('fanfareForm');
+            const privacy = document.getElementById('privacy');
+
+            if (!privacy.checked) {
+                alert('❌ Devi accettare il trattamento dei dati personali per proseguire.');
+                return;
+            }
+
+            // Raccolta dati
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            // Log per debug
+            console.log('Dati modulo:', data);
+
+            // Visualizzazione messaggio di successo
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            
+            // Scroll al messaggio
+            successMsg.scrollIntoView({ behavior: 'smooth' });
+
+            // Reset modulo
+            form.reset();
+
+            // Nascondi messaggio dopo 5 secondi
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 5000);
+
+            // NOTA: Implementare l'invio a un backend/email service
+            // Per ora è solo una simulazione frontend
+            console.log('Modulo pronto per essere inviato a:', 'fanfare@radunobersaglierivivevano2027.it');
+        }
+
+        // Imposta data odierna
+        document.getElementById('data').valueAsDate = new Date();
+    </script>
+</body>
+</html>

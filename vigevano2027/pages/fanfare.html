@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Fanfare - Raduno Nazionale Bersaglieri 2027</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .fanfare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .fanfare-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .fanfare-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(196, 91, 62, 0.2);
+        }
+
+        .fanfare-card h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .fanfare-highlight {
+            background: linear-gradient(135deg, rgba(196, 91, 62, 0.1), rgba(255, 107, 107, 0.1));
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-color);
+            margin: 2rem 0;
+        }
+
+        .info-box {
+            background: rgba(196, 91, 62, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .timeline-fanfare {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline-fanfare-item {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .timeline-fanfare-item::before {
+            content: '';
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .timeline-fanfare-item-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            flex: 1;
+        }
+
+        .timeline-fanfare-item-content h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">🎖️ Bersaglieri 2027</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">Chi Siamo</a></li>
+                <li><a href="program.html">Programma</a></li>
+                <li><a href="raduni-storici.html">Raduni Storici</a></li>
+                <li><a href="fanfare.html">Fanfare</a></li>
+                <li><a href="gallery.html">Galleria</a></li>
+                <li><a href="contact.html">Contatti</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="margin-top: 60px; min-height: 50vh;">
+        <div class="particles"></div>
+        <div class="hero-content" style="grid-template-columns: 1fr;">
+            <div class="hero-text" style="text-align: center;">
+                <h1 class="hero-title">Le Fanfare</h1>
+                <p class="hero-subtitle">Il Cuore Musicale del Raduno</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fanfare Content -->
+    <section class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>La Tradizione Musicale dei Bersaglieri</h2>
+                <div class="divider"></div>
+            </div>
+
+            <div style="background: white; padding: 3rem; border-radius: 15px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">🎺 La Fanfara dei Bersaglieri</h3>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1rem;">
+                    La fanfara è l'anima musicale del corpo dei Bersaglieri. Non si tratta solamente di una banda militare, ma di un elemento costitutivo dell'identità bersagliereska, strettamente legato alla tradizione e alla storia del corpo. Le fanfare dei Bersaglieri sono riconoscibili nel mondo intero per il loro suono caratteristico e per le marce storiche che eseguono.
+                </p>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1rem;">
+                    <strong>Strumenti Tradizionali:</strong> La fanfara utilizza prevalentemente ottoni (trombe, corni, tromboni) e percussioni (tamburi, piatti, gran cassa). Questa combinazione crea il caratteristico suono brillante e incisivo che accompagna le marce dei Bersaglieri e che riesce a catturare l'attenzione e l'emozione di chi ascolta.
+                </p>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light);">
+                    La musica delle fanfare non è intrattenimento, ma testimonianza sonora della storia, della memoria collettiva e dello spirito bersaglieresco. Ogni marcia raconta una storia, ogni nota porta con sé l'eredità di generazioni di musicisti che hanno tramandato questa tradizione nel corso dei secoli.
+                </p>
+            </div>
+
+            <div class="fanfare-highlight">
+                <h3 style="margin-top: 0;">🎵 Il "Passo di Corsa" - La Marcia Più Celebre</h3>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1rem;">
+                    La marcia più celebre e riconoscibile dei Bersaglieri è il <strong>"Passo di Corsa"</strong>. Non è semplice musica accompagnamento, ma l'esatta manifestazione sonora della velocità, precisione e prontezza che caratterizzano il corpo. 
+                </p>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1rem;">
+                    Il "Passo di Corsa" possiede un ritmo energico e coinvolgente che sincronizza perfettamente con i movimenti dei Bersaglieri in marcia. Il suono della fanfara, unito al rumore ritmato dei passi cadenzati, crea un effetto sensoriale indimenticabile. Per generazioni, questo suono ha evocato nelle piazze italiane la memoria della storia militare nazionale.
+                </p>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light);">
+                    A Vigevano 2027, l'esecuzione del "Passo di Corsa" durante la Grande Sfilata domenicale rappresenterà il momento culminante dell'evento, quando il centro storico della città risuonerà del suono più iconico della storia militare italiana.
+                </p>
+            </div>
+
+            <div style="background: white; padding: 3rem; border-radius: 15px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">🎼 Repertorio delle Marce Storiche</h3>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1.5rem;">
+                    Le fanfare bersagliere suoneranno durante il Raduno di Vigevano 2027 il ricchissimo repertorio della tradizione bersagliereska. Ecco le marce e le composizioni più significative:
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+                    <div style="background: rgba(196, 91, 62, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                        <h4 style="color: var(--primary-color); font-size: 1rem; margin-bottom: 0.8rem;">🎺 Marce Principali</h4>
+                        <ul style="font-size: 0.95rem; line-height: 1.8; color: var(--text-light); margin-left: 1rem; list-style: none;">
+                            <li>✓ Marcia d'Ordinanza</li>
+                            <li>✓ La Corsa</li>
+                            <li>✓ La Variata</li>
+                            <li>✓ Alla Fronte il Cappello Piumato</li>
+                            <li>✓ Il Reggimento di Papà</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: rgba(196, 91, 62, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                        <h4 style="color: var(--primary-color); font-size: 1rem; margin-bottom: 0.8rem;">🎵 Canzoni e Inni Storici</h4>
+                        <ul style="font-size: 0.95rem; line-height: 1.8; color: var(--text-light); margin-left: 1rem; list-style: none;">
+                            <li>✓ Flik Flok (La Fanfara dei Bersaglieri)</li>
+                            <li>✓ Bersagliere Romano</li>
+                            <li>✓ Piume Baciatemi</li>
+                            <li>✓ Vent'anni Allegramente</li>
+                            <li>✓ Libera Uscita e La Bella Gigogin</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: rgba(196, 91, 62, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                        <h4 style="color: var(--primary-color); font-size: 1rem; margin-bottom: 0.8rem;">🏛️ Inni Reggimentali</h4>
+                        <ul style="font-size: 0.95rem; line-height: 1.8; color: var(--text-light); margin-left: 1rem; list-style: none;">
+                            <li>✓ Inno 1° Reggimento Bersaglieri</li>
+                            <li>✓ Inno 6° Reggimento Bersaglieri</li>
+                            <li>✓ Inno 7° Reggimento Bersaglieri</li>
+                            <li>✓ Inno 8° Reggimento Bersaglieri</li>
+                            <li>✓ Inno 11° Reggimento Bersaglieri</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: rgba(196, 91, 62, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                        <h4 style="color: var(--primary-color); font-size: 1rem; margin-bottom: 0.8rem;">🎭 Composizioni Commemorative</h4>
+                        <ul style="font-size: 0.95rem; line-height: 1.8; color: var(--text-light); margin-left: 1rem; list-style: none;">
+                            <li>✓ Preghiera del Bersagliere</li>
+                            <li>✓ Va Pensiero</li>
+                            <li>✓ 18 Giugno Cremisi - Inno Anniversario</li>
+                            <li>✓ Ciliegi Rosa</li>
+                            <li>✓ Piume Scaligere</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p style="font-size: 1rem; line-height: 1.8; color: var(--text-light); margin-top: 1.5rem; font-style: italic;">
+                    <strong>Fonte:</strong> Repertorio ufficiale dell'Associazione Nazionale Bersaglieri - www.assobersaglieri.it
+                </p>
+                <p style="font-size: 1rem; line-height: 1.8; color: var(--text-light);">
+                    Durante il Raduno Nazionale 2027 a Vigevano, tutte queste marce risuoneranno nelle piazze pubbliche e durante la Grande Sfilata domenicale, creando un'esperienza musicale indimenticabile.
+                </p>
+            </div>
+
+            <div style="background: white; padding: 3rem; border-radius: 15px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">🎺 Fanfare Partecipanti a Vigevano 2027 - Divise per Regione</h3>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 2rem;">
+                    Al Raduno Nazionale 2027 di Vigevano parteciperanno le più prestigiose fanfare bersagliere provenienti da tutta Italia. Ogni fanfara porta con sé la tradizione della propria regione e la storia della propria sezione. Di seguito la suddivisione per regione.
+                </p>
+
+                <!-- PIEMONTE -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 PIEMONTE</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Storica Torino</h3>
+                            <p><strong>Sezione:</strong> Torino Storica</p>
+                            <p>Una delle fanfare più antiche d'Italia, con una tradizione che risale ai primi raduni nazionali.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Alessandria</h3>
+                            <p><strong>Sezione:</strong> Alessandria</p>
+                            <p>Fanfara della provincia alessandrina, portatrice della tradizione piemontese.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Asti</h3>
+                            <p><strong>Sezione:</strong> Asti Riunite</p>
+                            <p>Proveniente da Asti, ricorda il grande Raduno del 2014 celebrato nella città.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOMBARDIA -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 LOMBARDIA</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara "Luciano Manara" Milano</h3>
+                            <p><strong>Sezione:</strong> Milano Storica</p>
+                            <p>Nata nel 1927, è tra le più importanti fanfare d'Italia. Ha rappresentato l'Italia in molti raduni internazionali.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara "Don Felice Cozzi" Seregno</h3>
+                            <p><strong>Sezione:</strong> Seregno</p>
+                            <p>Costituita nel 2013, rappresenta la continuità della tradizione musicale bersagliereska nelle nuove generazioni.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara "Guglielmo Colombo" Lecco</h3>
+                            <p><strong>Sezione:</strong> Lecco</p>
+                            <p>Inaugurata nel 1997, dedicata al fondatore della Sezione di Lecco nel 1927.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎼 Fanfara "Aminto Caretto" Bedizzole</h3>
+                            <p><strong>Sezione:</strong> Bedizzole</p>
+                            <p>Fondata nel 1986, è una tra le più importanti fanfare d'Italia a livello nazionale ed internazionale.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎤 Fanfara "Carlo Valotti" Orzinuovi</h3>
+                            <p><strong>Sezione:</strong> Orzinuovi</p>
+                            <p>Costituita nel 1932 insieme alla sezione, rappresenta una lunga tradizione bersagliereska.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎵 Fanfara Bersaglieri Vergiate</h3>
+                            <p><strong>Sezione:</strong> Vergiate</p>
+                            <p>Intitolata a Sottotenente Angelo Vidoletti, medaglia d'oro caduto nella II Guerra Mondiale.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VENETO -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 VENETO</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Storica Verona</h3>
+                            <p><strong>Sezione:</strong> Verona</p>
+                            <p>Una delle città ospitanti più prestigiose nella storia dei raduni. Sede del XIV° Raduno nel 1926.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Venezia</h3>
+                            <p><strong>Sezione:</strong> Venezia Laguna</p>
+                            <p>Rappresentante della tradizione veneta, sede del X° Raduno nel 1932.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Padova</h3>
+                            <p><strong>Sezione:</strong> Padova</p>
+                            <p>Portatrice della tradizione musicale della provincia di Padova.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FRIULI-VENEZIA GIULIA -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 FRIULI-VENEZIA GIULIA</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Storica Trieste</h3>
+                            <p><strong>Sezione:</strong> Trieste Storica</p>
+                            <p>La città dove tutto ebbe inizio: il I° Raduno Nazionale nel 1923 si svolse a Trieste.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Lignano Sabbiadoro</h3>
+                            <p><strong>Sezione:</strong> Lignano</p>
+                            <p>Città ospitante del LXXIII° Raduno nel 2026. Partecipa in continuità di tradizione regionale.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Gorizia</h3>
+                            <p><strong>Sezione:</strong> Gorizia</p>
+                            <p>Rappresentante della regione friulana, con salde radici storiche bersagliere.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EMILIA-ROMAGNA -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 EMILIA-ROMAGNA</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Bologna</h3>
+                            <p><strong>Sezione:</strong> Bologna Storica</p>
+                            <p>XXV° Raduno nel 1954. Una delle fanfare emiliane più prestigiose.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Ravenna</h3>
+                            <p><strong>Sezione:</strong> Ravenna</p>
+                            <p>Sede del XVI° Raduno nel 1936. Rappresentante della tradizione ravennate.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Modena</h3>
+                            <p><strong>Sezione:</strong> Modena Riunite</p>
+                            <p>Portatrice della forte tradizione bersagliereska dell'Emilia.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TOSCANA -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 TOSCANA</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Storica Firenze</h3>
+                            <p><strong>Sezione:</strong> Firenze Storica</p>
+                            <p>Città ospitante del LX° Raduno nel 2005. Una delle fanfare toscane più antiche.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Provinciale Siena</h3>
+                            <p><strong>Sezione:</strong> Siena</p>
+                            <p>Fondata nel 1927, ha una storia che risale all'epoca della Caserma della Fortezza del Carmine.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Livorno</h3>
+                            <p><strong>Sezione:</strong> Livorno Marinara</p>
+                            <p>Rappresentante della tradizione portuale e marinara della Toscana.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MARCHE -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 MARCHE</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Ascoli Piceno</h3>
+                            <p><strong>Sezione:</strong> Ascoli Piceno</p>
+                            <p>Nata nel 1936 per partecipare al Raduno Nazionale a Roma. Una famiglia in cui tradizione e innovazione corrono insieme.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Ancona</h3>
+                            <p><strong>Sezione:</strong> Ancona Marinara</p>
+                            <p>Sede del XIII° Raduno nel 1935 e XXVIII° nel 1957. Rappresentante delle Marche.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Pesaro</h3>
+                            <p><strong>Sezione:</strong> Pesaro Adriatica</p>
+                            <p>Portatrice della tradizione musicale pesarese.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABRUZZO -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 ABRUZZO</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara L'Aquila</h3>
+                            <p><strong>Sezione:</strong> L'Aquila Storica</p>
+                            <p>Sede del LXIII° Raduno nel 2015. Simbolo della rinascita dopo il terremoto.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Pescara</h3>
+                            <p><strong>Sezione:</strong> Pescara Adriatica</p>
+                            <p>Rappresentante della costa abruzzese.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Sulmona</h3>
+                            <p><strong>Sezione:</strong> Sulmona Storica</p>
+                            <p>Portatrice della tradizione musicale della valle Peligna.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAMPANIA -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 CAMPANIA</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Napoli</h3>
+                            <p><strong>Sezione:</strong> Napoli Storica</p>
+                            <p>VII° Raduno nel 1929, XXIV° nel 1953. Una delle fanfare più antiche della regione.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Salerno</h3>
+                            <p><strong>Sezione:</strong> Salerno Marina</p>
+                            <p>XXXII° Raduno nel 1961. Rappresentante della Campania costiera.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Benevento</h3>
+                            <p><strong>Sezione:</strong> Benevento Storica</p>
+                            <p>XXXVIII° Raduno nel 1967. Portatrice della tradizione sannita.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PUGLIA -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 PUGLIA</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Trani</h3>
+                            <p><strong>Sezione:</strong> Trani Pugliese</p>
+                            <p>XV° Raduno nel 1937. Una delle fanfare pugliesi più prestigiose.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Lecce</h3>
+                            <p><strong>Sezione:</strong> Lecce Salentina</p>
+                            <p>XXXIV° Raduno nel 1963. Rappresentante del Salento.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Bari</h3>
+                            <p><strong>Sezione:</strong> Bari Adriatica</p>
+                            <p>Portatrice della tradizione pugliese settentrionale.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SICILIA -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 SICILIA</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Palermo</h3>
+                            <p><strong>Sezione:</strong> Palermo Storica</p>
+                            <p>VIII° Raduno nel 1930, XXI° nel 1950. Una delle fanfare siciliane più antiche.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Catania</h3>
+                            <p><strong>Sezione:</strong> Catania Etnea</p>
+                            <p>XXX° Raduno nel 1959. Rappresentante della Sicilia orientale.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Messina</h3>
+                            <p><strong>Sezione:</strong> Messina Stretto</p>
+                            <p>Portatrice della tradizione musicale messinese.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SARDEGNA -->
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">📍 SARDEGNA</h4>
+                    <div class="fanfare-grid">
+                        <div class="fanfare-card">
+                            <h3>🎺 Fanfara Sassari</h3>
+                            <p><strong>Sezione:</strong> Sassari</p>
+                            <p>XXXIX° Raduno nel 1968. Una delle più importanti fanfare sarde.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🎶 Fanfara Cagliari</h3>
+                            <p><strong>Sezione:</strong> Cagliari Capitale</p>
+                            <p>XL° Raduno nel 1969. Rappresentante del sud Sardegna.</p>
+                        </div>
+                        <div class="fanfare-card">
+                            <h3>🥁 Fanfara Nuoro</h3>
+                            <p><strong>Sezione:</strong> Nuoro Barbagia</p>
+                            <p>Portatrice della tradizione musicale dell'interno sardo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, rgba(196, 91, 62, 0.1), rgba(255, 107, 107, 0.1)); padding: 2rem; border-radius: 12px; border-left: 5px solid var(--primary-color); margin-top: 2rem;">
+                    <p style="font-size: 1rem; line-height: 1.8; color: var(--text-light); margin: 0;">
+                        <strong>Nota:</strong> L'elenco rappresenta le principali fanfare registrate presso l'Associazione Nazionale Bersaglieri. Per informazioni su fanfare aggiuntive o variazioni del programma di partecipazione, contattare l'ufficio organizzativo a <strong>fanfare@radunobersaglierivivevano2027.it</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 3rem; border-radius: 15px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">🏨 Ospitalità e Logistica per le Fanfare</h3>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1.5rem;">
+                    Il Raduno Nazionale 2027 di Vigevano è organizzato per offrire la massima ospitalità e supporto logistico alle fanfare partecipanti. La nostra organizzazione ha predisposto un sistema completo di accoglienza.
+                </p>
+
+                <div class="timeline-fanfare">
+                    <div class="timeline-fanfare-item">
+                        <div class="timeline-fanfare-item-content">
+                            <h4>🏨 Alloggiamento</h4>
+                            <p>Vigevano e i comuni limitrofi dispongono di convenzioni con numerosissimi hotel, ostelli e strutture ricettive. Verranno garantiti alloggiamenti adatti alle necessità di gruppi numerosi, con prezzi agevolati attraverso accordi ufficiali dell'organizzazione. Possibilità di prenotazione per gruppi di musicisti.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-fanfare-item">
+                        <div class="timeline-fanfare-item-content">
+                            <h4>🚌 Trasporto</h4>
+                            <p>Sarà garantito il servizio di trasporto dalle stazioni ferroviarie e aeroportuali di Milano, Pavia e Alessandria fino alle strutture di alloggio. Navette dedicate collegheranno gli alloggi ai luoghi di raduno e agli spazi per le esibizioni. Parcheggi riservati per i mezzi di trasporto delle fanfare.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-fanfare-item">
+                        <div class="timeline-fanfare-item-content">
+                            <h4>🍽️ Ristorazione</h4>
+                            <p>Mense dedicate per i musicisti durante il Raduno. Menu equilibrato e adatto alle necessità dietetiche diverse. Convenzionamenti con ristoranti della città per cene sociali e festeggiamenti. Servizio catering disponibile per i tempi di pausa tra le esibizioni.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-fanfare-item">
+                        <div class="timeline-fanfare-item-content">
+                            <h4>🎼 Spazi Prove e Riposizionamento</h4>
+                            <p>Spazi dedicati per prove musicali, verifiche sonore e coordinamento tecnico. Aree di attesa attrezzate in prossimità dei percorsi di sfilata. Aree lounge per il riposo tra le esibizioni, con servizi igienici adeguati e accesso ad acqua potabile.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-fanfare-item">
+                        <div class="timeline-fanfare-item-content">
+                            <h4>🏥 Supporto Medico e Sicurezza</h4>
+                            <p>Presidi medici posizionati lungo i percorsi della sfilata. Ambulanze in prontezza per emergenze. Personale di sicurezza dedicato per proteggere gli spazi dedicati alle fanfare e coordinare i flussi durante le esibizioni.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-fanfare-item">
+                        <div class="timeline-fanfare-item-content">
+                            <h4>🎭 Coordinamento Tecnico</h4>
+                            <p>Ufficio coordinamento dedicato per tutte le comunicazioni organizzative. Assistenti di coordinamento per ogni fanfara. Disponibilità di attrezzature tecniche, amplificazioni mobili e supporti per gli strumenti musicali.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fanfare-highlight">
+                <h3 style="margin-top: 0;">📝 Come Partecipare con la Tua Fanfara</h3>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1rem;">
+                    Se gestisci una fanfara bersagliereska e desideri partecipare al Raduno Nazionale 2027 di Vigevano, ecco i passi da seguire:
+                </p>
+                <ol style="font-size: 1rem; line-height: 1.9; color: var(--text-light); margin-left: 1.5rem;">
+                    <li><strong>Contatta l'Associazione Nazionale Bersaglieri (ANI)</strong> della tua regione per l'iscrizione ufficiale della fanfara</li>
+                    <li><strong>Fornisci informazioni dettagliate:</strong> Nome fanfara, numero musicisti, strumenti utilizzati, dirigente responsabile</li>
+                    <li><strong>Conferma le date di partecipazione</strong> (1-5 maggio 2027) e le esibizioni in cui parteciperai</li>
+                    <li><strong>Sottoscrivi i moduli di autorizzazione</strong> e di assicurazione obbligatoria</li>
+                    <li><strong>Prenota gli alloggi</strong> attraverso il nostro sistema di convenzioni ufficiali</li>
+                    <li><strong>Coordina con il nostro ufficio organizzativo</strong> i dettagli tecnici e logistici</li>
+                    <li><strong>Arriva a Vigevano</strong> con qualche giorno di anticipo per le prove di coordinamento</li>
+                </ol>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-top: 1.5rem;">
+                    Per informazioni specifiche: <strong>fanfare@radunobersaglierivivevano2027.it</strong>
+                </p>
+            </div>
+
+            <div style="background: white; padding: 3rem; border-radius: 15px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">🎵 Il Programma Musicale di Vigevano 2027</h3>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1.5rem;">
+                    Durante i cinque giorni del Raduno, le fanfare animeranno Vigevano con un programma musicale ricco e variegato.
+                </p>
+
+                <div class="info-box">
+                    <p style="font-size: 1rem; line-height: 1.9; color: var(--text-light);"><strong>Giovedì 1° Maggio:</strong> Concerti di benvenuto nelle piazze principali, fanfare di accoglienza</p>
+                </div>
+
+                <div class="info-box">
+                    <p style="font-size: 1rem; line-height: 1.9; color: var(--text-light);"><strong>Venerdì 2 Maggio:</strong> Carosello delle fanfare storico, esibizioni serali con musiche tradizionali e celebrative</p>
+                </div>
+
+                <div class="info-box">
+                    <p style="font-size: 1rem; line-height: 1.9; color: var(--text-light);"><strong>Sabato 3 Maggio:</strong> Concerti pomeridiani negli spazi storici di Vigevano, prove di coordinamento per la Grande Sfilata</p>
+                </div>
+
+                <div class="info-box">
+                    <p style="font-size: 1rem; line-height: 1.9; color: var(--text-light);"><strong>Domenica 4 Maggio:</strong> ⭐ LA GRANDE SFILATA - Esecuzione simultanea del "Passo di Corsa" da tutte le fanfare lungo le vie del centro storico. Lo spettacolo musicale più emozionante dell'anno!</p>
+                </div>
+
+                <div class="info-box">
+                    <p style="font-size: 1rem; line-height: 1.9; color: var(--text-light);"><strong>Lunedì 5 Maggio:</strong> Cerimonia di chiusura con musiche commemorative e ringraziamenti finali</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ospitalità Form CTA -->
+    <section style="background: linear-gradient(135deg, var(--primary-color), #ff6b6b); padding: 4rem 2rem; text-align: center; color: white;">
+        <div class="container">
+            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">🏨 Richiedi Ospitalità per la Tua Fanfara</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.95);">
+                Compila il modulo di richiesta ospitalità e fai parte della Grande Sfilata del 4 maggio 2027
+            </p>
+            <a href="fanfare-form.html" style="display: inline-block; background: white; color: var(--primary-color); padding: 1.2rem 3rem; border-radius: 8px; font-weight: bold; font-size: 1.1rem; text-decoration: none; transition: var(--transition); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+                ✏️ Accedi al Modulo Ospitalità
+            </a>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Partecipa al Carosello Musicale</h2>
+            <p>Se hai una fanfara e desideri partecipare a Vigevano 2027, contattaci per informazioni dettagliate.</p>
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn-primary">Contattaci per Info</a>
+                <a href="program.html" class="btn-secondary">Vai al Programma</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Raduno Nazionale Bersaglieri 2027</h4>
+                <p>Vigevano - Maggio 2027</p>
+            </div>
+            <div class="footer-section">
+                <h4>Link Utili</h4>
+                <ul>
+                    <li><a href="about.html">Chi Siamo</a></li>
+                    <li><a href="program.html">Programma</a></li>
+                    <li><a href="fanfare.html">Fanfare</a></li>
+                    <li><a href="gallery.html">Galleria</a></li>
+                    <li><a href="contact.html">Contatti</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contatti</h4>
+                <p>Email: info@radunobersaglierivivevano2027.it</p>
+                <p>Email Fanfare: fanfare@radunobersaglierivivevano2027.it</p>
+                <p>Tel: +39 XXXX XXX XXX</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Raduno Nazionale Bersaglieri 2027. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>
