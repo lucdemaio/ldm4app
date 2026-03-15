@@ -134,37 +134,44 @@ if (!document.querySelector('style[data-ripple]')) {
     document.head.appendChild(style);
 }
 
-// Mobile menu toggle (for future expansion)
+// Mobile menu toggle
 function setupMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navMenu = document.getElementById('navMenu');
     const navbar = document.querySelector('.navbar');
     
-    if (mobileMenuBtn && navMenu) {
-        // Toggle menu on button click
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            mobileMenuBtn.setAttribute('aria-expanded', 
-                mobileMenuBtn.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');
-        });
-        
-        // Close menu when clicking on a link
-        const menuLinks = navMenu.querySelectorAll('a');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navbar.contains(e.target)) {
-                navMenu.classList.remove('active');
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            }
-        });
+    console.log('setupMobileMenu called - mobileMenuBtn:', mobileMenuBtn, 'navMenu:', navMenu);
+    
+    if (!mobileMenuBtn || !navMenu) {
+        console.error('Mobile menu elements not found!');
+        return;
     }
+    
+    // Direct click handler for menu button (not through ripple effect)
+    mobileMenuBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        console.log('Menu button clicked');
+        const isActive = navMenu.classList.contains('active');
+        navMenu.classList.toggle('active');
+        mobileMenuBtn.setAttribute('aria-expanded', !isActive);
+    });
+    
+    // Close menu when clicking on a link
+    const menuLinks = navMenu.querySelectorAll('a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            navMenu.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        });
+    });
+    
+    // Close menu when clicking outside (but not on the button)
+    document.addEventListener('click', (e) => {
+        if (!navbar.contains(e.target) && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
     
     // Enhance navbar on scroll
     if (navbar) {
@@ -181,9 +188,9 @@ function setupMobileMenu() {
 }
 
 // ===== ADVANCED BUTTON INTERACTIONS =====
-// Button ripple effect on all buttons
+// Button ripple effect on all buttons (except mobile menu toggle)
 function addRippleEffectToButtons() {
-    const buttons = document.querySelectorAll('button, .btn-primary, .btn-secondary, .cta-button, a[href*="pages"]');
+    const buttons = document.querySelectorAll('button:not(#mobileMenuBtn), .btn-primary, .btn-secondary, .cta-button, a[href*="pages"]');
     
     buttons.forEach(button => {
         button.addEventListener('click', function(e) {
