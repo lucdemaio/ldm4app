@@ -136,15 +136,47 @@ if (!document.querySelector('style[data-ripple]')) {
 
 // Mobile menu toggle (for future expansion)
 function setupMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navMenu = document.getElementById('navMenu');
     const navbar = document.querySelector('.navbar');
+    
+    if (mobileMenuBtn && navMenu) {
+        // Toggle menu on button click
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 
+                mobileMenuBtn.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');
+        });
+        
+        // Close menu when clicking on a link
+        const menuLinks = navMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navbar.contains(e.target)) {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+    
+    // Enhance navbar on scroll
     if (navbar) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
                 navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.2)';
+                navbar.style.backdropFilter = 'blur(15px)';
             } else {
                 navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                navbar.style.backdropFilter = 'blur(10px)';
             }
-        });
+        }, { passive: true });
     }
 }
 
