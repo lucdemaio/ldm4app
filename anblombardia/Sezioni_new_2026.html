@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Sezioni ANB Regione Lombardia - 2026">
+<meta name="keywords" content="Sezioni,Bersaglieri,ANB,Regione Lombardia">
+<meta name="author" content="maltangelo">
+<title>Sezioni ANB Regione Lombardia - 2026</title>
+<link rel="icon" href="images/L.png" type="image/png" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="css/modern2026.css" />
+
+<style>
+.content-section {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 40px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  margin: 20px 0;
+  backdrop-filter: blur(5px);
+}
+
+.content-section h2 {
+  color: #fca5a5;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(220, 38, 38, 0.3);
+  padding-bottom: 15px;
+}
+
+.content-section p {
+  color: #a7f3d0;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+
+.sezioni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+}
+
+.sezione-card {
+  background: linear-gradient(135deg, rgba(32, 58, 67, 0.7) 0%, rgba(15, 32, 39, 0.7) 100%);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.sezione-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+  transition: all 0.6s ease;
+}
+
+.sezione-card:hover::before {
+  top: -30%;
+  right: -30%;
+}
+
+.sezione-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(220, 38, 38, 0.8);
+  box-shadow: 0 15px 40px rgba(220, 38, 38, 0.3);
+}
+
+.sezione-icon {
+  font-size: 2.5em;
+  color: #fca5a5;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 10;
+}
+
+.sezione-card h3 {
+  color: #fca5a5;
+  font-size: 1.3em;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 10;
+}
+
+.sezione-card p {
+  font-size: 0.95em;
+  color: #a7f3d0;
+  position: relative;
+  z-index: 10;
+}
+
+.sezione-card a {
+  display: inline-block;
+  color: #fca5a5;
+  text-decoration: none;
+  margin-top: 15px;
+  padding: 8px 16px;
+  border: 1px solid #fca5a5;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.sezione-card a:hover {
+  background: #fca5a5;
+  color: #000;
+  transform: translateX(3px);
+}
+
+body {
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%) !important;
+}
+</style>
+</head>
+<body>
+
+<!-- Particles Background -->
+<div class="particles" id="particles"></div>
+
+<!-- Header Moderno -->
+<div class="header-container">
+  <div class="header-top">
+    <div class="logo-group">
+      <img src="images/logoC.png" alt="Logo ANB" class="logo">
+    </div>
+    <div class="header-title">
+      <h1>Sezioni ANB</h1>
+      <p>Le Sezioni della Regione Lombardia</p>
+    </div>
+    <div class="logo-group">
+      <img src="images/logoD.png" alt="Logo" class="logo">
+    </div>
+  </div>
+  <div class="banner-line"></div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container" id="navContainer">
+    <div class="nav-item">
+      <a href="index_new_2026.html" class="nav-link">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+    </div>
+    <div class="nav-item">
+      <a href="Sezioni.html" class="nav-link active-nav">
+        <i class="fas fa-users"></i>
+        <span>Sezioni</span>
+      </a>
+    </div>
+    <div class="nav-item dropdown">
+      <a href="#" class="nav-link" onclick="event.preventDefault()">
+        <i class="fas fa-map"></i>
+        <span>Province</span>
+        <i class="fas fa-chevron-down"></i>
+      </a>
+      <div class="dropdown-menu">
+        <a href="province/Bergamo.pdf" target="_blank" class="dropdown-item">ANB Bergamo</a>
+        <a href="province/Brescia.pdf" target="_blank" class="dropdown-item">ANB Brescia</a>
+        <a href="province/Como.pdf" target="_blank" class="dropdown-item">ANB Como</a>
+        <a href="province/Cremona.pdf" target="_blank" class="dropdown-item">ANB Cremona</a>
+        <a href="province/Lecco.pdf" target="_blank" class="dropdown-item">ANB Lecco</a>
+        <a href="province/Mantova.pdf" target="_blank" class="dropdown-item">ANB Mantova</a>
+        <a href="province/Milano.pdf" target="_blank" class="dropdown-item">ANB Milano</a>
+        <a href="province/Pavia.pdf" target="_blank" class="dropdown-item">ANB Pavia</a>
+        <a href="province/Sondrio.pdf" target="_blank" class="dropdown-item">ANB Sondrio</a>
+        <a href="province/Varese.pdf" target="_blank" class="dropdown-item">ANB Varese</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+  
+  <div class="content-section">
+    <h2>🏛️ Le Sezioni della Regione Lombardia</h2>
+    <p>In questa pagina troverai tutte le informazioni sulle sezioni ANB presenti nella Regione Lombardia. Ogni sezione rappresenta un'importante presenza dell'Associazione Nazionale Bersaglieri nel territorio.</p>
+  </div>
+
+  <!-- Sezioni Grid -->
+  <div class="sezioni-grid">
+    
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Bergamo</h3>
+      <p>Scopri le sezioni attive nella provincia di Bergamo e i loro contatti.</p>
+      <a href="province/Bergamo.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Brescia</h3>
+      <p>Scopri le sezioni attive nella provincia di Brescia e i loro contatti.</p>
+      <a href="province/Brescia.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Como</h3>
+      <p>Scopri le sezioni attive nella provincia di Como e i loro contatti.</p>
+      <a href="province/Como.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Cremona</h3>
+      <p>Scopri le sezioni attive nella provincia di Cremona e i loro contatti.</p>
+      <a href="province/Cremona.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Lecco</h3>
+      <p>Scopri le sezioni attive nella provincia di Lecco e i loro contatti.</p>
+      <a href="province/Lecco.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Mantova</h3>
+      <p>Scopri le sezioni attive nella provincia di Mantova e i loro contatti.</p>
+      <a href="province/Mantova.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Milano</h3>
+      <p>Scopri le sezioni attive nella provincia di Milano e i loro contatti.</p>
+      <a href="province/Milano.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Pavia</h3>
+      <p>Scopri le sezioni attive nella provincia di Pavia e i loro contatti.</p>
+      <a href="province/Pavia.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Sondrio</h3>
+      <p>Scopri le sezioni attive nella provincia di Sondrio e i loro contatti.</p>
+      <a href="province/Sondrio.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+    <div class="sezione-card">
+      <div class="sezione-icon"><i class="fas fa-landmark"></i></div>
+      <h3>Province di Varese</h3>
+      <p>Scopri le sezioni attive nella provincia di Varese e i loro contatti.</p>
+      <a href="province/Varese.pdf" target="_blank">
+        <i class="fas fa-file-pdf"></i> Dettagli
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>ANB Regione Lombardia</h3>
+      <p>Associazione Nazionale Bersaglieri - Capitale dei Reggimenti</p>
+    </div>
+    <div class="footer-section">
+      <h3>Link Utili</h3>
+      <ul class="footer-links">
+        <li><a href="index_new_2026.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="Sezioni.html"><i class="fas fa-users"></i> Sezioni</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ANB Regione Lombardia. Tutti i diritti riservati.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/modern2026.js"></script>
+
+</body>
+</html>
