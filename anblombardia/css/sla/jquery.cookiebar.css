@@ -1,0 +1,36 @@
+#cookie-bar {
+	background: rgba(0, 0, 0, 0.9); padding: 0px; height: auto; text-align: center; color: rgb(238, 238, 238); line-height: 24px; min-height: 24px;
+}
+.fixed#cookie-bar {
+	left: 0px; top: 0px; width: 100%; position: fixed;
+}
+.fixed.bottom#cookie-bar {
+	top: auto; bottom: 0px;
+}
+#cookie-bar p {
+	padding: 0px 0px 5px; text-transform: uppercase; font-size: 11px;
+}
+#cookie-bar p.mex {
+	padding: 10px 10px 0px;
+}
+#cookie-bar a {
+	margin: 5px; padding: 0px 5px; border-radius: 3px; color: rgb(255, 255, 255); text-decoration: none; display: inline-block;
+}
+#cookie-bar .cb-enable {
+	background: rgb(75, 75, 75);
+}
+#cookie-bar .cb-enable:hover {
+	background: rgb(0, 153, 0);
+}
+#cookie-bar .cb-disable {
+	background: rgb(75, 75, 75);
+}
+#cookie-bar .cb-disable:hover {
+	background: rgb(187, 0, 0);
+}
+#cookie-bar .cb-policy {
+	background: rgb(75, 75, 75);
+}
+#cookie-bar .cb-policy:hover {
+	background: rgb(0, 85, 221);
+}

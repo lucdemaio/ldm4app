@@ -1,0 +1,77 @@
+/**********************************************/
+/* Foglio di stile per la fotogallery         */
+/* relativa al raduno regionale Bersaglieri   */
+/**********************************************/
+
+
+/* the overlayed element */
+.simple_overlay, .simple_overlay_vert {
+	
+	/* must be initially hidden */
+	display:none;
+	
+	/* place overlay on top of other elements */
+	z-index:10000;
+	
+	/* styling */
+	background-color:#333;
+	
+	width:600px;	
+	min-height:200px;
+	border:1px solid #666;
+	margin-left: 140px;
+	/* CSS3 styling for latest browsers */
+	-moz-box-shadow:0 0 90px 5px #000;
+	-webkit-box-shadow: 0 0 90px #000;	
+}
+
+.simple_overlay_vert {
+  /* imagini verticali  */
+ 	width:333px;	
+}
+
+.so_375 {
+  /* imagini verticali  */
+  width:375px;  
+}
+
+
+/* close button positioned on upper right corner */
+.simple_overlay .close, .simple_overlay_vert .close {
+	background-image:url(../images/overlay/close.png);
+	position:absolute;
+	right:-15px;
+	top:-15px;
+	cursor:pointer;
+	height:35px;
+	width:35px;
+}
+
+/* some styling for triggers */
+	#triggers {
+		text-align:center;
+	}
+	
+	#triggers img {
+		cursor:pointer;
+		margin:0 5px;
+		background-color:#fff;
+		border:1px solid #ccc;
+		padding:2px;
+	
+		-moz-border-radius:4px;
+		-webkit-border-radius:4px;
+		
+	}
+
+.credits{
+  margin-left: 10px;
+  padding:0;
+}
+.linkPhotographer{
+  color:#C5C5C5;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 90%;
+  line-height: 1.5em;
+}
