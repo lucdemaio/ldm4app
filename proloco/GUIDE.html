@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guida d'Uso - Pro Loco Gestionale 2026</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      color: #6366f1;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 2.5em;
+    }
+
+    h2 {
+      color: #6366f1;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #10b981;
+      padding-bottom: 10px;
+    }
+
+    h3 {
+      color: #10b981;
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+
+    p, li {
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 12px;
+      font-size: 1.05em;
+    }
+
+    ul, ol {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #d4385d;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      line-height: 1.5;
+      border-left: 4px solid #10b981;
+    }
+
+    .btn-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .btn {
+      padding: 15px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #667eea);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .feature-card {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #6366f1;
+    }
+
+    .feature-card h4 {
+      color: #6366f1;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      margin-bottom: 0;
+    }
+
+    .info-box {
+      background: #e0f2fe;
+      border-left: 4px solid #0284c7;
+      padding: 20px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    .warning-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 20px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    .success-box {
+      background: #d1fae5;
+      border-left: 4px solid #10b981;
+      padding: 20px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    th {
+      background: #6366f1;
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+      background: #f0f0f0;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 2px solid #ddd;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Guida d'Uso Completa</h1>
+    <p style="text-align: center; font-size: 1.2em; color: #666;">Pro Loco Gestionale 2026</p>
+
+    <!-- Getting Started -->
+    <h2>🚀 Avvio Rapido</h2>
+    
+    <h3>1️⃣ Aprire l'applicazione</h3>
+    <p>Semplicemente apri il file <code>index.html</code> nel tuo browser preferito. Non è necessaria nessuna installazione.</p>
+
+    <h3>2️⃣ Prima volta: Carica i dati di esempio</h3>
+    <p>Per testare tutte le funzioni con dati realistici:</p>
+    <ol>
+      <li>Apri la <strong>Console del browser</strong> (F12)</li>
+      <li>Digita: <code>loadSampleData()</code></li>
+      <li>Premi Enter e conferma il caricamento</li>
+      <li>La pagina si ricarica con dati di esempio</li>
+    </ol>
+
+    <div class="success-box">
+      <strong>✅ Dati di Esempio Incluso:</strong> 3 eventi, 4 volontari, 5 voci budget, 5 compiti
+    </div>
+
+    <!-- Main Features -->
+    <h2>📊 Moduli Principali</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>📊 Dashboard</h4>
+        <p>Panoramica completa con statistiche in tempo reale, avvisi intelligenti e quick stats</p>
+      </div>
+      <div class="feature-card">
+        <h4>📅 Gestione Eventi</h4>
+        <p>Crea, modifica e gestisci gli eventi della Pro Loco con status e budget</p>
+      </div>
+      <div class="feature-card">
+        <h4>👥 Gestione Volontari</h4>
+        <p>Registra volontari, traccia ore lavorate e assegna a ruoli</p>
+      </div>
+      <div class="feature-card">
+        <h4>💰 Gestione Budget</h4>
+        <p>Contabilità entrate/spese con statistiche per categoria</p>
+      </div>
+      <div class="feature-card">
+        <h4>✅ Gestione Compiti</h4>
+        <p>Crea compiti, assegna a volontari e traccia avanzamento</p>
+      </div>
+      <div class="feature-card">
+        <h4>📈 Rapporti</h4>
+        <p>Analytics complete con export JSON e CSV</p>
+      </div>
+    </div>
+
+    <!-- Detailed Usage -->
+    <h2>💡 Come Usare Ogni Sezione</h2>
+
+    <h3>Dashboard</h3>
+    <p>Pagina di benvenuto con:</p>
+    <ul>
+      <li><strong>Statistiche Principali:</strong> Eventi totali, volontari attivi, saldo budget</li>
+      <li><strong>Avvisi:</strong> Compiti scaduti, budget in deficit, volontari insufficienti</li>
+      <li><strong>Prossimi Eventi:</strong> Lista dei 5 prossimi eventi pianificati</li>
+      <li><strong>Compiti Recenti:</strong> Ultimi compiti creati con status</li>
+    </ul>
+
+    <h3>Gestione Eventi</h3>
+    <p>Workflow completo per gestire gli eventi:</p>
+    <ol>
+      <li>Click <code>➕ Nuovo Evento</code></li>
+      <li>Compila form: titolo, data, luogo, categoria, budget</li>
+      <li>Modifica evento: click su un evento e "Modifica"</li>
+      <li>Elimina evento: click "Elimina" e conferma</li>
+      <li>Cambia status: pianificato → in corso → completato</li>
+    </ol>
+
+    <h3>Gestione Volontari</h3>
+    <p>Registra e gestisci i tuoi volontari:</p>
+    <ol>
+      <li>Click <code>➕ Nuovo Volontario</code></li>
+      <li>Compila: nome, email, telefono, ruolo, abilità</li>
+      <li>Seleziona giorni disponibili (es: Lunedì, Mercoledì)</li>
+      <li>Il sistema traccia automaticamente le ore lavorate</li>
+      <li>Visualizza statistiche: ore totali, ruoli, abilità</li>
+    </ol>
+
+    <h3>Gestione Budget</h3>
+    <p>Contabilità semplificata:</p>
+    <ol>
+      <li>Click <code>➕ Nuova Voce</code></li>
+      <li>Scegli Tipo: Entrata o Spesa</li>
+      <li>Seleziona categoria (Catering, Marketing, Materiali, etc)</li>
+      <li>Sistema calcola automaticamente: Entrate - Spese = Saldo</li>
+      <li>Statistiche per categoria nella sezione Budget</li>
+    </ol>
+
+    <h3>Gestione Compiti</h3>
+    <p>Task management integrato:</p>
+    <ol>
+      <li>Click <code>➕ Nuovo Compito</code></li>
+      <li>Imposta: titolo, descrizione, priorità, scadenza</li>
+      <li>Assegna a un volontario specifico</li>
+      <li>Traccia status: Pending → In Progress → Completed</li>
+      <li>Avvisi automatici per compiti scaduti</li>
+    </ol>
+
+    <h3>Rapporti e Statistiche</h3>
+    <p>Analisi complete e export dati:</p>
+    <ul>
+      <li><strong>Report Completo:</strong> Statistiche tutti i moduli</li>
+      <li><strong>Export JSON:</strong> Backup completo dati</li>
+      <li><strong>Export CSV:</strong> Per fogli di calcolo (Excel)</li>
+      <li><strong>Grafici Visivi:</strong> Tutti i dati con visualizzazione</li>
+      <li><strong>Volontari Top:</strong> Chi ha lavorato più ore</li>
+      <li><strong>Stato Financial:</strong> Budget health (sano, warning, critico)</li>
+    </ul>
+
+    <h3>Impostazioni Pro Loco</h3>
+    <p>Configura l'organizzazione:</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+      <div>
+        <h4>📋 Informazioni Base</h4>
+        <ul style="margin: 0; margin-left: 25px;">
+          <li>Nome Pro Loco</li>
+          <li>Email e Telefono</li>
+          <li>Sito web</li>
+          <li>Indirizzo e città</li>
+          <li>Anno fondazione</li>
+        </ul>
+      </div>
+      <div>
+        <h4>🎨 Personalizzazione</h4>
+        <ul style="margin: 0; margin-left: 25px;">
+          <li>Colori tema</li>
+          <li>Social media</li>
+          <li>Notifiche</li>
+          <li>Logo organizzazione</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Advanced Usage -->
+    <h2>🔧 Funzioni Avanzate</h2>
+
+    <h3>Personalizzare i Colori</h3>
+    <ol>
+      <li>Vai a <code>Impostazioni</code></li>
+      <li>Sezione <code>Tema e Colori</code></li>
+      <li>Seleziona colore primario (header, pulsanti)</li>
+      <li>Seleziona colore secondario (accenti)</li>
+      <li>Click <code>Applica Colori</code> per applicare subito</li>
+    </ol>
+
+    <h3>Esportare i Dati</h3>
+    <p><strong>JSON:</strong> Backup completo</p>
+    <ol>
+      <li>Vai a <code>Rapporti</code></li>
+      <li>Click <code>📥 Scarica JSON</code></li>
+      <li>Salva file per backup sicuro</li>
+      <li>Puoi reimportare in <code>Impostazioni → Gestione Dati</code></li>
+    </ol>
+
+    <p style="margin-top: 20px;"><strong>CSV:</strong> Per Excel e Fogli di Calcolo</p>
+    <ol>
+      <li>Vai a <code>Rapporti</code></li>
+      <li>Click <code>📊 Scarica CSV</code></li>
+      <li>Apri con Excel o Google Sheets</li>
+    </ol>
+
+    <!-- API Usage -->
+    <h2>💻 Utilizzo Programmazione (Avanzato)</h2>
+
+    <p>Puoi usare le funzioni JavaScript direttamente dalla console:</p>
+
+    <h3>Dashboard</h3>
+    <div class="code-block">// Ottenere statistiche
+const stats = dashboardManager.getStats();
+console.log(stats.totalEvents);</div>
+
+    <h3>Eventi</h3>
+    <div class="code-block">// Aggiungere evento
+const event = eventsManager.addEvent({
+  title: 'Nuovo Evento',
+  description: 'Descrizione',
+  date: '2024-06-15',
+  time: '17:00',
+  location: 'Via Roma',
+  category: 'Festival',
+  expectedVisitors: 500,
+  budget: 2000
+});
+
+// Ottenere tutti gli eventi
+const events = eventsManager.getAllEvents();
+
+// Modificare evento
+eventsManager.updateEvent('evt-001', { status: 'completed' });
+
+// Eliminare evento
+eventsManager.deleteEvent('evt-001');</div>
+
+    <h3>Volontari</h3>
+    <div class="code-block">// Registrare volontario
+const volunteer = volunteersManager.addVolunteer({
+  name: 'Marco Rossi',
+  email: 'marco@email.com',
+  phone: '+39 341 123 4567',
+  role: 'Coordinatore',
+  skills: 'Organizzazione, Comunicazione'
+});
+
+// Aggiungere ore lavorate
+volunteersManager.addHours('vol-001', 8);
+
+// Statistiche
+const stats = volunteersManager.getStats();</div>
+
+    <h3>Budget</h3>
+    <div class="code-block">// Aggiungere voce
+budgetManager.addEntry({
+  description: 'Catering',
+  type: 'expense',
+  amount: 500,
+  category: 'Servizi',
+  date: '2024-06-15'
+});
+
+// Ottenere totali
+const totals = budgetManager.getTotals();
+console.log(totals.balance); // Saldo</div>
+
+    <h3>Compiti</h3>
+    <div class="code-block">// Creare compito
+tasksManager.addTask({
+  title: 'Contattare fornitori',
+  description: 'Preparare riunione',
+  priority: 'high',
+  dueDate: '2024-06-15',
+  assignedTo: 'vol-001'
+});
+
+// Compiti scaduti
+const overdue = tasksManager.getOverdueTasks();</div>
+
+    <!-- Data Management -->
+    <h2>📁 Gestione Dati</h2>
+
+    <div class="info-box">
+      <strong>ℹ️ Dove sono salvati i dati?</strong><br>
+      I dati sono salvati nel <strong>localStorage</strong> del tuo browser. Sono completamente privati e offline. Non vengono inviati a nessun server.
+    </div>
+
+    <h3>Backup Base</h3>
+    <ol>
+      <li>Vai a <code>Impostazioni</code></li>
+      <li>Click <code>📥 Esporta Impostazioni</code></li>
+      <li>Scarica file JSON con tutti i dati</li>
+      <li>Conserva in luogo sicuro</li>
+    </ol>
+
+    <h3>Ripristinare da Backup</h3>
+    <ol>
+      <li>Vai a <code>Impostazioni</code></li>
+      <li>Click <code>📤 Importa Impostazioni</code></li>
+      <li>Seleziona file JSON dal backup</li>
+      <li>Dati vengono ripristinati automaticamente</li>
+    </ol>
+
+    <h3>Cancellare Tutto</h3>
+    <div class="warning-box">
+      <strong>⚠️ Attenzione:</strong> Questa azione è irreversibile!<br>
+      Vai a <code>Impostazioni → Gestione Dati → Ripristina Predefiniti</code> per azzerare tutto.
+    </div>
+
+    <!-- Browser Compatibility -->
+    <h2>🌐 Compatibilità Browser</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Browser</th>
+          <th>Versione Minima</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google Chrome</td>
+          <td>90+</td>
+          <td>✅ Completamente supportato</td>
+        </tr>
+        <tr>
+          <td>Mozilla Firefox</td>
+          <td>88+</td>
+          <td>✅ Completamente supportato</td>
+        </tr>
+        <tr>
+          <td>Safari</td>
+          <td>14+</td>
+          <td>✅ Completamente supportato</td>
+        </tr>
+        <tr>
+          <td>Edge</td>
+          <td>90+</td>
+          <td>✅ Completamente supportato</td>
+        </tr>
+        <tr>
+          <td>Safari Mobile</td>
+          <td>14+</td>
+          <td>✅ Responsive ottimizzato</td>
+        </tr>
+        <tr>
+          <td>Chrome Mobile</td>
+          <td>90+</td>
+          <td>✅ Responsive ottimizzato</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Tips & Tricks -->
+    <h2>💡 Consigli e Trucchi</h2>
+
+    <h3>🔍 Scorciatoie Utili</h3>
+    <ul>
+      <li><code>F12</code> - Apri console browser</li>
+      <li><code>Ctrl+R</code> (Windows) / <code>Cmd+R</code> (Mac) - Ricarica pagina</li>
+      <li><code>Ctrl+Shift+Delete</code> - Svuota cache (se necessario)</li>
+    </ul>
+
+    <h3>📱 Mobile Tips</h3>
+    <ul>
+      <li>Sidebar si minimizza automaticamente su schermi piccoli</li>
+      <li>Usa icone per navigazione su mobile</li>
+      <li>Zoom massimo 600px per leggibilità</li>
+    </ul>
+
+    <h3>⚡ Performance</h3>
+    <ul>
+      <li>Nessuna dipendenza esterna - caricamento velocissimo</li>
+      <li>Tutti i dati in memoria - risposte istantanee</li>
+      <li>Zero tracciamento - completamente privato</li>
+    </ul>
+
+    <!-- FAQ -->
+    <h2>❓ Domande Frequenti</h2>
+
+    <h3>D: I miei dati sono salvati?</h3>
+    <p>R: Sì! Automaticamente nel localStorage del browser. Non vengono mai inviati a server esterni.</p>
+
+    <h3>D: Posso usarlo offline?</h3>
+    <p>R: Sì, completamente offline dopo il caricamento iniziale. È una web app offline-first.</p>
+
+    <h3>D: Come faccio backup?</h3>
+    <p>R: <code>Impostazioni → Gestione Dati → Esporta Impostazioni</code> per scaricare JSON.</p>
+
+    <h3>D: Posso personalizzare i colori?</h3>
+    <p>R: Sì! <code>Impostazioni → Tema e Colori</code> per cambiare i colori primari e secondari.</p>
+
+    <h3>D: È gratis?</h3>
+    <p>R: Sì, completamente gratis e open source. Nessun costo, nessun abbonamento.</p>
+
+    <h3>D: Posso aggiungere più eventi?</h3>
+    <p>R: Illimitati! L'unico limite è lo spazio nel localStorage del browser (solitamente 5-10MB).</p>
+
+    <!-- Button Container -->
+    <div class="btn-container">
+      <a href="index.html" class="btn btn-primary">
+        ▶️ Apri Applicazione
+      </a>
+      <button onclick="loadSampleData()" class="btn btn-secondary">
+        📊 Carica Dati di Esempio
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p><strong>Pro Loco Gestionale 2026</strong></p>
+      <p>Applicazione web moderna per la gestione di Pro Loco italiane</p>
+      <p style="margin-top: 15px;">Creato con ❤️ • Vanilla JavaScript • 100% Offline • Non raccoglie dati</p>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/sample-data.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/volunteers.js"></script>
+  <script src="js/budget.js"></script>
+  <script src="js/tasks.js"></script>
+
+  <script>
+    function loadSampleData() {
+      if (confirm('Carica dati di esempio?\n\nQuesto aprirà l\'applicazione con i dati di test.')) {
+        // Salva dati di esempio
+        storage.set('proloco-info', SAMPLE_DATA.prolocoInfo);
+        storage.set('events', SAMPLE_DATA.events);
+        storage.set('volunteers', SAMPLE_DATA.volunteers);
+        storage.set('budget', SAMPLE_DATA.budget);
+        storage.set('tasks', SAMPLE_DATA.tasks);
+        
+        // Apri applicazione
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+</body>
+</html>

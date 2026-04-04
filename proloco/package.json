@@ -1,0 +1,73 @@
+{
+  "name": "pro-loco-gestionale-2026",
+  "version": "1.0.0",
+  "description": "Applicazione web moderna per la gestione di Pro Loco - Vanilla JavaScript, localStorage, responsive design",
+  "main": "index.html",
+  "scripts": {
+    "start": "open index.html",
+    "dev": "python -m http.server 8000"
+  },
+  "keywords": [
+    "pro-loco",
+    "gestionale",
+    "management",
+    "events",
+    "volunteers",
+    "budget",
+    "italian",
+    "vanilla-javascript",
+    "responsive"
+  ],
+  "author": "Pro Loco Development",
+  "license": "MIT",
+  "features": {
+    "core": [
+      "Dashboard con statistiche",
+      "Gestione Eventi CRUD",
+      "Gestione Volontari",
+      "Gestione Budget",
+      "Gestione Compiti",
+      "Rapporti e Analytics",
+      "Impostazioni Pro Loco"
+    ],
+    "tech": [
+      "Vanilla JavaScript (no dependencies)",
+      "localStorage for persistence",
+      "Responsive CSS Grid/Flexbox",
+      "Modern Design System",
+      "JSON data export/import"
+    ],
+    "data": [
+      "40+ funzioni utility",
+      "5 Manager classes",
+      "Sample data incluso",
+      "Real-time calculations",
+      "Smart alerts system"
+    ]
+  },
+  "structure": {
+    "root": "index.html",
+    "css": "css/style.css",
+    "js": [
+      "js/storage.js",
+      "js/utils.js",
+      "js/events.js",
+      "js/volunteers.js",
+      "js/budget.js",
+      "js/tasks.js",
+      "js/dashboard.js",
+      "js/reports.js",
+      "js/settings.js",
+      "js/navigation.js",
+      "js/sample-data.js"
+    ]
+  },
+  "browser": {
+    "requirements": "ES6+, localStorage, ES6 Template Literals"
+  },
+  "notes": {
+    "installation": "Nessuna installazione richiesta - apri index.html in browser",
+    "testing": "Carica dati di esempio con loadSampleData() in console",
+    "persistence": "I dati sono salvati in localStorage del browser"
+  }
+}

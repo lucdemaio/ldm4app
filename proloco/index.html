@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pro Loco Gestionale 2026</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2 id="sidebar-title" style="cursor: pointer; user-select: none;" onclick="editSidebarTitle()" title="Clicca per modificare">Pro Loco</h2>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-item active" data-nav="dashboard" onclick="switchPage('dashboard')">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+
+        <a class="nav-item" data-nav="events" onclick="switchPage('events')">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">Eventi</span>
+        </a>
+
+        <a class="nav-item" data-nav="volunteers" onclick="switchPage('volunteers')">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">Volontari</span>
+        </a>
+
+        <a class="nav-item" data-nav="budget" onclick="switchPage('budget')">
+          <span class="nav-icon">💰</span>
+          <span class="nav-label">Budget</span>
+        </a>
+
+        <a class="nav-item" data-nav="tasks" onclick="switchPage('tasks')">
+          <span class="nav-icon">✅</span>
+          <span class="nav-label">Compiti</span>
+        </a>
+
+        <!-- NEW MENU ITEMS -->
+        <a class="nav-item" data-nav="contacts" onclick="switchPage('contacts')">
+          <span class="nav-icon">📇</span>
+          <span class="nav-label">Contatti</span>
+        </a>
+
+        <a class="nav-item" data-nav="sponsors" onclick="switchPage('sponsors')">
+          <span class="nav-icon">💼</span>
+          <span class="nav-label">Sponsor</span>
+        </a>
+
+        <a class="nav-item" data-nav="team" onclick="switchPage('team')">
+          <span class="nav-icon">👨‍💼</span>
+          <span class="nav-label">Team</span>
+        </a>
+
+        <a class="nav-item" data-nav="finance" onclick="switchPage('finance')">
+          <span class="nav-icon">💳</span>
+          <span class="nav-label">Finanza</span>
+        </a>
+
+        <a class="nav-item" data-nav="gallery" onclick="switchPage('gallery')">
+          <span class="nav-icon">🖼️</span>
+          <span class="nav-label">Galleria</span>
+        </a>
+
+        <a class="nav-item" data-nav="editorial" onclick="switchPage('editorial')">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">Editoriale</span>
+        </a>
+
+        <a class="nav-item" data-nav="qrcode" onclick="switchPage('qrcode')">
+          <span class="nav-icon">🔲</span>
+          <span class="nav-label">QR Code</span>
+        </a>
+
+        <a class="nav-item" data-nav="locations-services" onclick="switchPage('locations-services')">
+          <span class="nav-icon">📍</span>
+          <span class="nav-label">Spazi e Servizi</span>
+        </a>
+
+        <a class="nav-item" data-nav="event-checklist" onclick="switchPage('event-checklist')">
+          <span class="nav-icon">✔️</span>
+          <span class="nav-label">Checklists</span>
+        </a>
+
+        <a class="nav-item" data-nav="history" onclick="switchPage('history')">
+          <span class="nav-icon">📚</span>
+          <span class="nav-label">Archivio Storico</span>
+        </a>
+
+        <a class="nav-item" data-nav="knowledge-base" onclick="switchPage('knowledge-base')">
+          <span class="nav-icon">📖</span>
+          <span class="nav-label">Base Conoscenza</span>
+        </a>
+
+        <a class="nav-item" data-nav="equipment-inventory" onclick="switchPage('equipment-inventory')">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Attrezzature</span>
+        </a>
+
+        <a class="nav-item" data-nav="advanced-reporting" onclick="switchPage('advanced-reporting')">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Reportistica</span>
+        </a>
+
+        <a class="nav-item" data-nav="custom-fields" onclick="switchPage('custom-fields')">
+          <span class="nav-icon">🏷️</span>
+          <span class="nav-label">Campi Personalizzati</span>
+        </a>
+
+        <a class="nav-item" data-nav="backup-export" onclick="switchPage('backup-export')">
+          <span class="nav-icon">💾</span>
+          <span class="nav-label">Backup</span>
+        </a>
+
+        <a class="nav-item" data-nav="marketing" onclick="switchPage('marketing')">
+          <span class="nav-icon">📧</span>
+          <span class="nav-label">Marketing</span>
+        </a>
+
+        <a class="nav-item" data-nav="reports" onclick="switchPage('reports')">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Rapporti</span>
+        </a>
+
+        <a class="nav-item" data-nav="settings" onclick="switchPage('settings')">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-label">Impostazioni</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <p style="font-size: 0.8em; color: var(--text-secondary); margin: 0;">
+          Pro Loco 2026<br>
+          <span id="user-name">Gestionale</span>
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1 id="page-title">Dashboard</h1>
+        </div>
+        <div class="header-right">
+          <button class="btn btn-sm btn-secondary" onclick="toggleNotifications()">
+            🔔 <span id="notification-badge" style="margin-left: 5px; display: none;">!</span>
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="logout()">
+            🚪 Esci
+          </button>
+        </div>
+      </header>
+
+      <!-- Notification Container -->
+      <div id="alerts-container" style="position: fixed; top: 70px; right: 20px; max-width: 400px; z-index: 1000;"></div>
+
+      <!-- Modal Container (IMPORTANTE: Un container per tutti i modali) -->
+      <div id="modal-container"></div>
+
+      <!-- Pages Container -->
+      <div class="pages-container">
+        <!-- Dashboard Page -->
+        <div data-page="dashboard" class="page">
+          <div id="dashboard-content"></div>
+        </div>
+
+        <!-- Events Page -->
+        <div data-page="events" class="page" style="display: none;">
+          <div id="events-content"></div>
+        </div>
+
+        <!-- Volunteers Page -->
+        <div data-page="volunteers" class="page" style="display: none;">
+          <div id="volunteers-content"></div>
+        </div>
+
+        <!-- Budget Page -->
+        <div data-page="budget" class="page" style="display: none;">
+          <div id="budget-content"></div>
+        </div>
+
+        <!-- Tasks Page -->
+        <div data-page="tasks" class="page" style="display: none;">
+          <div id="tasks-content"></div>
+        </div>
+
+        <!-- Reports Page -->
+        <div data-page="reports" class="page" style="display: none;">
+          <div id="reports-content"></div>
+        </div>
+
+        <!-- Settings Page -->
+        <div data-page="settings" class="page" style="display: none;">
+          <div id="settings-content"></div>
+        </div>
+
+        <!-- Contacts Page -->
+        <div data-page="contacts" class="page" style="display: none;">
+          <div id="contacts-content"></div>
+        </div>
+
+        <!-- Sponsors Page -->
+        <div data-page="sponsors" class="page" style="display: none;">
+          <div id="sponsors-content"></div>
+        </div>
+
+        <!-- Team Page -->
+        <div data-page="team" class="page" style="display: none;">
+          <div id="team-content"></div>
+        </div>
+
+        <!-- Finance Page -->
+        <div data-page="finance" class="page" style="display: none;">
+          <div id="finance-content"></div>
+        </div>
+
+        <!-- Gallery Page -->
+        <div data-page="gallery" class="page" style="display: none;">
+          <div id="gallery-content"></div>
+        </div>
+
+        <!-- Editorial Page -->
+        <div data-page="editorial" class="page" style="display: none;">
+          <div id="editorial-content"></div>
+        </div>
+
+        <!-- QRCode Page -->
+        <div data-page="qrcode" class="page" style="display: none;">
+          <div id="qrcode-content"></div>
+        </div>
+
+        <!-- Locations & Services Page -->
+        <div data-page="locations-services" class="page" style="display: none;">
+          <div id="locations-services-content"></div>
+        </div>
+
+        <!-- Event Checklist Page -->
+        <div data-page="event-checklist" class="page" style="display: none;">
+          <div id="event-checklist-content"></div>
+        </div>
+
+        <!-- History Page -->
+        <div data-page="history" class="page" style="display: none;">
+          <div id="history-content"></div>
+        </div>
+
+        <!-- Knowledge Base Page -->
+        <div data-page="knowledge-base" class="page" style="display: none;">
+          <div id="knowledge-base-content"></div>
+        </div>
+
+        <!-- Equipment Inventory Page -->
+        <div data-page="equipment-inventory" class="page" style="display: none;">
+          <div id="equipment-inventory-content"></div>
+        </div>
+
+        <!-- Advanced Reporting Page -->
+        <div data-page="advanced-reporting" class="page" style="display: none;">
+          <div id="advanced-reporting-content"></div>
+        </div>
+
+        <!-- Custom Fields Page -->
+        <div data-page="custom-fields" class="page" style="display: none;">
+          <div id="custom-fields-content"></div>
+        </div>
+
+        <!-- Backup Export Page -->
+        <div data-page="backup-export" class="page" style="display: none;">
+          <div id="backup-export-content"></div>
+        </div>
+
+        <!-- Marketing Page -->
+        <div data-page="marketing" class="page" style="display: none;">
+          <div id="marketing-content"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Export & Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/sample-data.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/volunteers.js"></script>
+  <script src="js/budget.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/advanced-features.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/reports.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/settings.js"></script>
+  
+  <!-- NEW MODULES (Expanded Features) -->
+  <script src="js/contacts.js"></script>
+  <script src="js/sponsorship.js"></script>
+  <script src="js/team-management.js"></script>
+  <script src="js/finance.js"></script>
+  <script src="js/media-gallery.js"></script>
+  <script src="js/communications.js"></script>
+  <script src="js/editorial.js"></script>
+  <script src="js/qrcode-manager.js"></script>
+  <script src="js/locations-services.js"></script>
+  <script src="js/event-checklist.js"></script>
+  
+  <!-- NEW MODULES (12 Additional Managers) -->
+  <script src="js/history.js"></script>
+  <script src="js/knowledge-base.js"></script>
+  <script src="js/equipment-inventory.js"></script>
+  <script src="js/advanced-reporting.js"></script>
+  <script src="js/custom-fields.js"></script>
+  <script src="js/backup-export.js"></script>
+  <script src="js/marketing.js"></script>
+  
+  <script src="js/navigation.js"></script>
+
+  <script>
+    // Inizializzazione app
+    document.addEventListener('DOMContentLoaded', () => {
+      // Applica colori tema
+      settingsManager.applyColors();
+
+      // Carica pro loco info
+      const prolocoInfo = settingsManager.getSettings();
+      document.querySelector('.sidebar-header h2').textContent = prolocoInfo.name;
+      document.querySelector('#user-name').textContent = prolocoInfo.name;
+
+      // Carica dashboard
+      navigationManager.switchPage('dashboard');
+
+      // Aggiungi event listeners
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const page = this.getAttribute('data-nav');
+          switchPage(page);
+        });
+      });
+    });
+
+    // Funzioni globali
+    function toggleNotifications() {
+      Utils.showAlert('Notifiche non configurate', 'info');
+    }
+
+    function logout() {
+      if (confirm('Sei sicuro di voler uscire?')) {
+        localStorage.clear();
+        location.reload();
+      }
+    }
+
+    // Funzioni di modifica
+    function editEvent(id) {
+      Utils.showAlert('Modifica evento: ' + id, 'info');
+    }
+
+    function deleteEvent(id) {
+      if (confirm('Elimina questo evento?')) {
+        eventsManager.deleteEvent(id);
+        navigationManager.loadPageContent('events');
+      }
+    }
+
+    function viewEvent(id) {
+      Utils.showAlert('Dettagli evento: ' + id, 'info');
+    }
+
+    function editVolunteer(id) {
+      showVolunteerModal(id);
+    }
+
+    function deleteVolunteer(id) {
+      if (confirm('Elimina questo volontario?')) {
+        volunteersManager.deleteVolunteer(id);
+        navigationManager.loadPageContent('volunteers');
+      }
+    }
+
+    function editBudgetEntry(id) {
+      Utils.showAlert('Modifica voce: ' + id, 'info');
+    }
+
+    function deleteBudgetEntry(id) {
+      if (confirm('Elimina questa voce?')) {
+        budgetManager.deleteEntry(id);
+        navigationManager.loadPageContent('budget');
+      }
+    }
+
+    function editTask(id) {
+      Utils.showAlert('Modifica compito: ' + id, 'info');
+    }
+
+    function deleteTask(id) {
+      if (confirm('Elimina questo compito?')) {
+        tasksManager.deleteTask(id);
+        navigationManager.loadPageContent('tasks');
+      }
+    }
+  </script>
+</body>
+</html>
