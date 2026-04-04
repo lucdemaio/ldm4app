@@ -1,0 +1,56 @@
+# Pro Loco Gestionale 2026
+# Gitignore file for version control
+
+# Node modules (if ever added)
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+dist/
+build/
+*.zip
+*.rar
+
+# Backup files
+*.bak
+*.tmp
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Local environment
+.env
+.env.local
+.env.*.local
+
+# Browser cache
+*.cache
+.cache/
+
+# Test results
+coverage/
+test-results/
+
+# Ignore everything except what's needed for the app
+!index.html
+!GUIDE.html
+!README.md
+!START.md
+!package.json
+!css/
+!js/
+!assets/
+!pages/
