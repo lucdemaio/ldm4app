@@ -1,0 +1,98 @@
+{
+  "name": "Pro Loco Gestionale 2026",
+  "short_name": "Pro Loco",
+  "description": "Gestionale completamente gratuito per organizzazioni Pro Loco. Gestisci volontari, eventi, budget e molto altro. Nessun download richiesto, tutto nel cloud.",
+  "start_url": "/proloco/index.html",
+  "scope": "/proloco/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#ff6b35",
+  "background_color": "#ffffff",
+  "categories": ["productivity", "business"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f3f4f6' width='540' height='720'/><rect fill='%23ff6b35' width='540' height='100'/><text x='270' y='60' font-size='40' fill='white' text-anchor='middle' font-weight='bold' font-family='Arial'>Pro Loco 2026</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1080 1440'><rect fill='%23f3f4f6' width='1080' height='1440'/><rect fill='%23ff6b35' width='1080' height='120'/><text x='540' y='75' font-size='60' fill='white' text-anchor='middle' font-weight='bold' font-family='Arial'>Pro Loco</text></svg>",
+      "sizes": "1080x1440",
+      "type": "image/svg+xml"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23ff6b35' width='192' height='192' rx='44'/><text x='96' y='120' font-size='100' fill='white' text-anchor='middle' font-family='Arial'>👥</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23ff6b35' width='192' height='192' rx='44'/><text x='96' y='120' font-size='100' fill='white' text-anchor='middle' font-family='Arial'>👥</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%23ff6b35' width='512' height='512' rx='110'/><text x='256' y='340' font-size='280' fill='white' text-anchor='middle' font-family='Arial'>👥</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Accedi alla Dashboard principale",
+      "url": "/proloco/index.html?page=dashboard",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%2300bcd4' width='192' height='192' rx='44'/><text x='96' y='120' font-size='100' fill='white' text-anchor='middle' font-family='Arial'>📊</text></svg>",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Eventi",
+      "short_name": "Eventi",
+      "description": "Gestisci gli eventi della tua Pro Loco",
+      "url": "/proloco/index.html?page=events",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%234CAF50' width='192' height='192' rx='44'/><text x='96' y='120' font-size='100' fill='white' text-anchor='middle' font-family='Arial'>📅</text></svg>",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Volontari",
+      "short_name": "Volontari",
+      "description": "Gestisci il tuo team di volontari",
+      "url": "/proloco/index.html?page=volunteers",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%239C27B0' width='192' height='192' rx='44'/><text x='96' y='120' font-size='100' fill='white' text-anchor='middle' font-family='Arial'>👥</text></svg>",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Budget",
+      "short_name": "Budget",
+      "description": "Traccia le finanze della tua Pro Loco",
+      "url": "/proloco/index.html?page=budget",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23FF9800' width='192' height='192' rx='44'/><text x='96' y='120' font-size='100' fill='white' text-anchor='middle' font-family='Arial'>💰</text></svg>",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}
