@@ -1,0 +1,121 @@
+{
+  "ricerche": [
+    {
+      "nome": "Giuseppe De Maio",
+      "dataNascita": "5 marzo 1871",
+      "datamorte": "6 gennaio 1938",
+      "luogo": "Solofra, Avellino",
+      "descrizione": "Capostipite della linea principale",
+      "suggerimenti": [
+        "Cercare su FamilySearch: 'De Maio Giuseppe 1871 Solofra'",
+        "Contattare Comune di Solofra per certificato ufficiale di nascita",
+        "Cercare su Ancestry.com per eventuali registri di emigrazione",
+        "Consultare archivi militari per documenti WWI",
+        "Ricercare registri ecclesiastici di Solofra (matrimonio, battesimi)"
+      ]
+    },
+    {
+      "nome": "Maria Roberta Cefalo",
+      "dataNascita": "4 marzo 1876",
+      "luogo": "Solofra, Avellino",
+      "descrizione": "Moglie di Giuseppe De Maio",
+      "suggerimenti": [
+        "Ricerca su FamilySearch per 'Cefalo Maria Roberta 1876'",
+        "Disponibile documento atto di nascita Cefalo del 1872 negli archivi locali",
+        "Cercare registri matrimoniali su Comune di Solofra",
+        "Consultare database Antenati per registri civili Solofra"
+      ]
+    },
+    {
+      "nome": "Antonio Michele De Maio",
+      "dataNascita": "17 giugno 1903",
+      "dataMorte": "2 ottobre 1986",
+      "luogo": "Solofra, Avellino → Oklahoma, USA",
+      "descrizione": "Emigrato negli Stati Uniti",
+      "suggerimenti": [
+        "Cercare censimento USA 1930 e 1940 su Ancestry.com",
+        "Ricerca su Oklahoma Historical Society per documenti morte 1986",
+        "Consultare ship manifests per emigrazione 1920s su Ancestry.com",
+        "Controllare registri naturalizzazione USA",
+        "Cercare death records Oklahoma 1986",
+        "FamilySearch per registri emigrazione italiani"
+      ]
+    },
+    {
+      "nome": "Salvatore De Maio",
+      "dataNascita": "6 agosto 1906",
+      "dataMorte": "21 settembre 1943",
+      "luogo": "Solofra, Avellino",
+      "descrizione": "Deceduto durante la WWII",
+      "suggerimenti": [
+        "Cercare archivi militari italiani WWII per registri di servizio",
+        "Ricerca su Ancestry.com per records militari WWII",
+        "Consultare Comune di Solofra per certificato di morte",
+        "Cercare su FamilySearch registri morte 1943",
+        "Contattare archivi ecclesiastici per records funerari"
+      ]
+    },
+    {
+      "nome": "Nicola Vincenzo Di Majo",
+      "dataNascita": "16 marzo 1809",
+      "luogo": "Solofra, Avellino",
+      "descrizione": "Antenato più remoto documentato",
+      "suggerimenti": [
+        "Cercare su FamilySearch registri civili 1800s Solofra",
+        "Ricerca su Antenati per registri età napoleonica",
+        "Consultare archivi ecclesiastici per battesimi e matrimoni",
+        "Cercare registri di proprietà terriera del XIX sec.",
+        "Consultare Comune di Solofra per documenti 1800s"
+      ]
+    },
+    {
+      "nome": "Michele De Maio",
+      "dataNascita": "1833",
+      "dataMorte": "29 novembre 1903",
+      "luogo": "Solofra, Avellino",
+      "descrizione": "Nonno di Giuseppe 1919",
+      "suggerimenti": [
+        "Cercare su FamilySearch registri 1800-1900 Solofra",
+        "Ricerca anagrafe Solofra per records morte 1903",
+        "Consultare archivi ecclesiastici per dati matrimonio",
+        "Cercare su Antenati registri civili Solofra 1800s"
+      ]
+    },
+    {
+      "nome": "Luca De Maio",
+      "dataNascita": "1976",
+      "luogo": "Gorgonzola, Milano",
+      "descrizione": "Generazione attuale, curatore genealogia",
+      "suggerimenti": [
+        "Consultare anagrafe Gorgonzola per documenti nascita",
+        "Cercare su FamilySearch per alberi genealogici moderni",
+        "Coordinare con servizio anagrafe Milano per registri completi",
+        "Partecipare a progetti genealogici online come RootsWeb"
+      ]
+    },
+    {
+      "nome": "Michele De Maio",
+      "dataNascita": "30 novembre 1947",
+      "luogo": "Milano",
+      "descrizione": "Padre di Luca De Maio",
+      "suggerimenti": [
+        "Ricerca su FamilySearch per registri Milano 1940s-1950s",
+        "Contattare anagrafe Milano per documenti ufficiali",
+        "Consultare archivi scolastici storici per records",
+        "Cercare su Ancestry.com se disponibili"
+      ]
+    },
+    {
+      "nome": "nunziante Di Majo",
+      "dataNascita": "25 marzo 1812",
+      "luogo": "Solofra, Avellino",
+      "descrizione": "Fratello di Nicola Vincenzo Di Majo",
+      "suggerimenti": [
+        "Ricerca su FamilySearch registri 1812 Solofra",
+        "Consultare archivi chiesa Solofra per battesimi",
+        "Cercare registri proprietà terriera 1800s",
+        "Consultare Antenati per registri civili dell'epoca Napoleon"
+      ]
+    }
+  ]
+}
