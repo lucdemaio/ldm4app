@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👥 Persone - Progetto Genealogico De Maio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e1b4b;
+            --secondary: #7c3aed;
+            --accent: #ec4899;
+            --light: #f0f9ff;
+            --dark: #0f172a;
+            --success: #10b981;
+            --gold: #fbbf24;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 25%, #3730a3 75%, #462e81 100%);
+            color: #f3f4f6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animazione background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, -50px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ec4899 0%, #7c3aed 50%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(236, 72, 153, 0.3);
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        header p {
+            font-size: 1.3em;
+            color: #c7d2fe;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(124, 58, 237, 0.5);
+            border-radius: 25px;
+            color: white;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ec4899;
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(124, 58, 237, 0.3);
+            border: 2px solid rgba(124, 58, 237, 0.6);
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            border-color: #ec4899;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+            transform: scale(1.05);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            background: rgba(124, 58, 237, 0.15);
+            border-color: #7c3aed;
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #ec4899;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #c7d2fe;
+            font-size: 0.9em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .person-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(99, 102, 241, 0.1));
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: 18px;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .person-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.3), transparent);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+
+        .person-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: #ec4899;
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.3),
+                        0 0 30px rgba(124, 58, 237, 0.2);
+        }
+
+        .person-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .person-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fbbf24, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .person-relationship {
+            display: inline-block;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(124, 58, 237, 0.3));
+            border: 1px solid rgba(236, 72, 153, 0.6);
+            color: #ec4899;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .person-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95em;
+            color: #d1d5db;
+        }
+
+        .info-label {
+            color: #7c3aed;
+            font-weight: 600;
+            min-width: 50px;
+        }
+
+        .person-dates {
+            background: rgba(124, 58, 237, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #7c3aed;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        .person-sex {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #c7d2fe;
+        }
+
+        .empty-state h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+
+        .relationship-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(168, 85, 247, 0.3));
+            border: 1px solid rgba(139, 92, 246, 0.6);
+            color: #a78bfa;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .deceased {
+            opacity: 0.7;
+            border-color: rgba(124, 58, 237, 0.2);
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(99, 102, 241, 0.05));
+        }
+
+        .deceased .person-name {
+            color: #a78bfa;
+        }
+
+        .living {
+            border-color: rgba(236, 72, 153, 0.6);
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(236, 72, 153, 0.1));
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: #a78bfa;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .filter-buttons {
+                width: 100%;
+            }
+
+            .filter-btn {
+                flex: 1;
+                min-width: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            .person-card {
+                padding: 15px;
+            }
+
+            .avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 2em;
+            }
+
+            .person-name {
+                font-size: 1.1em;
+            }
+
+            .controls {
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .filter-buttons {
+                gap: 5px;
+            }
+
+            .filter-btn {
+                font-size: 0.8em;
+                padding: 8px 12px;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #c7d2fe;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(124, 58, 237, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ec4899;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👥 Famiglia De Maio</h1>
+            <p>Le Persone del Nostro Albero Genealogico</p>
+            <p style="font-size: 1em; color: #a78bfa;">Scopri i gradi di parentela di 234 persone attraverso 6 generazioni</p>
+        </header>
+
+        <div class="controls">
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Cerca per nome...">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Tutti</button>
+                <button class="filter-btn" data-filter="tu">Tu</button>
+                <button class="filter-btn" data-filter="direct">Parenti Diretti</button>
+                <button class="filter-btn" data-filter="living">Viventi</button>
+                <button class="filter-btn" data-filter="deceased">Deceduti</button>
+            </div>
+        </div>
+
+        <div class="stats" id="statsContainer"></div>
+
+        <div id="peopleGrid" class="grid">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 20px;">Caricamento persone in corso...</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>🌳 Progetto Genealogico De Maio | Generato il 23 aprile 2026</p>
+            <p>Documentazione familiare: <strong>234 persone | 83 famiglie | 6 generazioni</strong></p>
+        </footer>
+    </div>
+
+    <script>
+        // Dati delle persone con relazioni - Estratti dal GEDCOM
+        let allPeople = [];
+        let currentFilter = 'all';
+        let searchTerm = '';
+
+        // Carica i dati dal file JSON
+        async function loadPeopleData() {
+            try {
+                const response = await fetch('persone_genealogia.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    allPeople = data.people || data || [];
+                    console.log('✅ Dati caricati dal JSON:', allPeople.length, 'persone');
+                } else {
+                    console.warn('⚠️ File JSON non trovato, carico dati demo');
+                    loadDemoData();
+                }
+            } catch (e) {
+                console.error('❌ Errore caricamento JSON:', e);
+                loadDemoData();
+            }
+            
+            renderPersonCards();
+            updateStats();
+        }
+
+        function loadDemoData() {
+            // Dati demo se non disponibili
+            allPeople = [
+                { name: "Luca De Maio", relationship: "Tu", sex: "M", birth: "1976", death: "", age: "50 anni", id: "1" },
+                { name: "Michele De Maio", relationship: "Genitore", sex: "M", birth: "1947", death: "", age: "79 anni", id: "2" },
+                { name: "Ornella Francesca Maggi", relationship: "Genitore", sex: "F", birth: "1948", death: "", age: "78 anni", id: "3" },
+                { name: "Giulia De Maio", relationship: "Figlio/a", sex: "F", birth: "2011", death: "", age: "15 anni", id: "4" },
+                { name: "Greta De Maio", relationship: "Figlio/a", sex: "F", birth: "2006", death: "", age: "20 anni", id: "5" },
+                { name: "Lidia Frigeni", relationship: "Coniuge", sex: "F", birth: "1976", death: "", age: "50 anni", id: "6" },
+                { name: "Giuseppe De Maio", relationship: "Nonno/a", sex: "M", birth: "1919", death: "2006", age: "87 anni (†2006)", id: "7" },
+                { name: "Maria Roberta Cefalo", relationship: "Nonno/a", sex: "F", birth: "1876", death: "", age: "150 anni", id: "8" }
+            ];
+        }
+
+        function getRelationshipColor(rel) {
+            const colors = {
+                "Tu": "#ec4899",
+                "Genitore": "#7c3aed",
+                "Figlio/a": "#0ea5e9",
+                "Fratello/Sorella": "#06b6d4",
+                "Nonno/a": "#f59e0b",
+                "Nipote": "#10b981",
+                "Zio/a": "#8b5cf6",
+                "Cugino/a": "#6366f1",
+                "Bisnonno/a": "#d946ef",
+                "Bisnipote": "#14b8a6"
+            };
+            return colors[rel] || "#a78bfa";
+        }
+
+        function getAvatarEmoji(relationshipOrSex) {
+            const emojiMap = {
+                "Tu": "🎯",
+                "Genitore": "👨‍👩",
+                "Figlio/a": "👶",
+                "Fratello/Sorella": "👬",
+                "M": "👨",
+                "F": "👩",
+                "Nonno/a": "👴",
+                "Nipote": "👧",
+                "Zio/a": "🧔",
+                "Cugino/a": "🤝",
+                "Bisnonno/a": "🕯️",
+                "Bisnipote": "🍼"
+            };
+            return emojiMap[relationshipOrSex] || (relationshipOrSex === "M" ? "👨" : "👩");
+        }
+
+        function formatBirthDeath(birth, death) {
+            if (death) {
+                return `${birth || "?"} — ${death}`;
+            }
+            return `Nato/a: ${birth || "?"}`;
+        }
+
+        function renderPersonCards() {
+            const grid = document.getElementById('peopleGrid');
+            let filtered = allPeople;
+
+            // Applica filtri
+            if (currentFilter !== 'all') {
+                if (currentFilter === 'tu') {
+                    filtered = filtered.filter(p => p.relationship === 'Tu');
+                } else if (currentFilter === 'direct') {
+                    const directRelations = ['Tu', 'Genitore', 'Figlio/a', 'Nonno/a', 'Nipote', 'Fratello/Sorella'];
+                    filtered = filtered.filter(p => directRelations.includes(p.relationship));
+                } else if (currentFilter === 'living') {
+                    filtered = filtered.filter(p => !p.death);
+                } else if (currentFilter === 'deceased') {
+                    filtered = filtered.filter(p => p.death);
+                }
+            }
+
+            // Applica ricerca
+            if (searchTerm) {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    p.relationship.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <h2>😔 Nessuna persona trovata</h2>
+                        <p>Prova a modificare i filtri o la ricerca</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(person => {
+                const isDeceased = !!person.death;
+                const relColor = getRelationshipColor(person.relationship);
+                const avatarEmoji = getAvatarEmoji(person.relationship);
+
+                return `
+                    <div class="person-card ${isDeceased ? 'deceased' : 'living'}">
+                        <div class="card-content">
+                            <div class="avatar" style="background: linear-gradient(135deg, ${relColor}, rgba(236, 72, 153, 0.6));">
+                                ${avatarEmoji}
+                            </div>
+                            <div class="person-name">${person.name}</div>
+                            <div class="person-relationship" style="border-color: ${relColor}33; color: ${relColor};">
+                                ${person.relationship}
+                            </div>
+                            
+                            <div class="person-info">
+                                ${person.sex ? `<div class="info-item"><span class="info-label">Sesso:</span><span>${person.sex === 'M' ? '👨 Maschio' : '👩 Femmina'}</span></div>` : ''}
+                                ${person.age ? `<div class="info-item"><span class="info-label">Età:</span><span>${person.age}</span></div>` : ''}
+                            </div>
+
+                            <div class="person-dates">
+                                📅 ${formatBirthDeath(person.birth, person.death)}
+                            </div>
+
+                            ${isDeceased ? '<div class="person-sex" style="background: rgba(107, 114, 128, 0.3); color: #9ca3af;">✞ Deceduto</div>' : '<div class="person-sex">✓ Vivente</div>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateStats() {
+            const stats = document.getElementById('statsContainer');
+            
+            const totals = {
+                total: allPeople.length,
+                living: allPeople.filter(p => !p.death).length,
+                deceased: allPeople.filter(p => p.death).length,
+                male: allPeople.filter(p => p.sex === 'M').length,
+                female: allPeople.filter(p => p.sex === 'F').length
+            };
+
+            stats.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${totals.total}</div>
+                    <div class="stat-label">Persone Totali</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #10b981;">${totals.living}</div>
+                    <div class="stat-label">Viventi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #a78bfa;">${totals.deceased}</div>
+                    <div class="stat-label">Deceduti</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #3b82f6;">${totals.male}</div>
+                    <div class="stat-label">Maschi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #ec4899;">${totals.female}</div>
+                    <div class="stat-label">Femmine</div>
+                </div>
+            `;
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderPersonCards();
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderPersonCards();
+            });
+        });
+
+        // Carica i dati all'avvio
+        window.addEventListener('load', loadPeopleData);
+    </script>
+
+    <!-- Placeholder per i dati - Sarà sostituito con dati reali -->
+    <script>
+        const PEOPLE_DATA_PLACEHOLDER = [
+            { name: "Luca De Maio", relationship: "Tu", sex: "M", birth: "1976", death: "", age: "50 anni", id: "I1" },
+            { name: "Michele De Maio", relationship: "Genitore", sex: "M", birth: "1947", death: "", age: "79 anni", id: "I2" },
+            { name: "Ornella Francesca Maggi", relationship: "Genitore", sex: "F", birth: "1948", death: "", age: "78 anni", id: "I3" },
+            { name: "Giulia De Maio", relationship: "Figlio/a", sex: "F", birth: "2011", death: "", age: "15 anni", id: "I4" },
+            { name: "Greta De Maio", relationship: "Figlio/a", sex: "F", birth: "2006", death: "", age: "20 anni", id: "I5" },
+            { name: "Lidia Frigeni", relationship: "Coniuge", sex: "F", birth: "1976", death: "", age: "50 anni", id: "I6" },
+            { name: "Giuseppe De Maio", relationship: "Nonno/a", sex: "M", birth: "1919", death: "2006", age: "87 anni (†2006)", id: "I7" },
+            { name: "Maria Roberta Cefalo", relationship: "Nonna", sex: "F", birth: "1876", death: "2026", age: "150 anni", id: "I8" },
+            { name: "Michelina Ferrandino", relationship: "Nonna", sex: "F", birth: "1920", death: "2014", age: "94 anni", id: "I9" },
+            { name: "Angelo Santo Ferrandino", relationship: "Nonno", sex: "M", birth: "1891", death: "", age: "135 anni", id: "I10" }
+        ];
+    </script>
+</body>
+</html>
