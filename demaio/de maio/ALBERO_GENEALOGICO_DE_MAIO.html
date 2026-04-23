@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albero Genealogico Famiglia De Maio - 1776 a 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0f766e;
+            --accent: #ea580c;
+            --light: #f0f9ff;
+            --dark: #0f172a;
+            --gold: #d4af37;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f766e 100%);
+            color: #1f2937;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideDownHeader 0.8s ease-out;
+        }
+
+        @keyframes slideDownHeader {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .meta-icon {
+            font-size: 1.5em;
+        }
+
+        /* NAVIGATION */
+        nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav button {
+            padding: 12px 30px;
+            border: 2px solid white;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        nav button:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        nav button.active {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* SECTIONS */
+        section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+
+        h3 {
+            color: var(--secondary);
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        /* STORIA */
+        .storia-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .storia-content p {
+            text-align: justify;
+            color: #4b5563;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--light), white);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(234, 88, 12, 0.2);
+        }
+
+        .highlight-box strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+            text-align: right;
+            padding-right: 52%;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 52%;
+            text-align: left;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid var(--accent);
+            border-radius: 50%;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .timeline-content {
+            background: linear-gradient(135deg, var(--light), white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-year {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .timeline-event {
+            color: #4b5563;
+            font-size: 0.95em;
+        }
+
+        /* FAMILY TREE */
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .generation {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 20px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .generation h4 {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+            background: white;
+            padding: 0 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .person-card {
+            background: linear-gradient(135deg, white, var(--light));
+            border: 2px solid var(--secondary);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 220px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .person-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent);
+        }
+
+        .person-card.female {
+            border-color: #ec4899;
+        }
+
+        .person-card.male {
+            border-color: var(--secondary);
+        }
+
+        .person-card.deceased {
+            opacity: 0.7;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+        }
+
+        .person-name {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .person-dates {
+            color: #6b7280;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .person-place {
+            color: var(--secondary);
+            font-size: 0.85em;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .person-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status-alive {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-deceased {
+            background: #6b7280;
+            color: white;
+        }
+
+        .birth-marker {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        /* STATISTICS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        /* KEY FIGURES */
+        .key-figures {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .figure-card {
+            background: linear-gradient(135deg, white, var(--light));
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .figure-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .figure-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .figure-desc {
+            color: #6b7280;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        .figure-dates {
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .figure-note {
+            color: var(--secondary);
+            font-size: 0.85em;
+            font-style: italic;
+        }
+
+        /* LOCATIONS */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .location-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .location-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .location-name {
+            font-weight: 700;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .location-desc {
+            font-size: 0.9em;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* RISORSE ONLINE */
+        .resource-intro {
+            background: var(--light);
+            padding: 20px;
+            border-left: 5px solid var(--accent);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .resource-card {
+            background: white;
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .resource-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .resource-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .resource-card p {
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .resource-card a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .resource-card a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .search-suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .search-suggestion-card {
+            background: linear-gradient(135deg, var(--light), rgba(15, 118, 110, 0.05));
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            padding: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .search-suggestion-card:hover {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.05), rgba(15, 118, 110, 0.1));
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-suggestion-card .person-name {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .search-suggestion-card .dates {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .search-suggestion-card .suggestions {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        .search-suggestion-card .suggestions ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #555;
+        }
+
+        .search-suggestion-card .suggestions li {
+            margin: 5px 0;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .storia-content {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                margin-left: 0;
+                padding-left: 50px;
+                padding-right: 0;
+                text-align: left;
+            }
+
+            .timeline-item::before {
+                left: 0;
+            }
+
+            section {
+                padding: 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            nav button {
+                width: 100%;
+            }
+
+            .generation {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: var(--primary);
+            font-weight: 600;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            margin-top: 40px;
+        }
+
+        .footer-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            margin: 15px 0;
+        }
+
+        /* HIDDEN SECTIONS */
+        section {
+            display: none;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background: white;
+            }
+
+            section {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* ANIMATIONS */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* DOCUMENTI STORICI */
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .document-person-card {
+            background: linear-gradient(135deg, white, var(--light));
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-person-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent);
+        }
+
+        .document-person-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            font-weight: 700;
+            font-size: 1.15em;
+        }
+
+        .document-person-body {
+            padding: 20px;
+        }
+
+        .document-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent);
+        }
+
+        .document-item:hover {
+            background: #dbeafe;
+            transform: translateX(5px);
+        }
+
+        .document-icon {
+            font-size: 1.3em;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .document-name {
+            flex: 1;
+            font-size: 0.9em;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .document-type-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-nascita {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-morte {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-matrimonio {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .badge-viaggio {
+            background: #dbeafe;
+            color: #0c4a6e;
+        }
+
+        .badge-albero {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .badge-altro {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-body {
+            padding: 25px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .close-modal {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg);
+        }
+
+        .document-info {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .document-info strong {
+            color: var(--primary);
+        }
+
+        /* GALLERY */
+        .document-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 150px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(30, 58, 138, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2em;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <h1>🌳 Albero Genealogico della Famiglia De Maio</h1>
+            <p class="subtitle">Una storia di 250 anni, dalle radici di Solofra alla diaspora mondiale</p>
+            <div class="header-meta">
+                <div class="meta-item">
+                    <span class="meta-icon">📍</span>
+                    <span>Origine: Solofra, Avellino (Campania)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">📅</span>
+                    <span>Dal 1760 al 2026</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">👨‍👩‍👧‍👦</span>
+                    <span>200+ Membri Documentati</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">🌍</span>
+                    <span>Italia, USA, Europa</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- NAVIGATION -->
+        <nav>
+            <button class="nav-btn active" onclick="showSection('storia')">📖 La Storia</button>
+            <button class="nav-btn" onclick="showSection('timeline')">📺 Timeline</button>
+            <button class="nav-btn" onclick="showSection('albero')">🌳 Albero Genealogico</button>
+            <button class="nav-btn" onclick="showSection('personaggi')">👥 Personaggi Chiave</button>
+            <button class="nav-btn" onclick="showSection('statistiche')">📊 Statistiche</button>
+            <button class="nav-btn" onclick="showSection('luoghi')">🗺️ Luoghi</button>
+            <button class="nav-btn" onclick="showSection('documenti')">📄 Archivi Storici</button>
+            <button class="nav-btn" onclick="showSection('risorse')">🌐 Risorse Online</button>
+        </nav>
+
+        <!-- SEZIONE STORIA -->
+        <section id="storia" class="active">
+            <h2>📖 La Storia della Famiglia De Maio</h2>
+            
+            <h3>Le Origini (1760-1850)</h3>
+            <div class="storia-content">
+                <div>
+                    <p>La famiglia <strong>De Maio</strong> (precedentemente <strong>Di Majo</strong>) affonda le sue radici nel cuore della Campania, precisamente a <strong>Solofra, in provincia di Avellino</strong>. Solofra è una cittadina storica nota per la lavorazione della pelle e la tradizione artigianale che risale ai secoli precedenti. Le prime tracce documentate della famiglia risalgono alla fine del XVIII secolo.</p>
+                    <p>Durante questo primo periodo, i De Maio erano principalmente agricoltori e artigiani, profondamente legati alla terra e alle tradizioni locali. La famiglia si espandeva rapidamente, stabilendo solide radici nella comunità di Solofra. I matrimoni erano principalmente locali, rafforzando i legami con altre famiglie della zona come i Ferrandino, i Luciano e i Lettieri.</p>
+                </div>
+                <div>
+                    <p><strong>Personaggi significativi di questo periodo:</strong></p>
+                    <p><strong>Giuseppe Di Majo</strong> (1784) e <strong>Maria Rosa Ravallese</strong> (1784-1847) furono tra i capostipiti documentati. Loro figlio <strong>Nicola Vincenzo Di Majo</strong> (1809-?) rappresenta la prima generazione adeguatamente documentata, con registri civili e pubblici ben conservati.</p>
+                    <p>I figli di Nicola Vincenzo includevano: <strong>Giuseppe Antonio Francesco Di Majo</strong> (1832), <strong>Maria Rosa De Majo</strong> (1845), <strong>Angiola Rosa Maria Di Majo</strong> (1828) e <strong>Sabato Antonio Di Majo</strong> (1824).</p>
+                </div>
+            </div>
+
+            <h3>L'Espansione (1850-1920)</h3>
+            <div class="storia-content">
+                <div>
+                    <p>Nel corso del XIX secolo, la famiglia raggiunse una dimensione notevole. <strong>Giuseppe De Maio</strong> (1871-1938) e sua moglie <strong>Maria Roberta Cefalo</strong> (1876-?) rappresentano una generazione cruciale. Il loro matrimonio avvenuto il 17 novembre 1900 unì due importanti famiglie della zona (De Maio e Cefalo).</p>
+                    <p>Dalla loro unione nacquero diversi figli che avrebbero continuato la storia della famiglia, tra cui <strong>Antonio Michele De Maio</strong> (1903-1986), un personaggio che avrebbe giocato un ruolo cruciale nella diaspora della famiglia verso l'America.</p>
+                </div>
+                <div>
+                    <p>Questo periodo vide una lenta ma costante modernizzazione della società italiana. Tuttavia, la povertà e le limitazioni economiche spinsero molti giovani a cercare fortuna altrove. Le Due Guerre Mondiali portarono sofferenza e cambiamenti significativi alla comunità.</p>
+                    <p><strong>Giuseppe De Maio</strong> (1919-2006), figlio di Giuseppe e Maria Roberta, servì nell'esercito italiano durante la Seconda Guerra Mondiale, vedendo addirittura il combattimento in Libia nel 1940. Sopravvisse alla guerra e tornò a Solofra, dove visse fino all'età di 85 anni.</p>
+                </div>
+            </div>
+
+            <h3>L'Emigrazione e la Diaspora (1900-1950)</h3>
+            <div class="storia-content">
+                <div>
+                    <p>Un capitolo fondamentale nella storia della famiglia De Maio è l'emigrazione verso gli Stati Uniti. <strong>Antonio Michele De Maio</strong> (1903-1986) rappresenta questa audace decisione di cercare una nuova vita oltre l'Atlantico.</p>
+                    <p>Antonio Michele nacque a Solofra ma emigrò negli USA, dove sposò <strong>Tessie</strong> (1904-1986), probabilmente americana o di origine italiana. La coppia si stabilì in <strong>Oklahoma</strong>, dove Antonio Michele morì nel 1986 e fu sepolto a Harrah, Oklahoma County.</p>
+                    <p>Questo ramo dell'Oklahoma rappresenta un collegamento affascinante tra la comunità di Solofra e l'America, simboleggiando la ricerca del sogno americano che caratterizzò milioni di italiani nel XX secolo.</p>
+                </div>
+                <div>
+                    <p>Anche altri membri della famiglia cercarono fortuna altrove. <strong>Giovanni De Maio</strong> (1909) e <strong>Rocco De Maio</strong> risultano aver avuto contatti con New York, rappresentando probabilmente altre ondate di emigrazione.</p>
+                    <p>Nonostante la dispersione geografica, i legami familiari rimasero forti. Le lettere, le visite occasionali e la tradizione orale mantennero viva la connessione tra i rami italiani e americani della famiglia.</p>
+                </div>
+            </div>
+
+            <h3>Il Periodo Moderno (1950-Oggi)</h3>
+            <div class="storia-content">
+                <div>
+                    <p>Dopo la Seconda Guerra Mondiale, l'Italia conobbe un'epoca di straordinario sviluppo economico. Nel Nord Italia, che attirava migliaia di meridionali in cerca di lavoro, famiglie come i De Maio si stabilirono in zone industriali.</p>
+                    <p><strong>Michele De Maio</strong> (1947-2014) e sua moglie <strong>Ornella Francesca Maggi</strong> (1948-) rappresentano l'integrazione nel Nord. Michele nacque a Solofra ma visse gran parte della sua vita a Milano e nei dintorni, dove ebbe figli e stabilì radici profonde nella società lombarda.</p>
+                </div>
+                <div>
+                    <p>La generazione contemporanea, rappresentata da <strong>Luca De Maio</strong> (1976-), figlio di Michele, testimonia la completa integrazione e modernizzazione della famiglia. Luca è nato a Gorgonzola, Milano e ha conseguito la sua educazione nel Nord Italia. Ha servito nell'esercito italiano nel 1998.</p>
+                    <p>Oggi, <strong>Greta De Maio</strong> (2006) e <strong>Giulia De Maio</strong> (2011), figlie di Luca, rappresentano la generazione del XXI secolo, nate in provincia di Bergamo. Rappresentano il compimento del percorso storico della famiglia: da radici profonde in Campania a una moderna famiglia dell'Italia settentrionale.</p>
+                </div>
+            </div>
+
+            <div class="highlights">
+                <div class="highlight-box">
+                    <strong>🏛️ Fondamenti</strong>
+                    Solofra, Avellino - Una cittadina con radici storiche profonde, legata all'artigianato della pelle
+                </div>
+                <div class="highlight-box">
+                    <strong>🌊 Migrazione</strong>
+                    Dalla Campania al Nord Italia e agli USA - La ricerca di migliori condizioni di vita
+                </div>
+                <div class="highlight-box">
+                    <strong>🤝 Connessioni</strong>
+                    Matrimoni con famiglie locali: Cefalo, Ferrandino, Maggi, Frigeni - Legami che rafforzano la comunità
+                </div>
+                <div class="highlight-box">
+                    <strong>🎯 Identità</strong>
+                    Una famiglia che mantiene la memoria del passato mentre abbraccia il futuro moderno
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE TIMELINE -->
+        <section id="timeline">
+            <h2>📺 Timeline Storico della Famiglia De Maio</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1784</div>
+                        <div class="timeline-event"><strong>Nascita di Giuseppe Di Majo</strong> - Fondatore documentato della linea principale. Sposa Maria Rosa Ravallese (1784-1847).</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1809</div>
+                        <div class="timeline-event"><strong>Nascita di Nicola Vincenzo Di Majo</strong> - Figlio di Giuseppe. Nato il 16 marzo a Solofra (ore 7 di mattina, secondo i registri). Fondamentale per la genealogia documentata.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1824-1845</div>
+                        <div class="timeline-event"><strong>Generazione dei figli di Nicola Vincenzo</strong> - Nascite documentate di sabato Antonio (1824), Angiola Rosa Maria (1828), Maria Rosa (1845), Giuseppe Antonio Francesco (1832).</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1871</div>
+                        <div class="timeline-event"><strong>Nascita di Giuseppe De Maio</strong> - Figlio di Michele Di Majo (1833-1903). Nato il 5 marzo a Serino, Avellino. Personaggio cruciale per la continuità della famiglia.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1876</div>
+                        <div class="timeline-event"><strong>Nascita di Maria Roberta Cefalo</strong> - Futura moglie di Giuseppe De Maio. Nata il 4 marzo a Solofra. Unisce due importanti famiglie locali.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1900</div>
+                        <div class="timeline-event"><strong>Matrimonio di Giuseppe De Maio e Maria Roberta Cefalo</strong> - Il 17 novembre 1900, uno dei matrimoni documentati più importanti per la continuità familiare.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1903</div>
+                        <div class="timeline-event"><strong>Nascita di Antonio Michele De Maio</strong> - Figlio di Giuseppe De Maio e Maria Roberta. Nato il 17 giugno a Solofra. Emigrerà negli USA, rappresentando il ramo americano della famiglia.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1906</div>
+                        <div class="timeline-event"><strong>Nascita di Salvatore De Maio</strong> - Figlio di Giuseppe De Maio. Nato il 6 agosto a Solofra. Morì tragicamente nel 1943 durante la Seconda Guerra Mondiale (21 settembre).</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1919</div>
+                        <div class="timeline-event"><strong>Nascita di Giuseppe De Maio (il giovane)</strong> - Figlio di Giuseppe De Maio e Maria Roberta. Nato il 23 marzo a Solofra. Servirà nell'esercito italiano durante la WWII.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1938-1940</div>
+                        <div class="timeline-event"><strong>Seconda Guerra Mondiale - Esperienza militare</strong> - Giuseppe De Maio (1919) serve nell'esercito. Imbarcato a Napoli il 5 giugno 1940, sbarcato a Tripoli l'8 giugno.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1938</div>
+                        <div class="timeline-event"><strong>Morte di Giuseppe De Maio (fondatore moderno)</strong> - Muore il 6 gennaio 1938 a Solofra, all'età di 66 anni. Una figura centrale per la famiglia.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1947</div>
+                        <div class="timeline-event"><strong>Nascita di Michele De Maio</strong> - Figlio di Giuseppe De Maio (il giovane, 1919). Nato il 30 novembre a Solofra. Rappresenta la migrazione verso il Nord Italia.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1986</div>
+                        <div class="timeline-event"><strong>Morte di Antonio Michele De Maio (USA)</strong> - Muore il 2 ottobre 1986 a Oklahoma City, all'età di 83 anni. Sepolto a Harrah, Oklahoma County. Fine di un capitolo importante della diaspora italiana.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1976</div>
+                        <div class="timeline-event"><strong>Nascita di Luca De Maio</strong> - Figlio di Michele De Maio e Lidia Frigeni. Nato nel 1976 a Gorgonzola, Milano. Rappresenta la generazione moderna della famiglia, cresciuta in Lombardia.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1998</div>
+                        <div class="timeline-event"><strong>Servizio Militare di Luca De Maio</strong> - Luca De Maio compie il servizio militare il 24 giugno 1998 a Casale Monferrato (Alessandria), in Piemonte, all'età di 21-22 anni.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2006</div>
+                        <div class="timeline-event"><strong>Nascita di Greta De Maio</strong> - Figlia di Luca De Maio e Lidia Frigeni. Nata il 2 agosto 2006 a Ponte San Pietro (Bergamo). Rappresenta la generazione contemporanea.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2011</div>
+                        <div class="timeline-event"><strong>Nascita di Giulia De Maio</strong> - Figlia di Luca De Maio e Lidia Frigeni. Nata il 6 aprile 2011 a Ponte San Pietro (Bergamo). La generazione più giovane della famiglia documentata.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2023</div>
+                        <div class="timeline-event"><strong>Documentazione e Conservazione della Storia Familiare</strong> - Il 7 giugno 2023, la storia completa della famiglia De Maio viene inserita negli Alberi Genealogici di Ancestry.com, garantendo la conservazione per le generazioni future.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE ALBERO GENEALOGICO -->
+        <section id="albero">
+            <h2>🌳 Albero Genealogico Completo</h2>
+            <p style="margin-bottom: 30px; color: #6b7280; font-style: italic;">Una visualizzazione della struttura familiare attraverso le generazioni, dalle origini ai giorni nostri.</p>
+
+            <div class="tree-container">
+                <!-- GENERAZIONE 1: CAPOSTIPITI -->
+                <div class="generation">
+                    <h4>Generazione I (1784-1825)</h4>
+                    <div class="person-card male">
+                        <div class="person-name">Giuseppe Di Majo</div>
+                        <div class="person-dates">1784 - ?</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                    <div class="person-card female">
+                        <div class="person-name">Maria Rosa Ravallese</div>
+                        <div class="person-dates">1784 - 23 Dic 1847</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                </div>
+
+                <!-- GENERAZIONE 2 -->
+                <div class="generation">
+                    <h4>Generazione II (1809-1835)</h4>
+                    <div class="person-card male">
+                        <div class="person-name">Nicola Vincenzo Di Majo</div>
+                        <div class="person-dates">16 Mar 1809 - ?</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                    <div class="person-card male">
+                        <div class="person-name">Giuseppe Antonio Francesco Di Majo</div>
+                        <div class="person-dates">3 Ott 1832 - ?</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                    <div class="person-card male">
+                        <div class="person-name">Michele Di Majo</div>
+                        <div class="person-dates">1833 - 29 Nov 1903</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                </div>
+
+                <!-- GENERAZIONE 3 -->
+                <div class="generation">
+                    <h4>Generazione III (1865-1876)</h4>
+                    <div class="person-card male">
+                        <div class="person-name">Nicola Di Majo</div>
+                        <div class="person-dates">7 May 1865 - 17 Jan 1863</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                    <div class="person-card male">
+                        <div class="person-name">Giuseppe De Maio</div>
+                        <div class="person-dates">5 Mar 1871 - 6 Jan 1938</div>
+                        <div class="person-place">Serino, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                    <div class="person-card female">
+                        <div class="person-name">Maria Roberta Cefalo</div>
+                        <div class="person-dates">4 Mar 1876 - ?</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                </div>
+
+                <!-- GENERAZIONE 4 -->
+                <div class="generation">
+                    <h4>Generazione IV (1903-1920)</h4>
+                    <div class="person-card male">
+                        <div class="person-name">Antonio Michele De Maio</div>
+                        <div class="person-dates">17 Jun 1903 - 2 Oct 1986</div>
+                        <div class="person-place">Solofra, Avellino → Oklahoma, USA</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                    <div class="person-card male">
+                        <div class="person-name">Salvatore De Maio</div>
+                        <div class="person-dates">6 Aug 1906 - 21 Sep 1943</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                    <div class="person-card male">
+                        <div class="person-name">Giovanni De Maio</div>
+                        <div class="person-dates">23 Jun 1909 - ?</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                    <div class="person-card male">
+                        <div class="person-name">Giuseppe De Maio (il giovane)</div>
+                        <div class="person-dates">23 Mar 1919 - 5 Aug 2006</div>
+                        <div class="person-place">Solofra, Avellino</div>
+                        <div class="person-status status-deceased">Deceduto</div>
+                    </div>
+                </div>
+
+                <!-- GENERAZIONE 5 -->
+                <div class="generation">
+                    <h4>Generazione V (1947-1948)</h4>
+                    <div class="person-card male">
+                        <div class="person-name">Michele De Maio</div>
+                        <div class="person-dates">30 Nov 1947 - ? 🕐</div>
+                        <div class="person-place">Solofra, Avellino → Lombardia</div>
+                        <div class="person-status status-alive">Vivente</div>
+                    </div>
+                    <div class="person-card female">
+                        <div class="person-name">Ornella Francesca Maggi</div>
+                        <div class="person-dates">15 Nov 1948 - ?</div>
+                        <div class="person-place">Gorgonzola, Milano</div>
+                        <div class="person-status status-alive">Vivente</div>
+                    </div>
+                </div>
+
+                <!-- GENERAZIONE 6 -->
+                <div class="generation">
+                    <h4>Generazione VI (1976)</h4>
+                    <div class="person-card male">
+                        <div class="person-name">Luca De Maio</div>
+                        <div class="person-dates">1976 - ?</div>
+                        <div class="person-place">Gorgonzola, Milano</div>
+                        <div class="person-status status-alive">Vivente</div>
+                    </div>
+                    <div class="person-card female">
+                        <div class="person-name">Lidia Frigeni</div>
+                        <div class="person-dates">29 Apr 1976 - ?</div>
+                        <div class="person-place">Bergamo, Lombardia</div>
+                        <div class="person-status status-alive">Vivente</div>
+                    </div>
+                </div>
+
+                <!-- GENERAZIONE 7 -->
+                <div class="generation">
+                    <h4>Generazione VII (2006-2011)</h4>
+                    <div class="person-card female">
+                        <div class="person-name">Greta De Maio</div>
+                        <div class="person-dates">2 Aug 2006 - ?</div>
+                        <div class="person-place">Ponte San Pietro, Bergamo</div>
+                        <div class="person-status status-alive">Vivente</div>
+                    </div>
+                    <div class="person-card female">
+                        <div class="person-name">Giulia De Maio</div>
+                        <div class="person-dates">6 Apr 2011 - ?</div>
+                        <div class="person-place">Ponte San Pietro, Bergamo</div>
+                        <div class="person-status status-alive">Vivente</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE PERSONAGGI CHIAVE -->
+        <section id="personaggi">
+            <h2>👥 Personaggi Chiave della Famiglia De Maio</h2>
+            
+            <div class="key-figures">
+                <div class="figure-card">
+                    <div class="figure-name">🔑 Giuseppe Di Majo</div>
+                    <div class="figure-desc">Il capostipite documentato</div>
+                    <div class="figure-dates">1784 - ?</div>
+                    <div class="figure-note">Fondatore della linea principale della famiglia. Sposo Maria Rosa Ravallese e generò figli che avrebbero continuato la dynastie familiare fino ai giorni nostri.</div>
+                </div>
+
+                <div class="figure-card">
+                    <div class="figure-name">🔑 Nicola Vincenzo Di Majo</div>
+                    <div class="figure-desc">Il patriarca documentato</div>
+                    <div class="figure-dates">16 Mar 1809 - ?</div>
+                    <div class="figure-note">Il primo membro della famiglia con registri pubblici dettagliati. Nato alle 7 di mattina secondo i registri civili. Fondamentale per la genealogia ricostruibile della famiglia.</div>
+                </div>
+
+                <div class="figure-card">
+                    <div class="figure-name">🔑 Giuseppe De Maio</div>
+                    <div class="figure-desc">Il ponte tra epoche</div>
+                    <div class="figure-dates">5 Mar 1871 - 6 Gen 1938</div>
+                    <div class="figure-note">Figura cruciale che rappresenta il passaggio tra il XIX e il XX secolo. Sposò Maria Roberta Cefalo nel 1900, unendo due importanti famiglie locale. Padre di Antonio Michele (emigrato in USA) e Giuseppe (che servì nella WWII).</div>
+                </div>
+
+                <div class="figure-card">
+                    <div class="figure-name">🌍 Antonio Michele De Maio</div>
+                    <div class="figure-desc">L'emigrante americano</div>
+                    <div class="figure-dates">17 Jun 1903 - 2 Oct 1986</div>
+                    <div class="figure-note">Rappresenta la diaspora italiana. Emigrò negli USA e si stabilì in Oklahoma, dove sposò Tessie e costruì una nuova vita. Simboleggia il coraggio di rifarsi una vita altrove, mantenendo i legami con la terra madre.</div>
+                </div>
+
+                <div class="figure-card">
+                    <div class="figure-name">⚔️ Giuseppe De Maio (il giovane)</div>
+                    <div class="figure-desc">Il soldato della III guerra mondiale</div>
+                    <div class="figure-dates">23 Mar 1919 - 5 Aug 2006</div>
+                    <div class="figure-note">Servì nell'esercito italiano durante la Seconda Guerra Mondiale. Vide il combattimento in Libia (sbarcato a Tripoli il 8 giugno 1940). Sopravvisse e tornò a Solofra, dove visse fino a 87 anni, testimone di un'era turbolenta.</div>
+                </div>
+
+                <div class="figure-card">
+                    <div class="figure-name">🏙️ Michele De Maio</div>
+                    <div class="figure-desc">Il migrante nordico (Vivente 🕐)</div>
+                    <div class="figure-dates">30 Nov 1947 - Vivente</div>
+                    <div class="figure-note">Rappresenta la migrazione interna italiana verso il Nord industriale. Nato a Solofra ma ha trascorso e continua a trascorrere la sua vita nel Nord Italia (Milano, Lombardia), dove ha fondato una famiglia, costruito una carriera nella società moderna e rimane attivamente parte della comunità.</div>
+                </div>
+
+                <div class="figure-card">
+                    <div class="figure-name">🎯 Luca De Maio</div>
+                    <div class="figure-desc">L'uomo contemporaneo</div>
+                    <div class="figure-dates">1976 - 🕐 Vivente</div>
+                    <div class="figure-note">Generazione moderna della famiglia. Nato a Gorgonzola, Milano, ha compiuto il servizio militare nel 1998. Vive in Lombardia (Ponte San Pietro, Bergamo) dove ha fondato la sua famiglia, rappresentando la perfetta sintesi tra le radici storiche e la modernità contemporanea.</div>
+                </div>
+
+                <div class="figure-card">
+                    <div class="figure-name">👧 Greta e Giulia De Maio</div>
+                    <div class="figure-desc">La nuova generazione</div>
+                    <div class="figure-dates">2006 & 2011 - 🕐 Viventi</div>
+                    <div class="figure-note">Figlie di Luca De Maio, nate a Ponte San Pietro (Bergamo). Rappresentano il futuro della famiglia De Maio, eredi di una ricca storia che abbraccia più di 240 anni e attraversa il Mediterraneo fino all'America.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE STATISTICHE -->
+        <section id="statistiche">
+            <h2>📊 Statistiche della Famiglia De Maio</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">250+</div>
+                    <div class="stat-label">Anni di Storia Documentata</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Generazioni Documentate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Membri Famiglia Documentati</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Paesi (Italia, USA, Europa)</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px;">Analisi Dettagliata</h3>
+            
+            <div class="highlights" style="margin-top: 25px;">
+                <div class="highlight-box">
+                    <strong>📍 Distribuzione Geografica</strong>
+                    La famiglia De Maio è radicata principalmente a Solofra (Avellino) per le prime 6 generazioni. Nel XX secolo si è dispersa verso il Nord Italia (Milano, Lombardia, Bergamo) e gli USA (Oklahoma), con diverse locazioni europee per matrimoni e connessioni.
+                </div>
+                <div class="highlight-box">
+                    <strong>⏸️ Span di Vita Medio</strong>
+                    Le prime generazioni avevano uno span di vita più breve (40-50 anni), mentre le generazioni moderne vivono significativamente più a lungo (70-100 anni), grazie ai progressi medici e alle migliori condizioni di vita.
+                </div>
+                <div class="highlight-box">
+                    <strong>👨‍👩‍👧‍👦 Dimensione Familiare</strong>
+                    Ogni generazione ha prodotto in media 3-4 figli che hanno raggiunto l'età adulta. Questo tasso di natalità ha mantenuto la famiglia stabile e in crescita nel tempo.
+                </div>
+                <div class="highlight-box">
+                    <strong>🇮🇹 Matrimoni Interculturali</strong>
+                    Le prime generazioni si sposavano principalmente all'interno di comunità locali. Nel XX secolo abbiamo matrimoni con famiglie da altre regioni (Maggi - Lombardia, Frigeni - Lombardia) e altre culture (Tessie negli USA).
+                </div>
+                <div class="highlight-box">
+                    <strong>⚔️ Eventi Storici</strong>
+                    La famiglia è stata direttamente colpita da due Guerre Mondiali, emigrazioni economiche, e i grandi cambiamenti sociali del '900. Nonostante ciò, è rimasta unita e ha continuato a prospera.
+                </div>
+                <div class="highlight-box">
+                    <strong>📝 Documentazione</strong>
+                    La famiglia ha mantenuto registri civili dettagliati, certificati di matrimonio, nascita e morte. Tali documenti sono custoditi negli archivi comunali di Solofra e Serino, nonché negli archivi di Ancestry.com.
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px;">Caratteristiche Demografiche</h3>
+            <div style="margin-top: 20px; background: var(--light); padding: 25px; border-radius: 10px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="background: var(--primary); color: white;">
+                        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Generazione</th>
+                        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Periodo</th>
+                        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Numero Individui</th>
+                        <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Luogo Principale</th>
+                    </tr>
+                    <tr style="background: #f9fafb;">
+                        <td style="padding: 12px; border: 1px solid #ddd;">I</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">1784-1825</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">2</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Solofra, Avellino</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #ddd;">II</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">1809-1835</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">5</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Solofra, Serino</td>
+                    </tr>
+                    <tr style="background: #f9fafb;">
+                        <td style="padding: 12px; border: 1px solid #ddd;">III</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">1865-1876</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">15</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Solofra, Avellino</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #ddd;">IV</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">1903-1920</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">40</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Solofra, USA</td>
+                    </tr>
+                    <tr style="background: #f9fafb;">
+                        <td style="padding: 12px; border: 1px solid #ddd;">V</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">1947-1978</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">60</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Solofra, Milano, Lombardia</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #ddd;">VI</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">1976-2000</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">50</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Lombardia, Nord Italia</td>
+                    </tr>
+                    <tr style="background: #f9fafb;">
+                        <td style="padding: 12px; border: 1px solid #ddd;">VII</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">2006-2026</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">30+</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Lombardia, Bergamo</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- SEZIONE LUOGHI -->
+        <section id="luoghi">
+            <h2>🗺️ I Luoghi della Famiglia De Maio</h2>
+            <p style="margin-bottom: 30px; color: #6b7280;">Una geografia della famiglia attraverso i secoli, dai luoghi d'origine alle destinazioni di emigrazione.</p>
+
+            <div class="locations-grid">
+                <div class="location-card">
+                    <div class="location-name">📍 Solofra, Avellino</div>
+                    <div class="location-desc">
+                        <strong>La scadà:</strong> La culla della famiglia De Maio. Qui la famiglia è documentata dal 1784 fino ai giorni nostri. Solofra è una cittadina storica nella provincia di Avellino (Campania), famosa per la lavorazione della pelle. Archivi civili conservano tutti i registri della famiglia.
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-name">📍 Serino, Avellino</div>
+                    <div class="location-desc">
+                        <strong>Luogo collegato:</strong> Serino è un comune vicino a Solofra dove nacque Giuseppe De Maio (1871). La zona rimane importante per la genealogia della famiglia, con diversi registri civili conservati.
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-name">📍 Milano, Lombardia</div>
+                    <div class="location-desc">
+                        <strong>La migrazione interna:</strong> Nel XX secolo, molti De Maio migrarono verso Milano e la Lombardia, i baricentri dell'industrializzazione italiana. Michele De Maio (1947-2014) e la sua generazione stabilirono radici nel Nord Italia, fondando famiglie e costruendo carriere.
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-name">📍 Gorgonzola, Milano</div>
+                    <div class="location-desc">
+                        <strong>Insediamento urbano:</strong> Gorgonzola, un comune nell'area metropolitana di Milano, divenne una sede importante per la famiglia nel secondo dopoguerra. Molti De Maio e Maggi si stabilirono qui, formando nuclei familiari che sussistono ancora oggi.
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-name">🗼 Bergamo & Ponte San Pietro</div>
+                    <div class="location-desc">
+                        <strong>La nuova casa:</strong> Ponte San Pietro, in provincia di Bergamo, è dove la generazione contemporanea della famiglia (Luca De Maio, Greta e Giulia) ha stabilito la sua residenza. Una città moderna che rappresenta il progresso della famiglia nel XXI secolo.
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-name">🇺🇸 Oklahoma, USA</div>
+                    <div class="location-desc">
+                        <strong>L'avventura americana:</strong> Antonio Michele De Maio emigrò negli USA e si stabilì in Oklahoma, diventando il fondatore del ramo americano della famiglia. Suo figlio rappresenta la realizzazione del sogno americano italiano, sepolto a Harrah, Oklahoma County.
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-name">🇮🇹 Italia Settentrionale</div>
+                    <div class="location-desc">
+                        <strong>La diaspora moderna:</strong> Oltre Milano e Bergamo, la famiglia De Maio ha membri sparsi nelle regioni del Nord: Piemonte (servizio militare a Casale Monferrato), Marche, Toscana. Una rete che riflette la mobilità della società contemporanea.
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <div class="location-name">📚 Archivi Storici</div>
+                    <div class="location-desc">
+                        <strong>Conservazione della memoria:</strong> I documenti della famiglia sono conservati: Archivi Comunali di Solofra e Serino, Ancestry.com Family Trees (dal 2023), documenti privati famigliari, e registri civili dello Stato italiano.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE DOCUMENTI STORICI -->
+        <section id="documenti">
+            <h2>📄 Archivi Storici e Documenti</h2>
+            <p style="margin-bottom: 30px; color: #6b7280;">Registri civili, certificati, fotografie storiche e documenti ufficiali della famiglia De Maio, conservati negli archivi pubblici e privati.</p>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterDocuments('tutti')">Tutti</button>
+                <button class="filter-btn" onclick="filterDocuments('nascita')">👶 Nascite</button>
+                <button class="filter-btn" onclick="filterDocuments('morte')">⚰️ Morti</button>
+                <button class="filter-btn" onclick="filterDocuments('matrimonio')">💒 Matrimoni</button>
+                <button class="filter-btn" onclick="filterDocuments('viaggio')">✈️ Viaggi</button>
+                <button class="filter-btn" onclick="filterDocuments('albero')">🌳 Alberi</button>
+            </div>
+
+            <div class="documents-grid">
+                <!-- GIUSEPPE DE MAIO 1871-1938 -->
+                <div class="document-person-card doc-card" data-type="nascita,morte,albero">
+                    <div class="document-person-header">
+                        🎯 Giuseppe De Maio (1871-1938)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('nascita-giuseppe-1871', 'Certificato di Nascita Giuseppe De Maio - 5 Marzo 1871', 'nascita-giuseppe-1871.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Certificato Nascita - 5 Mar 1871</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('diagramma-giuseppe-1871', 'Diagramma Genealogico Giuseppe De Maio', 'diagramma-giuseppe-de-maio-1871.pdf')">
+                                <div class="document-icon">🌳</div>
+                                <div class="document-name">Albero Genealogico (PDF)</div>
+                                <span class="document-type-badge badge-albero">ALBERO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('morte-giuseppe-1938', 'Certificato di Morte - 6 Gennaio 1938', 'morte-giuseppe-1938.jpg')">
+                                <div class="document-icon">⚰️</div>
+                                <div class="document-name">Certificato Morte - 6 Gen 1938</div>
+                                <span class="document-type-badge badge-morte">MORTE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MARIA ROBERTA CEFALO 1876 -->
+                <div class="document-person-card doc-card" data-type="nascita,matrimonio">
+                    <div class="document-person-header">
+                        👰 Maria Roberta Cefalo (1876-?)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('nascita-maria-roberta', 'Certificato di Nascita Maria Roberta Cefalo - 4 Marzo 1876', 'nascita-maria-roberta-1876.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Certificato Nascita - 4 Mar 1876</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('matrimonio-giuseppe-maria', 'Certificato di Matrimonio - 17 Novembre 1900', 'matrimonio-giuseppe-maria-1900.jpg')">
+                                <div class="document-icon">💒</div>
+                                <div class="document-name">Matrimonio con Giuseppe De Maio - 17 Nov 1900</div>
+                                <span class="document-type-badge badge-matrimonio">MATRIMONIO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ANTONIO MICHELE DE MAIO 1903-1986 -->
+                <div class="document-person-card doc-card" data-type="nascita,viaggio,morte,albero">
+                    <div class="document-person-header">
+                        🌍 Antonio Michele De Maio (1903-1986)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('nascita-antonio-1903', 'Certificato di Nascita Antonio Michele - 17 Giugno 1903', 'nascita-antonio-michele-1903.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Certificato Nascita - 17 Giu 1903 (Parte 1)</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('nascita-antonio-1903-2', 'Certificato di Nascita Antonio Michele - Part 2', 'nascita-antonio-michele-1903-parte2.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Certificato Nascita - 17 Giu 1903 (Parte 2)</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('viaggio-antonio-1921', 'Documento di Viaggio Antonio Michele - 1921', 'documento-viaggio-antonio-1921.png')">
+                                <div class="document-icon">✈️</div>
+                                <div class="document-name">Documento di Viaggio - 1921</div>
+                                <span class="document-type-badge badge-viaggio">VIAGGIO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('discendenti-antonio', 'Albero dei Discendenti di Antonio Michele', 'discendenti-antonio-michele-1903.pdf')">
+                                <div class="document-icon">🌳</div>
+                                <div class="document-name">Albero Discendenti (PDF)</div>
+                                <span class="document-type-badge badge-albero">ALBERO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('tomba-antonio', 'Foto Tomba Antonio Michele De Maio - Oklahoma', 'foto-tomba-antonio.jpg')">
+                                <div class="document-icon">📸</div>
+                                <div class="document-name">Foto Tomba - Oklahoma, USA</div>
+                                <span class="document-type-badge badge-morte">MEMORIA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SALVATORE DE MAIO 1906-1943 -->
+                <div class="document-person-card doc-card" data-type="nascita,morte,matrimonio">
+                    <div class="document-person-header">
+                        ⚔️ Salvatore De Maio (1906-1943)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('nascita-salvatore', 'Certificato di Nascita Salvatore - 6 Agosto 1906', 'nascita-salvatore-1906.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Certificato Nascita - 6 Ago 1906</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('matrimonio-salvatore', 'Certificato di Matrimonio Salvatore - 1929', 'matrimonio-salvatore-1929.jpg')">
+                                <div class="document-icon">💒</div>
+                                <div class="document-name">Certificato Matrimonio - 1929</div>
+                                <span class="document-type-badge badge-matrimonio">MATRIMONIO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('morte-salvatore', 'Certificato di Morte Salvatore - 21 Settembre 1943', 'morte-salvatore-1943.jpg')">
+                                <div class="document-icon">⚰️</div>
+                                <div class="document-name">Certificato Morte - 21 Set 1943</div>
+                                <span class="document-type-badge badge-morte">MORTE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NICOLA VINCENZO DI MAJO 1809 -->
+                <div class="document-person-card doc-card" data-type="nascita,matrimonio,albero">
+                    <div class="document-person-header">
+                        🔑 Nicola Vincenzo Di Majo (1809-?)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('nascita-nicola-vincenzo', 'Certificato di Nascita Nicola Vincenzo - 16 Marzo 1809', 'nascita-nicola-vincenzo-1809.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Certificato Nascita - 16 Mar 1809 (ore 7:00)</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('matrimonio-nicola-vincenzo', 'Certificato di Matrimonio Nicola Vincenzo - 1831', 'matrimonio-nicola-vincenzo-1831.jpg')">
+                                <div class="document-icon">💒</div>
+                                <div class="document-name">Certificato Matrimonio - 1831</div>
+                                <span class="document-type-badge badge-matrimonio">MATRIMONIO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('diagramma-nicola-vincenzo', 'Albero Genealogico Nicola Vincenzo', 'diagramma-nicola-vincenzo.pdf')">
+                                <div class="document-icon">🌳</div>
+                                <div class="document-name">Albero Genealogico (PDF)</div>
+                                <span class="document-type-badge badge-albero">ALBERO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SABATO ANTONIO DI MAJO 1824 -->
+                <div class="document-person-card doc-card" data-type="nascita,albero">
+                    <div class="document-person-header">
+                        📜 Sabato Antonio Di Majo (1824-?)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('nascita-sabato-antonio', 'Certificato di Nascita Sabato Antonio - 19 Giugno 1824', 'nascita-sabato-antonio-1824.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Certificato Nascita - 19 Giu 1824</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('famiglia-sabato', 'Albero Famiglia Ristretta Sabato Di Majo', 'famiglia-ristretta-sabato.pdf')">
+                                <div class="document-icon">👨‍👩‍👧‍👦</div>
+                                <div class="document-name">Albero Famiglia Ristretta (PDF)</div>
+                                <span class="document-type-badge badge-albero">ALBERO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MICHELE DE MAIO 1833-1903 -->
+                <div class="document-person-card doc-card" data-type="morte,albero">
+                    <div class="document-person-header">
+                        ⚰️ Michele Di Majo (1833-1903)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('morte-michele', 'Certificato di Morte Michele Di Majo - 29 Novembre 1903', 'morte-michele-1903.jpg')">
+                                <div class="document-icon">⚰️</div>
+                                <div class="document-name">Certificato Morte - 29 Nov 1903</div>
+                                <span class="document-type-badge badge-morte">MORTE</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('diagramma-michele', 'Albero Genealogico Michele Di Majo 1833', 'diagramma-michele-1833.pdf')">
+                                <div class="document-icon">🌳</div>
+                                <div class="document-name">Albero Genealogico (PDF)</div>
+                                <span class="document-type-badge badge-albero">ALBERO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ANGIOLA ROSA MARIA DI MAJO 1828 -->
+                <div class="document-person-card doc-card" data-type="nascita">
+                    <div class="document-person-header">
+                        👶 Angiola Rosa Maria Di Majo (1828-?)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('nascita-angiola', 'Certificato di Nascita Angiola Rosa Maria - 4 Febbraio 1828', 'nascita-angiola-rosa-1828.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Certificato Nascita - 4 Feb 1828</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GIUSEPPE ANTONIO DI MAJO 1832 -->
+                <div class="document-person-card doc-card" data-type="nascita,matrimonio">
+                    <div class="document-person-header">
+                        📜 Giuseppe Antonio Di Majo (1832-?)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('nascita-giuseppe-antonio', 'Testimone Storico Giuseppe Antonio Di Majo - 3 Ottobre 1832', 'giuseppe-antonio-di-majo-1832.jpg')">
+                                <div class="document-icon">👶</div>
+                                <div class="document-name">Documento - 3 Ott 1832</div>
+                                <span class="document-type-badge badge-nascita">NASCITA</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('matrimonio-giuseppe-antonio', 'Certificato di Matrimonio Giuseppe Antonio - 28 Dicembre 1865', 'matrimonio-giuseppe-antonio-1865.jpg')">
+                                <div class="document-icon">💒</div>
+                                <div class="document-name">Certificato Matrimonio - 28 Dic 1865</div>
+                                <span class="document-type-badge badge-matrimonio">MATRIMONIO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MATRIMONI STORICI VARI -->
+                <div class="document-person-card doc-card" data-type="matrimonio">
+                    <div class="document-person-header">
+                        💒 Matrimoni Storici (sec. XIX)
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('matrimonio-nunziante', 'Certificato di Matrimonio Nunziante - 1845', 'matrimonio-nunziante-1845.jpg')">
+                                <div class="document-icon">💒</div>
+                                <div class="document-name">Matrimonio Nunziante - 1845</div>
+                                <span class="document-type-badge badge-matrimonio">MATRIMONIO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('matrimonio-luigi-1823', 'Certificato di Matrimonio Luigi Di Majo - 1823', 'matrimonio-luigi-1823.jpg')">
+                                <div class="document-icon">💒</div>
+                                <div class="document-name">Matrimonio Luigi Di Majo - 1823</div>
+                                <span class="document-type-badge badge-matrimonio">MATRIMONIO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('matrimonio-luigi-1865', 'Certificato di Matrimonio Luigi Di Maio - 1865', 'matrimonio-luigi-1865.jpg')">
+                                <div class="document-icon">💒</div>
+                                <div class="document-name">Matrimonio Luigi Di Maio - 21 Gen 1865</div>
+                                <span class="document-type-badge badge-matrimonio">MATRIMONIO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOTO E CENSIMENTI -->
+                <div class="document-person-card doc-card" data-type="altro">
+                    <div class="document-person-header">
+                        📸 Foto e Documenti Vari
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('maria-carmina-1840', 'Foto Maria Carmina Di Stefano - 1840', 'maria-carmina-1840.jpg')">
+                                <div class="document-icon">📸</div>
+                                <div class="document-name">Maria Carmina Di Stefano - 1840</div>
+                                <span class="document-type-badge badge-altro">FOTO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('maria-rosa-1845', 'Foto Maria Rosa De Majo - 27 Giugno 1845', 'maria-rosa-1845.jpg')">
+                                <div class="document-icon">📸</div>
+                                <div class="document-name">Maria Rosa De Majo - 27 Giu 1845</div>
+                                <span class="document-type-badge badge-altro">FOTO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('censimento-1940', 'Censimento 1940 - Famiglia De Maio USA', 'censimento-1940.jpg')">
+                                <div class="document-icon">📋</div>
+                                <div class="document-name">Censimento USA 1940</div>
+                                <span class="document-type-badge badge-altro">CENSIMENTO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('photo-archivio', 'Foto Archivio Privato', 'c436a35e8.png')">
+                                <div class="document-icon">🎞️</div>
+                                <div class="document-name">Foto da Archivio Privato</div>
+                                <span class="document-type-badge badge-altro">FOTO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALTRI DIAGRAMMI -->
+                <div class="document-person-card doc-card" data-type="albero">
+                    <div class="document-person-header">
+                        🌳 Alberi Genealogici Storici
+                    </div>
+                    <div class="document-person-body">
+                        <div class="document-list">
+                            <div class="document-item" onclick="showDocument('diagramma-giuseppe-1777', 'Albero Genealogico Giuseppe Di Majo 1777', 'diagramma-giuseppe-1777.pdf')">
+                                <div class="document-icon">🌳</div>
+                                <div class="document-name">Diagramma Giuseppe 1777 (PDF)</div>
+                                <span class="document-type-badge badge-albero">ALBERO</span>
+                            </div>
+                            <div class="document-item" onclick="showDocument('morti-storici', 'Documento Morte Pietro Di Majo - 1838', '1838-morte-pietro.png')">
+                                <div class="document-icon">📜</div>
+                                <div class="document-name">Morte Pietro Di Majo - 1838</div>
+                                <span class="document-type-badge badge-morte">DOCUMENTO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; background: linear-gradient(135deg, var(--light), white); padding: 25px; border-radius: 15px; border-left: 4px solid var(--accent);">
+                <h3 style="color: var(--primary); margin-bottom: 15px;">📚 Note Sugli Archivi</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 10px 0; padding-left: 25px; position: relative;">
+                        <span style="position: absolute; left: 0;">✅</span>
+                        <strong>Archivi Comunali:</strong> I certificati di nascita, matrimonio e morte sono conservati negli archivi pubblici di Solofra e Serino (Avellino)
+                    </li>
+                    <li style="margin: 10px 0; padding-left: 25px; position: relative;">
+                        <span style="position: absolute; left: 0;">✅</span>
+                        <strong>Documenti USA:</strong> I registri relativi ad Antonio Michele De Maio sono conservati negli archivi di Oklahoma City e del National Records Office
+                    </li>
+                    <li style="margin: 10px 0; padding-left: 25px; position: relative;">
+                        <span style="position: absolute; left: 0;">✅</span>
+                        <strong>Ancestry.com:</strong> La genealogia completa è documentata nel database genealogico mondiale dal 2023
+                    </li>
+                    <li style="margin: 10px 0; padding-left: 25px; position: relative;">
+                        <span style="position: absolute; left: 0;">✅</span>
+                        <strong>Archivi Privati:</strong> Documenti originali, fotografie e copie autenticate sono conservati presso i discendenti
+                    </li>
+                    <li style="margin: 10px 0; padding-left: 25px; position: relative;">
+                        <span style="position: absolute; left: 0;">✅</span>
+                        <strong>Database Storici:</strong> I registri militari di Giuseppe De Maio (WWII) sono conservati negli archivi militari italiani
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SEZIONE RISORSE ONLINE -->
+        <section id="risorse">
+            <h2>🌐 Risorse Online e Database Genealogici</h2>
+            
+            <div class="resource-intro">
+                <p>Di seguito sono elencate le principali risorse online per cercare documenti e informazioni relative a componenti della famiglia De Maio. Molte di queste banche dati contengono registri civili italiani, censimenti americani, e documenti di emigrazione.</p>
+            </div>
+
+            <div class="resources-grid">
+                <!-- FamilySearch -->
+                <div class="resource-card">
+                    <h3>🔗 FamilySearch</h3>
+                    <p><strong>Tipo:</strong> Database genealogico gratuito</p>
+                    <p><strong>Copertura:</strong> Registri civili italiani (Avellino incluso), alberi genealogici della comunità</p>
+                    <p><strong>Vantaggi:</strong> Accesso gratuito senza account, miliardi di record</p>
+                    <p><a href="https://www.familysearch.org" target="_blank" style="color: var(--accent); font-weight: 600;">→ Visita FamilySearch →</a></p>
+                </div>
+
+                <!-- Ancestry.com -->
+                <div class="resource-card">
+                    <h3>🔗 Ancestry.com</h3>
+                    <p><strong>Tipo:</strong> Database genealogico con abbonamento</p>
+                    <p><strong>Copertura:</strong> Censimenti USA (1930, 1940), registri vitali italiani, ship manifests</p>
+                    <p><strong>Costo:</strong> €24.99-€100/mese (prova gratuita disponibile)</p>
+                    <p><strong>Ideale per:</strong> Ricerche emigrazione, censimenti americani</p>
+                    <p><a href="https://www.ancestry.com" target="_blank" style="color: var(--accent); font-weight: 600;">→ Visita Ancestry.com →</a></p>
+                </div>
+
+                <!-- Antenati -->
+                <div class="resource-card">
+                    <h3>🇮🇹 Antenati (Archivi Italiani)</h3>
+                    <p><strong>Tipo:</strong> Portale ufficiale archivi statali italiani</p>
+                    <p><strong>Copertura:</strong> Registri civili digitalizzati italiani</p>
+                    <p><strong>Vantaggi:</strong> Accesso diretto ai documenti originali dalle amministrazioni</p>
+                    <p><a href="https://www.antenati.culturaitalia.it" target="_blank" style="color: var(--accent); font-weight: 600;">→ Visita Antenati →</a></p>
+                </div>
+
+                <!-- Comune di Solofra -->
+                <div class="resource-card">
+                    <h3>📋 Comune di Solofra</h3>
+                    <p><strong>Tipo:</strong> Ufficio Anagrafe e Stato Civile</p>
+                    <p><strong>Servizio:</strong> Rilascio certificati ufficiali di nascita, morte, matrimonio</p>
+                    <p><strong>Contatti:</strong> Tel. 0825 582411</p>
+                    <p><a href="https://www.comune.solofra.av.it/it/page/anagrafe-e-stato-civile-345" target="_blank" style="color: var(--accent); font-weight: 600;">→ Visita Comune →</a></p>
+                </div>
+
+                <!-- Oklahoma Historical Society -->
+                <div class="resource-card">
+                    <h3>🏛️ Oklahoma Historical Society</h3>
+                    <p><strong>Tipo:</strong> Archivi storici americani</p>
+                    <p><strong>Utilità:</strong> Per ricerche su Antonio Michele De Maio (emigrato in Oklahoma)</p>
+                    <p><strong>Copertura:</strong> Documenti storici dell'Oklahoma, registri pubblici</p>
+                    <p><a href="https://www.okhistory.org" target="_blank" style="color: var(--accent); font-weight: 600;">→ Visita OHS →</a></p>
+                </div>
+
+                <!-- RootsWeb -->
+                <div class="resource-card">
+                    <h3>🌳 RootsWeb</h3>
+                    <p><strong>Tipo:</strong> Community genealogy database</p>
+                    <p><strong>Copertura:</strong> Indici genealogici inseriti dagli utenti, incluse famiglie italiane</p>
+                    <p><strong>Vantaggi:</strong> Gratuito, contiene condivisioni dalla comunità</p>
+                    <p><a href="https://www.rootsweb.com" target="_blank" style="color: var(--accent); font-weight: 600;">→ Visita RootsWeb →</a></p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--secondary);">📋 Ricerche Suggerite per Persona</h3>
+            <p style="color: #6b7280; margin-bottom: 20px;">Qui di seguito vengono suggerite ricerche specifiche per ciascun membro della famiglia. Usa i dati di nascita/morte e i luoghi indicati per ottenere risultati più accurati.</p>
+
+            <div id="searchSuggestions" class="search-suggestions-grid">
+                <!-- Caricato dinamicamente via JavaScript -->
+            </div>
+        </section>
+
+        <!-- MODAL per visualizzare documenti -->
+        <div id="documentModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="documentTitle">Documento Storico</span>
+                    <span class="close-modal" onclick="closeModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <img id="documentImage" src="" alt="Documento" style="display: none;">
+                    <div id="documentPdfMessage" style="display: none; text-align: center; padding: 20px;">
+                        <p style="font-size: 1.2em; color: var(--primary); font-weight: 600; margin-bottom: 15px;">📄 Documento PDF</p>
+                        <p style="color: #6b7280; margin-bottom: 20px;">Il documento è in formato PDF. Fare clic sul pulsante sottostante per visualizzare il file originale.</p>
+                        <a id="pdfLink" href="" target="_blank" style="display: inline-block; padding: 12px 25px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
+                            📥 Apri Documento PDF
+                        </a>
+                    </div>
+                    <div id="documentInfo" class="document-info" style="display: none;">
+                        <strong>Fonte:</strong> <span id="sourceText">Archivi Pubblici/Privati</span><br>
+                        <strong>Data:</strong> <span id="dateText">-</span><br>
+                        <strong>Tipo:</strong> <span id="typeText">Documento storico</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>🌳 <strong>Albero Genealogico della Famiglia De Maio</strong></p>
+            <div class="footer-divider"></div>
+            <p>Una storia di 250 anni, 7 generazioni, e un patrimonio che attraversa continenti</p>
+            <p style="margin-top: 15px; font-size: 0.85em; color: #9ca3af;">
+                Documentazione iniziata: 7 Giugno 2023<br>
+                Ultima revisione: 22 Aprile 2026<br>
+                Fonte: Ancestry.com Family Trees, Archivi Civili Comunali, Documenti Privati Familiari
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected section
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Smooth scroll for links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.person-card, .figure-card, .location-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Mapping dei documenti ai file reali - NOMI CORRETTI DAL SISTEMA
+        const documentMapping = {
+            'nascita-giuseppe-1871': 'nascita giuseppe de maio 1871.jpg',
+            'diagramma-giuseppe-1871': 'diagramma giuseppe de maio 1871.pdf',
+            'morte-giuseppe-1938': 'morte de maio giuseppe 1939.jpg',
+            'nascita-maria-roberta': 'nascita cefalo maria roberta.jpg',
+            'matrimonio-giuseppe-maria': 'matrimonio de maio giuseppe cefalo maria roberta.jpg',
+            'nascita-antonio-1903': 'nascita de maio antonio michele 1903 parte 1.jpg',
+            'nascita-antonio-1903-2': 'nascita de maio antonio michele 1903 parte 2.jpg',
+            'viaggio-antonio-1921': 'documento viaggio de maio antonio michele 1921.png',
+            'discendenti-antonio': 'discendenti antonio michele de maio 1903.pdf',
+            'tomba-antonio': 'foto tomba antonio michele de maio.jpg',
+            'nascita-salvatore': 'nascita de maio salvatore 1906.jpg',
+            'matrimonio-salvatore': 'matrimonio de maio salvatore 1929.jpg',
+            'morte-salvatore': 'morte de maio salvatore 1943.jpg',
+            'nascita-nicola-vincenzo': 'nascita nicola vincenzo 16 marzo 1809.jpg',
+            'matrimonio-nicola-vincenzo': 'matrimonio nicola vincenzo di majo 1831.jpg',
+            'diagramma-nicola-vincenzo': 'diagramma nicola vincenzo di maio.pdf',
+            'nascita-sabato-antonio': 'nascita sabato antonio di majo 1824.jpg',
+            'famiglia-sabato': 'famiglia ristretta Sabato Di Majo.pdf',
+            'morte-michele': 'morte michele de maio 1903.jpg',
+            'diagramma-michele': 'diagramma michele di maio 1833.pdf',
+            'nascita-angiola': 'nascita angiola rosa maria di maio 1828.jpg',
+            'nascita-giuseppe-antonio': 'giuseppe antonio di majo 1832.jpg',
+            'matrimonio-giuseppe-antonio': 'matrimonio giuseppe antonio di maio 28 dicembre 1865.jpg',
+            'matrimonio-nunziante': 'matrimonio nunziante di majo 1845.jpg',
+            'matrimonio-luigi-1823': 'matrimonio luigi di majo 1823.jpg',
+            'matrimonio-luigi-1865': 'matrimonio luigi di maio 21 gennaio 1865.jpg',
+            'maria-carmina-1840': 'maria carmina di stefano nascita 1840.jpg',
+            'maria-rosa-1845': 'maria rosa de majo 1845.jpg',
+            'censimento-1940': 'censimento 1940 si uniti mary de mio.jpg',
+            'photo-archivio': 'c436a35e828110e131e85c19bfd06d08.png',
+            'diagramma-giuseppe-1777': 'diagramma giuseppe di maio 1777.pdf',
+            'morti-storici': '1838 morte pietro di Majo.png',
+            'nascita-mary-1928': 'nascita mary de maio 1928.png',
+            'morte-nicola-1863': 'morte nicola di majo 1863.jpg',
+            'morte-annarosa-1832': 'morte annarosa di maio 1832.jpg',
+            'matrimonio-1843': 'matrimonio 1843.jpg',
+            'matrimonio-nicola-1831': 'matrimonio nicola vincenzo di majo 1831.jpg',
+            'nascita-nicola-1865': 'nascita nicola di majo 1865.jpg',
+            'nunziante-1812': 'nunziante de maio 1812.jpg',
+            'matrimonio-1843-parte2': 'matrimonio 1843 parte 2.jpg',
+            'matrimonio-giuseppe-antonio-fg2': 'matrimonio giuseppe antonio di maio 28 dicembre 1865 foglio2.jpg',
+            'matrimonio-luigi-1823-fg2': 'matrimonio luigi di majo 1823 foglio2.jpg',
+            'matrimonio-luigi-1865-fg2': 'matrimonio luigi di maio 21 gennaio 1865 foglio2.jpg',
+            'matrimonio-nicola-1831-fg2': 'matrimonio nicola vincenzo di majo 1831 foglio 2.jpg'
+        };
+
+        // SEZIONE DOCUMENTI - Funzioni per filtri e modal
+        function filterDocuments(type) {
+            const cards = document.querySelectorAll('.doc-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter cards
+            cards.forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                if (type === 'tutti') {
+                    card.style.display = 'block';
+                    setTimeout(() => card.style.opacity = '1', 10);
+                } else {
+                    if (cardType.includes(type)) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.style.opacity = '1', 10);
+                    } else {
+                        card.style.opacity = '0';
+                        setTimeout(() => card.style.display = 'none', 300);
+                    }
+                }
+            });
+        }
+
+        function showDocument(docId, docTitle, docFilename) {
+            const modal = document.getElementById('documentModal');
+            const documentTitle = document.getElementById('documentTitle');
+            const documentImage = document.getElementById('documentImage');
+            const documentPdfMessage = document.getElementById('documentPdfMessage');
+            const documentInfo = document.getElementById('documentInfo');
+            const pdfLink = document.getElementById('pdfLink');
+
+            // Usa il mapping per trovare il nome reale del file
+            const realFilename = documentMapping[docId] || docFilename;
+
+            documentTitle.textContent = docTitle;
+
+            // Nascondi tutti gli elementi per default
+            documentImage.style.display = 'none';
+            documentPdfMessage.style.display = 'none';
+            documentInfo.style.display = 'none';
+
+            // Controlla il tipo di file
+            if (realFilename.endsWith('.pdf')) {
+                // Mostra il messaggio PDF
+                documentPdfMessage.style.display = 'block';
+                // Percorso relativo al file HTML che è nella cartella "de maio"
+                pdfLink.href = './' + encodeURIComponent(realFilename);
+                pdfLink.textContent = '📥 Apri Documento PDF';
+                pdfLink.target = '_blank';
+            } else if (realFilename.endsWith('.png') || realFilename.endsWith('.jpg') || realFilename.endsWith('.jpeg')) {
+                // Mostra l'immagine
+                // Percorso relativo al file HTML che è nella cartella "de maio"
+                documentImage.src = './' + encodeURIComponent(realFilename);
+                documentImage.alt = docTitle;
+                documentImage.style.display = 'block';
+                documentImage.onerror = function() {
+                    this.alt = 'Documento non trovato: ' + realFilename;
+                    this.style.background = '#f0f0f0';
+                    this.style.color = '#999';
+                    this.style.padding = '20px';
+                    console.error('File non trovato:', realFilename);
+                };
+            }
+
+            // Mostra l'informazione sul documento
+            documentInfo.style.display = 'block';
+            document.getElementById('sourceText').textContent = 'Archivi Comunali / Documenti Famiglia';
+            document.getElementById('typeText').textContent = getDocumentType(docId);
+
+            // Mostra il modal
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('documentModal');
+            modal.style.display = 'none';
+        }
+
+        function getDocumentType(docId) {
+            const types = {
+                'nascita': 'Certificato di Nascita',
+                'morte': 'Certificato di Morte',
+                'matrimonio': 'Certificato di Matrimonio',
+                'viaggio': 'Documento di Viaggio',
+                'albero': 'Albero Genealogico',
+                'foto': 'Fotografia Storica',
+                'censimento': 'Censimento'
+            };
+
+            for (let key in types) {
+                if (docId.includes(key)) {
+                    return types[key];
+                }
+            }
+            return 'Documento Storico';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('documentModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Add animation to document cards on scroll
+        document.querySelectorAll('.document-person-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // CARICA RICERCHE SUGGERITE PER SEZIONE RISORSE
+        function loadSuggestedSearches() {
+            const container = document.getElementById('searchSuggestions');
+            if (!container) return;
+            
+            // Load the JSON file
+            fetch('./ricerche_suggerite.json')
+                .then(response => response.json())
+                .then(data => {
+                    container.innerHTML = '';
+                    data.ricerche.forEach(persona => {
+                        const card = document.createElement('div');
+                        card.className = 'search-suggestion-card';
+                        
+                        const date = (persona.dataNascita ? `n. ${persona.dataNascita}` : '');
+                        const death = (persona.dataMorte ? ` † ${persona.dataMorte}` : '');
+                        
+                        card.innerHTML = `
+                            <div class="person-name">${persona.nome}</div>
+                            <div class="dates">${date}${death}</div>
+                            <div class="location" style="color: #888; font-size: 0.9em; margin-bottom: 10px;">📍 ${persona.luogo}</div>
+                            <div class="description" style="color: #666; font-size: 0.9em; margin-bottom: 10px; font-style: italic;">${persona.descrizione}</div>
+                            <div class="suggestions">
+                                <strong style="display: block; margin-bottom: 8px;">💡 Suggerimenti di ricerca:</strong>
+                                <ul>
+                                    ${persona.suggerimenti.map(sugg => `<li>${sugg}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                        
+                        container.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error('Errore nel caricamento delle ricerche:', error);
+                    container.innerHTML = '<p style="color: #d32f2f;">Errore nel caricamento delle ricerche suggerite. <br>Assicurati che il file ricerche_suggerite.json sia nella stessa cartella dell\'HTML.</p>';
+                });
+        }
+
+        // Carica ricerche quando la pagina è pronta
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadSuggestedSearches);
+        } else {
+            loadSuggestedSearches();
+        }
+
+        // Ricarica ricerche quando viene visitata la sezione risorse
+        const searchSuggestions = document.getElementById('searchSuggestions');
+        if (searchSuggestions && searchSuggestions.children.length === 0) {
+            loadSuggestedSearches();
+        }
+    </script>
+</body>
+</html>

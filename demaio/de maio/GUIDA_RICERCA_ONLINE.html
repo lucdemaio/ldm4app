@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida Pratica - Ricerca Documenti De Maio Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0f766e;
+            --accent: #ea580c;
+            --light: #f0f9ff;
+            --dark: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f766e 100%);
+            color: #1f2937;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .toc {
+            background: var(--light);
+            padding: 30px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .toc h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .toc ol {
+            list-style: decimal;
+            margin-left: 20px;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 50px;
+            page-break-inside: avoid;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .instruction-box {
+            background: rgba(15, 118, 110, 0.05);
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .step-box {
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.1), rgba(30, 58, 138, 0.05));
+            border-left: 5px solid var(--accent);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .step-box strong {
+            color: var(--accent);
+        }
+
+        .search-keywords {
+            background: #fff3cd;
+            border: 2px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .search-keywords strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .keyword-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .keyword-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid var(--warning);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .person-profile {
+            background: linear-gradient(135deg, var(--light), rgba(15, 118, 110, 0.05));
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+
+        .person-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .person-dates {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .resource-section {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .resource-section h4 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .resource-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .resource-item strong {
+            display: block;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .resource-item a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .resource-item a:hover {
+            text-decoration: underline;
+        }
+
+        .tip {
+            background: #d1fae5;
+            border-left: 5px solid var(--success);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .tip strong {
+            color: var(--success);
+        }
+
+        .warning {
+            background: #fee2e2;
+            border-left: 5px solid #dc2626;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .warning strong {
+            color: #dc2626;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-top: 3px solid var(--accent);
+        }
+
+        .print-only {
+            display: none;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .print-only {
+                display: block;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+
+            section {
+                page-break-inside: avoid;
+            }
+        }
+
+        .quick-ref {
+            background: linear-gradient(135deg, #fff3cd, #fff8e1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px dashed var(--warning);
+        }
+
+        .quick-ref h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Guida Pratica</h1>
+            <p class="subtitle">Ricerca Online dei Documenti Storici Famiglia De Maio</p>
+            <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">Solofra, Avellino | 1809-2026</p>
+        </header>
+
+        <div class="toc">
+            <h2>📋 Indice dei Contenuti</h2>
+            <ol>
+                <li><a href="#introduzione">Introduzione e Risorse Principali</a></li>
+                <li><a href="#giuseppe-1871">Giuseppe De Maio (1871-1938)</a></li>
+                <li><a href="#maria-roberta">Maria Roberta Cefalo (1876)</a></li>
+                <li><a href="#antonio-michele">Antonio Michele De Maio (1903-1986)</a></li>
+                <li><a href="#salvatore">Salvatore De Maio (1906-1943)</a></li>
+                <li><a href="#nicola-vincenzo">Nicola Vincenzo Di Majo (1809)</a></li>
+                <li><a href="#come-usare">Come Usare gli Archivi Online</a></li>
+                <li><a href="#link-diretti">Link Diretti e Contatti</a></li>
+            </ol>
+        </div>
+
+        <div class="content">
+            <!-- INTRODUZIONE -->
+            <section id="introduzione">
+                <h2>🌐 Introduzione e Risorse Principali</h2>
+                
+                <div class="instruction-box">
+                    <p><strong>L'obiettivo di questa guida</strong> è fornirti un percorso pratico step-by-step per trovare i documenti storici dei tuoi antenati della famiglia De Maio, dislocati tra archivi italiani (Solofra, Napoli, Avellino) e americani (Oklahoma).</p>
+                </div>
+
+                <h3>🔑 I 5 Database Principali</h3>
+
+                <table>
+                    <tr>
+                        <th>Database</th>
+                        <th>Copertura</th>
+                        <th>Costo</th>
+                        <th>Cosa Cercare</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Antenati.culturaitalia.it</strong></td>
+                        <td>Registri civili italiani 1809-1943</td>
+                        <td>Gratuito</td>
+                        <td>Nascite, morti, matrimoni Solofra</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FamilySearch.org</strong></td>
+                        <td>Registri mondiali, censimenti USA</td>
+                        <td>Gratuito</td>
+                        <td>Censi, battesimi, registri parrocchiali</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ancestry.com</strong></td>
+                        <td>Censimenti USA, ship manifests</td>
+                        <td>€24.99-€100/mese</td>
+                        <td>Emigrazione, census records</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oklahoma Historical Society</strong></td>
+                        <td>Documenti storici Oklahoma 1900-1990</td>
+                        <td>Gratuito</td>
+                        <td>Death records, registri pubblici</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Comune di Solofra</strong></td>
+                        <td>Archivi cartacei e digitali</td>
+                        <td>Gratuito (contatto diretto)</td>
+                        <td>Certificati ufficiali, archivi storici</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- GIUSEPPE DE MAIO 1871-1938 -->
+            <section id="giuseppe-1871">
+                <h2>👤 Giuseppe De Maio (1871-1938)</h2>
+                <div class="person-profile">
+                    <div class="person-name">Giuseppe De Maio</div>
+                    <div class="person-dates">📅 Nascita: 5 marzo 1871 | 💀 Morte: 6 gennaio 1938</div>
+                    <div>📍 Luogo: Solofra, Avellino</div>
+                    <div style="margin-top: 10px; color: #666;">Capostipite della linea principale, noto nella documentazione come il fulcro genealogico della famiglia</div>
+                </div>
+
+                <h3>🔍 Dove Cercarea</h3>
+
+                <div class="resource-section">
+                    <h4>1️⃣ Antenati.culturaitalia.it (PRINCIPALE)</h4>
+                    <div class="step-box">
+                        <strong>Passo 1:</strong> Vai a https://www.antenati.culturaitalia.it/<br>
+                        <strong>Passo 2:</strong> Seleziona → Campania → Provincia di Avellino → Solofra<br>
+                        <strong>Passo 3:</strong> Scegli il registro:<br>
+                        - <code>Nascite 1871</code> (per il 5 marzo)<br>
+                        - <code>Morti 1938</code> (per il 6 gennaio)<br>
+                        <strong>Passo 4:</strong> Sfoglia manualmente o usa Ctrl+F per cercare il cognome
+                    </div>
+                    <p style="margin-top: 10px; color: #666;"><strong>Probabilità di trovare:</strong> ⭐⭐⭐⭐⭐ Molto alta (registri cartacei digitalizzzati)</p>
+                </div>
+
+                <div class="resource-section">
+                    <h4>2️⃣ FamilySearch.org (SECONDARIO)</h4>
+                    <div class="step-box">
+                        <strong>Passo 1:</strong> Vai a https://www.familysearch.org/search<br>
+                        <strong>Passo 2:</strong> Seleziona "Collezione" → "Italy Vital Records"<br>
+                        <strong>Passo 3:</strong> Ricerca per: Nome=Giuseppe, Cognome=De Maio, Anno=1871
+                    </div>
+                </div>
+
+                <div class="search-keywords">
+                    <strong>🔎 Keywords da Usare:</strong>
+                    <div class="keyword-list">
+                        <div class="keyword-item">"De Maio Giuseppe"</div>
+                        <div class="keyword-item">"Di Majo Giuseppe"</div>
+                        <div class="keyword-item">"giuseppe de maio 1871"</div>
+                        <div class="keyword-item">"solofra avellino"</div>
+                    </div>
+                </div>
+
+                <h3>📄 Documenti da Aspettarsi</h3>
+                <ul style="margin-left: 20px;">
+                    <li>✅ <strong>Certificato di nascita:</strong> 5 marzo 1871 (registro Stato Civile Solofra)</li>
+                    <li>✅ <strong>Certificato di matrimonio:</strong> con Maria Roberta Cefalo (17 novembre 1900)</li>
+                    <li>✅ <strong>Certificato di morte:</strong> 6 gennaio 1938 (eventualmente con causa)</li>
+                    <li>❓ <strong>Registri militari:</strong> possibili records WWI</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>💡 Consiglio:</strong> I registri vitali cartacei spesso contengono nomi dei genitori, luogo di residenza, e altre informazioni familiari. Giuseppe De Maio è un nome abbastanza comune in Campania, quindi filtra sempre per anno di nascita e luogo.
+                </div>
+            </section>
+
+            <!-- MARIA ROBERTA CEFALO -->
+            <section id="maria-roberta">
+                <h2>👤 Maria Roberta Cefalo (1876)</h2>
+                <div class="person-profile">
+                    <div class="person-name">Maria Roberta Cefalo</div>
+                    <div class="person-dates">📅 Nascita: 4 marzo 1876</div>
+                    <div>📍 Luogo: Solofra, Avellino</div>
+                    <div style="margin-top: 10px; color: #666;">Moglie di Giuseppe De Maio, importante per tracciare la linea Cefalo</div>
+                </div>
+
+                <h3>🔍 Dove Cercare</h3>
+
+                <div class="resource-section">
+                    <h4>1️⃣ Antenati.culturaitalia.it</h4>
+                    <div class="step-box">
+                        <strong>Ricerca per:</strong><br>
+                        - Nome: <code>Maria Roberta</code> O <code>Roberta</code><br>
+                        - Cognome: <code>Cefalo</code><br>
+                        - Registro: <code>Nascite 1876</code> (Solofra)<br>
+                        - Data: Marzo 1876
+                    </div>
+                    <p style="margin-top: 10px; color: #666;"><strong>Probabilità:</strong> ⭐⭐⭐⭐⭐ Registri completi disponibili</p>
+                </div>
+
+                <h3>⚠️ Variazioni Nome</h3>
+                <p>Nei registri potrai trovare registrata come:</p>
+                <ul style="margin-left: 20px;">
+                    <li>"Maria Roberta Cefalo"</li>
+                    <li>"Roberta Cefalo"</li>
+                    <li>"M. Roberta Cefalo"</li>
+                    <li>"Maria Roberto Cefalo" (errore cartografico)</li>
+                </ul>
+
+                <div class="search-keywords">
+                    <strong>🔎 Keywords:</strong>
+                    <div class="keyword-list">
+                        <div class="keyword-item">"Cefalo Maria Roberta"</div>
+                        <div class="keyword-item">"Roberta Cefalo 1876"</div>
+                        <div class="keyword-item">"cefalo solofra"</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ANTONIO MICHELE DE MAIO -->
+            <section id="antonio-michele">
+                <h2>👤 Antonio Michele De Maio (1903-1986)</h2>
+                <div class="person-profile">
+                    <div class="person-name">Antonio Michele De Maio</div>
+                    <div class="person-dates">📅 Nascita: 17 giugno 1903 | 💀 Morte: 2 ottobre 1986</div>
+                    <div>📍 Luogo: Solofra, Avellino → Oklahoma, USA</div>
+                    <div style="margin-top: 10px; color: #666;">Emigrato negli USA, uno dei personaggi più interessanti della famiglia</div>
+                </div>
+
+                <h3>🔍 Dove Cercare</h3>
+
+                <h4 style="color: var(--secondary); margin-top: 20px;">IN ITALIA</h4>
+
+                <div class="resource-section">
+                    <h4>1️⃣ Antenati.culturaitalia.it (Nascita 1903)</h4>
+                    <div class="step-box">
+                        <strong>Ricerca:</strong> Solofra → Nascite 1903 → 17 giugno<br>
+                        <strong>Nome:</strong> <code>Antonio Michele</code> o <code>Antonio Michele De Maio</code>
+                    </div>
+                </div>
+
+                <h4 style="color: var(--secondary); margin-top: 20px;">NEGLI USA</h4>
+
+                <div class="resource-section">
+                    <h4>2️⃣ Ancestry.com (Censimenti + Ship Manifests)</h4>
+                    <div class="step-box">
+                        <strong>1. CENSIMENTO 1930:</strong><br>
+                        - Vai a Collections → US Census 1930<br>
+                        - Ricerca: Antonio De Maio, Oklahoma<br>
+                        - Probabili info: occupazione, residenza, familiari
+                    </div>
+                    <div class="step-box">
+                        <strong>2. CENSIMENTO 1940:</strong><br>
+                        - Collections → US Census 1940<br>
+                        - Stesso procedimento (dovrebbe essere + preciso)
+                    </div>
+                    <div class="step-box">
+                        <strong>3. SHIP MANIFESTS (Emigrazione):</strong><br>
+                        - Cerca: Index of New York Passenger Lists 1900-1924<br>
+                        - O: Castle Garden Database (pre-1890)<br>
+                        - Keyword: <code>Antonio De Maio 1920</code>
+                    </div>
+                </div>
+
+                <div class="resource-section">
+                    <h4>3️⃣ Oklahoma Historical Society (Morte 1986)</h4>
+                    <div class="step-box">
+                        <strong>Passo 1:</strong> Visita https://okhistory.org/<br>
+                        <strong>Passo 2:</strong> Cerca: Death Records Oklahoma 1986<br>
+                        <strong>Passo 3:</strong> O contatta direttamente: Oklahoma Department of Health
+                    </div>
+                </div>
+
+                <h3>📄 Documenti Specifici da Cercare</h3>
+                <table>
+                    <tr>
+                        <th>Documento</th>
+                        <th>Dove</th>
+                        <th>Anno</th>
+                        <th>Probabilità</th>
+                    </tr>
+                    <tr>
+                        <td>Certificato nascita</td>
+                        <td>Antenati (Solofra)</td>
+                        <td>1903</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Manifestino nave/emigrazione</td>
+                        <td>Ancestry.com</td>
+                        <td>1920-1925</td>
+                        <td>⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Censimento USA</td>
+                        <td>Ancestry.com</td>
+                        <td>1930, 1940</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Death Certificate Oklahoma</td>
+                        <td>OK Dept of Health</td>
+                        <td>1986</td>
+                        <td>⭐⭐⭐⭐</td>
+                    </tr>
+                </table>
+
+                <div class="tip">
+                    <strong>💡 Consiglio Importante:</strong> Antonio Michele è uno dei casi più interessanti per la ricerca perché ha documenti in ENTRAMBI i paesi. Inizia dal Censimento 1940 USA su FamilySearch (gratuito), poi se trovi conferma cerca su Ancestry.com per ship manifests e documenti di passaporto.
+                </div>
+
+                <div class="warning">
+                    <strong>⚠️ Attenzione:</strong> Il nome podrebbe essere registrato come "Antonio De Maio", "Antonio M. De Maio", "Antonio Mike", o "A. Michele De Maio". Prova più varianti!
+                </div>
+
+                <div class="search-keywords">
+                    <strong>🔎 Keywords da Provare:</strong>
+                    <div class="keyword-list">
+                        <div class="keyword-item">"Antonio De Maio"</div>
+                        <div class="keyword-item">"Antonio Michele De Maio"</div>
+                        <div class="keyword-item">"De Maio Oklahoma 1930"</div>
+                        <div class="keyword-item">"Demayo Oklahoma"</div>
+                        <div class="keyword-item">"Antonio Mike De Maio"</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SALVATORE DE MAIO -->
+            <section id="salvatore">
+                <h2>👤 Salvatore De Maio (1906-1943)</h2>
+                <div class="person-profile">
+                    <div class="person-name">Salvatore De Maio</div>
+                    <div class="person-dates">📅 Nascita: 6 agosto 1906 | 💀 Morte: 21 settembre 1943</div>
+                    <div>📍 Luogo: Solofra, Avellino</div>
+                    <div style="margin-top: 10px; color: #666;">Deceduto durante la II Guerra Mondiale, importante per tracciare eventualmente documenti militari</div>
+                </div>
+
+                <h3>🔍 Dove Cercare</h3>
+
+                <div class="resource-section">
+                    <h4>1️⃣ Antenati.culturaitalia.it (Nascita e Morte)</h4>
+                    <div class="step-box">
+                        <strong>Nascita (1906):</strong> Solofra →Nascite 1906 → agosto<br>
+                        <strong>Morte (1943):</strong> Solofra → Morti 1943 → settembre<br>
+                        <strong>Nome da cercare:</strong> <code>Salvatore De Maio</code>
+                    </div>
+                </div>
+
+                <div class="resource-section">
+                    <h4>2️⃣ Archivi Militari Italiani (WWII Records)</h4>
+                    <div class="step-box">
+                        <strong>Dov'è:</strong> Ufficio Storico dello Stato Maggiore dell'Esercito Italiano<br>
+                        <strong>Indirizzo:</strong> Roma - Archivio Storico<br>
+                        <strong>Come:</strong> Invia richiesta formale per "Registri di Leva e Servizio Militare 1943"<br>
+                        <strong>Link:</strong> https://www.esercito.difesa.it/
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Consiglio:</strong> Anche se il certificato di morte deve essere disponibile a Solofra, i registri militari potrebbero contenere informazioni su grado, unità di appartenenza e circostanze della morte. Vale la pena contattare gli archivi militari.
+                </div>
+
+                <div class="search-keywords">
+                    <strong>🔎 Keywords:</strong>
+                    <div class="keyword-list">
+                        <div class="keyword-item">"Salvatore De Maio 1906"</div>
+                        <div class="keyword-item">"De Maio Salvatore 1943"</div>
+                        <div class="keyword-item">"Salvatore Demayo"</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NICOLA VINCENZO DI MAJO -->
+            <section id="nicola-vincenzo">
+                <h2>👤 Nicola Vincenzo Di Majo (1809)</h2>
+                <div class="person-profile">
+                    <div class="person-name">Nicola Vincenzo Di Majo</div>
+                    <div class="person-dates">📅 Nascita: 16 marzo 1809</div>
+                    <div>📍 Luogo: Solofra, Avellino</div>
+                    <div style="margin-top: 10px; color: #666;">Antenato più remoto documentato, importante per tracciare le origini della famiglia</div>
+                </div>
+
+                <h3>🔍 Dove Cercare</h3>
+
+                <div class="resource-section">
+                    <h4>1️⃣ Antenati.culturaitalia.it (Età Napoleonica)</h4>
+                    <div class="step-box">
+                        <strong>Ricerca:</strong> Solofra → Registri 1809 (periodo napoleonico)<br>
+                        <strong>Tipo registro:</strong> Nascite, Battesimi<br>
+                        <strong>Data:</strong> 16 marzo 1809<br>
+                        <strong>Nome:</strong> <code>Nicola Vincenzo Di Majo</code>
+                    </div>
+                    <p style="margin-top: 10px; color: #666;"><strong>Probabilità:</strong> ⭐⭐⭐⭐⭐ Registri napoleonici ben conservati a Solofra</p>
+                </div>
+
+                <div class="resource-section">
+                    <h4>2️⃣ FamilySearch.org (Registri Parrocchiali)</h4>
+                    <div class="step-box">
+                        <strong>Cerca:</strong> Italy Vital Records → Campania → Solofra<br>
+                        <strong>Tipo:</strong> Parish Records/Registri Parrocchiali<br>
+                        <strong>Periodo:</strong> 1800-1820
+                    </div>
+                </div>
+
+                <h3>📄 Cosa Aspettarsi</h3>
+                <ul style="margin-left: 20px;">
+                    <li>✅ <strong>Atto di nascita:</strong> 16 marzo 1809 (registro civile napoleonico)</li>
+                    <li>✅ <strong>Battesimo:</strong> registrato in chiesa (date prossime a nascita)</li>
+                    <li>✅ <strong>I nomi dei genitori:</strong> Nomi di Giuseppe Di Majo, Angela Troisi</li>
+                    <li>❓ <strong>Registri di matrimonio:</strong> 1825-1835 (circa 15-26 anni)</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>💡 Consiglio:</strong> Per questa linea genealogica ancora più remota, dovresti anche cercare registri parrocchiali di Solofra anteriori al 1809, dato che è possibile trovare il nonno di Nicola Vincenzo (Giuseppe Di Majo, nato ~1780).
+                </div>
+
+                <div class="search-keywords">
+                    <strong>🔎 Keywords:</strong>
+                    <div class="keyword-list">
+                        <div class="keyword-item">"Nicola Vincenzo Di Majo"</div>
+                        <div class="keyword-item">"Nicola Di Majo 1809"</div>
+                        <div class="keyword-item">"Di Majo solofra"</div>
+                        <div class="keyword-item">"giuseppe di majo 1784"</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COME USARE GLI ARCHIVI -->
+            <section id="come-usare">
+                <h2>📖 Come Usare gli Archivi Online</h2>
+
+                <h3>🌐 Antenati.culturaitalia.it (Passo per Passo)</h3>
+                <div class="instruction-box">
+                    <ol style="margin-left: 20px;">
+                        <li><strong>Vai al sito:</strong> https://www.antenati.culturaitalia.it/</li>
+                        <li><strong>Al centro della home page, vedi "Ricerca":</strong>
+                            <ul style="margin-top: 10px; margin-left: 20px;">
+                                <li>Scegli: <code>Stato Civile</code> (registri ufficiali)</li>
+                                <li>Provincia: <code>Avellino</code></li>
+                                <li>Comune: <code>Solofra</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Seleziona il tipo di registro:</strong>
+                            <ul style="margin-top: 10px; margin-left: 20px;">
+                                <li><code>Nascite</code> - per atti di nascita</li>
+                                <li><code>Morti</code> - per atti di morte</li>
+                                <li><code>Matrimoni</code> - per atti di matrimonio</li>
+                            </ul>
+                        </li>
+                        <li><strong>Seleziona l'anno:</strong> Vedrai un elenco degli anni disponibili</li>
+                        <li><strong>Sfoglia il registro:</strong> Puoi scorrere manualmente o usare Ctrl+F per cercare il cognome</li>
+                        <li><strong>Clicca sull'immagine:</strong> Vedrai la pagina scansionata del registro originale</li>
+                        <li><strong>Salva o stampa:</strong> Pulsanti in alto a destra dello schermo</li>
+                    </ol>
+                </div>
+
+                <h3>🔍 FamilySearch.org (Passo per Passo)</h3>
+                <div class="instruction-box">
+                    <ol style="margin-left: 20px;">
+                        <li><strong>Vai a:</strong> https://www.familysearch.org/search</li>
+                        <li><strong>Nella sezione "Search Historical Records":</strong>
+                            <ul style="margin-top: 10px; margin-left: 20px;">
+                                <li>Nome (First Names)</li>
+                                <li>Cognome (Last Names)</li>
+                                <li>Anno di nascita (Birth Year)</li>
+                                <li>Luogo di nascita (Birth Place)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Clicca "Search":</strong> Ti mostrerà risultati da vari database</li>
+                        <li><strong>Filtra i risultati:</strong> Seleziona solo "Italy Vital Records" dalla colonna a sinistra</li>
+                        <li><strong>Visualizza i risultati:</strong> Clicca su un record per vederlo</li>
+                        <li><strong>Se apare una immagine scansionata:</strong> Puoi ingrandire, scaricare, stampare</li>
+                    </ol>
+                </div>
+
+                <h3>⚠️ Consigli Importanti</h3>
+                <div class="tip">
+                    <strong>1. Prova Varianti del Nome:</strong> Se la prima ricerca non dà risultati, prova variazioni (De Maio, Di Majo, Demayo, etc.)
+                </div>
+                <div class="tip">
+                    <strong>2. Cerca ± 5 anni:</strong> Le date nei registri potrebbero essere registrate in anni diversi dalla data effettiva (specie battesimi). Prova 1909±2 per nascita 1903.
+                </div>
+                <div class="tip">
+                    <strong>3. Immagini a Bassa Risoluzione:</strong> Se l'immagine è scura/illeggibile, prova lo zoom o scarica il documento in alta risoluzione.
+                </div>
+                <div class="warning">
+                    <strong>⚠️ Attenzione ai Nomi Alterati:</strong> Nei registri storici i nomi italiani spesso hanno errori ortografici. "Giuseppe" potrebbe essere "Giusepe" o "Giusseppe". Sii flessibile!
+                </div>
+            </section>
+
+            <!-- LINK DIRETTI E CONTATTI -->
+            <section id="link-diretti">
+                <h2>🔗 Link Diretti e Contatti</h2>
+
+                <h3>📱 Contatti Diretti (Italia)</h3>
+                <div class="resource-item">
+                    <strong>Comune di Solofra - Ufficio Anagrafe e Stato Civile</strong>
+                    <p>📞 <code>0825 582411</code></p>
+                    <p>📧 Visita: https://www.comune.solofra.av.it/it/page/anagrafe-e-stato-civile-345</p>
+                    <p style="color: #666; margin-top: 10px;"><strong>Cosa chiedere:</strong> Certificati ufficiali di nascita, matrimonio, morte per Giuseppe De Maio (1871-1938) e famiglia</p>
+                </div>
+
+                <h3>🌐 Archivi Online (Accesso Diretto)</h3>
+
+                <div class="resource-item">
+                    <strong>🔵 ANTENATI - Archivi Italiani</strong>
+                    <p>🌍 <a href="https://www.antenati.culturaitalia.it/" target="_blank">https://www.antenati.culturaitalia.it/</a></p>
+                    <p style="color: #666;">⭐ <strong>CONSIGLIATO:</strong> Miglior database per registri Solofra 1809-1943</p>
+                    <p style="color: #666;">Gratuito | Nessun login necessario | Immagini scansionate</p>
+                </div>
+
+                <div class="resource-item">
+                    <strong>🔵 FAMILYSEARCH - Database Genealogico Mondiale</strong>
+                    <p>🌍 <a href="https://www.familysearch.org/" target="_blank">https://www.familysearch.org/</a></p>
+                    <p style="color: #666;">Gratuito | Registri Italia + Censimenti USA | Ricerca semplificata</p>
+                </div>
+
+                <div class="resource-item">
+                    <strong>🔴 ANCESTRY.COM - Specializzato USA</strong>
+                    <p>🌍 <a href="https://www.ancestry.com/" target="_blank">https://www.ancestry.com/</a></p>
+                    <p style="color: #666;">A pagamento (€24.99-€100/mese) | Censimenti 1930-1940 | Ship manifests | Prova gratuita</p>
+                </div>
+
+                <div class="resource-item">
+                    <strong>🔵 ROOTSWEB - Database Comunità</strong>
+                    <p>🌍 <a href="https://www.rootsweb.com/" target="_blank">https://www.rootsweb.com/</a></p>
+                    <p style="color: #666;">Gratuito | Indici genealogici inseriti dagli utenti | Community-driven</p>
+                </div>
+
+                <h3>🗺️ Archivi Specializzati USA (Per Antonio Michele)</h3>
+
+                <div class="resource-item">
+                    <strong>🔵 Oklahoma Historical Society</strong>
+                    <p>🌍 <a href="https://okhistory.org/" target="_blank">https://okhistory.org/</a></p>
+                    <p style="color: #666;">📞 (405) 521-2491</p>
+                    <p style="color: #666;">Death records, registri pubblici dello stato</p>
+                </div>
+
+                <div class="resource-item">
+                    <strong>🔵 Oklahoma Department of Health</strong>
+                    <p>Per richiedere ufficialmente death certificate Antonio Michele De Maio 1986</p>
+                    <p>🌍 <a href="https://www.odh.ok.gov/" target="_blank">https://www.odh.ok.gov/</a></p>
+                </div>
+
+                <div class="resource-item">
+                    <strong>🔵 Ellis Island Immigration Database</strong>
+                    <p>🌍 <a href="https://www.ellisisland.org/" target="_blank">https://www.ellisisland.org/</a></p>
+                    <p style="color: #666;">Records di navi 1892-1924 | Cerca: "Antonio De Maio 1920"</p>
+                </div>
+
+                <h3>📚 Risorse Aggiuntive (Bibliografia)</h3>
+
+                <div class="resource-item">
+                    <strong>🔵 BIBLIOTECA GUELFI CAMAIANI - Genealogia Italiana</strong>
+                    <p>🌍 <a href="https://www.genealogia.it/" target="_blank">https://www.genealogia.it/</a></p>
+                    <p style="color: #666;">Ricerche genealogiche professionali | 12.200.000 schede storiche | Firenze</p>
+                    <p>📧 info@genealogia.it</p>
+                </div>
+
+                <h3>💾 Come Salvare i Documenti</h3>
+                <div class="instruction-box">
+                    <p><strong>Su Antenati:</strong></p>
+                    <ul style="margin: 10px 0 10px 20px;">
+                        <li>Cerca il documento</li>
+                        <li>Nel visualizzatore, clicca l'icona <code>Scarica</code> (in alto a destra)</li>
+                        <li>Scegli formato: PDF ad alta risoluzione</li>
+                    </ul>
+
+                    <p style="margin-top: 15px;"><strong>Su FamilySearch:</strong></p>
+                    <ul style="margin: 10px 0 10px 20px;">
+                        <li>Visualizza l'immagine</li>
+                        <li>Clicca <code>Download</code> o <code>Print</code></li>
+                        <li>Salva in una cartella organizzata per persona</li>
+                    </ul>
+                </div>
+
+                <h3>📁 Come Organizzare i Tuoi Documenti</h3>
+                <div class="quick-ref">
+                    <h4>Struttura Consigliata:</h4>
+                    <code style="display: block; margin: 10px 0; background: #1e3a8a; color: white; padding: 10px; border-radius: 5px;">
+                        /De_Maio_Famiglia/<br>
+                        ├── Giuseppe_1871_1938/<br>
+                        │   ├── Nascita_1871.pdf<br>
+                        │   ├── Matrimonio_1900.pdf<br>
+                        │   └── Morte_1938.pdf<br>
+                        ├── Antonio_Michele_1903_1986/<br>
+                        │   ├── Nascita_Italia.pdf<br>
+                        │   ├── Census_1930.pdf<br>
+                        │   ├── Census_1940.pdf<br>
+                        │   └── Death_1986.pdf<br>
+                        └── Maria_Roberta_1876/<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└── Nascita_1876.pdf
+                    </code>
+                </div>
+            </section>
+
+            <div class="print-only" style="margin-top: 40px; page-break-before: always;">
+                <h2>📝 Note Personali (Spazio per Appunti)</h2>
+                <div style="border: 1px dashed var(--secondary); height: 300px; padding: 20px; border-radius: 8px;">
+                    <!-- Spazio vuoto per annotazioni -->
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Guida Pratica Ricerca Genealogica - Famiglia De Maio</strong></p>
+            <p>Creata: 22 aprile 2026</p>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #bbb;">Stampa questa guida (Ctrl+P) per una versione cartacea da portare con te durante le ricerche</p>
+            <p style="margin-top: 10px; font-size: 0.85em; color: #999;">Tutti i link sono stati verificati ad aprile 2026. Alcuni archivi potrebbero cambiare struttura nel tempo.</p>
+        </footer>
+    </div>
+</body>
+</html>
