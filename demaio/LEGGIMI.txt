@@ -1,0 +1,158 @@
+═══════════════════════════════════════════════════════════════════════════════
+   🌳 ALBERO GENEALOGICO FAMIGLIA DE MAIO - GUIDA ALL'UTILIZZO
+═══════════════════════════════════════════════════════════════════════════════
+
+📌 PROBLEMA PRINCIPALE
+─────────────────────────────────────────────────────────────────────────────
+I browser moderni non permettono di caricare immagini e documenti se l'HTML è
+aperto direttamente da file:// (con il protocollo file locale) per motivi di
+sicurezza (CORS). Questo causa gli errori:
+  ❌ "Failed to load resource: net::ERR_FILE_NOT_FOUND"
+  ❌ "Unsafe attempt to load URL from frame"
+
+✅ SOLUZIONE - USARE UN SERVER WEB LOCALE
+─────────────────────────────────────────────────────────────────────────────
+
+Hai due opzioni:
+
+OPZIONE 1: Usare il server Python automatico (CONSIGLIATO)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Nella cartella "albero genealogico" troverai:
+   📄 avvia_server.bat (per Windows)
+   
+2. Doppio click su "avvia_server.bat"
+
+3. Si aprirà una finestra nera (PowerShell/CMD) che dice:
+   
+   ════════════════════════════════════════════════════
+   SERVER WEB - Albero Genealogico Famiglia De Maio
+   ════════════════════════════════════════════════════
+   
+   🔗 Accedi a: http://localhost:8000
+
+4. Apri il tuo browser e vai a:
+   👉 http://localhost:8000/de%20maio/ALBERO_GENEALOGICO_DE_MAIO.html
+
+5. Voilà! ✨ Tutto funzionerà perfettamente!
+
+6. Per fermare il server: premi CTRL+C nella finestra nera
+
+
+OPZIONE 2: Usare Python manualmente (Alternativa)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Apri PowerShell/Prompt dei Comandi
+
+2. Naviga nella cartella "albero genealogico":
+   cd "C:\Users\Luca\Desktop\luca\albero genealogico"
+
+3. Avvia il server:
+   python server.py
+
+4. Apri il browser a:
+   http://localhost:8000/de%20maio/ALBERO_GENEALOGICO_DE_MAIO.html
+
+
+OPZIONE 3: Usare il server Python built-in di Windows (Se Python 3 è installato)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. PowerShell/Prompt dei Comandi
+
+2. Naviga nella cartella:
+   cd "C:\Users\Luca\Desktop\luca\albero genealogico"
+
+3. Esegui:
+   python -m http.server 8000
+
+4. Accedi a:
+   http://localhost:8000/de%20maio/ALBERO_GENEALOGICO_DE_MAIO.html
+
+
+OPZIONE 4: Usare un Server Web Online Gratuito
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Servizi gratuiti che accettano caricamenti:
+  • GitHub Pages (Gratuito, permanente)
+  • Vercel (Gratuito, fast)
+  • Netlify (Gratuito)
+  • Surge.sh (Gratuito)
+
+Carica la intera cartella "albero genealogico" e ottieni un link pubblico.
+
+
+⚙️  VERIFICA CHE PYTHON SIA INSTALLATO
+─────────────────────────────────────────────────────────────────────────────
+
+Se non sai se Python è installato:
+
+1. Apri PowerShell/Command Prompt (tasto Windows + R, digita "cmd", Invio)
+
+2. Scrivi:
+   python --version
+
+3. Se vedi qualcosa tipo "Python 3.x.x" ✅ è installato
+
+4. Se vedi "comando non trovato" ❌ scarica Python da:
+   https://www.python.org/downloads/
+
+   Durante l'installazione, IMPORTANTISSIMO:
+   ☑️ Seleziona "Add python.exe to PATH"
+
+
+📂 STRUTTURA CARTELLE
+─────────────────────────────────────────────────────────────────────────────
+
+albero genealogico/
+├── server.py                          (File di configurazione server)
+├── avvia_server.bat                   (File per avviare il server - CLICCA QUI!)
+├── LEGGIMI.txt                        (Questo file)
+└── de maio/
+    ├── ALBERO_GENEALOGICO_DE_MAIO.html (File principale HTML)
+    ├── [Tutti i documenti]
+    └── [Tutte le immagini]
+
+
+🎯 DOPO L'AVVIO DEL SERVER
+─────────────────────────────────────────────────────────────────────────────
+
+✅ Vedrai tutte le sezioni:
+   📖 La Storia
+   📺 Timeline
+   🌳 Albero Genealogico
+   👥 Personaggi Chiave
+   📊 Statistiche
+   🗺️ Luoghi
+   📄 Archivi Storici ← Clicca qui per vedere i documenti!
+
+✅ Potrai aprire i documenti storici in un popup
+✅ Vedrai tutte le immagini e i PDF
+✅ Potrai filtrare per tipo (Nascite, Morti, Matrimoni, ecc.)
+
+
+🐛 RISOLUZIONE PROBLEMI
+─────────────────────────────────────────────────────────────────────────────
+
+Problema: "Port 8000 already in use"
+Soluzione: Usa una porta diversa: python server.py 8001
+
+Problema: Browser mostra "Connection refused"
+Soluzione: Assicurati che il server sia in esecuzione (finestra nera aperta)
+
+Problema: Le immagini non si caricano ancora
+Sono: Apri DevTools (F12) → Console e cerca i nomi dei file negli errori
+
+
+📞 SUPPORTO
+─────────────────────────────────────────────────────────────────────────────
+
+Se hai problemi, controlla:
+1. Il server è in esecuzione? (finestra nera visibile)
+2. L'URL è corretto? (http://localhost:8000)
+3. Python è installato? (python --version)
+4. Tutti i file sono nello stesso posto?
+
+
+═══════════════════════════════════════════════════════════════════════════════
+Ultimo aggiornamento: 22 Aprile 2026
+═══════════════════════════════════════════════════════════════════════════════

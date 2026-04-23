@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 La Storia della Famiglia De Maio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8dcc8 100%);
+            color: #323232;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-style: italic;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            text-align: center;
+        }
+
+        .breadcrumb a {
+            color: #8b4513;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro-section h2 {
+            color: #8b4513;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #d4a574;
+            padding-bottom: 10px;
+        }
+
+        .intro-section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .chapter-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid #8b4513;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-left-width: 8px;
+        }
+
+        .chapter-card h3 {
+            color: #8b4513;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .chapter-card .generation {
+            display: inline-block;
+            background: #d4a574;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            margin-right: 5px;
+        }
+
+        .chapter-card .preview {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
+
+        .reader-view {
+            display: none;
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .reader-view.active {
+            display: block;
+        }
+
+        .reader-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #d4a574;
+        }
+
+        .reader-header h2 {
+            color: #8b4513;
+            flex: 1;
+            font-size: 2em;
+        }
+
+        .close-btn {
+            background: #d4a574;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #8b4513;
+        }
+
+        .reader-content {
+            line-height: 2;
+            font-size: 1.05em;
+            color: #444;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        .reader-content p {
+            margin-bottom: 20px;
+            text-indent: 40px;
+        }
+
+        .reader-content p:first-child {
+            text-indent: 0;
+        }
+
+        .reader-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #d4a574;
+        }
+
+        .nav-btn {
+            flex: 1;
+            background: #8b4513;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #a0522d;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .timeline-visualization {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: #d4a574;
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            padding-right: 52%;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            padding-left: 52%;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #8b4513;
+            border: 4px solid #f5e6d3;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .timeline-content {
+            background: #f9f4ed;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #d4a574;
+        }
+
+        .timeline-content.even {
+            border-left: none;
+            border-right: 3px solid #d4a574;
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: #8b4513;
+            font-size: 1.1em;
+        }
+
+        .generation-colors {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .gen-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gen-badge-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #8b4513;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #8b4513;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .reader-view {
+                padding: 25px;
+            }
+
+            .reader-content {
+                font-size: 1em;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                padding-left: 60px;
+                padding-right: 0;
+                text-align: left;
+            }
+
+            .timeline-content,
+            .timeline-content.even {
+                border-left: 3px solid #d4a574;
+                border-right: none;
+            }
+
+            .chapters-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d4a574;
+            border-radius: 8px;
+            font-size: 1em;
+            color: #323232;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #8b4513;
+            box-shadow: 0 0 5px rgba(139, 69, 19, 0.3);
+        }
+
+        .read-btn {
+            background: #8b4513;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .read-btn:hover {
+            background: #a0522d;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #d4a574;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <div class="breadcrumb">
+        <a href="ALBERO_GENEALOGICO_DE_MAIO.html">← Torna al Sito</a>
+    </div>
+
+    <header>
+        <h1>📖 La Storia della Famiglia De Maio</h1>
+        <p>Una narrazione attraverso sei generazioni (1784-2026)</p>
+    </header>
+
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Generazioni tracciate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">240+</div>
+                <div class="stat-label">Anni di storia</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Capitoli narrativi</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Valori tramandati</div>
+            </div>
+        </div>
+
+        <!-- Intro Section -->
+        <div class="intro-section">
+            <h2>Una Prefazione</h2>
+            <p style="font-style: italic; margin-bottom: 20px;">
+                <strong>Nota dell'autore:</strong> Questo racconto è dedicato ai miei nonni, a quanti hanno vissuto 
+                la strada difficile che ha condotto alla mia nascita. Ogni pagina combina documenti reali con la 
+                ricostruzione narrativa della vita quotidiana, cercando di mantenere viva la memoria attraverso le 
+                voci di chi è venuto prima.
+            </p>
+            <p>
+                La storia dei De Maio è una storia di resilienza, Solofra è più di un paese: è il cuore pulsante 
+                di una comunità di lavoratori, artigiani e contadini che hanno affrontato guerre, carestie, 
+                epidemie e trasformazioni economiche mantenendo uniti i valori di famiglia, onestà e dedizione.
+            </p>
+            <p>
+                Dalle valli del Settecento alle città moderne, ogni generazione ha custodito e tramandato 
+                un'eredità di lavoro, dignità e memoria. Questo è il loro racconto.
+            </p>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Cerca un nome, un anno o un capitolo...">
+        </div>
+
+        <!-- Chapters Grid -->
+        <div class="chapters-grid" id="chaptersGrid">
+            <!-- Generato dinamicamente da JavaScript -->
+        </div>
+
+        <!-- Reader View -->
+        <div id="readerContainer"></div>
+
+        <!-- Timeline Visualization -->
+        <div class="timeline-visualization" id="timelineContainer" style="display: none;">
+            <h2 style="color: #8b4513; margin-bottom: 30px;">⏰ Linea del Tempo</h2>
+            <div class="timeline" id="timeline">
+                <!-- Generato dinamicamente da JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Progetto Genealogico De Maio | <a href="ALBERO_GENEALOGICO_DE_MAIO.html">Torna al sito genealogico</a></p>
+        <p>Raccolto, trascritto e narrato da Luca De Maio</p>
+    </footer>
+
+    <script>
+        const chapters = {
+            "Capitolo 1 – Sabato De Maio e Angela Troisi (1784)": {
+                generation: "Gen. 1",
+                year: 1784,
+                content: "La luce del mattino filtra tra le montagne che circondano Solofra, accarezzando i tetti di tegole rosse e i torrenti che serpeggiano tra i boschi. È primavera del 1784 e la valle si risveglia con un ritmo di suoni e odori intensi: il fruscio delle foglie, il cinguettio dei passeri, l'acre profumo delle pelli da conciarsi, il fumo dei focolari. Le notizie dal Regno di Napoli parlano di tasse alte e gabelle imposte da Ferdinando IV; il popolo discute con apprensione dei decreti fiscali e delle difficoltà economiche che stringono le famiglie contadine e artigiane.\n\nNel casale di Sorbo, le prime attività iniziano prima dell'alba. Sabato De Maio apre la porta di casa e inspira l'aria fresca: davanti a lui, i vicoli si animano. Una donna stende i panni al sole, i bambini inseguono galline tra le pietre e dai tetti giunge il suono dei campanelli degli asini. Sabato richiama i figli:\n«Ragazzi, aiutate la mamma prima che il sole diventi troppo caldo! Poi andiamo alla bottega.»\nAngela sorride mentre versa acqua in un catino e chiama Giuseppe, il neonato:\n«Guarda, piccolo, il mondo si sveglia insieme a te.»\n\nLe attività della famiglia scorrono secondo i ritmi quotidiani. Gli uomini portano legna e attrezzi alla bottega di concia; le donne impastano farina, filano lana, curano l'orto. I bambini imparano dai più grandi: trascinano secchi d'acqua, osservano le mani dei conciatori, aiutano a mungere le capre.\n\nAlla bottega, il lavoro procede rapido e intenso. Uomini e ragazzi immergono le pelli in grandi tinozze di calce e acqua, le strofinano, le sciacquano e le appendono a seccare al sole. Il tintinnio dei ferri e il fruscio delle pelli creano un ritmo costante, mentre l'odore pungente invade l'aria. Sabato supervisiona tutto, spiegando ai figli e ai giovani apprendisti le tecniche tramandate dai padri:\n«Non strofinare troppo forte qui», dice, indicando una macchia. «La pelle deve respirare o diventa dura.»\n\nLe notizie dai paesi vicini giungono attraverso mercanti e viaggiatori. Si parla di rivolte contadine a Napoli e in Irpinia, causate da aumenti delle imposte sul grano e sulla lana. Gli abitanti di Solofra, pur immersi nei propri lavori quotidiani, discutono con attenzione di queste vicende: ogni novità politica può influire sul mercato delle pelli, sul prezzo dei raccolti, sulle vite delle famiglie.\n\nCon il sole ormai alto, il cortile del casale si riempie di nuovi suoni. Una vecchia donna del vicinato arriva con un cesto di pane fresco e saluta Angela:\n«Buongiorno! Vi serve un po' di farina?»\nI bambini si accalcano a guardare, affascinati dai gesti rapidi delle mani esperte. Le galline razzolano, le capre belano, un cane si sdraia vicino al pozzo a sorvegliare i carri che passano.\n\nArriva il mercato settimanale, atteso da tutti. La piazza si riempie di bancarelle: frutta, verdura, tessuti, strumenti agricoli, pelli. I mercanti gridano i prezzi, le monete tintinnano, i clienti contrattano con fervore. Giuseppe, neonato, passa di braccio in braccio tra i vicini che sorridono:\n«Sarà forte come il padre!» esclama qualcuno.\n«E saggio come la madre» aggiunge Angela, stringendolo al petto."
+            },
+            "Capitolo 2 – La nascita dei figli di Sabato e Angela": {
+                generation: "Gen. 1",
+                year: 1792,
+                content: "Mi trovo come d'incanto in quei luoghi lontani, e da dietro un albero osservo alcune persone indaffarate. Le loro voci giungono fino a me con la naturalezza poetica della vita quotidiana. È tutto vero, come se attraversassi il tempo. È primavera del 1784, pochi anni dopo la fine del regno di Carlo III di Borbone e l'inizio delle riforme del figlio Ferdinando IV, e la valle di Solofra si risveglia tra i suoni e gli odori della vita quotidiana: il fruscio delle foglie, il cinguettio dei passeri, l'acre profumo delle pelli da conciarsi, il fumo dei focolari.\n\nNel casale di Sorbo, le prime attività iniziano prima dell'alba. Sabato De Maio apre la porta di casa e inspira l'aria fresca: davanti a lui i vicoli si animano. Una donna stende i panni al sole, i bambini inseguono galline tra le pietre e dai tetti giunge il suono dei campanelli degli asini. Sabato richiama i figli:\n«Ragazzi, aiutate la mamma prima che il sole diventi troppo caldo! Poi andiamo alla bottega.»\n\nAngela sorride mentre versa acqua in un catino e chiama Giuseppe, il neonato:\n«Guarda, piccolo, il mondo si sveglia insieme a te.»\n\nGiuseppe cresce tra i vicoli e i cortili del Sorbo, osservando la vita attorno a sé e imparando dai più grandi. Nel 1792 nasce la sorellina Anna Rosa. Giuseppe osserva con curiosità e meraviglia la nuova vita che anima la casa, aiutando i fratelli maggiori e imparando a prendersi cura dei più piccoli. Sei anni dopo, nel 1798, arriva Luigi, il fratellino che riempie di rumore e allegria le stanze del Sorbo.\n\nNel 1799, quando Giuseppe ha quindici anni, Solofra viene travolta dai cambiamenti politici e dalla crisi economica legata alle guerre napoleoniche e alla proclamazione della Repubblica Partenopea. Le linee di credito si interrompono, la povertà aumenta, le botteghe e le concerie affrontano difficoltà crescenti. Molte famiglie soffrono la fame; per fortuna Sabato e Angela riescono a cavarsela grazie ai raccolti e alle attività domestiche."
+            },
+            "Capitolo 3 – Giuseppe De Maio e Maria Rosa Ravallese": {
+                generation: "Gen. 2",
+                year: 1805,
+                content: "La luce di maggio illumina Solofra, riflettendosi sui tetti di tegole rosse e sui torrenti che scorrono tra i boschi. È il 1805, e Giuseppe De Maio, ventunenne robusto e laborioso, si prepara a sposare Maria Rosa Ravallese, coetanea del casale Sorbo. La prima data delle nozze, fissata a gennaio, cade però durante una notte drammatica: il 21 gennaio, il torrente Vellizzano esonda con furia devastante, travolgendo ponti, case e raccolti. Le chiese di Santa Lucia e della Santissima Annunziata crollano, e le famiglie corrono tra fango e detriti per salvare ciò che resta. Il paesaggio, così familiare, appare trasformato in un istante, e la comunità trema tra paura e sgomento. La cerimonia viene rinviata a maggio, quando il sole e la rinascita della natura riportano speranza e gioia.\n\nIl giorno delle nozze, la Collegiata di San Michele risplende sotto il cielo terso. Il parroco accoglie gli sposi, mentre vicini e parenti addobbano vicoli e cortili, accendono focolari all'aperto e preparano cibi tipici: pane fragrante, formaggi freschi, salumi e dolci di farina e miele.\n\nNegli anni successivi, una violenta epidemia di peste colpisce Solofra, decimando la popolazione. Giuseppe muore, lasciando Maria Rosa sola con Nicola e Nunziante. La donna affronta la tragedia con coraggio: coltiva orti, accudisce animali e tiene insieme la famiglia. I vicini e i parenti condividono il lavoro e i raccolti, creando un tessuto di solidarietà che permette alla famiglia di sopravvivere."
+            },
+            "Capitolo 4 – Nicola Vincenzo e Angela Caterina": {
+                generation: "Gen. 3",
+                year: 1831,
+                content: "È il 15 febbraio 1831, e il cielo sopra Solofra brilla di un azzurro limpido. Un vento tiepido scuote le cime degli ulivi e accarezza i tetti dei casali. Nicola Vincenzo De Majo, ventunenne, figlio del compianto Giuseppe e di Maria Rosa Ravallese, si avvia verso la Collegiata di San Michele per sposare Angela Caterina Guarino, giovane donna dai modi gentili e dagli occhi scuri, figlia di Sabatantonio Guarino e Giulia Millita, nata e cresciuta nello stesso rione.\n\nDopo le nozze, Nicola e Angela si stabiliscono in una piccola casa ai piedi della Salita di Sant'Angelo, accanto a un ulivo secolare, simbolo di resistenza e continuità. La casa è semplice: due stanze, un camino, una stalla e un cortile da cui si scorge la montagna ancora selvaggia. I riti quotidiani scandiscono il tempo: Nicola lavora come bracciale, coltivando campi, vigne, uliveti e alberi da frutto, e presta aiuto nelle concerie del paese quando servono braccia robuste per trasportare pelli e girare i tamburi. Angela fila lana, cuce, prepara il pane due volte alla settimana, cura l'orto e i piccoli animali.\n\nLa primavera del 1832 porta gioia nella casa dei De Majo: Angela, dopo ore di attesa sopportata con dignità, dà alla luce Giuseppe Antonio Francesco. Nel 1833 nasce Michele, dopo una gravidanza più difficile per Angela. Le piogge ritardate e i raccolti scarsi rendono i mesi ancora più duri. Il bambino arriva vigoroso, e il suo pianto rimbomba nel cortile all'alba.\n\nNel luglio del 1845, Angela scopre di aspettare una figlia. Maria Rosa nasce in una notte calda e calma, e i fratelli maggiori la accolgono come una piccola reliquia."
+            },
+            "Capitolo 5 – Michele De Majo e Carmela Di Stefano": {
+                generation: "Gen. 4",
+                year: 1862,
+                content: "È il 31 agosto 1862, e il sole di fine estate illumina Solofra con una luce calda che fa risplendere le tegole rosse e le foglie degli ulivi. Michele De Majo, ventinovenne, figlio di Nicola Vincenzo e Angela Caterina, si prepara a sposare Carmela Di Stefano, sedicenne di Serino. La giovane cresce tra vigneti e uliveti, osservando i genitori Nicola e Maria Lettieri, che insegnano il rispetto per la terra e la fatica quotidiana.\n\nLa cerimonia si svolge in una chiesa modesta ma calorosa, le pareti illuminate dai raggi del sole pomeridiano che filtrano dalle vetrate colorate. Michele, robusto e dal volto serio, porta con sé l'eredità dei De Majo: lavoro nei campi, pazienza, tenacia e speranza. Carmela stringe tra le mani un fazzoletto ricamato dalla madre, tremante ma felice.\n\nDopo le nozze, Michele e Carmela si trasferiscono a Serino, dove la famiglia Di Stefano possiede campi, uliveti e orti. La vita quotidiana è scandita dal ritmo delle stagioni: all'alba Michele porta gli animali al pascolo, nei pomeriggi raccoglie olive o uva, e alla sera prepara il terreno per i semi dell'anno successivo.\n\nNel 1865 nasce Nicola, il primogenito. Sei anni più tardi, nel 1871, nasce Giuseppe, il secondogenito. Michele muore il 29 novembre 1903, all'età di settant'anni circa, lasciando ai figli l'eredità di un lavoro onesto, amore per la famiglia e radicamento nella terra tra Solofra e Serino."
+            },
+            "Capitolo 6 – Giuseppe De Maio e Roberta Cefalo": {
+                generation: "Gen. 5",
+                year: 1900,
+                content: "È il 17 novembre 1900, e il sole illumina Solofra con una luce chiara che fa brillare le tegole rosse dei tetti e i cortili dei casali. Oggi viene pubblicato il matrimonio di Giuseppe De Maio, ventinovenne figlio di Michele e Carmela, e Roberta Cefalo, ventiquattrenne figlia di Angelo Antonio e Filomena Landolfi.\n\nLa città è cambiata: le concerie prosperano, le pelli pregiate vengono esportate in tutta Italia, e il lavoro nei laboratori offre stabilità alle famiglie. Giuseppe cresce tra vigne, ulivi e orti, portando con sé l'onestà e la laboriosità dei De Majo. Roberta è nota per precisione e gentilezza: aiuta la madre, cura i fratelli e prepara la casa con cura.\n\nDopo la cerimonia, si trasferiscono in una casa modesta ma accogliente, vicino alle concerie. La vita quotidiana inizia all'alba: Giuseppe alterna i campi agli incarichi nei laboratori di concia, imparando a distinguere pelli pregiate e a trattare coloranti naturali, mentre Roberta fila lana, cuce e prepara il pane.\n\nNel 1903 nasce il primogenito, Antonio Michele. Tre anni dopo nasce Salvatore, seguito nel 1909 da Giovanni, e infine, nel 1919, Giuseppe. Ogni nascita è un momento di festa, ma anche di responsabilità: i figli imparano presto il valore del lavoro e della cura degli animali, mentre Giuseppe e Roberta trasmettono loro tradizioni, conoscenze e valori."
+            },
+            "Capitolo 7 – Giuseppe De Maio e Michelina Ferrandino": {
+                generation: "Gen. 6",
+                year: 1919,
+                content: "È il 23 marzo 1919 quando nasce Giuseppe De Maio a Solofra, figlio di Giuseppe e Roberta. La città, pur cambiata rispetto al tempo dei suoi nonni, conserva ancora il profumo delle concerie e i ritmi lenti della vita rurale. Fin da bambino, Giuseppe impara il valore del lavoro, della disciplina e del rispetto per la famiglia, osservando il padre muoversi tra campi, vigne e laboratori conciari.\n\nNel 1938, appena diciannovenne, Giuseppe è chiamato al servizio militare. Il distacco dalla famiglia è doloroso: lascia le strade familiari di Solofra per affrontare mesi di addestramento durissimi. Il 5 giugno 1940 Giuseppe lascia Napoli su una nave diretta a Tripoli, arrivando pochi giorni prima dell'ingresso dell'Italia nella Seconda Guerra Mondiale. Nel deserto, il sole opprime e le notti gelide inghiottono ogni calore. Nel 29° settore di copertura a Nalut, a circa duecento chilometri da Tripoli, le giornate scorrono tra addestramenti, sentinelle e corse contro il tempo.\n\nDopo la guerra e il lungo distacco dalla famiglia, Giuseppe torna finalmente a Solofra. Ritrova Michelina Ferrandino, nata nel 1920. Il loro matrimonio segna l'inizio di un nuovo capitolo: pace, ricostruzione e la possibilità di costruire una famiglia solida. La famiglia si amplia rapidamente con la nascita di Maria, Raffaella, Michele, Carmela e Giovanna."
+            },
+            "Capitolo 8 – Michele, Ornella e la famiglia di Luca": {
+                generation: "Gen. 7",
+                year: 1947,
+                content: "La storia dei De Maio giunge agli anni del dopoguerra e della modernità. Michele De Maio, nato il 30 novembre 1947 a Solofra, cresce in una città profondamente trasformata: le concerie, attività storica e cuore dell'economia locale, continuano a fiorire, e i laboratori si espandono, assorbendo nuove tecniche e macchinari che arrivono dal Nord.\n\nQando arriva il momento, Michele incontra Ornella Francesca Maggi, nata il 15 novembre 1948 a Gorgonzola, Milano. Ornella porta con sé l'aria vivace e industriosa della Lombardia: precisione, curiosità e una sensibilità gentile che si armonizza con le radici contadine e il calore del Sud. Il loro matrimonio, celebrato alla fine degli anni Settanta, diventa un ponte tra due mondi: il Nord industrializzato e il Sud agricolo.\n\nPoco dopo il matrimonio, nel 1976, nasce Luca De Maio, unico figlio della coppia. La sua nascita porta gioia e meraviglia nella famiglia. Gli zii portano avanti le loro famiglie, mantenendo vivi i valori dei De Maio. Le case si riempono di risate, racconti dei bisnonni e tradizioni, mentre le nuove generazioni affrontano la modernità con radici solide.\n\nIl filo che unisce tutte le generazioni è chiaro: lavoro, resilienza, amore per la famiglia e memoria storica permettono di affrontare guerre, povertà, migrazioni e trasformazioni economiche. Dalle valli di Solofra alle città del Nord, ogni generazione ha costruito un legame solido, custodendo tradizioni, memoria e valori che definiscono i De Maio da sei generazioni e oltre."
+            }
+        };
+
+        // Initialize chapters grid
+        function initChapters() {
+            const grid = document.getElementById('chaptersGrid');
+            const sortedChapters = Object.entries(chapters).sort((a, b) => a[1].year - b[1].year);
+            
+            sortedChapters.forEach((entry, index) => {
+                const [title, data] = entry;
+                const card = document.createElement('div');
+                card.className = 'chapter-card';
+                card.innerHTML = `
+                    <h3>${title}</h3>
+                    <span class="generation">${data.generation}</span>
+                    <div class="preview">${data.content.substring(0, 150)}...</div>
+                    <button class="read-btn" onclick="openReader('${index}')">Leggi il capitolo</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.chapter-card');
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        });
+
+        // Reader functions
+        function openReader(index) {
+            const sortedChapters = Object.entries(chapters).sort((a, b) => a[1].year - b[1].year);
+            const [title, data] = sortedChapters[index];
+            
+            const container = document.getElementById('readerContainer');
+            container.innerHTML = `
+                <div class="reader-view active">
+                    <div class="reader-header">
+                        <div>
+                            <h2>${title}</h2>
+                            <span class="generation">${data.generation}</span>
+                        </div>
+                        <button class="close-btn" onclick="closeReader()">Chiudi</button>
+                    </div>
+                    <div class="reader-content">
+                        ${data.content.split('\n').map(p => p.trim() ? `<p>${p}</p>` : '').join('')}
+                    </div>
+                    <div class="reader-nav">
+                        <button class="nav-btn" onclick="prevChapter(${index})" ${index === 0 ? 'disabled' : ''}>← Capitolo Precedente</button>
+                        <button class="nav-btn" onclick="nextChapter(${index})" ${index === sortedChapters.length - 1 ? 'disabled' : ''}>Capitolo Successivo →</button>
+                    </div>
+                </div>
+            `;
+            
+            // Scroll to reader
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeReader() {
+            document.getElementById('readerContainer').innerHTML = '';
+            document.getElementById('chaptersGrid').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function nextChapter(currentIndex) {
+            openReader(currentIndex + 1);
+        }
+
+        function prevChapter(currentIndex) {
+            openReader(currentIndex - 1);
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initChapters);
+    </script>
+</body>
+</html>

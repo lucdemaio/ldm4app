@@ -1,0 +1,4190 @@
+0 HEAD
+1 SUBM @SUBM1@
+1 SOUR Ancestry.com Family Trees
+2 NAME Ancestry.com Member Trees
+2 VERS 2022.08
+2 _TREE albero luca de maio
+3 RIN 170185029
+3 _ENV prd
+2 CORP Ancestry.com
+3 PHON 801-705-7000
+3 WWW www.ancestry.com
+3 ADDR 1300 West Traverse Parkway
+4 CONT Lehi, UT  84043
+4 CONT USA
+1 DATE 7 Jun 2023
+2 TIME 15:55:57
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+0 @SUBM1@ SUBM
+1 NAME Ancestry.com Member Trees Submitter
+0 @I112211670070@ INDI
+1 NAME luca /de maio/
+2 GIVN luca
+2 SURN de maio
+1 SEX M
+1 FAMC @F30@
+1 FAMS @F29@
+1 BIRT
+2 DATE 1976
+1 EVEN
+2 TYPE Military Service
+2 DATE 24 JUN 1998
+2 PLAC Casale Monferrato, Alessandria, Piemonte, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 21-22
+1 UID 5EEA342822E8035BBFA163EC8542210C
+0 @I112211670071@ INDI
+1 NAME giulia /de maio/
+2 GIVN giulia
+2 SURN de maio
+1 SEX F
+1 FAMC @F29@
+1 BIRT
+2 DATE 6 APR 2011
+2 PLAC Ponte San Pietro, Bergamo, Lombardia, Italia
+1 UID 5EEA3428A669035BCFA163EC8542210C
+0 @I112211670072@ INDI
+1 NAME greta /de maio/
+2 GIVN greta
+2 SURN de maio
+1 SEX F
+1 FAMC @F29@
+1 BIRT
+2 DATE 2 AUG 2006
+2 PLAC Ponte San Pietro, Bergamo, Lombardia, Italia
+1 UID 5EEA3428A704035BDFA163EC8542210C
+0 @I112211670073@ INDI
+1 NAME lidia /frigeni/
+2 GIVN lidia
+2 SURN frigeni
+1 SEX F
+1 FAMC @F2@
+1 FAMS @F29@
+1 BIRT
+2 DATE 29 APR 1976
+2 PLAC bergamo
+1 UID 5EEA3428A7CE035BEFA163EC8542210C
+0 @I112211670074@ INDI
+1 NAME michele /de maio/
+2 GIVN michele
+2 SURN de maio
+1 SEX M
+1 FAMC @F27@
+1 FAMS @F30@
+1 BIRT
+2 DATE 30 NOV 1947
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428A8D0035BFFA163EC8542210C
+0 @I112211670075@ INDI
+1 NAME ornella francesca /maggi/
+2 GIVN ornella francesca
+2 SURN maggi
+1 SEX F
+1 FAMC @F6@
+1 FAMS @F30@
+1 BIRT
+2 DATE 15 NOV 1948
+2 PLAC Gorgonzola, Milano, Lombardia, Italia
+1 UID 5EEA3428A97A035C0FA163EC8542210C
+0 @I112211670076@ INDI
+1 NAME michelina /ferrandino/
+2 GIVN michelina
+2 SURN ferrandino
+1 SEX F
+1 FAMC @F5@
+1 FAMS @F27@
+1 BIRT
+2 DATE 1920
+2 PLAC Solofra, Avellino, Campania, Italia
+1 RESI
+2 DATE 1947
+2 SOUR
+3 NOTE Age: 
+4 CONT 26-27
+1 DEAT Y
+2 DATE 2014
+2 PLAC Milano, Lombardia, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 93-94
+1 UID 5EEA3428AAA8035C1FA163EC8542210C
+0 @I112211670077@ INDI
+1 NAME giuseppe /de maio/
+2 GIVN giuseppe
+2 SURN de maio
+1 SEX M
+1 FAMC @F28@
+1 FAMS @F27@
+1 BIRT
+2 DATE 23 MAR 1919
+2 PLAC Solofra, Avellino, Campania, Italia
+1 EVEN
+2 TYPE Military Service
+2 DATE 31 AUG 1938
+2 PLAC Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 19
+2 NOTE inizio servizio militare
+1 EVEN
+2 TYPE Departure
+2 DATE 2 APR 1939
+2 PLAC Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 20
+2 NOTE chiamata alle armi
+1 EVEN
+2 TYPE Departure
+2 DATE 27 MAY 1940
+2 PLAC Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 21
+2 NOTE parte nel 1° reggimento artiglieria terzo corpo d'armata h5123/11 del 24 maggio 1940
+1 EVEN
+2 TYPE Departure
+2 DATE 5 JUN 1940
+2 PLAC Napoli, Napoli, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 21
+2 NOTE imbarcato a Napoli
+1 EVEN
+2 TYPE Arrival
+2 DATE 8 JUN 1940
+2 PLAC Tripoli, Tarabulus, Libyan Arab Jamahiriya
+2 SOUR
+3 NOTE Age: 
+4 CONT 21
+2 NOTE Sbarcato a Tripoli
+1 EVEN
+2 TYPE Military Service
+2 DATE 11 JUN 1940
+2 PLAC Tripoli, Tarabulus, Libyan Arab Jamahiriya
+2 SOUR
+3 NOTE Age: 
+4 CONT 21
+2 NOTE giunto al 29° settore di cop. mobilitato in territorio dichiarato in stato di guerra
+1 RESI
+2 DATE 1947
+2 SOUR
+3 NOTE Age: 
+4 CONT 27-28
+1 DEAT Y
+2 DATE 5 Ago 2006
+2 PLAC Solofra, Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 85-86
+1 UID 5EEA3428B314035C8FA163EC8542210C
+1 OBJE @O13@
+0 @I112211670078@ INDI
+1 NAME Giuseppe /De Maio/
+2 GIVN Giuseppe
+2 SURN De Maio
+1 SEX M
+1 FAMC @F62@
+1 FAMS @F28@
+1 BIRT
+2 DATE 5 MAR 1871
+2 PLAC Serino, Avellino, Campania, Italy
+2 OBJE @O23@
+1 DEAT Y
+2 DATE 6 JAN 1938
+2 PLAC Solofra, Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 66
+2 OBJE @O27@
+1 UID 5EEA3428B422035C9FA163EC8542210C
+1 OBJE @O27@
+1 OBJE @O26@
+1 OBJE @O23@
+0 @I112211670079@ INDI
+1 NAME Maria roberta /cefalo/
+2 GIVN Maria roberta
+2 SURN cefalo
+1 SEX F
+1 FAMC @F21@
+1 FAMS @F28@
+1 BIRT
+2 DATE 4 MAR 1876
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O1@
+2 OBJE @O24@
+1 UID 5EEA3428B4A6035CAFA163EC8542210C
+1 OBJE @O11@
+1 OBJE @O1@
+1 OBJE @O24@
+0 @I112211670080@ INDI
+1 NAME maria /de maio/
+2 GIVN maria
+2 SURN de maio
+1 SEX F
+1 FAMC @F27@
+1 FAMS @F8@
+1 BIRT
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428B4DF035CBFA163EC8542210C
+0 @I112211670081@ INDI
+1 NAME giovanna /de maio/
+2 GIVN giovanna
+2 SURN de maio
+1 SEX F
+1 FAMC @F27@
+1 FAMS @F9@
+1 BIRT
+2 PLAC Solofra, Avellino, Campania, Italia
+1 BIRT
+2 DATE 10 FEB 1954
+2 PLAC solofra
+1 UID 5EEA3428B592035CCFA163EC8542210C
+0 @I112211670082@ INDI
+1 NAME carmela /de maio/
+2 GIVN carmela
+2 SURN de maio
+1 SEX F
+1 FAMC @F27@
+1 FAMS @F10@
+1 BIRT
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428B5E7035CDFA163EC8542210C
+0 @I112211670083@ INDI
+1 NAME raffaella /de maio/
+2 GIVN raffaella
+2 SURN de maio
+1 SEX F
+1 FAMC @F27@
+1 FAMS @F11@
+1 BIRT
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428B644035CEFA163EC8542210C
+0 @I112211670084@ INDI
+1 NAME raffaella /luciano/
+2 GIVN raffaella
+2 SURN luciano
+1 SEX F
+1 FAMC @F16@
+1 FAMS @F5@
+1 BIRT
+2 DATE 1896
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428B6AE035CFFA163EC8542210C
+0 @I112211670085@ INDI
+1 NAME angelo santo /ferrandino/
+2 GIVN angelo santo
+2 SURN ferrandino
+1 SEX M
+1 FAMC @F12@
+1 FAMS @F5@
+1 BIRT
+2 DATE 18 NOV 1891
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428B74F035D0FA163EC8542210C
+0 @I112211670086@ INDI
+1 NAME alfredo /maggi/
+2 GIVN alfredo
+2 SURN maggi
+1 SEX M
+1 FAMC @F4@
+1 FAMS @F6@
+1 BIRT
+2 DATE 17/08/1911
+2 PLAC Peschiera, Milano, Lombardia, Italia
+1 RESI
+2 DATE 1948
+2 SOUR
+3 NOTE Age: 
+4 CONT 36-37
+1 DEAT Y
+2 DATE 1955
+2 PLAC Gorgonzola, Milano, Lombardia, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 43-44
+1 UID 5EEA3428B81F035D1FA163EC8542210C
+0 @I112211670087@ INDI
+1 NAME giuseppina /grassi/
+2 GIVN giuseppina
+2 SURN grassi
+1 SEX F
+1 FAMC @F1@
+1 FAMS @F6@
+1 BIRT
+2 DATE 1916
+2 PLAC Camporgiano, Lucca, Toscana, Italia
+1 RESI
+2 DATE 1948
+2 SOUR
+3 NOTE Age: 
+4 CONT 31-32
+1 DEAT Y
+2 DATE 3 MAR 2017
+2 PLAC Bergamo, Lombardia, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 100-101
+1 UID 5EEA3428B932035D2FA163EC8542210C
+0 @I112211670088@ INDI
+1 NAME maria teresa /maggi/
+2 GIVN maria teresa
+2 SURN maggi
+1 SEX F
+1 FAMC @F6@
+1 FAMS @F3@
+1 BIRT
+2 DATE 3 FEB 1947
+2 PLAC gorgonzola
+1 UID 5EEA3428B9B8035D3FA163EC8542210C
+0 @I112211670089@ INDI
+1 NAME pietro /maggi/
+2 GIVN pietro
+2 SURN maggi
+1 SEX M
+1 FAMS @F4@
+1 UID 5EEA3428B9E6035D4FA163EC8542210C
+0 @I112211670090@ INDI
+1 NAME Rosa /Dagrada/
+2 GIVN Rosa
+2 SURN Dagrada
+1 SEX F
+1 FAMS @F4@
+1 UID 5EEA3428BA0C035D5FA163EC8542210C
+0 @I112211670091@ INDI
+1 NAME Teresa /Tellini/
+2 GIVN Teresa
+2 SURN Tellini
+1 SEX F
+1 FAMS @F1@
+1 UID 5EEA3428BA43035D6FA163EC8542210C
+0 @I112211670092@ INDI
+1 NAME Michele /grassi/
+2 GIVN Michele
+2 SURN grassi
+1 SEX M
+1 FAMC @F7@
+1 FAMS @F1@
+1 UID 5EEA3428BAB1035D7FA163EC8542210C
+0 @I112211670093@ INDI
+1 NAME maria /mazzucconi/
+2 GIVN maria
+2 SURN mazzucconi
+1 SEX F
+1 FAMC @F74@
+1 FAMS @F2@
+1 UID 5EEA3428BB06035D8FA163EC8542210C
+0 @I112211670094@ INDI
+1 NAME romano /frigeni/
+2 GIVN romano
+2 SURN frigeni
+1 SEX M
+1 FAMC @F13@
+1 FAMS @F2@
+1 BIRT
+2 PLAC treviolo
+1 DEAT Y
+2 PLAC bergamo
+1 UID 5EEA3428BB7D035D9FA163EC8542210C
+0 @I112211670095@ INDI
+1 NAME filomena /ferrandino/
+2 GIVN filomena
+2 SURN ferrandino
+1 SEX F
+1 FAMC @F5@
+1 UID 5EEA3428BBA1035DAFA163EC8542210C
+0 @I112211670096@ INDI
+1 NAME antonietta /ferrandino/
+2 GIVN antonietta
+2 SURN ferrandino
+1 SEX F
+1 FAMC @F5@
+1 UID 5EEA3428BBC2035DBFA163EC8542210C
+0 @I112211670097@ INDI
+1 NAME anna /ferrandino/
+2 GIVN anna
+2 SURN ferrandino
+1 SEX F
+1 FAMC @F5@
+1 UID 5EEA3428BBE3035DCFA163EC8542210C
+0 @I112211670098@ INDI
+1 NAME cristina /ferrandino/
+2 GIVN cristina
+2 SURN ferrandino
+1 SEX F
+1 FAMC @F5@
+1 UID 5EEA3428BC03035DDFA163EC8542210C
+0 @I112211670099@ INDI
+1 NAME cristina /de maio/
+2 GIVN cristina
+2 SURN de maio
+1 SEX F
+1 FAMC @F56@
+1 FAMS @F12@
+1 BIRT
+2 DATE 1858
+1 UID 5EEA3428BCB4035DEFA163EC8542210C
+1 SOUR @S97433832@
+2 PAGE Ancestry Family Tree
+2 DATA
+3 TEXT http://trees.ancestry.com/pt/AMTCitationRedir.aspx?tid=104465159&amp;pid=30
+0 @I112211670100@ INDI
+1 NAME nicola /ferrandino/
+2 GIVN nicola
+2 SURN ferrandino
+1 SEX M
+1 FAMC @F17@
+1 FAMS @F12@
+1 BIRT
+2 DATE 1851
+2 PLAC Solofra, Italy
+2 SOUR @S97433833@
+3 PAGE National Archives and Records Administration (NARA); Washington D.C.; Roll #: 26; Volume #: Roll 0026 - Certificates: 24204-24900, 02 Jan 1907-11 Jan 1907
+1 RESI
+2 SOUR @S97433833@
+3 PAGE National Archives and Records Administration (NARA); Washington D.C.; Roll #: 26; Volume #: Roll 0026 - Certificates: 24204-24900, 02 Jan 1907-11 Jan 1907
+1 DEAT
+2 DATE 1906
+1 UID 5EEA3428BDA6035DFFA163EC8542210C
+1 SOUR @S97433832@
+2 PAGE Ancestry Family Tree
+2 DATA
+3 TEXT http://trees.ancestry.com/pt/AMTCitationRedir.aspx?tid=104465159&amp;pid=31
+0 @I112211670101@ INDI
+1 NAME Nicola /ferrandino/
+2 GIVN Nicola
+2 SURN ferrandino
+1 SEX M
+1 FAMC @F5@
+1 FAMS @F77@
+1 UID 5EEA3428BDD0035E0FA163EC8542210C
+0 @I112211670102@ INDI
+1 NAME Letizia /Carrara/
+2 GIVN Letizia
+2 SURN Carrara
+1 SEX F
+1 FAMS @F13@
+1 UID 5EEA3428BDF1035E1FA163EC8542210C
+0 @I112211670103@ INDI
+1 NAME Giovanni /frigeni/
+2 GIVN Giovanni
+2 SURN frigeni
+1 SEX M
+1 FAMS @F13@
+1 UID 5EEA3428BE1B035E2FA163EC8542210C
+0 @I112211670104@ INDI
+1 NAME Alessandro /Palazzi/
+2 GIVN Alessandro
+2 SURN Palazzi
+1 SEX M
+1 FAMC @F11@
+1 UID 5EEA3428BE41035E3FA163EC8542210C
+0 @I112211670105@ INDI
+1 NAME Eleonora /Palazzi/
+2 GIVN Eleonora
+2 SURN Palazzi
+1 SEX F
+1 FAMC @F11@
+1 BIRT
+2 DATE 14 JUN 1969
+1 UID 5EEA3428BEEA035E4FA163EC8542210C
+0 @I112211670106@ INDI
+1 NAME Pietro /Palazzi/
+2 GIVN Pietro
+2 SURN Palazzi
+1 SEX M
+1 FAMS @F11@
+1 UID 5EEA3428BF2F035E5FA163EC8542210C
+0 @I112211670107@ INDI
+1 NAME edoardo /vietri/
+2 GIVN edoardo
+2 SURN vietri
+1 SEX M
+1 FAMC @F10@
+1 BIRT
+2 DATE 9 JUL 1974
+2 PLAC legnano
+1 UID 5EEA3428BFBC035E6FA163EC8542210C
+0 @I112211670108@ INDI
+1 NAME gaetano /vietri/
+2 GIVN gaetano
+2 SURN vietri
+1 SEX M
+1 FAMC @F10@
+1 UID 5EEA3428BFE9035E7FA163EC8542210C
+0 @I112211670109@ INDI
+1 NAME nicola /vietri/
+2 GIVN nicola
+2 SURN vietri
+1 SEX M
+1 FAMS @F10@
+1 UID 5EEA3428C00B035E8FA163EC8542210C
+0 @I112211670110@ INDI
+1 NAME ilaria /masoero/
+2 GIVN ilaria
+2 SURN masoero
+1 SEX F
+1 FAMC @F9@
+1 UID 5EEA3428C02C035E9FA163EC8542210C
+0 @I112211670111@ INDI
+1 NAME giovanni /masoero/
+2 GIVN giovanni
+2 SURN masoero
+1 SEX M
+1 FAMS @F9@
+1 UID 5EEA3428C04C035EAFA163EC8542210C
+0 @I112211670112@ INDI
+1 NAME carlo /lodi/
+2 GIVN carlo
+2 SURN lodi
+1 SEX M
+1 FAMC @F8@
+1 BIRT
+2 DATE 4 MAR 1971
+2 PLAC milano
+1 UID 5EEA3428C0B2035EBFA163EC8542210C
+0 @I112211670113@ INDI
+1 NAME umberto /lodi/
+2 GIVN umberto
+2 SURN lodi
+1 SEX M
+1 FAMC @F8@
+1 UID 5EEA3428C0D7035ECFA163EC8542210C
+0 @I112211670114@ INDI
+1 NAME luigi /lodi/
+2 GIVN luigi
+2 SURN lodi
+1 SEX M
+1 FAMS @F8@
+1 BIRT
+2 DATE 27 NOV 1942
+2 PLAC milano
+1 UID 5EEA3428C1CE035EDFA163EC8542210C
+0 @I112211670115@ INDI
+1 NAME sabrina /sala/
+2 GIVN sabrina
+2 SURN sala
+1 SEX F
+1 FAMC @F3@
+1 FAMS @F14@
+1 UID 5EEA3428C20D035EEFA163EC8542210C
+0 @I112211670116@ INDI
+1 NAME alessandro /sala/
+2 GIVN alessandro
+2 SURN sala
+1 SEX M
+1 FAMC @F3@
+1 FAMS @F75@
+1 UID 5EEA3428C236035EFFA163EC8542210C
+0 @I112211670117@ INDI
+1 NAME enrico /sala/
+2 GIVN enrico
+2 SURN sala
+1 SEX M
+1 FAMC @F76@
+1 FAMS @F3@
+1 UID 5EEA3428C285035F0FA163EC8542210C
+0 @I112211670118@ INDI
+1 NAME Giuseppina /Villa/
+2 GIVN Giuseppina
+2 SURN Villa
+1 SEX F
+1 UID 5EEA3428C2AA035F1FA163EC8542210C
+0 @I112211670119@ INDI
+1 NAME Agostino /sala/
+2 GIVN Agostino
+2 SURN sala
+1 SEX M
+1 FAMS @F76@
+1 BIRT
+2 DATE 28 AUG 1905
+2 PLAC Carugate, Milano, Lombardia, Italia
+1 DEAT Y
+2 DATE 1988
+2 SOUR
+3 NOTE Age: 
+4 CONT 82-83
+1 UID 5EEA3428C343035F2FA163EC8542210C
+0 @I112211670120@ INDI
+1 NAME matteo /sala/
+2 GIVN matteo
+2 SURN sala
+1 SEX M
+1 FAMC @F75@
+1 UID 5EEA3428C365035F3FA163EC8542210C
+0 @I112211670121@ INDI
+1 NAME Riccardo /Gigliotti/
+2 GIVN Riccardo
+2 SURN Gigliotti
+1 SEX M
+1 FAMC @F14@
+1 UID 5EEA3428C386035F4FA163EC8542210C
+0 @I112211670122@ INDI
+1 NAME Giuseppe /Gigliotti/
+2 GIVN Giuseppe
+2 SURN Gigliotti
+1 SEX M
+1 FAMS @F14@
+1 UID 5EEA3428C3A6035F5FA163EC8542210C
+0 @I112211670123@ INDI
+1 NAME Jacopo /grassi/
+2 GIVN Jacopo
+2 SURN grassi
+1 SEX M
+1 FAMC @F1@
+1 UID 5EEA3428C3C6035F6FA163EC8542210C
+0 @I112211670124@ INDI
+1 NAME Jacopo /grassi/
+2 GIVN Jacopo
+2 SURN grassi
+1 SEX M
+1 FAMC @F1@
+1 UID 5EEA3428C3E5035F7FA163EC8542210C
+0 @I112211670125@ INDI
+1 NAME Dario /grassi/
+2 GIVN Dario
+2 SURN grassi
+1 SEX M
+1 FAMC @F1@
+1 UID 5EEA3428C406035F8FA163EC8542210C
+0 @I112211670126@ INDI
+1 NAME Michele /grassi/
+2 GIVN Michele
+2 SURN grassi
+1 SEX M
+1 FAMC @F1@
+1 UID 5EEA3428C425035F9FA163EC8542210C
+0 @I112211670127@ INDI
+1 NAME Marino /grassi/
+2 GIVN Marino
+2 SURN grassi
+1 SEX M
+1 FAMC @F1@
+1 UID 5EEA3428C444035FAFA163EC8542210C
+0 @I112211670128@ INDI
+1 NAME Domenico  /grassi/
+2 GIVN Domenico 
+2 SURN grassi
+1 SEX M
+1 FAMS @F7@
+1 UID 5EEA3428C464035FBFA163EC8542210C
+0 @I112211670129@ INDI
+1 NAME Marcella /sala/
+2 GIVN Marcella
+2 SURN sala
+1 SEX F
+1 FAMC @F76@
+1 FAMS @F20@
+1 UID 5EEA3428C48B035FCFA163EC8542210C
+0 @I112211670130@ INDI
+1 NAME antonio michele /de maio/
+2 GIVN antonio michele
+2 SURN de maio
+1 SEX M
+1 FAMC @F28@
+1 FAMS @F22@
+1 BIRT
+2 DATE 17 JUN 1903
+2 PLAC Solofra, Avellino, Campania, Italia
+2 SOUR @S97433834@
+2 SOUR @S97433835@
+1 DEAT Y
+2 DATE 2 OCT 1986
+2 PLAC Oklahoma City, Oklahoma, Oklahoma, Stati Uniti
+2 SOUR
+3 NOTE Age: 
+4 CONT 83
+2 SOUR @S97433834@
+2 SOUR @S97433835@
+1 BURI
+2 PLAC Oklahoma, Oklahoma, USA
+2 SOUR @S97433834@
+2 SOUR @S97433835@
+1 UID 5EEA3428C5E2035FDFA163EC8542210C
+0 @I112211670131@ INDI
+1 NAME tessie //
+2 GIVN tessie
+1 SEX F
+1 FAMS @F22@
+1 BIRT
+2 DATE 29 AUG 1904
+2 SOUR @S97433835@
+1 DEAT Y
+2 DATE 7 MAR 1986
+2 SOUR
+3 NOTE Age: 
+4 CONT 81
+2 SOUR @S97433835@
+1 BURI
+2 PLAC Harrah, Oklahoma County, Oklahoma, USA
+2 SOUR @S97433835@
+1 UID 5EEA3428C6D8035FEFA163EC8542210C
+0 @I112211670132@ INDI
+1 NAME Beniamino /Corbetta/
+2 GIVN Beniamino
+2 SURN Corbetta
+1 SEX M
+1 FAMS @F20@
+1 UID 5EEA3428C6FE035FFFA163EC8542210C
+0 @I112211670133@ INDI
+1 NAME filomena /landolfi/
+2 GIVN filomena
+2 SURN landolfi
+1 SEX F
+1 FAMS @F21@
+1 BIRT
+2 DATE 1844
+1 UID 5EEA3428C75103600FA163EC8542210C
+0 @I112211670134@ INDI
+1 NAME angelo antonio /cefalo/
+2 GIVN angelo antonio
+2 SURN cefalo
+1 SEX M
+1 FAMS @F21@
+1 BIRT
+2 DATE 1841
+1 UID 5EEA3428C7AD03601FA163EC8542210C
+0 @I112211670135@ INDI
+1 NAME giovanni /de maio/
+2 GIVN giovanni
+2 SURN de maio
+1 SEX M
+1 FAMC @F28@
+1 FAMS @F83@
+1 BIRT
+2 DATE 23 JUN 1909
+1 UID 5EEA3428C81103602FA163EC8542210C
+0 @I112211670136@ INDI
+1 NAME salvatore /de maio/
+2 GIVN salvatore
+2 SURN de maio
+1 SEX M
+1 FAMC @F28@
+1 FAMS @F18@
+1 BIRT
+2 DATE 6 AUG 1906
+2 PLAC Solofra, Avellino, Campania, Italia
+1 DEAT Y
+2 DATE 21 SEP 1943
+2 PLAC Solofra, Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 37
+1 DEAT Y
+2 DATE 21 SEP 1943
+2 PLAC Solofra, Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 37
+1 UID 5EEA3428C95003603FA163EC8542210C
+0 @I112211670137@ INDI
+1 NAME Angelo /ferrandino/
+2 GIVN Angelo
+2 SURN ferrandino
+1 SEX M
+1 FAMC @F77@
+1 FAMS @F78@
+1 UID 5EEA3428C97903604FA163EC8542210C
+0 @I112211670138@ INDI
+1 NAME Alex /ferrandino/
+2 GIVN Alex
+2 SURN ferrandino
+1 SEX M
+1 FAMC @F78@
+1 BIRT
+2 PLAC kiama
+1 UID 5EEA3428C9A803605FA163EC8542210C
+0 @I112211670139@ INDI
+1 NAME Melanie /ferrandino/
+2 GIVN Melanie
+2 SURN ferrandino
+1 SEX F
+1 FAMC @F78@
+1 BIRT
+2 PLAC kiama
+1 UID 5EEA3428C9D503606FA163EC8542210C
+0 @I112211670140@ INDI
+1 NAME filomena /carfagna/
+2 GIVN filomena
+2 SURN carfagna
+1 SEX F
+1 FAMS @F16@
+1 UID 5EEA3428C9FC03607FA163EC8542210C
+0 @I112211670141@ INDI
+1 NAME nicola /luciano/
+2 GIVN nicola
+2 SURN luciano
+1 SEX M
+1 FAMS @F16@
+1 UID 5EEA3428CA2A03608FA163EC8542210C
+0 @I112211670142@ INDI
+1 NAME maria giuseppa /giannattasio/
+2 GIVN maria giuseppa
+2 SURN giannattasio
+1 SEX F
+1 FAMC @F69@
+1 FAMS @F17@
+1 BIRT
+2 DATE 1815
+1 DEAT
+2 DATE 1890
+1 UID 5EEA3428CA4B03609FA163EC8542210C
+0 @I112211670143@ INDI
+1 NAME gabriele /ferrandino/
+2 GIVN gabriele
+2 SURN ferrandino
+1 SEX M
+1 FAMC @F72@
+1 FAMS @F17@
+1 BIRT
+2 DATE 1806
+1 DEAT
+2 DATE 1875
+1 UID 5EEA3428CA6B0360AFA163EC8542210C
+0 @I112211670144@ INDI
+1 NAME maria michela /maffei/
+2 GIVN maria michela
+2 SURN maffei
+1 SEX F
+1 FAMC @F36@
+1 FAMS @F56@
+1 UID 5EEA3428CA8B0360BFA163EC8542210C
+0 @I112211670145@ INDI
+1 NAME luigi /de maio/
+2 GIVN luigi
+2 SURN de maio
+1 SEX M
+1 FAMC @F70@
+1 FAMS @F56@
+1 UID 5EEA3428CAAB0360CFA163EC8542210C
+0 @I112211670146@ INDI
+1 NAME maria carmina /gaeta/
+2 GIVN maria carmina
+2 SURN gaeta
+1 SEX F
+1 FAMS @F18@
+1 UID 5EEA3428CACC0360DFA163EC8542210C
+0 @I112211670147@ INDI
+1 NAME Rita /de maio/
+2 GIVN Rita
+2 SURN de maio
+1 SEX F
+1 FAMC @F18@
+1 UID 5EEA3428CAEC0360EFA163EC8542210C
+0 @I112211670148@ INDI
+1 NAME Maria Nicola /de maio/
+2 GIVN Maria Nicola
+2 SURN de maio
+1 SEX F
+1 FAMC @F18@
+1 FAMS @F33@
+1 UID 5EEA3428CB140360FFA163EC8542210C
+0 @I112211670149@ INDI
+1 NAME Giuseppina /de maio/
+2 GIVN Giuseppina
+2 SURN de maio
+1 SEX F
+1 FAMC @F18@
+1 UID 5EEA3428CB4D03610FA163EC8542210C
+0 @I112211670150@ INDI
+1 NAME Roberta /de maio/
+2 GIVN Roberta
+2 SURN de maio
+1 SEX F
+1 FAMC @F18@
+1 BIRT
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428CB8803611FA163EC8542210C
+0 @I112211670151@ INDI
+1 NAME Sabatino /de maio/
+2 GIVN Sabatino
+2 SURN de maio
+1 SEX M
+1 FAMC @F18@
+1 BIRT
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428CBB803612FA163EC8542210C
+0 @I112211670152@ INDI
+1 NAME Giuseppe /de maio/
+2 GIVN Giuseppe
+2 SURN de maio
+1 SEX M
+1 FAMC @F18@
+1 FAMS @F82@
+1 UID 5EEA3428CBDD03613FA163EC8542210C
+0 @I112211670153@ INDI
+1 NAME Michele Antonio /De Maio/
+2 GIVN Michele Antonio
+2 SURN De Maio
+1 SEX M
+1 FAMC @F83@
+1 BIRT
+2 DATE ABT 1905
+2 PLAC Solofra, Avellino, Campania, Italia
+2 SOUR @S97433836@
+1 EVEN
+2 TYPE Arrival
+2 PLAC New York
+2 SOUR @S97433836@
+1 UID 5EEA3428CC7A03614FA163EC8542210C
+0 @I112211670154@ INDI
+1 NAME Giuseppe /de maio/
+2 GIVN Giuseppe
+2 SURN de maio
+1 SEX M
+1 FAMC @F83@
+1 BIRT
+2 PLAC solofra
+1 UID 5EEA3428CCB303615FA163EC8542210C
+0 @I112211670155@ INDI
+1 NAME Rocco /de maio/
+2 GIVN Rocco
+2 SURN de maio
+1 SEX M
+1 FAMC @F83@
+1 BIRT
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428CD5F03616FA163EC8542210C
+0 @I112211670157@ INDI
+1 NAME Maria Carmina /de maio/
+2 GIVN Maria Carmina
+2 SURN de maio
+1 SEX F
+1 FAMC @F82@
+1 UID 5EEA3428CDB303618FA163EC8542210C
+0 @I112211670158@ INDI
+1 NAME Vincenza /de maio/
+2 GIVN Vincenza
+2 SURN de maio
+1 SEX F
+1 FAMC @F82@
+1 UID 5EEA3428CDF903619FA163EC8542210C
+0 @I112211670159@ INDI
+1 NAME Tiziana /de maio/
+2 GIVN Tiziana
+2 SURN de maio
+1 SEX F
+1 FAMC @F82@
+1 UID 5EEA3428CE330361AFA163EC8542210C
+0 @I112211670160@ INDI
+1 NAME Salvatore /de maio/
+2 GIVN Salvatore
+2 SURN de maio
+1 SEX M
+1 FAMC @F82@
+1 BIRT
+2 DATE 3 DEC 1977
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428CEE10361BFA163EC8542210C
+0 @I112211670161@ INDI
+1 NAME carmela /di stefano/
+2 GIVN carmela
+2 SURN di stefano
+1 SEX F
+1 FAMC @F61@
+1 FAMS @F62@
+1 BIRT
+2 DATE 1846
+2 PLAC Serino, Avellino, Campania, Italia
+1 UID 5EEA3428CF790361CFA163EC8542210C
+0 @I112211670162@ INDI
+1 NAME michele /De Majo/
+2 GIVN michele
+2 SURN De Majo
+1 SEX M
+1 FAMC @F60@
+1 FAMS @F62@
+1 BIRT
+2 DATE 1833
+2 PLAC Solofra, Avellino, Campania, Italia
+1 DEAT Y
+2 DATE 29 NOV 1903
+2 PLAC Serino, Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 69-70
+2 OBJE @O21@
+1 UID 5EEA3428D04B0361DFA163EC8542210C
+1 OBJE @O21@
+0 @I112211670163@ INDI
+1 NAME nicola /De Majo/
+2 GIVN nicola
+2 SURN De Majo
+1 SEX M
+1 FAMC @F62@
+1 BIRT
+2 DATE 7 MAY 1865
+2 OBJE @O5@
+1 UID 5EEA3428D0EE0361EFA163EC8542210C
+1 OBJE @O5@
+0 @I112211670164@ INDI
+1 NAME angela caterina /guarino/
+2 GIVN angela caterina
+2 SURN guarino
+1 SEX F
+1 FAMC @F57@
+1 FAMS @F60@
+1 BIRT
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428D3D10361FFA163EC8542210C
+0 @I112211670165@ INDI
+1 NAME Nicola Vincenzo /Di Majo/
+2 GIVN Nicola Vincenzo
+2 SURN Di Majo
+1 SEX M
+1 FAMC @F59@
+1 FAMS @F60@
+1 BIRT
+2 DATE 16 MAR 1809
+2 PLAC Solofra, Avellino, Campania, Italia
+2 SOUR
+3 NOTE nascita ore sette.
+2 OBJE @O19@
+1 UID 5EEA3428D4CB03621FA163EC8542210C
+1 OBJE @O19@
+1 OBJE @O15@
+1 OBJE @O3@
+1 OBJE @O6@
+1 OBJE @O25@
+0 @I112211670166@ INDI
+1 NAME maria /lettieri/
+2 GIVN maria
+2 SURN lettieri
+1 SEX F
+1 FAMC @F66@
+1 FAMS @F61@
+1 BIRT
+2 DATE 12 JAN 1824
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428D55603622FA163EC8542210C
+0 @I112211670167@ INDI
+1 NAME nicola /di stefano/
+2 GIVN nicola
+2 SURN di stefano
+1 SEX M
+1 FAMS @F61@
+1 UID 5EEA3428D57D03623FA163EC8542210C
+0 @I112211670168@ INDI
+1 NAME giuseppe antonio francesco /Di Majo/
+2 GIVN giuseppe antonio francesco
+2 SURN Di Majo
+1 SEX M
+1 FAMC @F60@
+1 FAMS @F47@
+1 BIRT
+2 DATE 3 Ott 1832
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O29@
+1 UID 5EEA3428D5DA03624FA163EC8542210C
+1 OBJE @O10@
+1 OBJE @O2@
+1 OBJE @O29@
+0 @I112211670169@ INDI
+1 NAME Maria Rosa /Ravallese/
+2 GIVN Maria Rosa
+2 SURN Ravallese
+1 SEX F
+1 FAMC @F15@
+1 FAMS @F59@
+1 BIRT
+2 DATE 1784
+1 DEAT
+2 DATE 23 Dic 1847
+2 PLAC solofra
+2 OBJE @O28@
+1 UID 5EEA3428D61303625FA163EC8542210C
+1 OBJE @O28@
+0 @I112211670170@ INDI
+1 NAME giuseppe /Di Majo/
+2 GIVN giuseppe
+2 SURN Di Majo
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778035
+1 SEX M
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778035
+1 FAMC @F58@
+1 FAMS @F59@
+1 BIRT
+2 DATE 1784
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778035
+1 UID 5EEA3428D66B03626FA163EC8542210C
+0 @I112211670171@ INDI
+1 NAME maria rosa /De Majo/
+2 GIVN maria rosa
+2 SURN De Majo
+1 SEX F
+1 FAMC @F60@
+1 BIRT
+2 DATE 27 JUN 1845
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O20@
+1 UID 5EEA3428D6CD03627FA163EC8542210C
+1 OBJE @O20@
+1 OBJE @O14@
+0 @I112211670172@ INDI
+1 NAME giulia /millita/
+2 GIVN giulia
+2 SURN millita
+1 SEX F
+1 FAMS @F57@
+1 UID 5EEA3428D70803628FA163EC8542210C
+0 @I112211670173@ INDI
+1 NAME sabatantonio /guarino/
+2 GIVN sabatantonio
+2 SURN guarino
+1 SEX M
+1 FAMS @F57@
+1 UID 5EEA3428D73403629FA163EC8542210C
+0 @I112211670174@ INDI
+1 NAME Angela /Troisi/
+2 GIVN Angela
+2 SURN Troisi
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778065
+1 SEX F
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778065
+1 FAMS @F58@
+1 UID 5EEA3428D76F0362AFA163EC8542210C
+1 OBJE @O22@
+0 @I112211670175@ INDI
+1 NAME nicola /Di Majo/
+2 GIVN nicola
+2 SURN Di Majo
+1 SEX M
+1 FAMC @F59@
+1 FAMS @F19@
+1 DEAT Y
+2 DATE 17 JAN 1863
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O7@
+1 UID 5EEA3428D7DE0362BFA163EC8542210C
+1 OBJE @O7@
+0 @I112211670176@ INDI
+1 NAME Sabato /Di Majo/
+2 GIVN Sabato
+2 SURN Di Majo
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778037
+1 SEX M
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778037
+1 FAMS @F58@
+1 UID 5EEA3428D8000362CFA163EC8542210C
+0 @I112211670177@ INDI
+1 NAME Nunziante /Di Majo/
+2 GIVN Nunziante
+2 SURN Di Majo
+1 SEX M
+1 FAMC @F59@
+1 FAMS @F67@
+1 BIRT
+2 DATE 25 MAR 1812
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O18@
+1 UID 5EEA3428D88C0362DFA163EC8542210C
+1 OBJE @O4@
+1 OBJE @O18@
+0 @I112211670178@ INDI
+1 NAME antonia /di stefano/
+2 GIVN antonia
+2 SURN di stefano
+1 SEX F
+1 FAMC @F71@
+1 FAMS @F67@
+1 BIRT
+2 DATE 1819
+1 UID 5EEA3428D8FF0362EFA163EC8542210C
+0 @I112211670179@ INDI
+1 NAME annarosa /Di Majo/
+2 GIVN annarosa
+2 SURN Di Majo
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778092
+1 SEX F
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778092
+1 FAMC @F58@
+1 FAMS @F68@
+1 BIRT
+2 DATE 1792
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778092
+1 DEAT Y
+2 DATE 8 OCT 1832
+2 PLAC Solofra, Avellino, Campania, Italia
+2 SOUR
+3 NOTE Age: 
+4 CONT 39-40
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778092
+2 OBJE @O16@
+1 UID 5EEA3428D9B00362FFA163EC8542210C
+1 OBJE @O16@
+0 @I112211670180@ INDI
+1 NAME luigi /Di Majo/
+2 GIVN luigi
+2 SURN Di Majo
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778095
+1 SEX M
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778095
+1 FAMC @F58@
+1 FAMS @F63@
+1 BIRT
+2 DATE 1798
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778095
+1 UID 5EEA3428DA5703630FA163EC8542210C
+1 OBJE @O8@
+1 OBJE @O9@
+0 @I112211670182@ INDI
+1 NAME maria carmina /de maio/
+2 GIVN maria carmina
+2 SURN de maio
+1 SEX F
+1 FAMC @F56@
+1 FAMS @F65@
+1 UID 5EEA3428DAAD03632FA163EC8542210C
+0 @I112211670183@ INDI
+1 NAME anna maria /de maio/
+2 GIVN anna maria
+2 SURN de maio
+1 SEX F
+1 FAMC @F56@
+1 FAMS @F64@
+1 UID 5EEA3428DADB03633FA163EC8542210C
+0 @I112211670184@ INDI
+1 NAME gaetano /di donato/
+2 GIVN gaetano
+2 SURN di donato
+1 SEX M
+1 FAMS @F64@
+1 UID 5EEA3428DAFC03634FA163EC8542210C
+0 @I112211670185@ INDI
+1 NAME giovanni /esposito/
+2 GIVN giovanni
+2 SURN esposito
+1 SEX M
+1 FAMS @F65@
+1 UID 5EEA3428DB1C03635FA163EC8542210C
+0 @I112211670186@ INDI
+1 NAME anna /luciano/
+2 GIVN anna
+2 SURN luciano
+1 SEX F
+1 FAMS @F66@
+1 UID 5EEA3428DB3B03636FA163EC8542210C
+0 @I112211670187@ INDI
+1 NAME biaso /lettieri/
+2 GIVN biaso
+2 SURN lettieri
+1 SEX M
+1 FAMS @F66@
+1 UID 5EEA3428DB5B03637FA163EC8542210C
+0 @I112211670188@ INDI
+1 NAME lucia rosa /guarino/
+2 GIVN lucia rosa
+2 SURN guarino
+1 SEX F
+1 DEAT Y
+2 DATE 2 FEB 1813
+1 UID 5EEA3428DBC803638FA163EC8542210C
+0 @I112211670189@ INDI
+1 NAME angiola rosa maria /Di Majo/
+2 GIVN angiola rosa maria
+2 SURN Di Majo
+1 SEX F
+1 FAMC @F63@
+1 BIRT
+2 DATE 4 FEB 1828
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428DC3A03639FA163EC8542210C
+0 @I112211670190@ INDI
+1 NAME sabato antonio /Di Majo/
+2 GIVN sabato antonio
+2 SURN Di Majo
+1 SEX M
+1 FAMC @F63@
+1 BIRT
+2 DATE 19 JUN 1824
+2 PLAC Solofra, Avellino, Campania, Italia
+1 UID 5EEA3428DCB90363AFA163EC8542210C
+0 @I112211670191@ INDI
+1 NAME agata /gravallese/
+2 GIVN agata
+2 SURN gravallese
+1 SEX F
+1 FAMC @F73@
+1 FAMS @F63@
+1 BIRT
+2 DATE 1797
+1 UID 5EEA3428DD0E0363BFA163EC8542210C
+0 @I112211670192@ INDI
+1 NAME alessandro /gravallese/
+2 GIVN alessandro
+2 SURN gravallese
+1 SEX M
+1 FAMS @F73@
+1 UID 5EEA3428DD2F0363CFA163EC8542210C
+0 @I112211670193@ INDI
+1 NAME rachele /ferrandino/
+2 GIVN rachele
+2 SURN ferrandino
+1 SEX F
+1 FAMS @F73@
+1 UID 5EEA3428DD4F0363DFA163EC8542210C
+0 @I112211670194@ INDI
+1 NAME salvatore /rosania/
+2 GIVN salvatore
+2 SURN rosania
+1 SEX M
+1 FAMS @F68@
+1 UID 5EEA3428DD6F0363EFA163EC8542210C
+0 @I112211670195@ INDI
+1 NAME teresa russo //
+2 GIVN teresa russo
+1 SEX F
+1 FAMS @F71@
+1 UID 5EEA3428DD8E0363FFA163EC8542210C
+0 @I112211670196@ INDI
+1 NAME diodato /di stefano/
+2 GIVN diodato
+2 SURN di stefano
+1 SEX M
+1 FAMS @F71@
+1 UID 5EEA3428DDAF03640FA163EC8542210C
+0 @I112211670197@ INDI
+1 NAME Pascale /Ferrandina/
+2 GIVN Pascale
+2 SURN Ferrandina
+1 SEX M
+1 FAMC @F37@
+1 FAMS @F72@
+1 BIRT
+2 DATE ABT 1765
+2 PLAC Solofra, Avellino, Campania, Italy
+1 OCCU Farmer
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 13 JAN 1865
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C412DD1C9C1C921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1527994270&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1527994270:
+0 @I112211670198@ INDI
+1 NAME Teresa /Ferrandina/
+2 GIVN Teresa
+2 SURN Ferrandina
+1 SEX F
+1 FAMC @F31@
+1 FAMS @F72@
+1 BIRT
+2 DATE ABT 1769
+2 PLAC Montoro Superiore, Avellino, Italy
+1 DEAT Y
+2 DATE 12 DEC 1847
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C413096AFC20921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1527994283&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1527994283:
+0 @I112211670199@ INDI
+1 NAME Maria Teresa /Letteri/
+2 GIVN Maria Teresa
+2 SURN Letteri
+1 SEX F
+1 FAMC @F17@
+1 FAMS @F32@
+1 BIRT
+2 DATE ABT 1846
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 9 APR 1902
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C41321F42C22921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27984127&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27984127:
+0 @I112211670200@ INDI
+1 NAME Domenico /Ferrandina/
+2 GIVN Domenico
+2 SURN Ferrandina
+1 SEX M
+1 FAMC @F17@
+1 FAMS @F34@
+1 BIRT
+2 DATE 19 NOV 1848
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 28 MAR 1909
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C4133A672C24921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27984371&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27984371:
+0 @I112211670201@ INDI
+1 NAME Maddalena /Ferrandina/
+2 GIVN Maddalena
+2 SURN Ferrandina
+1 SEX F
+1 FAMC @F17@
+1 BIRT
+2 DATE 31 OCT 1853
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 18 MAR 1856
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C4135062BC26921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27985115&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27985115:
+0 @I112211670202@ INDI
+1 NAME Angleosanto /Ferrandina/
+2 GIVN Angleosanto
+2 SURN Ferrandina
+1 SEX M
+1 FAMC @F17@
+1 FAMS @F42@
+1 BIRT
+2 DATE 31 OCT 1853
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 19 AUG 1919
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C4136BED7C28921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27985265&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27985265:
+0 @I112211670203@ INDI
+1 NAME Maddalena /Ferrandino/
+2 GIVN Maddalena
+2 SURN Ferrandino
+1 SEX F
+1 FAMC @F17@
+1 BIRT
+2 DATE 16 MAR 1858
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C41385488C2A921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1588074142&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1588074142:
+0 @I112211670204@ INDI
+1 NAME Gaetano /Giannattasio/
+2 GIVN Gaetano
+2 SURN Giannattasio
+1 SEX M
+1 FAMC @F43@
+1 FAMS @F69@
+1 BIRT
+2 DATE ABT 1786
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 21 NOV 1842
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C4139EFA5C2C921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1575275318&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1575275318:
+0 @I112211670205@ INDI
+1 NAME Maria Angelica /Giannattasio/
+2 GIVN Maria Angelica
+2 SURN Giannattasio
+1 SEX F
+1 FAMC @F40@
+1 FAMS @F69@
+1 BIRT
+2 DATE ABT 1791
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 5 MAR 1867
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C413BA500C2F921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1575275868&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1575275868:
+0 @I112211670206@ INDI
+1 NAME Domenico /DiMajo/
+2 GIVN Domenico
+2 SURN DiMajo
+1 SEX M
+1 FAMS @F70@
+1 BIRT
+2 DATE ABT 1786
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE FROM 1830
+1 UID 5EF4C413D3A4AC31921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1525363822&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1525363822:
+0 @I112211670207@ INDI
+1 NAME Anna /DiMajo/
+2 GIVN Anna
+2 SURN DiMajo
+1 SEX F
+1 FAMS @F70@
+1 BIRT
+2 DATE ABT 1786
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 12 DEC 1830
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C413EDDC7C34921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1525363825&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1525363825:
+0 @I112211670208@ INDI
+1 NAME Giacomo Antonio /Maffei/
+2 GIVN Giacomo Antonio
+2 SURN Maffei
+1 SEX M
+1 FAMS @F36@
+1 BIRT
+2 DATE ABT 1802
+2 PLAC Solofra, Avellino, Campania, Italy
+1 EVEN
+2 TYPE MARR
+2 DATE 2 AUG 1829
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 24 APR 1857
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C41414D7AC36921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1503437810&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1503437810:
+0 @I112211670209@ INDI
+1 NAME Chiara /Maffei/
+2 GIVN Chiara
+2 SURN Maffei
+1 SEX F
+1 FAMS @F36@
+1 BIRT
+2 DATE 1798
+2 PLAC Solofra, Avellino, Campania, Italy
+1 EVEN
+2 TYPE MARR
+2 DATE 2 AUG 1829
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C41430A18C39921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1503437811&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1503437811:
+0 @I112211670210@ INDI
+1 NAME Gabriele /Ferrandina/
+2 GIVN Gabriele
+2 SURN Ferrandina
+1 SEX M
+1 FAMC @F41@
+1 FAMS @F37@
+1 BIRT
+2 DATE 1739
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 12 AUG 1823
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C4144B994C3B921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1440471767&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1440471767:
+0 @I112211670211@ INDI
+1 NAME Rosa /Ferrandina/
+2 GIVN Rosa
+2 SURN Ferrandina
+1 SEX F
+1 FAMS @F37@
+1 BIRT
+2 DATE TO 1758
+2 PLAC Campania, Italy
+1 DEAT Y
+2 DATE 30 JUL 1815
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C41464BA0C3E921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1440471764&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1440471764:
+0 @I112211670212@ INDI
+1 NAME Antonio /Ferrandina/
+2 GIVN Antonio
+2 SURN Ferrandina
+1 SEX M
+1 FAMC @F72@
+1 FAMS @F35@
+1 BIRT
+2 DATE 1802
+2 PLAC Solofra, Avellino, Campania, Italia
+1 EVEN
+2 TYPE MARR
+2 DATE 17 JAN 1828
+2 PLAC Solofra, Avellino, Campania, Italy
+1 OCCU Farmer
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 21 AUG 1877
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C4147FFE5C40921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=21805527&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:21805527:
+0 @I112211670213@ INDI
+1 NAME Maria /Ferrandina/
+2 GIVN Maria
+2 SURN Ferrandina
+1 SEX F
+1 FAMC @F72@
+1 BIRT
+2 DATE ABT 1790
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 9 MAR 1870
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C414A20D4C42921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27978570&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27978570:
+0 @I112211670214@ INDI
+1 NAME Maddalena /Ferrandina/
+2 GIVN Maddalena
+2 SURN Ferrandina
+1 SEX F
+1 FAMC @F72@
+1 BIRT
+2 DATE ABT 1799
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 15 FEB 1868
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C414C1C47C44921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27979093&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27979093:
+0 @I112211670215@ INDI
+1 NAME Angelo /Ferrandina/
+2 GIVN Angelo
+2 SURN Ferrandina
+1 SEX M
+1 FAMC @F72@
+1 BIRT
+2 DATE 29 AUG 1811
+2 PLAC Solofra, Avellino, Italy
+1 EVEN
+2 TYPE MARR
+2 DATE 22 DEC 1838
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 29 AUG 1865
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C414E1E36C46921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27979289&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27979289:
+0 @I112211670216@ INDI
+1 NAME Maria Vincenza /Ferrandina/
+2 GIVN Maria Vincenza
+2 SURN Ferrandina
+1 SEX F
+1 FAMC @F72@
+1 BIRT
+2 DATE ABT 1814
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 12 NOV 1897
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C41505551C48921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27979505&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27979505:
+0 @I112211670217@ INDI
+1 NAME Angelandrea /Ferrandina/
+2 GIVN Angelandrea
+2 SURN Ferrandina
+1 SEX M
+1 FAMC @F72@
+1 BIRT
+2 DATE ABT 1816
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 9 OCT 1893
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C4151DC46C4A921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27980090&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27980090:
+0 @I112211670218@ INDI
+1 NAME Carmela /ferrandina/
+2 GIVN Carmela
+2 SURN ferrandina
+1 SEX F
+1 FAMC @F72@
+1 FAMS @F25@
+1 BIRT
+2 DATE 1803
+2 PLAC Solofra, Avellino, Campania, Italy
+1 EVEN
+2 TYPE MARR
+2 DATE 13 FEB 1820
+2 PLAC San Michele Arcangelo, Solofra, Avellino, Campania, Italy
+1 UID 5EF4C41538D05C4C921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1441039849&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1441039849:
+0 @I112211670219@ INDI
+1 NAME Raffaelo /Ferrandina/
+2 GIVN Raffaelo
+2 SURN Ferrandina
+1 SEX M
+1 FAMC @F72@
+1 BIRT
+2 DATE 1801
+2 PLAC Solofra, Avellino, Campania, Italy
+1 EVEN
+2 TYPE MARR
+2 DATE 17 FEB 1822
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 13 AUG 1841
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C41550079C4E921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1444892252&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1444892252:
+0 @I112211670220@ INDI
+1 NAME Saverio /Donnejacono/
+2 GIVN Saverio
+2 SURN Donnejacono
+1 SEX M
+1 FAMS @F31@
+1 BIRT
+2 PLAC Italy
+1 UID 5EF4C415684FAC50921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1578355991&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1578355991:
+0 @I112211670221@ INDI
+1 NAME Felicia /Donnejacono/
+2 GIVN Felicia
+2 SURN Donnejacono
+1 SEX F
+1 FAMS @F31@
+1 BIRT
+2 PLAC Italy
+1 UID 5EF4C415858B4C53921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1578512868&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1578512868:
+0 @I112211670222@ INDI
+1 NAME Nicola /Letteri/
+2 GIVN Nicola
+2 SURN Letteri
+1 SEX M
+1 FAMS @F32@
+1 DEAT Y
+2 DATE TO 1902
+1 UID 5EF4C4159DBAAC55921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27986050&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27986050:
+0 @I112211670223@ INDI
+1 NAME Maria Michela /Ferrandina/
+2 GIVN Maria Michela
+2 SURN Ferrandina
+1 SEX F
+1 FAMS @F34@
+1 BIRT
+2 DATE ABT 1852
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 17 MAY 1910
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C415C593CC59921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27986188&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27986188:
+0 @I112211670224@ INDI
+1 NAME Francesca /Ferrandina/
+2 GIVN Francesca
+2 SURN Ferrandina
+1 SEX F
+1 FAMS @F42@
+1 DEAT Y
+2 DATE FROM 1919
+1 UID 5EF4C415EE120C5D921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=27986423&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:27986423:
+0 @I112211670225@ INDI
+1 NAME Cesare /Gainnattasio/
+2 GIVN Cesare
+2 SURN Gainnattasio
+1 SEX M
+1 FAMS @F43@
+1 BIRT
+2 PLAC Italy
+1 UID 5EF4C4161B320C61921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1575276912&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1575276912:
+0 @I112211670226@ INDI
+1 NAME Rosa /Gainnattasio/
+2 GIVN Rosa
+2 SURN Gainnattasio
+1 SEX F
+1 FAMS @F43@
+1 BIRT
+2 PLAC Italy
+1 UID 5EF4C41631B14C64921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1575276918&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1575276918:
+0 @I112211670227@ INDI
+1 NAME Maria /Giannattasio/
+2 GIVN Maria
+2 SURN Giannattasio
+1 SEX F
+1 FAMC @F69@
+1 BIRT
+2 DATE ABT 1817
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 21 MAR 1863
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C4164843AC66921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1756391031&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1756391031:
+0 @I112211670228@ INDI
+1 NAME Domenico /Maffei/
+2 GIVN Domenico
+2 SURN Maffei
+1 SEX M
+1 FAMS @F40@
+1 BIRT
+2 PLAC Italy
+1 UID 5EF4C41660D16C68921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1575278092&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1575278092:
+0 @I112211670229@ INDI
+1 NAME Teresa /Maffei/
+2 GIVN Teresa
+2 SURN Maffei
+1 SEX F
+1 FAMS @F40@
+1 BIRT
+2 PLAC Italy
+1 UID 5EF4C416781ECC6B921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1575278093&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1575278093:
+0 @I112211670230@ INDI
+1 NAME Pascale /Ferrandina/
+2 GIVN Pascale
+2 SURN Ferrandina
+1 SEX M
+1 FAMS @F41@
+1 BIRT
+2 PLAC Italy
+1 DEAT Y
+2 DATE TO 1823
+1 UID 5EF4C4169223EC6D921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1740121254&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1740121254:
+0 @I112211670231@ INDI
+1 NAME Santa /Ferrandina/
+2 GIVN Santa
+2 SURN Ferrandina
+1 SEX F
+1 FAMS @F41@
+1 BIRT
+2 PLAC Italy
+1 DEAT Y
+2 DATE TO 1823
+1 UID 5EF4C416AAD7CC70921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1740121329&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1740121329:
+0 @I112211670232@ INDI
+1 NAME Anna Maria /Ferrandina/
+2 GIVN Anna Maria
+2 SURN Ferrandina
+1 SEX F
+1 FAMC @F37@
+1 BIRT
+2 DATE 1776
+2 PLAC Solofra, Avellino, Campania, Italy
+1 EVEN
+2 TYPE MARR
+2 DATE 18 JUN 1819
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE FROM 1827
+1 UID 5EF4C416CA388C72921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1440471768&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1440471768:
+0 @I112211670233@ INDI
+1 NAME Carmina /Ferrandina/
+2 GIVN Carmina
+2 SURN Ferrandina
+1 SEX F
+1 FAMC @F37@
+1 BIRT
+2 DATE ABT 1780
+2 PLAC Solofra, Avellino, Italy
+1 DEAT Y
+2 DATE 4 DEC 1870
+2 PLAC Solofra, Avellino, Italy
+1 UID 5EF4C416E459FC74921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1740124813&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1740124813:
+0 @I112211670234@ INDI
+1 NAME Rosalina Maria /Ferrandina/
+2 GIVN Rosalina Maria
+2 SURN Ferrandina
+1 SEX F
+1 FAMS @F35@
+1 BIRT
+2 DATE 1805
+2 PLAC Solofra, Avellino, Campania, Italy
+1 EVEN
+2 TYPE MARR
+2 DATE 17 JAN 1828
+2 PLAC Solofra, Avellino, Campania, Italy
+1 UID 5EF4C4170A466C76921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1378188015&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1378188015:
+0 @I112211670235@ INDI
+1 NAME Maria Carmina /Giannattasio/
+2 GIVN Maria Carmina
+2 SURN Giannattasio
+1 SEX F
+1 FAMC @F35@
+1 BIRT
+2 DATE 10 JAN 1845
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 DATE 24 DEC 1933
+1 UID 5EF4C4172E3ECC7A921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=10902254&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:10902254:
+0 @I112211670236@ INDI
+1 NAME Maria Giuseppa /Vignola/
+2 GIVN Maria Giuseppa
+2 SURN Vignola
+1 SEX F
+1 FAMC @F35@
+1 BIRT
+2 DATE 12 JUL 1829
+2 PLAC Solofra, Avellino, Campania, Itália
+1 EVEN
+2 TYPE MARR
+2 DATE 27 AUG 1856
+2 PLAC Solofra, Avellino, Campania, Italy
+1 DEAT Y
+2 PLAC Solofra
+1 UID 5EF4C4174676BC7C921BB0DCEE3A1B7E
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1323634344&action=showRecord
+2 DATA
+3 DATE 25 JUN 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1323634344:
+0 @I112211670237@ INDI
+1 NAME maria roberta /de maio/
+2 GIVN maria roberta
+2 SURN de maio
+1 SEX F
+1 FAMC @F22@
+1 FAMS @F38@
+1 BIRT
+2 DATE 6 APR 1929
+2 PLAC new york
+1 DEAT Y
+2 DATE 1983
+2 PLAC harrah
+1 BURI
+2 PLAC Harrah, Oklahoma County, Oklahoma, USA
+1 UID 5EFA02539D1C274DB14EF3ABF871DC45
+0 @I112211670238@ INDI
+1 NAME joseph michael /demo/
+2 GIVN joseph michael
+2 SURN demo
+1 SEX M
+1 FAMC @F38@
+1 FAMS @F39@
+1 BIRT
+2 DATE 6 OCT 1948
+2 PLAC new york
+1 DEAT Y
+2 DATE 16 OCT 1998
+2 PLAC harrah
+1 BURI
+2 PLAC Harrah, Oklahoma County, Oklahoma, USA
+1 UID 5EFA02A671A50371F8D893D185889D71
+0 @I112211670239@ INDI
+1 NAME frank /demo/
+2 GIVN frank
+2 SURN demo
+1 SEX M
+1 FAMS @F38@
+1 DEAT Y
+1 UID 5EFA02A67DF8D372F8D893D185889D71
+0 @I112211670240@ INDI
+1 NAME deanna /demo/
+2 GIVN deanna
+2 SURN demo
+1 SEX F
+1 FAMC @F39@
+1 FAMS @F49@
+1 UID 5EFA02E3A79627DAEF7ACA23905DB275
+0 @I112211670241@ INDI
+1 NAME annita /ross/
+2 GIVN annita
+2 SURN ross
+1 SEX F
+1 FAMS @F39@
+1 BIRT
+2 DATE 1962
+1 UID 5EFA02E3B82D57DBEF7ACA23905DB275
+0 @I112211670245@ INDI
+1 NAME Gaetano /Radice/
+2 GIVN Gaetano
+2 SURN Radice
+1 SEX M
+1 FAMC @F79@
+1 FAMS @F48@
+1 BIRT
+2 DATE 1759
+2 PLAC Napoli, Napoli, Campania, Italia
+1 DEAT Y
+2 DATE 30 MAR 1797
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B0DA47A31D61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1522614764&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1522614764:
+0 @I112211670246@ INDI
+1 NAME Maria /Natale/
+2 GIVN Maria
+2 SURN Natale
+1 SEX F
+1 FAMC @F80@
+1 FAMS @F48@
+1 BIRT
+2 DATE 1762
+2 PLAC Napoli, Napoli, Campania, Italia
+1 DEAT Y
+2 DATE 7 APR 1812
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B0F3CCC32061CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1522617130&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1522617130:
+0 @I112211670247@ INDI
+1 NAME Anna Maria Concetta /Di Majo/
+2 GIVN Anna Maria Concetta
+2 SURN Di Majo
+1 SEX F
+1 FAMC @F46@
+1 BIRT
+2 DATE 2 MAY 1845
+2 PLAC Napoli, Napoli, Campania, Italia
+1 CHR
+2 DATE 3 MAY 1845
+2 PLAC Napoli, Napoli, Campania, Italia
+1 EVEN
+2 TYPE MARR
+2 DATE 20 JUL 1865
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B117D7932261CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1521673770&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1521673770:
+0 @I112211670248@ INDI
+1 NAME Lorenzo /Radice/
+2 GIVN Lorenzo
+2 SURN Radice
+1 SEX M
+1 FAMS @F79@
+1 BIRT
+2 DATE 1730
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B13CF6632661CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1522617871&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1522617871:
+0 @I112211670249@ INDI
+1 NAME Stefano /Natale/
+2 GIVN Stefano
+2 SURN Natale
+1 SEX M
+1 FAMS @F80@
+1 BIRT
+2 DATE 1732
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B15303C32961CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1522618126&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1522618126:
+0 @I112211670250@ INDI
+1 NAME Andrea /Orso/
+2 GIVN Andrea
+2 SURN Orso
+1 SEX M
+1 FAMC @F44@
+1 FAMS @F46@
+1 BIRT
+2 DATE 1 APR 1809
+2 PLAC Palermo, Sicilia, Italia
+1 DEAT Y
+2 DATE 16 SEP 1855
+2 PLAC Serino, Avellino, Campania, Italia
+1 UID 5F0344B16A8BE32C61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1521678751&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1521678751:
+0 @I112211670251@ INDI
+1 NAME Antonia Giuseppa Carolina /Orso/
+2 GIVN Antonia Giuseppa Carolina
+2 SURN Orso
+1 SEX F
+1 FAMC @F45@
+1 FAMS @F46@
+1 BIRT
+2 DATE 24 APR 1810
+2 PLAC Quartiere Avvocata, Napoli, Napoli, Italy
+1 UID 5F0344B1831F132F61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1521678823&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1521678823:
+0 @I112211670252@ INDI
+1 NAME Michele /Orso/
+2 GIVN Michele
+2 SURN Orso
+1 SEX M
+1 FAMC @F55@
+1 FAMS @F44@
+1 BIRT
+2 DATE 1780
+2 PLAC Napoli, Napoli, Campania, Italia
+1 DEAT Y
+2 DATE 20 MAR 1835
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B19E2E233161CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1521676961&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1521676961:
+0 @I112211670253@ INDI
+1 NAME Maria Giuseppa /Orso/
+2 GIVN Maria Giuseppa
+2 SURN Orso
+1 SEX F
+1 FAMS @F44@
+1 BIRT
+2 DATE 1788
+2 PLAC Palermo, Sicilia, Italia
+1 DEAT Y
+2 DATE 2 JUL 1821
+2 PLAC Lentini, Siracusa, Sicilia, Italia
+1 UID 5F0344B1B63BE33461CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1522622726&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1522622726:
+0 @I112211670254@ INDI
+1 NAME Onofrio /Esposito/
+2 GIVN Onofrio
+2 SURN Esposito
+1 SEX M
+1 FAMS @F45@
+1 BIRT
+2 DATE 1770
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B1D228C33661CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953838630&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953838630:
+0 @I112211670255@ INDI
+1 NAME Anna Maria /Esposito/
+2 GIVN Anna Maria
+2 SURN Esposito
+1 SEX F
+1 FAMC @F53@
+1 FAMS @F45@
+1 BIRT
+2 DATE 1767
+2 PLAC Napoli, Campania, Italia
+1 DEAT Y
+2 DATE 16 AUG 1840
+2 PLAC Napoli, Campania, Italia
+1 UID 5F0344B1ED32933961CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953838336&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953838336:
+0 @I112211670256@ INDI
+1 NAME Andrea /Orso/
+2 GIVN Andrea
+2 SURN Orso
+1 SEX M
+1 FAMS @F55@
+1 BIRT
+2 DATE 1750
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B2238FF33B61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1521682836&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1521682836:
+0 @I112211670257@ INDI
+1 NAME Angela /Orso/
+2 GIVN Angela
+2 SURN Orso
+1 SEX F
+1 FAMS @F55@
+1 BIRT
+2 DATE 1755
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B23F51B33E61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1521681930&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1521681930:
+0 @I112211670258@ INDI
+1 NAME Maddalena /Palmieri/
+2 GIVN Maddalena
+2 SURN Palmieri
+1 SEX F
+1 FAMC @F45@
+1 FAMS @F54@
+1 BIRT
+2 DATE 1809
+2 PLAC Napoli, Campania, Italia
+1 EVEN
+2 TYPE MARR
+2 DATE 21 FEB 1835
+2 PLAC Napoli, Campania, Italia
+1 UID 5F0344B25C37E34061CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=492601306&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:492601306:
+0 @I112211670259@ INDI
+1 NAME Raffaele /Esposito/
+2 GIVN Raffaele
+2 SURN Esposito
+1 SEX M
+1 FAMC @F45@
+1 FAMS @F51@
+1 FAMS @F52@
+1 BIRT
+2 DATE 1806
+2 PLAC Napoli
+1 EVEN
+2 TYPE MARR
+2 DATE 30 DEC 1831
+2 PLAC Quartiere San Ferdinando, Napoli, Napoli, Italy
+1 EVEN
+2 TYPE MARR
+2 DATE 31 MAY 1851
+2 PLAC Quartiere San Ferdinando, Napoli, Napoli, Italy
+1 UID 5F0344B27856F34261CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953838521&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953838521:
+0 @I112211670260@ INDI
+1 NAME Giuseppe /Cicchitto/
+2 GIVN Giuseppe
+2 SURN Cicchitto
+1 SEX M
+1 FAMS @F53@
+1 UID 5F0344B298D0A34461CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953839113&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953839113:
+0 @I112211670261@ INDI
+1 NAME Maddalena /Cicchitto/
+2 GIVN Maddalena
+2 SURN Cicchitto
+1 SEX F
+1 FAMS @F53@
+1 BIRT
+2 DATE ABT 1740
+2 PLAC Italia
+1 UID 5F0344B2B6EFA34761CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953839161&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953839161:
+0 @I112211670262@ INDI
+1 NAME Pascale Francesco Paolo Sebastiano /Palmieri/
+2 GIVN Pascale Francesco Paolo Sebastiano
+2 SURN Palmieri
+1 SEX M
+1 FAMC @F50@
+1 FAMS @F54@
+1 FAMS @F24@
+1 BIRT
+2 DATE 1 DEC 1793
+2 PLAC Caserta, Campania, Italia
+1 EVEN
+2 TYPE MARR
+2 DATE 21 FEB 1835
+2 PLAC Napoli, Campania, Italia
+1 UID 5F0344B2D44D934961CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953832807&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953832807:
+0 @I112211670263@ INDI
+1 NAME Rosaria Nunzia Giuseppa /Palmieri/
+2 GIVN Rosaria Nunzia Giuseppa
+2 SURN Palmieri
+1 SEX F
+1 FAMC @F54@
+1 BIRT
+2 DATE 15 MAR 1839
+2 PLAC Napoli, Napoli, Italy
+1 UID 5F0344B2F320434D61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=445677825&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:445677825:
+0 @I112211670264@ INDI
+1 NAME Luigi Filippo Francesco /Palmieri/
+2 GIVN Luigi Filippo Francesco
+2 SURN Palmieri
+1 SEX M
+1 FAMC @F54@
+1 BIRT
+2 DATE 4 JUL 1841
+2 PLAC Napoli, Napoli, Italy
+1 RESI
+2 DATE 1841
+1 UID 5F0344B3157D134F61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=492692287&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:492692287:
+0 @I112211670265@ INDI
+1 NAME Vincenzo Luigi Giacomo /Palmieri/
+2 GIVN Vincenzo Luigi Giacomo
+2 SURN Palmieri
+1 SEX M
+1 FAMC @F54@
+1 FAMS @F23@
+1 BIRT
+2 DATE 23 JUL 1837
+2 PLAC Napoli, Napoli, Italy
+1 RESI
+2 DATE 1837
+1 EVEN
+2 TYPE MARR
+2 DATE 4 DEC 1864
+2 PLAC Quartiere San Ferdinando, Napoli, Napoli, Italy
+1 UID 5F0344B32D33335161CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=616105886&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:616105886:
+0 @I112211670266@ INDI
+1 NAME Gaetana /Esposito/
+2 GIVN Gaetana
+2 SURN Esposito
+1 SEX F
+1 FAMC @F81@
+1 FAMS @F51@
+1 BIRT
+2 DATE 1811
+2 PLAC Napoli, Campania, Italia
+1 EVEN
+2 TYPE MARR
+2 DATE 30 DEC 1831
+2 PLAC Quartiere San Ferdinando, Napoli, Napoli, Italy
+1 DEAT Y
+2 DATE 19 APR 1849
+2 PLAC Napoli, Campania, Italia
+1 UID 5F0344B34237335361CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=791106933&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:791106933:
+0 @I112211670267@ INDI
+1 NAME Lucia /Esposito/
+2 GIVN Lucia
+2 SURN Esposito
+1 SEX F
+1 FAMS @F52@
+1 BIRT
+2 DATE 1801
+2 PLAC Marano
+1 EVEN
+2 TYPE MARR
+2 DATE 31 MAY 1851
+2 PLAC Quartiere San Ferdinando, Napoli, Napoli, Italy
+1 UID 5F0344B35E1EE35761CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953839819&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953839819:
+0 @I112211670268@ INDI
+1 NAME Concetta Anna Maria Grazia /Esposito/
+2 GIVN Concetta Anna Maria Grazia
+2 SURN Esposito
+1 SEX F
+1 FAMC @F51@
+1 BIRT
+2 DATE 8 JAN 1839
+2 PLAC Napoli, Napoli, Italy
+1 UID 5F0344B37D5F135B61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=791054989&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:791054989:
+0 @I112211670269@ INDI
+1 NAME Michele Gennaro Pasquale /Esposito/
+2 GIVN Michele Gennaro Pasquale
+2 SURN Esposito
+1 SEX M
+1 FAMC @F51@
+1 BIRT
+2 DATE 17 SEP 1836
+2 PLAC Quartiere San Ferdinando, Napoli, Napoli, Italy
+1 UID 5F0344B39851635D61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953841978&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953841978:
+0 @I112211670270@ INDI
+1 NAME Donato /Palmieri/
+2 GIVN Donato
+2 SURN Palmieri
+1 SEX M
+1 FAMS @F50@
+1 BIRT
+2 DATE 1731
+2 PLAC Napoli, Campania, Italia
+1 DEAT Y
+2 DATE 30 JUN 1815
+2 PLAC Napoli, Campania, Italia
+1 UID 5F0344B3AD6E135F61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953832476&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953832476:
+0 @I112211670271@ INDI
+1 NAME Maria Giuseppa /Palmieri/
+2 GIVN Maria Giuseppa
+2 SURN Palmieri
+1 SEX F
+1 FAMS @F50@
+1 BIRT
+2 DATE 1754
+2 PLAC Caserta, Campania, Italia
+1 DEAT Y
+2 DATE 2 OCT 1836
+2 PLAC Napoli, Campania, Italia
+1 UID 5F0344B3C8D6536261CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=551248506&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:551248506:
+0 @I112211670272@ INDI
+1 NAME Rosa /Palmieri/
+2 GIVN Rosa
+2 SURN Palmieri
+1 SEX F
+1 FAMS @F24@
+1 DEAT Y
+2 DATE 20 APR 1830
+2 PLAC Napoli, Campania, Italia
+1 UID 5F0344B3E284F36461CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953883512&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953883512:
+0 @I112211670273@ INDI
+1 NAME Maria Antonia Luisa Carmina /Palmieri/
+2 GIVN Maria Antonia Luisa Carmina
+2 SURN Palmieri
+1 SEX F
+1 FAMC @F24@
+1 BIRT
+2 DATE 26 FEB 1820
+2 PLAC San Ferdinando, Napoli, Naploli, Italy
+1 CHR
+2 DATE 27 FEB 1820
+2 PLAC Santa Anna di Palazzo
+1 UID 5F0344B40F2EA36861CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=121035434&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:121035434:
+0 @I112211670274@ INDI
+1 NAME Lucia Maria Antonia /Palmieri/
+2 GIVN Lucia Maria Antonia
+2 SURN Palmieri
+1 SEX F
+1 FAMC @F24@
+1 BIRT
+2 DATE SEP 1818
+2 PLAC Napoli, Campania, Italia
+1 RESI
+2 DATE 1818
+1 UID 5F0344B42858C36A61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=220949569&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:220949569:
+0 @I112211670275@ INDI
+1 NAME Giuseppe Donato /Palmieri/
+2 GIVN Giuseppe Donato
+2 SURN Palmieri
+1 SEX M
+1 FAMC @F24@
+1 BIRT
+2 DATE 26 FEB 1824
+2 PLAC Quartiere Chiaia, Napoli, Napoli, Italy
+1 UID 5F0344B44442136C61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953884452&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953884452:
+0 @I112211670276@ INDI
+1 NAME Concetta Errichetta /Palmieri/
+2 GIVN Concetta Errichetta
+2 SURN Palmieri
+1 SEX F
+1 FAMC @F24@
+1 BIRT
+2 DATE 7 DEC 1829
+2 PLAC Quartiere Chiaia, Napoli, Napoli, Italy
+1 UID 5F0344B45DF2936E61CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953884492&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953884492:
+0 @I112211670277@ INDI
+1 NAME Errichetta Carmela Fortunata /Palmieri/
+2 GIVN Errichetta Carmela Fortunata
+2 SURN Palmieri
+1 SEX F
+1 FAMC @F24@
+1 BIRT
+2 DATE 13 OCT 1827
+2 PLAC Quartiere Chiaia, Napoli, Napoli, Italy
+1 DEAT Y
+2 DATE 9 DEC 1828
+2 PLAC Napoli, Campania, Italia
+1 UID 5F0344B4786F037061CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=953884711&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:953884711:
+0 @I112211670278@ INDI
+1 NAME Maria /Palmieri/
+2 GIVN Maria
+2 SURN Palmieri
+1 SEX F
+1 FAMS @F23@
+1 BIRT
+2 DATE 20 FEB 1839
+2 PLAC Napoli, Campania, Italia
+1 EVEN
+2 TYPE MARR
+2 DATE 4 DEC 1864
+2 PLAC Quartiere San Ferdinando, Napoli, Napoli, Italy
+1 UID 5F0344B490F8037261CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1267098274&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1267098274:
+0 @I112211670279@ INDI
+1 NAME Amalia Anna Concetta /Palmieri/
+2 GIVN Amalia Anna Concetta
+2 SURN Palmieri
+1 SEX F
+1 FAMC @F23@
+1 BIRT
+2 DATE 12 SEP 1865
+2 PLAC Napoli, Napoli, Italy
+1 UID 5F0344B4AFC6237661CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=868274395&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:868274395:
+0 @I112211670280@ INDI
+1 NAME Francesco /Capezzuto/
+2 GIVN Francesco
+2 SURN Capezzuto
+1 SEX M
+1 FAMS @F81@
+1 BIRT
+2 DATE ABT 1765
+2 PLAC Napoli, Napoli, Campania, Italia
+1 UID 5F0344B4CE74837861CE88738671FA97
+1 SOUR @S97433837@
+2 PAGE https://www.myheritage.it/research/collection-40001/albero-genealogico-di-familysearch?itemId=1022822709&action=showRecord
+2 DATA
+3 DATE 6 JUL 2020
+3 TEXT Aggiunto grazie a una Person Discovery
+2 NOTE Event: Discovery
+3 CONT Role: 40001:1022822709:
+0 @I112211837885@ INDI
+1 NAME rosa /Ferrandina/
+2 GIVN rosa
+2 SURN Ferrandina
+1 SEX F
+1 FAMC @F72@
+1 BIRT
+2 DATE 1804
+0 @I112211838004@ INDI
+1 NAME maria giuseppa /ferrandino/
+2 GIVN maria giuseppa
+2 SURN ferrandino
+1 SEX F
+1 FAMC @F12@
+1 BIRT
+2 DATE 1881
+2 PLAC Solofra, Avellino, Campania, Italia
+1 DEAT
+2 DATE 1881
+0 @I112211838081@ INDI
+1 NAME maria concetta /ferrandino/
+2 GIVN maria concetta
+2 SURN ferrandino
+1 SEX F
+1 FAMC @F12@
+1 BIRT
+2 DATE 1883
+1 DEAT
+2 DATE 1963
+0 @I112211838243@ INDI
+1 NAME melchiorre /sellitto/
+2 GIVN melchiorre
+2 SURN sellitto
+1 SEX M
+1 FAMS @F25@
+0 @I112214792264@ INDI
+1 NAME carmela /de maio/
+2 GIVN carmela
+2 SURN de maio
+1 SEX F
+1 FAMC @F33@
+0 @I112217097875@ INDI
+1 NAME manilia /pagani/
+2 GIVN manilia
+2 SURN pagani
+1 SEX F
+1 FAMS @F74@
+0 @I112224855651@ INDI
+1 NAME Umberto /De Maio/
+2 GIVN Umberto
+2 SURN De Maio
+1 SEX M
+1 FAMC @F33@
+1 FAMS @F26@
+0 @I112224855664@ INDI
+1 NAME Rita /De Maio/
+2 GIVN Rita
+2 SURN De Maio
+1 SEX F
+1 FAMC @F33@
+0 @I112224855674@ INDI
+1 NAME Roberta /De Maio/
+2 GIVN Roberta
+2 SURN De Maio
+1 SEX F
+1 FAMC @F33@
+0 @I112224855687@ INDI
+1 NAME Ciccio /Neri/
+2 GIVN Ciccio
+2 SURN Neri
+1 SEX M
+1 FAMS @F33@
+0 @I112224855762@ INDI
+1 NAME Danilo /De Maio/
+2 GIVN Danilo
+2 SURN De Maio
+1 SEX M
+1 FAMC @F26@
+0 @I112225060958@ INDI
+1 NAME Lucas /Standridge/
+2 GIVN Lucas
+2 SURN Standridge
+1 SEX M
+1 FAMC @F49@
+0 @I112225061134@ INDI
+1 NAME Leslie /Standridge/
+2 GIVN Leslie
+2 SURN Standridge
+1 SEX F
+1 FAMC @F49@
+0 @I112225061170@ INDI
+1 NAME Joe /Standridge/
+2 GIVN Joe
+2 SURN Standridge
+1 SEX M
+1 FAMC @F49@
+0 @I112225061594@ INDI
+1 NAME Elton Leroy /Standridge/
+2 GIVN Elton Leroy
+2 SURN Standridge
+2 SOUR @S101487636@
+3 _APID 1,60541::155558971
+1 SEX M
+2 SOUR @S101487636@
+3 _APID 1,60541::155558971
+1 FAMS @F49@
+1 BIRT
+2 DATE 16 January 1983
+2 PLAC Antlers, Pushmataha County, Oklahoma, United States of America
+2 SOUR @S101487636@
+3 _APID 1,60541::155558971
+1 DEAT
+2 DATE 21 July 2018
+2 PLAC Antlers, Pushmataha County, Oklahoma, United States of America
+2 SOUR @S101487636@
+3 _APID 1,60541::155558971
+1 BURI
+2 PLAC Antlers, Pushmataha County, Oklahoma, United States of America
+2 SOUR @S101487636@
+3 _APID 1,60541::155558971
+0 @I112254638379@ INDI
+1 NAME Pietro Giovanni /Di Majo/
+2 GIVN Pietro Giovanni
+2 SURN Di Majo
+1 SEX M
+1 FAMC @F60@
+1 BIRT
+2 DATE 21 Feb 1838
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O12@
+1 DEAT
+2 DATE 28 Feb 1838
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O17@
+1 OBJE @O17@
+1 OBJE @O12@
+0 @I112255046750@ INDI
+1 NAME Generosa /De Cicco/
+2 GIVN Generosa
+2 SURN De Cicco
+1 SEX F
+1 FAMS @F47@
+0 @I112255519196@ INDI
+1 NAME Maria /Trombetta/
+2 GIVN Maria
+2 SURN Trombetta
+1 SEX F
+1 FAMS @F19@
+0 @I112255549895@ INDI
+1 NAME Michela /Ferrandino/
+2 GIVN Michela
+2 SURN Ferrandino
+1 SEX F
+1 FAMS @F15@
+0 @I112255550489@ INDI
+1 NAME Alessandro /Ravallese/
+2 GIVN Alessandro
+2 SURN Ravallese
+1 SEX M
+1 FAMS @F15@
+0 @I112292582789@ INDI
+1 NAME Francesco /De Maio/
+2 GIVN Francesco
+2 SURN De Maio
+1 SEX M
+1 FAMC @F26@
+0 @I112292582822@ INDI
+1 NAME Emanuele /De Maio/
+2 GIVN Emanuele
+2 SURN De Maio
+1 SEX M
+1 FAMC @F26@
+0 @I112292582847@ INDI
+1 NAME Paola /Mazzella/
+2 GIVN Paola
+2 SURN Mazzella
+1 SEX F
+1 FAMS @F26@
+0 @I112292582888@ INDI
+1 NAME Manuela /De Maio/
+2 GIVN Manuela
+2 SURN De Maio
+1 SEX F
+1 FAMC @F33@
+0 @I112292582913@ INDI
+1 NAME Silvana /De Maio/
+2 GIVN Silvana
+2 SURN De Maio
+1 SEX F
+1 FAMC @F33@
+0 @I112292584082@ INDI
+1 NAME Giovanna /De Maio/
+2 GIVN Giovanna
+2 SURN De Maio
+1 SEX F
+1 FAMC @F33@
+0 @I112494206524@ INDI
+1 NAME Elisabetta  /Leali/
+2 GIVN Elisabetta 
+2 SURN Leali
+1 SEX F
+1 FAMS @F7@
+0 @I112494208553@ INDI
+1 NAME Gabriele /Di Majo/
+2 GIVN Gabriele
+2 SURN Di Majo
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778093
+1 SEX M
+2 SOUR @S145783275@
+3 _APID 1,62476::5569778093
+1 FAMC @F58@
+0 @F1@ FAM
+1 HUSB @I112211670092@
+1 WIFE @I112211670091@
+1 CHIL @I112211670087@
+1 CHIL @I112211670123@
+1 CHIL @I112211670124@
+1 CHIL @I112211670125@
+1 CHIL @I112211670126@
+1 CHIL @I112211670127@
+0 @F2@ FAM
+1 HUSB @I112211670094@
+1 WIFE @I112211670093@
+1 CHIL @I112211670073@
+0 @F3@ FAM
+1 HUSB @I112211670117@
+1 WIFE @I112211670088@
+1 CHIL @I112211670115@
+1 CHIL @I112211670116@
+0 @F4@ FAM
+1 HUSB @I112211670089@
+1 WIFE @I112211670090@
+1 CHIL @I112211670086@
+0 @F5@ FAM
+1 HUSB @I112211670085@
+1 WIFE @I112211670084@
+1 CHIL @I112211670076@
+1 CHIL @I112211670095@
+1 CHIL @I112211670096@
+1 CHIL @I112211670097@
+1 CHIL @I112211670098@
+1 CHIL @I112211670101@
+1 MARR
+2 DATE 6 JUN 1914
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F6@ FAM
+1 HUSB @I112211670086@
+1 WIFE @I112211670087@
+1 CHIL @I112211670088@
+1 CHIL @I112211670075@
+0 @F7@ FAM
+1 HUSB @I112211670128@
+1 WIFE @I112494206524@
+1 CHIL @I112211670092@
+0 @F8@ FAM
+1 HUSB @I112211670114@
+1 WIFE @I112211670080@
+1 CHIL @I112211670112@
+1 CHIL @I112211670113@
+0 @F9@ FAM
+1 HUSB @I112211670111@
+1 WIFE @I112211670081@
+1 CHIL @I112211670110@
+0 @F10@ FAM
+1 HUSB @I112211670109@
+1 WIFE @I112211670082@
+1 CHIL @I112211670107@
+1 CHIL @I112211670108@
+0 @F11@ FAM
+1 HUSB @I112211670106@
+1 WIFE @I112211670083@
+1 CHIL @I112211670105@
+1 CHIL @I112211670104@
+0 @F12@ FAM
+1 HUSB @I112211670100@
+1 WIFE @I112211670099@
+1 CHIL @I112211838004@
+1 CHIL @I112211838081@
+1 CHIL @I112211670085@
+1 MARR
+2 DATE 15 DEC 1887
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F13@ FAM
+1 HUSB @I112211670103@
+1 WIFE @I112211670102@
+1 CHIL @I112211670094@
+0 @F14@ FAM
+1 HUSB @I112211670122@
+1 WIFE @I112211670115@
+1 CHIL @I112211670121@
+0 @F15@ FAM
+1 HUSB @I112255550489@
+1 WIFE @I112255549895@
+1 CHIL @I112211670169@
+0 @F16@ FAM
+1 HUSB @I112211670141@
+1 WIFE @I112211670140@
+1 CHIL @I112211670084@
+0 @F17@ FAM
+1 HUSB @I112211670143@
+1 WIFE @I112211670142@
+1 CHIL @I112211670199@
+1 CHIL @I112211670200@
+1 CHIL @I112211670100@
+1 CHIL @I112211670201@
+1 CHIL @I112211670202@
+1 CHIL @I112211670203@
+1 MARR
+2 DATE 28 Giu 1845
+2 PLAC San Michele Arcangelo, Solofra, Avellino, Campania, Italy
+0 @F18@ FAM
+1 HUSB @I112211670136@
+1 WIFE @I112211670146@
+1 CHIL @I112211670147@
+1 CHIL @I112211670148@
+1 CHIL @I112211670149@
+1 CHIL @I112211670150@
+1 CHIL @I112211670151@
+1 CHIL @I112211670152@
+1 MARR
+2 DATE 10 FEB 1929
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F19@ FAM
+1 HUSB @I112211670175@
+1 WIFE @I112255519196@
+0 @F20@ FAM
+1 HUSB @I112211670132@
+1 WIFE @I112211670129@
+0 @F21@ FAM
+1 HUSB @I112211670134@
+1 WIFE @I112211670133@
+1 CHIL @I112211670079@
+0 @F22@ FAM
+1 HUSB @I112211670130@
+1 WIFE @I112211670131@
+1 CHIL @I112211670237@
+0 @F23@ FAM
+1 HUSB @I112211670265@
+1 WIFE @I112211670278@
+1 CHIL @I112211670279@
+1 MARR
+0 @F24@ FAM
+1 HUSB @I112211670262@
+1 WIFE @I112211670272@
+1 CHIL @I112211670274@
+1 CHIL @I112211670273@
+1 CHIL @I112211670275@
+1 CHIL @I112211670277@
+1 CHIL @I112211670276@
+1 MARR
+0 @F25@ FAM
+1 HUSB @I112211838243@
+1 WIFE @I112211670218@
+1 MARR
+2 DATE 13 Feb 1820
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F26@ FAM
+1 HUSB @I112224855651@
+1 WIFE @I112292582847@
+1 CHIL @I112292582822@
+1 CHIL @I112292582789@
+1 CHIL @I112224855762@
+0 @F27@ FAM
+1 HUSB @I112211670077@
+1 WIFE @I112211670076@
+1 CHIL @I112211670074@
+1 CHIL @I112211670081@
+1 CHIL @I112211670080@
+1 CHIL @I112211670082@
+1 CHIL @I112211670083@
+1 MARR
+2 DATE 15 Mag 1943
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F28@ FAM
+1 HUSB @I112211670078@
+1 WIFE @I112211670079@
+1 CHIL @I112211670130@
+1 CHIL @I112211670136@
+1 CHIL @I112211670135@
+1 CHIL @I112211670077@
+1 MARB
+2 DATE 17 NOV 1900
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O26@
+0 @F29@ FAM
+1 HUSB @I112211670070@
+1 WIFE @I112211670073@
+1 CHIL @I112211670072@
+1 CHIL @I112211670071@
+1 MARR
+2 DATE 8 SEP 2005
+2 PLAC treviolo
+0 @F30@ FAM
+1 HUSB @I112211670074@
+1 WIFE @I112211670075@
+1 CHIL @I112211670070@
+0 @F31@ FAM
+1 HUSB @I112211670220@
+1 WIFE @I112211670221@
+1 CHIL @I112211670198@
+0 @F32@ FAM
+1 HUSB @I112211670222@
+1 WIFE @I112211670199@
+1 MARR
+0 @F33@ FAM
+1 HUSB @I112224855687@
+1 WIFE @I112211670148@
+1 CHIL @I112292584082@
+1 CHIL @I112292582913@
+1 CHIL @I112292582888@
+1 CHIL @I112214792264@
+1 CHIL @I112224855674@
+1 CHIL @I112224855651@
+1 CHIL @I112224855664@
+0 @F34@ FAM
+1 HUSB @I112211670200@
+1 WIFE @I112211670223@
+1 MARR
+0 @F35@ FAM
+1 HUSB @I112211670212@
+1 WIFE @I112211670234@
+1 CHIL @I112211670236@
+1 CHIL @I112211670235@
+1 MARR
+0 @F36@ FAM
+1 HUSB @I112211670208@
+1 WIFE @I112211670209@
+1 CHIL @I112211670144@
+0 @F37@ FAM
+1 HUSB @I112211670210@
+1 WIFE @I112211670211@
+1 CHIL @I112211670197@
+1 CHIL @I112211670232@
+1 CHIL @I112211670233@
+0 @F38@ FAM
+1 HUSB @I112211670239@
+1 WIFE @I112211670237@
+1 CHIL @I112211670238@
+0 @F39@ FAM
+1 HUSB @I112211670238@
+1 WIFE @I112211670241@
+1 CHIL @I112211670240@
+0 @F40@ FAM
+1 HUSB @I112211670228@
+1 WIFE @I112211670229@
+1 CHIL @I112211670205@
+0 @F41@ FAM
+1 HUSB @I112211670230@
+1 WIFE @I112211670231@
+1 CHIL @I112211670210@
+0 @F42@ FAM
+1 HUSB @I112211670202@
+1 WIFE @I112211670224@
+1 MARR
+0 @F43@ FAM
+1 HUSB @I112211670225@
+1 WIFE @I112211670226@
+1 CHIL @I112211670204@
+0 @F44@ FAM
+1 HUSB @I112211670252@
+1 WIFE @I112211670253@
+1 CHIL @I112211670250@
+0 @F45@ FAM
+1 HUSB @I112211670254@
+1 WIFE @I112211670255@
+1 CHIL @I112211670259@
+1 CHIL @I112211670258@
+1 CHIL @I112211670251@
+0 @F46@ FAM
+1 HUSB @I112211670250@
+1 WIFE @I112211670251@
+1 CHIL @I112211670247@
+0 @F47@ FAM
+1 HUSB @I112211670168@
+1 WIFE @I112255046750@
+1 MARR
+2 DATE 28 Dic 1865
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O10@
+2 OBJE @O2@
+0 @F48@ FAM
+1 HUSB @I112211670245@
+1 WIFE @I112211670246@
+0 @F49@ FAM
+1 HUSB @I112225061594@
+1 WIFE @I112211670240@
+1 CHIL @I112225060958@
+1 CHIL @I112225061134@
+1 CHIL @I112225061170@
+0 @F50@ FAM
+1 HUSB @I112211670270@
+1 WIFE @I112211670271@
+1 CHIL @I112211670262@
+0 @F51@ FAM
+1 HUSB @I112211670259@
+1 WIFE @I112211670266@
+1 CHIL @I112211670269@
+1 CHIL @I112211670268@
+1 MARR
+0 @F52@ FAM
+1 HUSB @I112211670259@
+1 WIFE @I112211670267@
+1 MARR
+0 @F53@ FAM
+1 HUSB @I112211670260@
+1 WIFE @I112211670261@
+1 CHIL @I112211670255@
+0 @F54@ FAM
+1 HUSB @I112211670262@
+1 WIFE @I112211670258@
+1 CHIL @I112211670265@
+1 CHIL @I112211670263@
+1 CHIL @I112211670264@
+1 MARR
+0 @F55@ FAM
+1 HUSB @I112211670256@
+1 WIFE @I112211670257@
+1 CHIL @I112211670252@
+0 @F56@ FAM
+1 HUSB @I112211670145@
+1 WIFE @I112211670144@
+1 CHIL @I112211670099@
+1 CHIL @I112211670182@
+1 CHIL @I112211670183@
+0 @F57@ FAM
+1 HUSB @I112211670173@
+1 WIFE @I112211670172@
+1 CHIL @I112211670164@
+0 @F58@ FAM
+1 HUSB @I112211670176@
+1 WIFE @I112211670174@
+1 CHIL @I112211670170@
+1 CHIL @I112211670179@
+1 CHIL @I112211670180@
+1 CHIL @I112494208553@
+0 @F59@ FAM
+1 HUSB @I112211670170@
+1 WIFE @I112211670169@
+1 CHIL @I112211670165@
+1 CHIL @I112211670177@
+1 CHIL @I112211670175@
+0 @F60@ FAM
+1 HUSB @I112211670165@
+1 WIFE @I112211670164@
+1 CHIL @I112211670168@
+1 CHIL @I112211670162@
+1 CHIL @I112254638379@
+1 CHIL @I112211670171@
+1 MARR
+2 DATE 15 FEB 1831
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F61@ FAM
+1 HUSB @I112211670167@
+1 WIFE @I112211670166@
+1 CHIL @I112211670161@
+0 @F62@ FAM
+1 HUSB @I112211670162@
+1 WIFE @I112211670161@
+1 CHIL @I112211670163@
+1 CHIL @I112211670078@
+1 MARR
+2 DATE 31 AUG 1862
+0 @F63@ FAM
+1 HUSB @I112211670180@
+1 WIFE @I112211670191@
+1 CHIL @I112211670190@
+1 CHIL @I112211670189@
+1 MARR
+2 DATE 3 AUG 1823
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F64@ FAM
+1 HUSB @I112211670184@
+1 WIFE @I112211670183@
+1 MARR
+2 DATE 11 FEB 1877
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F65@ FAM
+1 HUSB @I112211670185@
+1 WIFE @I112211670182@
+1 MARR
+2 DATE 11 OCT 1884
+2 PLAC Solofra, Avellino, Campania, Italia
+0 @F66@ FAM
+1 HUSB @I112211670187@
+1 WIFE @I112211670186@
+1 CHIL @I112211670166@
+0 @F67@ FAM
+1 HUSB @I112211670177@
+1 WIFE @I112211670178@
+1 MARR
+2 DATE 18 SEP 1845
+2 PLAC Solofra, Avellino, Campania, Italia
+2 OBJE @O4@
+0 @F68@ FAM
+1 HUSB @I112211670194@
+1 WIFE @I112211670179@
+0 @F69@ FAM
+1 HUSB @I112211670204@
+1 WIFE @I112211670205@
+1 CHIL @I112211670142@
+1 CHIL @I112211670227@
+0 @F70@ FAM
+1 HUSB @I112211670206@
+1 WIFE @I112211670207@
+1 CHIL @I112211670145@
+0 @F71@ FAM
+1 HUSB @I112211670196@
+1 WIFE @I112211670195@
+1 CHIL @I112211670178@
+0 @F72@ FAM
+1 HUSB @I112211670197@
+1 WIFE @I112211670198@
+1 CHIL @I112211670213@
+1 CHIL @I112211670214@
+1 CHIL @I112211670219@
+1 CHIL @I112211670212@
+1 CHIL @I112211670218@
+1 CHIL @I112211837885@
+1 CHIL @I112211670143@
+1 CHIL @I112211670215@
+1 CHIL @I112211670216@
+1 CHIL @I112211670217@
+0 @F73@ FAM
+1 HUSB @I112211670192@
+1 WIFE @I112211670193@
+1 CHIL @I112211670191@
+0 @F74@ FAM
+1 WIFE @I112217097875@
+1 CHIL @I112211670093@
+0 @F75@ FAM
+1 HUSB @I112211670116@
+1 CHIL @I112211670120@
+0 @F76@ FAM
+1 HUSB @I112211670119@
+1 CHIL @I112211670117@
+1 CHIL @I112211670129@
+0 @F77@ FAM
+1 HUSB @I112211670101@
+1 CHIL @I112211670137@
+0 @F78@ FAM
+1 HUSB @I112211670137@
+1 CHIL @I112211670138@
+1 CHIL @I112211670139@
+0 @F79@ FAM
+1 HUSB @I112211670248@
+1 CHIL @I112211670245@
+0 @F80@ FAM
+1 HUSB @I112211670249@
+1 CHIL @I112211670246@
+0 @F81@ FAM
+1 HUSB @I112211670280@
+1 CHIL @I112211670266@
+0 @F82@ FAM
+1 HUSB @I112211670152@
+1 CHIL @I112211670160@
+1 CHIL @I112211670157@
+1 CHIL @I112211670158@
+1 CHIL @I112211670159@
+0 @F83@ FAM
+1 HUSB @I112211670135@
+1 CHIL @I112211670153@
+1 CHIL @I112211670154@
+1 CHIL @I112211670155@
+0 @O1@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 4297830
+3 _WDTH 2908
+3 _HGHT 2145
+2 TITL nascita cefalo maria roberta2
+1 RIN 0454b24d-c775-4f61-9c97-de83fcbdd0c1
+1 PLAC solofra
+1 _DSCR atto di nascita foglio 2
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 20:09:48.000
+1 _USER 7VJoxSMB0X0MWoPso9oo9f7vOliWiK1f6xLLHWdESkCd+i9bemaO4RQrSYEPDJjRL8y7bFO+IR+P7hmX/R4GXA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O2@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1676580
+3 _WDTH 2039
+3 _HGHT 1464
+2 TITL matrimonio giuseppe antonio di maio 28 dicembre 1865
+1 RIN 0583c352-8fb5-460c-9930-0b870eb69dcf
+1 DATE 28 Dic 1865
+1 PLAC solofra
+1 _DSCR Atto di matrimonio
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-30 19:27:28.000
+1 _USER oub0N5lzQwqyGhtLZnkeYLMKyusz/3ncEkU3MK4XsIQ4epokz2dgXBwMLgnV7yKIgPMOjXtS/G1Qxfl8F2M93w==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O3@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1360647
+3 _WDTH 2109
+3 _HGHT 1634
+2 TITL matrimonio nicola vincenzo di majo 1831
+1 RIN 0f2dfbba-e0aa-42d0-9c4a-2516c9317013
+1 DATE 15 Feb 1831
+1 PLAC solofra
+1 _DSCR Atto di Matrimonio
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-30 19:54:57.000
+1 _USER nwTL49JwNqE76zlwCOZ42Kl55EamROvRRelI+B8ukZ+SmjjpxFSdbvvRK8A2wuAHvVL9ntTEruNjBvNnuOC+Yw==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O4@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1679703
+3 _WDTH 2170
+3 _HGHT 1628
+2 TITL matrimonio nunziante di majo 1845
+1 RIN 17b50f43-f630-41e6-9b9b-1215c3110958
+1 PLAC solofra
+1 _DSCR Certificato di matrimonio
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 19:53:07.000
+1 _USER jhNQa3RNHaj0L2dGIduQGWd9s3H5Cv+vRtRFQbVj49aRNV27rG1+jizHy0AnMMZgEWl16y98XdgLbn/sIIm9fg==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O5@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1787549
+3 _WDTH 2029
+3 _HGHT 1546
+2 TITL nascita nicola di majo 1865
+1 RIN 1a38286b-be5b-4dfc-a963-4d95630d8671
+1 DATE 1865
+1 PLAC solofra
+1 _DSCR certificato di nascita
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 20:05:07.000
+1 _USER u9xdye9t/Roy1mx8NUGQB6WlbtEuedmthG9lnaCfD5QRbn7rJt57CcG0OR6QAtXV8KSj13l9pefaKQI0d27oog==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O6@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1220242
+3 _WDTH 1998
+3 _HGHT 1445
+2 TITL morte pietro di majo 1838
+1 RIN 28a6cb98-fe35-48aa-8666-8d777727596d
+1 DATE 1 Mar 1838
+1 PLAC solofra
+1 _DSCR Atto di morte
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-29 16:30:53.000
+1 _USER NFxKLINtjGfTk6tQDxKSgWVIIBFFcOL8SB71AlqHbS8ynuWtd/5l3ABRHkX7gVkuPUPipLnUHpwf3A0Ji52s0g==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O7@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 2027262
+3 _WDTH 2082
+3 _HGHT 1436
+2 TITL morte nicola di majo 1863
+1 RIN 2bb48867-4af8-40c2-8ca2-e00bc7af48f3
+1 DATE 1863
+1 PLAC solofra
+1 _DSCR Certificato di morte
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2021-01-01 13:41:27.000
+1 _USER 6xwIuVKK1PVzd1IPhpx/P8vVO70+zirSerzPVI1wrD01YDdOe974v4Nq7ZSK+aK+blmHGfFBoxr1oAadPu0XMA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O8@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1768499
+3 _WDTH 2408
+3 _HGHT 1685
+2 TITL matrimonio luigi di majo 1823
+1 RIN 2dd4f4e4-466c-4b7c-babf-a698aa4b6a36
+1 DATE 3 Ago 1823
+1 PLAC solofra
+1 _DSCR atto di matrimonio
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-30 15:41:11.000
+1 _USER Hu3DvmaBblpy9+cqJmrfwZWZbsWMb1lNL2L7tOSJu4lY5MJyAZPOevlmEh8Nws+5PPcMYD9QEUO4wWtTfnG3Yg==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O9@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1747949
+3 _WDTH 2302
+3 _HGHT 1733
+2 TITL matrimonio luigi di majo 1823 foglio2
+1 RIN 2f02b8cb-9af5-47f0-a51b-af58ce94358c
+1 DATE 3 Ago 1823
+1 PLAC solofra
+1 _DSCR atto di matrimonio
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-30 15:39:23.000
+1 _USER 2ctyGY1XtUFg/MCrR6nUsIx+oHp4DJoutTDeU0Ecqnps2umfg2c2G00RTn9Xku52EdOoR7EQ6J5KIxEwr2hZkw==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O10@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1593145
+3 _WDTH 2229
+3 _HGHT 1478
+2 TITL matrimonio giuseppe antonio di maio 28 dicembre 1865 foglio2
+1 RIN 34fac081-37e1-44da-8c6f-566955366508
+1 DATE 28 Dic 1865
+1 PLAC solofra
+1 _DSCR Atto di matrimonio foglio 2
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-30 19:28:18.000
+1 _USER 98mZM4whzLZVrvGJDAP2gKQMnjoGbg0NBGUKgM5gS58gtcEpW+o0/slOAisn6Esa9/vQ8ibVcAxEYIpcTXpPdA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O11@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 10883376
+3 _WDTH 4151
+3 _HGHT 5488
+2 TITL matrimonio de maio giuseppe cefalo maria roberta
+1 RIN 3845568c-6124-41c1-89bf-a8c0749af045
+1 PLAC solofra
+1 _DSCR certificato di matrimonio
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 20:11:00.000
+1 _USER zF5xfw3U53dKJS8LU5+NL98a0aEQiam2s5yEYqNvL8Bdd1eHSDO5KaoXWC6xhHBI3qLEwA2zE9e2ZdaGwNSysA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O12@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _STYPE jpeg
+3 _SIZE 1570225
+3 _WDTH 1951
+3 _HGHT 1444
+2 TITL nascita pietro di majo 1838
+1 RIN 40b2b11b-8598-4ec4-9e25-97e480367297
+1 DATE 1838
+1 PLAC solofra
+1 _DSCR certificato di nascita
+1 _CREA 2020-12-31 20:00:59.000
+1 _USER LUjWrI1oYNsZzXInHpEAgGahbySBcNYWnHCU39aTOib0qkCmJ6GgryrUvc1pOToOUD5imSBLebaei25nTXqwsA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O13@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 5235636
+3 _WDTH 4030
+3 _HGHT 5502
+2 TITL matrimonio de maio giuseppe ferrandino michelina 17 maggio 1943
+1 RIN 43ad6b82-e117-405a-9d78-d069cdda266e
+1 DATE 17 Mag 1943
+1 PLAC solofra
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2021-05-12 12:53:13.000
+1 _USER 9heDZruwK1NtuKGEhks4+pGg7tGV86yjt/pK7nBg3dnHE5mll8WNv0kB80CRfAIGnc4ccUCgWch6ACxBncSuCQ==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O14@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1944361
+3 _WDTH 1990
+3 _HGHT 1423
+2 TITL nascita angiola rosa maria di maio 1828
+1 RIN 483b2d90-43c1-435d-b027-5032b8017d4f
+1 PLAC solofra
+1 _DSCR certificato di nascita
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 20:02:45.000
+1 _USER koqitvzp8BcC87O6tGGwEwIBH7YflLKCBWQplQ1B/SsDoT3Fqx5ZZnoKp42Qkl71FC+x6gnXN4igd2D9Icl4Fg==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O15@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1295870
+3 _WDTH 2406
+3 _HGHT 1679
+2 TITL matrimonio nicola vincenzo di majo 1831 foglio 2
+1 RIN 53381a15-446b-4879-bbaa-1f33efb5c4c9
+1 DATE 15 Feb 1831
+1 PLAC solofra
+1 _DSCR Atto di Matrimonio foglio 2
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-30 19:56:17.000
+1 _USER V2ePMUAglHOqe+S0+IRZz4sfkvL7INFTM0ka5nRMqzv8t0+U/6fuXd81iQ0Y6FtC3fm5FUx/FpbxFA0BV2O1PQ==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O16@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1877584
+3 _WDTH 2017
+3 _HGHT 1422
+2 TITL morte annarosa di maio 1832
+1 RIN 63eadbe7-34c5-435b-a0ca-303cbdb4d3e5
+1 DATE 9 Ott 1832
+1 PLAC solofra
+1 _DSCR Certificato di morte
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 15:21:04.000
+1 _USER TmYscfGBwcj7D0LQt0KepfSwvk+bciGzP7DeijKuupfFCqaH95lP52x7onzkFKqBvElL3p/Bh57NpVM9O4NWbQ==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O17@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _STYPE jpeg
+3 _SIZE 1220242
+3 _WDTH 1998
+3 _HGHT 1445
+2 TITL morte pietro di majo 1838
+1 RIN 77ef64ac-3670-4558-be1e-7a06457575ca
+1 DATE 1838
+1 PLAC solofra
+1 _DSCR certificato di morte
+1 _CREA 2020-12-31 20:01:42.000
+1 _USER 2y71R3vr2O1/VSXVeENHjdhqtp5bCsn5HvLzZeEg5IyBisJ4N49TIDIzC/hrCsuF1lImsoOGRnmNeBiDenxggA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O18@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _STYPE jpeg
+3 _SIZE 1500722
+3 _WDTH 1912
+3 _HGHT 1302
+2 TITL nunziante de maio 1812
+1 RIN 86694563-5198-49ba-8e4a-6e10e9773c80
+1 PLAC solofra
+1 _DSCR Atto di nascita
+1 _CREA 2020-12-31 19:51:53.000
+1 _USER eboS/q9F4k8VxJRLKXXX7eVlF8RuZ6KUUSrUKtPM+YFXCWVJ0/JPYaAX7b3/j2e0C8yE7L5V05qBXXK9Hp8q0g==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O19@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1346710
+3 _WDTH 1934
+3 _HGHT 1500
+2 TITL nascita nicola vincenzo 16 marzo 1809
+1 RIN 8933e398-0848-4aac-a45a-26d605ef4917
+1 DATE 16 Mar 1809
+1 PLAC solofra
+1 _DSCR Atto di nascita
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 19:50:24.000
+1 _USER K+GXP26SoyBjKazMVLMZbunT4fd58M0QLzwPzVncxq8L6EvOWYa4NBodEizhfBDOMtwNVIavymHOyraRHO6b4Q==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O20@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _STYPE jpeg
+3 _SIZE 2456360
+3 _WDTH 2017
+3 _HGHT 1443
+2 TITL maria rosa de majo 1845
+1 RIN a90d6de3-e0aa-41cf-9c48-291e5a16074e
+1 DATE 1845
+1 PLAC solofra
+1 _DSCR certificato di nascita
+1 _CREA 2020-12-31 20:04:12.000
+1 _USER mQ3Qw+FPqzufgyx8k4ne9gPe8jiBIZD59eEmYSCZh2+f4o1WE5jzooWmnLc+dYUyz9Is0zHHsPZPqJAbwwxkeA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O21@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 10914853
+3 _WDTH 3714
+3 _HGHT 5501
+2 TITL morte michele de maio 1903
+1 RIN ab9f2e1b-210b-4175-82f8-542be6eda70f
+1 DATE 1903
+1 PLAC serino
+1 _DSCR certificato di morte
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 19:58:07.000
+1 _USER zEbf0ec/aJw6EqhFmgCFuxIsWH8M5ii3nYulyLkVVcNmIufVysHOktiKc5emxVRZgaEUSn9ljHzTTYpB7cz4qg==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O22@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _STYPE jpeg
+3 _SIZE 1720261
+3 _WDTH 1854
+3 _HGHT 1451
+2 TITL morte angela troisi 22 febbraio 1821
+1 RIN b092260c-71c8-4d39-8ac3-c53cef568705
+1 DATE 22 Feb 1821
+1 PLAC solofra
+1 _DSCR Atto di morte
+1 _CREA 2021-01-03 17:08:18.000
+1 _USER Yecel6AN0nB/HMaJ00/gliqkt53xAyJgYZ5462ASbYzbjvX0q2wyso7Hdi9uj5nQnwJhdIi2M7izPQREBq8gvg==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O23@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 3336266
+3 _WDTH 2916
+3 _HGHT 2368
+2 TITL nascita giuseppe de maio 1871
+1 RIN b94b4b99-6bd3-4224-988d-5f7f690e675d
+1 DATE 1871
+1 PLAC solofra
+1 _DSCR certificato di nascita
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 20:05:58.000
+1 _USER nOY0JEoxkLg9PcQ93seKkAiFH0/axbH3+v8mKy0WcV4SCkRDivtfBgxvR7LhpU+UhCZQQjYWJGDDYlgHvmS5hQ==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O24@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 3474631
+3 _WDTH 2908
+3 _HGHT 2145
+2 TITL nascita cefalo maria roberta
+1 RIN c87400bb-4eee-46a2-bf29-d7633f135be7
+1 PLAC solofra
+1 _DSCR certificato di nascita
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 20:09:08.000
+1 _USER 3vmInRWMc3/fhqaDExfVKlR9Gg16BH6wiQHmKzkqtCUNWewis20rhAMry/e488xaIAQNcj29tIas2exbT8NATA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O25@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1570225
+3 _WDTH 1951
+3 _HGHT 1444
+2 TITL nascita pietro di majo 1838
+1 RIN de888169-2ef7-494f-959d-53f8c0508114
+1 DATE 21 Feb 1838
+1 PLAC solofra
+1 _DSCR Atto di nascita
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-29 16:30:01.000
+1 _USER hsk49Dsv0dp1f5v4cx9xJCEsPJ39LP1+a/8ouhJXtlmNOmRwuvD60akCLQZy9Y/OrLeDaDZodCX05JoCWiK9MA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O26@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 10883376
+3 _WDTH 4151
+3 _HGHT 5488
+2 TITL matrimonio de maio giuseppe cefalo maria roberta
+1 RIN ec502b45-3f91-4865-8812-a4af05673c31
+1 PLAC solofra
+1 _DSCR certificato di matrimonio
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 20:06:57.000
+1 _USER npd7jo3HBBqBR675qXbCYQblkb7RGcR8qsf5A5NWLEAhcXOxZjV6R6Jwoi+bZWKBUzmH4VgyJinCRM/WvKWDnA==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O27@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 10712340
+3 _WDTH 4183
+3 _HGHT 5411
+2 TITL morte de maio giuseppe 1939
+1 RIN f21d0d72-f699-42f1-965d-3d7c03456bfd
+1 DATE 1939
+1 PLAC solofra
+1 _DSCR certificato di morte
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-31 20:08:12.000
+1 _USER FOjnqQ+XrHNl6AkplmfewuCKQSeItaZuaMwU/mCrSRjGW8Lg7Qehj0fxTPpTjzzCpuixgDLOzz428g9CAU1ohQ==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O28@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 314660
+3 _WDTH 2006
+3 _HGHT 1402
+2 TITL morte maria rosa ravallese 1847
+1 RIN f4e8c7ce-1636-45f7-9bdf-59b6723428d1
+1 DATE 23 Dic 1847
+1 PLAC solofra
+1 _DSCR atto di morte
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2021-01-01 17:31:17.000
+1 _USER 8+e8/qUxaSwBG3EeeZA3BivWs1wCnPdkDjLPuXPfDAXKVnJ9Qavp4YgiHHd34MctCV9LGffDtU2U42RChh49Uw==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @O29@ OBJE
+1 FILE
+2 FORM jpg
+3 TYPE image
+3 _MTYPE document
+3 _STYPE jpeg
+3 _SIZE 1832621
+3 _WDTH 1992
+3 _HGHT 1504
+2 TITL giuseppe antonio di majo 1832
+1 RIN fa3a2be0-ddc3-408a-ba8f-51cbe34c697d
+1 DATE 3 Ott 1832
+1 PLAC solofra
+1 _DSCR Atto di nascita
+1 _META <metadataxml><transcription></transcription></metadataxml>
+1 _CREA 2020-12-30 17:55:40.000
+1 _USER du/r0l1juUJ5yRUvtn+MBDqAWZr9bbOA1ajOnmwzOFLEkqzPuAUKpMp1hyieePWLday5IGXua9FMpEtX3tfWLQ==
+2 _ENCR 1
+1 _ORIG u
+1 _ATL N
+0 @S97433832@ SOUR
+1 TITL Ancestry Family Trees
+1 PUBL Online publication - Provo, UT, USA: Ancestry.com.  Original data:  Family Tree files submitted by Ancestry members.
+0 @S97433833@ SOUR
+1 TITL U.S. Passport Applications, 1795-1925
+1 AUTH Ancestry.com
+1 PUBL Ancestry.com Operations, Inc.
+0 @S97433834@ SOUR
+1 TITL Web: RootsWeb Cemetery Index, 1800-2010
+1 AUTH Ancestry.com
+1 PUBL Ancestry.com Operations, Inc.
+0 @S97433835@ SOUR
+1 TITL U.S., Find A Grave Index, 1600s-Current
+1 AUTH Ancestry.com
+1 PUBL Ancestry.com Operations, Inc.
+0 @S97433836@ SOUR
+1 TITL New York, Index to Petitions for Naturalization filed in New York City, 1792-1989
+1 AUTH Ancestry.com
+1 PUBL Ancestry.com Operations, Inc.
+1 NOTE &lt;i&gt;Soundex Index to Petitions for Naturalization filed in Federal, State, and Local Courts located in New York City, 1792-1989&lt;/i&gt;. New York, NY, USA: The National Archives at New York City.
+0 @S97433837@ SOUR
+1 TITL Albero Genealogico di FamilySearch
+1 PUBL MyHeritage
+1 NOTE L'Albero Genealogico di FamilySearch è pubblicato da MyHeritage sotto licenza di FamilySearch International, la maggiore organizzazione genealogica mondiale. FamilySearch è un'organizzazione senza scopo di lucro finanziata dalla Chiesa di Gesù Cris
+2 CONC to dei Santi degli Ultimi Giorni (Chiesa mormone).
+0 @S101487636@ SOUR
+1 TITL Global, Find A Grave Index for Burials at Sea and other Select Burial Locations, 1300s-Current
+1 AUTH Ancestry.com
+1 PUBL Ancestry.com Operations, Inc.
+2 DATE 2012
+2 PLAC Provo, UT, USA
+1 _APID 1,60541::0
+1 REPO @R54481149@
+1 NOTE &lt;i&gt;Find A Grave&lt;/i&gt;. Find A Grave. http://www.findagrave.com/cgi-bin/fg.cgi.
+0 @S145783275@ SOUR
+1 TITL Geneanet Community Trees Index
+1 AUTH Ancestry.com
+1 PUBL Ancestry.com Operations, Inc.
+2 DATE 2022
+2 PLAC Lehi, UT, USA
+1 _APID 1,62476::0
+1 REPO @R54481149@
+1 NOTE &lt;i&gt;Geneanet Community Trees Index&lt;/i&gt;. Paris, France: Geneanet.
+0 @R54481149@ REPO
+1 NAME Ancestry.com
+0 TRLR
