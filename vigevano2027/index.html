@@ -10,8 +10,8 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo" style="text-decoration: none; display: flex; align-items: center;">
-                <img src="./logo vigevano 2027.png" alt="Logo Vigevano 2027" style="height: 70px; width: auto; background: transparent; padding: 0; margin: 0;">
+            <a href="index.html" class="nav-logo" style="text-decoration: none; display: flex; align-items: flex-start;">
+                <img id="logo" src="./logo vigevano 2027.png" alt="Logo Vigevano 2027" style="height: 70px; width: auto; background: transparent; padding: 0; margin: 0; cursor: pointer; transition: all 0.3s ease;">
             </a>
             <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false">☰</button>
             <ul class="nav-menu" id="navMenu">
@@ -25,6 +25,14 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Logo Modal -->
+    <div id="logoModal" class="logo-modal">
+        <div class="logo-modal-content">
+            <button class="close-btn" onclick="closeLogo()">&times;</button>
+            <img id="modalLogo" src="./logo vigevano 2027.png" alt="Logo Vigevano 2027">
+        </div>
+    </div>
 
     <!-- Hero Section with Parallax -->
     <section id="home" class="hero" style="background-image: url('./IMG_6916.jpg'); background-size: cover; background-position: center; background-attachment: fixed; position: relative;">

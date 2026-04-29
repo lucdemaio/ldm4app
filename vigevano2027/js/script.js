@@ -381,3 +381,39 @@ document.querySelectorAll('.about-card, .feature-item').forEach(card => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
     });
 });
+
+// ===== LOGO ENLARGEMENT ON CLICK =====
+const logoElement = document.getElementById('logo');
+const logoModal = document.getElementById('logoModal');
+
+if (logoElement) {
+    logoElement.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (logoModal) {
+            logoModal.classList.add('active');
+        }
+    });
+}
+
+function closeLogo() {
+    if (logoModal) {
+        logoModal.classList.remove('active');
+    }
+}
+
+// Close modal when clicking outside the content
+if (logoModal) {
+    logoModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeLogo();
+        }
+    });
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && logoModal && logoModal.classList.contains('active')) {
+        closeLogo();
+    }
+});
