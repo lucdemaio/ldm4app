@@ -266,7 +266,10 @@
             </div>
 
             <!-- Main Form -->
-            <form id="fanfareForm" method="POST" onsubmit="handleFormSubmit(event)">
+            <form id="fanfareForm" method="POST" action="https://formsubmit.co/fanfare@radunobersaglieri2027.com" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="Nuova Richiesta Ospitalità Fanfara">
+                <input type="hidden" name="_next" value="https://radunobersaglieri2027.com/success.html">
                 <!-- DATI FANFARA -->
                 <div class="form-section">
                     <h3>🎺 Informazioni Fanfara</h3>
@@ -521,47 +524,19 @@
                 return;
             }
 
-            // Raccogli tutti i dati del form
-            const formData = new FormData(form);
+            // Visualizzazione messaggio di successo
+            const successMsg = document.getElementById('successMessage');
+            const successText = document.querySelector('.success-message');
+            successText.innerHTML = '✅ Modulo inviato con successo! <br>Riceverai una conferma via email con il messaggio: "Dati ricevuti, a breve invieremo una risposta"';
+            successMsg.style.display = 'block';
             
-            // Aggiungi access key Web3Forms
-            formData.append('access_key', '6690d1b7-5b02-4e46-9556-335f2c8e15e4');
-            formData.append('from_name', 'Raduno Bersaglieri 2027 - Fanfare');
-            formData.append('subject', 'Nuova Richiesta Ospitalità Fanfara: ' + formData.get('fanfaraNome'));
-            formData.append('reply_to', formData.get('email'));
-            
-            // Invia via Web3Forms
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Visualizzazione messaggio di successo
-                    const successMsg = document.getElementById('successMessage');
-                    const successText = document.querySelector('.success-message');
-                    successText.innerHTML = '✅ Modulo inviato con successo! <br>Riceverai una conferma via email con il messaggio: "Dati ricevuti, a breve invieremo una risposta"';
-                    successMsg.style.display = 'block';
-                    
-                    // Scroll al messaggio
-                    successMsg.scrollIntoView({ behavior: 'smooth' });
+            // Scroll al messaggio
+            successMsg.scrollIntoView({ behavior: 'smooth' });
 
-                    // Reset modulo
-                    form.reset();
-
-                    // Nascondi messaggio dopo 7 secondi
-                    setTimeout(() => {
-                        successMsg.style.display = 'none';
-                        successText.innerHTML = '✅ Modulo inviato con successo! Riceverai una conferma via email entro 48 ore.';
-                    }, 7000);
-                } else {
-                    alert('❌ Errore nell\'invio della richiesta');
-                }
-            })
-            .catch(error => {
-                alert('❌ Errore: ' + error.message);
-            });
+            // Invia il form dopo 1 secondo
+            setTimeout(() => {
+                form.submit();
+            }, 1000);
         }
 
         // Imposta data odierna
