@@ -286,7 +286,10 @@
 
                 <div class="contact-form">
                     <h3 style="color: var(--dark-bg); margin-bottom: 2rem; font-size: 1.5rem;">Invia un Messaggio</h3>
-                    <form action="https://formspree.io/f/xyzabnop" method="POST" onsubmit="handleSubmit(event)">
+                    <div id="successMessage" style="display: none; background: rgba(39, 174, 96, 0.1); border: 2px solid #27ae60; color: #27ae60; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
+                        ✅ Messaggio inviato con successo! Ti risponderemo al tuo indirizzo email entro 48 ore.
+                    </div>
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)">
                         <div class="form-group">
                             <label for="name">Nome e Cognome *</label>
                             <input type="text" id="name" name="name" required>
@@ -421,17 +424,49 @@
 
     <script src="../js/script.js"></script>
     <script>
-        function handleSubmit(event) {
+        function handleContactSubmit(event) {
             event.preventDefault();
             
+            const form = document.getElementById('contactForm');
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
             
-            alert('Grazie ' + name + '! Il tuo messaggio è stato ricevuto.\n\nRisponderemo al tuo indirizzo email (' + email + ') entro 48 ore.\n\nOggetto: ' + subject);
+            // Prepara i dati per l'invio
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('subject', subject);
+            formData.append('message', message);
             
-            // Reset form
-            event.target.reset();
+            // Invia al server PHP
+            fetch('../contact-handler.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mostra il messaggio di successo
+                    const successMsg = document.getElementById('successMessage');
+                    successMsg.style.display = 'block';
+                    successMsg.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Nascondi messaggio dopo 5 secondi
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('❌ Errore nell\'invio: ' + error.message);
+            });
         }
     </script>
 </body>

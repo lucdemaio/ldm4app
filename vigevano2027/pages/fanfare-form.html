@@ -266,7 +266,7 @@
             </div>
 
             <!-- Main Form -->
-            <form id="fanfareForm" action="https://formspree.io/f/xyzabnop" method="POST" onsubmit="handleFormSubmit(event)">
+            <form id="fanfareForm" method="POST" onsubmit="handleFormSubmit(event)">
                 <!-- DATI FANFARA -->
                 <div class="form-section">
                     <h3>🎺 Informazioni Fanfara</h3>
@@ -521,26 +521,17 @@
                 return;
             }
 
-            // Raccolta dati
+            // Raccogli tutti i dati del form
             const formData = new FormData(form);
             
-            // Aggiungi campi nascosti di Formspree
-            formData.append('_subject', `Nuova Richiesta Ospitalità Fanfara: ${formData.get('fanfaraNome')}`);
-            formData.append('_replyto', formData.get('email'));
-            formData.append('_captcha', 'false');
-            formData.append('_autoresponse', 'Grazie per la tua richiesta di ospitalità! Dati ricevuti. A breve invieremo una risposta.');
-
-            // Invia i dati a Formspree
-            const actionUrl = form.getAttribute('action');
-            
-            fetch(actionUrl, {
+            // Invia al server PHP
+            fetch('../../fanfare-handler.php', {
                 method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
-                if (response.ok) {
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
                     // Visualizzazione messaggio di successo
                     const successMsg = document.getElementById('successMessage');
                     const successText = document.querySelector('.success-message');
@@ -559,11 +550,11 @@
                         successText.innerHTML = '✅ Modulo inviato con successo! Riceverai una conferma via email entro 48 ore.';
                     }, 7000);
                 } else {
-                    alert('❌ Si è verificato un errore durante l\'invio. Riprova più tardi.');
+                    alert('❌ ' + data.message);
                 }
-            }).catch(error => {
-                console.error('Errore:', error);
-                alert('❌ Si è verificato un errore durante l\'invio. Verifica la tua connessione e riprova.');
+            })
+            .catch(error => {
+                alert('❌ Errore nell\'invio: ' + error.message);
             });
         }
 
