@@ -433,15 +433,19 @@
             const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
             
-            // Prepara i dati per l'invio
+            // Prepara i dati per Web3Forms
             const formData = new FormData();
+            formData.append('access_key', '6690d1b7-5b02-4e46-9556-335f2c8e15e4');
             formData.append('name', name);
             formData.append('email', email);
             formData.append('subject', subject);
             formData.append('message', message);
+            formData.append('from_name', 'Raduno Bersaglieri 2027');
+            formData.append('reply_to', email);
+            formData.append('redirect', 'https://yourdomain.com/success');
             
-            // Invia al server PHP
-            fetch('../contact-handler.php', {
+            // Invia via Web3Forms
+            fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 body: formData
             })
@@ -461,11 +465,11 @@
                         successMsg.style.display = 'none';
                     }, 5000);
                 } else {
-                    alert('❌ ' + data.message);
+                    alert('❌ Errore nell\'invio del messaggio');
                 }
             })
             .catch(error => {
-                alert('❌ Errore nell\'invio: ' + error.message);
+                alert('❌ Errore: ' + error.message);
             });
         }
     </script>

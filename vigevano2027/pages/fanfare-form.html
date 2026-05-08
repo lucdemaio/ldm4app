@@ -524,8 +524,14 @@
             // Raccogli tutti i dati del form
             const formData = new FormData(form);
             
-            // Invia al server PHP
-            fetch('../../fanfare-handler.php', {
+            // Aggiungi access key Web3Forms
+            formData.append('access_key', '6690d1b7-5b02-4e46-9556-335f2c8e15e4');
+            formData.append('from_name', 'Raduno Bersaglieri 2027 - Fanfare');
+            formData.append('subject', 'Nuova Richiesta Ospitalità Fanfara: ' + formData.get('fanfaraNome'));
+            formData.append('reply_to', formData.get('email'));
+            
+            // Invia via Web3Forms
+            fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 body: formData
             })
@@ -550,11 +556,11 @@
                         successText.innerHTML = '✅ Modulo inviato con successo! Riceverai una conferma via email entro 48 ore.';
                     }, 7000);
                 } else {
-                    alert('❌ ' + data.message);
+                    alert('❌ Errore nell\'invio della richiesta');
                 }
             })
             .catch(error => {
-                alert('❌ Errore nell\'invio: ' + error.message);
+                alert('❌ Errore: ' + error.message);
             });
         }
 
