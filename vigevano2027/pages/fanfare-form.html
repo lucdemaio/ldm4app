@@ -266,7 +266,7 @@
             </div>
 
             <!-- Main Form -->
-            <form id="fanfareForm" onsubmit="handleFormSubmit(event)">
+            <form id="fanfareForm" action="https://formspree.io/f/xyzabnop" method="POST" onsubmit="handleFormSubmit(event)">
                 <!-- DATI FANFARA -->
                 <div class="form-section">
                     <h3>🎺 Informazioni Fanfara</h3>
@@ -493,9 +493,8 @@
             </div>
             <div class="footer-section">
                 <h4>Contatti</h4>
-                <p>Email: info@radunobersaglierivivevano2027.it</p>
-                <p>Email Fanfare: fanfare@radunobersaglierivivevano2027.it</p>
-                <p>Tel: +39 XXXX XXX XXX</p>
+                <p>Email: <a href="mailto:info@radunobersaglieri2027.com" style="color: var(--primary-color); text-decoration: none;">info@radunobersaglieri2027.com</a></p>
+                <p>Email Fanfare: <a href="mailto:fanfare@radunobersaglieri2027.com" style="color: var(--primary-color); text-decoration: none;">fanfare@radunobersaglieri2027.com</a></p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -524,29 +523,48 @@
 
             // Raccolta dati
             const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
-
-            // Log per debug
-            console.log('Dati modulo:', data);
-
-            // Visualizzazione messaggio di successo
-            const successMsg = document.getElementById('successMessage');
-            successMsg.style.display = 'block';
             
-            // Scroll al messaggio
-            successMsg.scrollIntoView({ behavior: 'smooth' });
+            // Aggiungi campi nascosti di Formspree
+            formData.append('_subject', `Nuova Richiesta Ospitalità Fanfara: ${formData.get('fanfaraNome')}`);
+            formData.append('_replyto', formData.get('email'));
+            formData.append('_captcha', 'false');
+            formData.append('_autoresponse', 'Grazie per la tua richiesta di ospitalità! Dati ricevuti. A breve invieremo una risposta.');
 
-            // Reset modulo
-            form.reset();
+            // Invia i dati a Formspree
+            const actionUrl = form.getAttribute('action');
+            
+            fetch(actionUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // Visualizzazione messaggio di successo
+                    const successMsg = document.getElementById('successMessage');
+                    const successText = document.querySelector('.success-message');
+                    successText.innerHTML = '✅ Modulo inviato con successo! <br>Riceverai una conferma via email con il messaggio: "Dati ricevuti, a breve invieremo una risposta"';
+                    successMsg.style.display = 'block';
+                    
+                    // Scroll al messaggio
+                    successMsg.scrollIntoView({ behavior: 'smooth' });
 
-            // Nascondi messaggio dopo 5 secondi
-            setTimeout(() => {
-                successMsg.style.display = 'none';
-            }, 5000);
+                    // Reset modulo
+                    form.reset();
 
-            // NOTA: Implementare l'invio a un backend/email service
-            // Per ora è solo una simulazione frontend
-            console.log('Modulo pronto per essere inviato a:', 'fanfare@radunobersaglierivivevano2027.it');
+                    // Nascondi messaggio dopo 7 secondi
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                        successText.innerHTML = '✅ Modulo inviato con successo! Riceverai una conferma via email entro 48 ore.';
+                    }, 7000);
+                } else {
+                    alert('❌ Si è verificato un errore durante l\'invio. Riprova più tardi.');
+                }
+            }).catch(error => {
+                console.error('Errore:', error);
+                alert('❌ Si è verificato un errore durante l\'invio. Verifica la tua connessione e riprova.');
+            });
         }
 
         // Imposta data odierna
