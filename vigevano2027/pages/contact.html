@@ -289,11 +289,7 @@
                     <div id="successMessage" style="display: none; background: rgba(39, 174, 96, 0.1); border: 2px solid #27ae60; color: #27ae60; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
                         ✅ Messaggio inviato con successo! Ti risponderemo al tuo indirizzo email entro 48 ore.
                     </div>
-                    <form id="contactForm" action="https://formsubmit.co/info@radunobersaglieri2027.com" method="POST" onsubmit="handleContactSubmit(event)">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="https://radunobersaglieri2027.com/success.html">
-                        <input type="hidden" name="_subject" value="Nuovo messaggio da contatti raduno">
-                        
+                    <form id="contactForm" method="POST" onsubmit="handleContactSubmit(event)">
                         <div class="form-group">
                             <label for="name">Nome e Cognome *</label>
                             <input type="text" id="name" name="name" required>
@@ -306,7 +302,7 @@
 
                         <div class="form-group">
                             <label for="subject">Oggetto *</label>
-                            <select id="subject" name="Subject" required>
+                            <select id="subject" name="subject" required>
                                 <option value="">Seleziona un argomento...</option>
                                 <option value="Informazioni Partecipazione">Informazioni Partecipazione</option>
                                 <option value="Alloggio e Logistica">Alloggio e Logistica</option>
@@ -429,19 +425,48 @@
     <script src="../js/script.js"></script>
     <script>
         function handleContactSubmit(event) {
-            // Mostra messaggio di successo (FormSubmit reindirizza automaticamente)
-            const successMsg = document.getElementById('successMessage');
-            if (successMsg) {
-                event.preventDefault();
-                const form = document.getElementById('contactForm');
-                successMsg.style.display = 'block';
-                successMsg.scrollIntoView({ behavior: 'smooth' });
-                
-                // Invia il form dopo 1 secondo
-                setTimeout(() => {
-                    form.submit();
-                }, 1000);
-            }
+            event.preventDefault();
+            
+            const form = document.getElementById('contactForm');
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Prepara i dati
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('subject', subject);
+            formData.append('message', message);
+            
+            // Invia al server PHP
+            fetch('../contact-handler.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mostra il messaggio di successo
+                    const successMsg = document.getElementById('successMessage');
+                    successMsg.style.display = 'block';
+                    successMsg.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Nascondi messaggio dopo 5 secondi
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('❌ Errore: ' + error.message);
+            });
         }
     </script>
 </body>

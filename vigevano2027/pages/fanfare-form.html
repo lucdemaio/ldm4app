@@ -266,10 +266,7 @@
             </div>
 
             <!-- Main Form -->
-            <form id="fanfareForm" method="POST" action="https://formsubmit.co/fanfare@radunobersaglieri2027.com" onsubmit="handleFormSubmit(event)">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_subject" value="Nuova Richiesta Ospitalità Fanfara">
-                <input type="hidden" name="_next" value="https://radunobersaglieri2027.com/success.html">
+            <form id="fanfareForm" method="POST" onsubmit="handleFormSubmit(event)">
                 <!-- DATI FANFARA -->
                 <div class="form-section">
                     <h3>🎺 Informazioni Fanfara</h3>
@@ -524,19 +521,36 @@
                 return;
             }
 
-            // Visualizzazione messaggio di successo
-            const successMsg = document.getElementById('successMessage');
-            const successText = document.querySelector('.success-message');
-            successText.innerHTML = '✅ Modulo inviato con successo! <br>Riceverai una conferma via email con il messaggio: "Dati ricevuti, a breve invieremo una risposta"';
-            successMsg.style.display = 'block';
-            
-            // Scroll al messaggio
-            successMsg.scrollIntoView({ behavior: 'smooth' });
+            // Raccogli i dati del form
+            const formData = new FormData(form);
 
-            // Invia il form dopo 1 secondo
-            setTimeout(() => {
-                form.submit();
-            }, 1000);
+            // Invia i dati a fanfare-handler.php
+            fetch('../fanfare-handler.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Visualizzazione messaggio di successo
+                    const successMsg = document.getElementById('successMessage');
+                    successMsg.innerHTML = '✅ <strong>Modulo inviato con successo!</strong><br>Riceverai una conferma via email a breve con i dettagli della tua richiesta di ospitalità.';
+                    successMsg.style.display = 'block';
+                    
+                    // Scroll al messaggio
+                    successMsg.scrollIntoView({ behavior: 'smooth' });
+
+                    // Resetta il form
+                    form.reset();
+                    document.getElementById('data').valueAsDate = new Date();
+                } else {
+                    alert('❌ Errore nell\'invio: ' + (data.error || 'Riprova più tardi'));
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                alert('❌ Errore di connessione. Riprova più tardi.');
+            });
         }
 
         // Imposta data odierna
