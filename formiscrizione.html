@@ -188,7 +188,9 @@
             statusEl.className = 'text-sm text-cyan-300';
 
             try {
-                const response = await fetch('/api/newsletter', {
+                const isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname) || window.location.protocol === 'file:';
+                const apiBase = isLocal ? 'http://127.0.0.1:3001' : window.location.origin;
+                const response = await fetch(`${apiBase}/api/newsletter`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)

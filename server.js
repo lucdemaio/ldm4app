@@ -52,6 +52,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('.'))
 
+app.options('/api/newsletter', cors())
+
 app.post('/api/newsletter', async (req, res) => {
   try {
     const { nome, cognome, email, azienda, messaggio, privacy } = req.body
