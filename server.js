@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import fetch from 'node-fetch'
 import multer from 'multer'
+import nodemailer from 'nodemailer'
 import { spawn } from 'child_process'
 import path from 'path'
 import fs from 'fs'
@@ -12,6 +13,18 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 const PORT = process.env.PORT || 3001
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT || 587),
+  secure: process.env.SMTP_SECURE === 'true',
+  auth: process.env.SMTP_USER && process.env.SMTP_PASS
+    ? {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    : undefined
+})
 
 // Configura storage multer
 const upload = multer({
@@ -36,7 +49,48 @@ const upload = multer({
 
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static('.'))
+
+app.post('/api/newsletter', async (req, res) => {
+  try {
+    const { nome, cognome, email, azienda, messaggio, privacy } = req.body
+
+    if (!nome || !cognome || !email || !privacy) {
+      return res.status(400).json({ ok: false, error: 'Dati obbligatori mancanti' })
+    }
+
+    const html = `
+      <h2>Nuova iscrizione newsletter</h2>
+      <p><strong>Nome:</strong> ${nome}</p>
+      <p><strong>Cognome:</strong> ${cognome}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Azienda:</strong> ${azienda || 'Non specificata'}</p>
+      <p><strong>Messaggio:</strong> ${messaggio || 'Nessun messaggio'}</p>
+      <p><strong>Privacy:</strong> ${privacy}</p>
+    `
+
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      const logLine = `[newsletter] ${new Date().toISOString()} | ${email} | ${nome} ${cognome}\n`
+      fs.appendFileSync(path.join(__dirname, 'newsletter-log.txt'), logLine)
+      console.warn('[Newsletter] SMTP non configurato, dati salvati in newsletter-log.txt')
+      return res.json({ ok: true, mode: 'logged' })
+    }
+
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      to: 'info@ldm4app.com',
+      replyTo: email,
+      subject: 'Nuova iscrizione newsletter LDM4APP',
+      html
+    })
+
+    res.json({ ok: true, mode: 'sent' })
+  } catch (error) {
+    console.error('[Newsletter] Errore invio:', error)
+    res.status(500).json({ ok: false, error: 'Errore durante l’invio del modulo' })
+  }
+})
 
 // Endpoint di traduzione
 app.post('/api/translate', async (req, res) => {
