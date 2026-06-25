@@ -111,7 +111,7 @@
                     </p>
                 </div>
 
-                <form id="newsletter-form" class="grid gap-6 md:grid-cols-2">
+                <form id="newsletter-form" action="mailto:info@ldm4app.com" method="post" enctype="text/plain" class="grid gap-6 md:grid-cols-2">
                     <div class="space-y-2">
                         <label for="nome" class="block text-sm font-semibold text-cyan-300">Nome</label>
                         <input type="text" id="nome" name="nome" required class="w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-cyan-400" placeholder="Il tuo nome">
@@ -147,7 +147,7 @@
                     </div>
 
                     <div class="md:col-span-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <p id="form-status" class="text-sm text-gray-400">I dati verranno inviati in modo sicuro al team di LDM4APP.</p>
+                        <p id="form-status" class="text-sm text-gray-400">La mail verrà inviata a info@ldm4app.com.</p>
                         <button type="submit" id="submit-btn" class="btn-primary text-white px-8 py-3 rounded-full font-semibold inline-flex items-center gap-2">
                             <i class="fas fa-paper-plane"></i>
                             Iscrivimi alle novità
@@ -164,55 +164,5 @@
         </div>
     </footer>
 
-    <script>
-        const form = document.getElementById('newsletter-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const statusEl = document.getElementById('form-status');
-
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(form);
-            const payload = {
-                nome: formData.get('nome')?.toString().trim() || '',
-                cognome: formData.get('cognome')?.toString().trim() || '',
-                email: formData.get('email')?.toString().trim() || '',
-                azienda: formData.get('azienda')?.toString().trim() || '',
-                messaggio: formData.get('messaggio')?.toString().trim() || '',
-                privacy: formData.get('privacy') ? 'Consenso privacy confermato' : ''
-            };
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Invio in corso...';
-            statusEl.textContent = 'Invio in corso...';
-            statusEl.className = 'text-sm text-cyan-300';
-
-            try {
-                const isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname) || window.location.protocol === 'file:';
-                const apiBase = isLocal ? 'http://127.0.0.1:3001' : window.location.origin;
-                const response = await fetch(`${apiBase}/api/newsletter`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (!response.ok || !result.ok) {
-                    throw new Error(result.error || 'Errore durante l’invio');
-                }
-
-                form.reset();
-                statusEl.textContent = 'Grazie! La tua iscrizione è stata registrata correttamente.';
-                statusEl.className = 'text-sm text-emerald-300';
-            } catch (error) {
-                statusEl.textContent = error.message || 'Si è verificato un errore.';
-                statusEl.className = 'text-sm text-red-300';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Iscrivimi alle novità';
-            }
-        });
-    </script>
 </body>
 </html>
