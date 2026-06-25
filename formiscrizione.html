@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWZ6YZH6JT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TWZ6YZH6JT');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iscriviti alla Newsletter - LDM4APP</title>
+    <meta name="description" content="Iscriviti alla newsletter di LDM4APP per ricevere tutte le novità, aggiornamenti e offerte speciali.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0a0e27',
+                        cobalt: '#0066ff',
+                        accent: '#00d4ff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-glass {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0066ff 0%, #00d4ff 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 102, 255, 0.5);
+        }
+
+        .badge {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #00d4ff;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <header class="nav-glass fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="logo-3-scudo-stella.svg" alt="LDM4APP Logo" width="60" height="72" class="drop-shadow-lg">
+                    <div class="text-2xl font-bold gradient-text hidden sm:block">LDM4APP</div>
+                </a>
+                <a href="index.html" class="btn-primary text-white px-6 py-2 rounded-full font-semibold">Torna alla Home</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-28 pb-16">
+        <section class="container mx-auto px-6">
+            <div class="max-w-5xl mx-auto glass-card p-8 md:p-12 shadow-2xl">
+                <div class="mb-10 text-center">
+                    <span class="badge mb-4">Newsletter</span>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Resta aggiornato sulle novità di LDM4APP</h1>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+                        Iscriviti per ricevere aggiornamenti, nuovi strumenti, contenuti esclusivi e novità sulle soluzioni che stiamo creando per il tuo business.
+                    </p>
+                </div>
+
+                <form action="mailto:info@ldm4app.com" method="post" enctype="text/plain" class="grid gap-6 md:grid-cols-2">
+                    <div class="space-y-2">
+                        <label for="nome" class="block text-sm font-semibold text-cyan-300">Nome</label>
+                        <input type="text" id="nome" name="nome" required class="w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-cyan-400" placeholder="Il tuo nome">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="cognome" class="block text-sm font-semibold text-cyan-300">Cognome</label>
+                        <input type="text" id="cognome" name="cognome" required class="w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-cyan-400" placeholder="Il tuo cognome">
+                    </div>
+
+                    <div class="space-y-2 md:col-span-2">
+                        <label for="email" class="block text-sm font-semibold text-cyan-300">Email</label>
+                        <input type="email" id="email" name="email" required class="w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-cyan-400" placeholder="nome@esempio.com">
+                    </div>
+
+                    <div class="space-y-2 md:col-span-2">
+                        <label for="azienda" class="block text-sm font-semibold text-cyan-300">Azienda o attività</label>
+                        <input type="text" id="azienda" name="azienda" class="w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-cyan-400" placeholder="Nome attività / azienda">
+                    </div>
+
+                    <div class="space-y-2 md:col-span-2">
+                        <label for="messaggio" class="block text-sm font-semibold text-cyan-300">Note aggiuntive</label>
+                        <textarea id="messaggio" name="messaggio" rows="4" class="w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none focus:border-cyan-400" placeholder="Scrivi qui eventuali richieste o informazioni utili"></textarea>
+                    </div>
+
+                    <div class="md:col-span-2 rounded-2xl border border-cyan-400/30 bg-cyan-400/10 p-4">
+                        <label class="flex items-start gap-3 text-sm text-gray-200">
+                            <input type="checkbox" name="privacy" value="Consenso privacy confermato" required class="mt-1 h-4 w-4 rounded border-white/20 bg-white/10 text-cyan-400 focus:ring-cyan-400">
+                            <span>
+                                Acconsento al trattamento dei miei dati personali per ricevere aggiornamenti e novità da LDM4APP, in conformità con la privacy policy del sito.
+                            </span>
+                        </label>
+                    </div>
+
+                    <input type="hidden" name="subject" value="Nuova iscrizione newsletter LDM4APP">
+
+                    <div class="md:col-span-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <p class="text-sm text-gray-400">I dati verranno inviati direttamente a info@ldm4app.com per la gestione dell'iscrizione.</p>
+                        <button type="submit" class="btn-primary text-white px-8 py-3 rounded-full font-semibold inline-flex items-center gap-2">
+                            <i class="fas fa-paper-plane"></i>
+                            Iscrivimi alle novità
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-8 border-t border-white/10">
+        <div class="container mx-auto px-6 text-center text-gray-400 text-sm">
+            © 2026 LDM4APP - Tutti i diritti riservati.
+        </div>
+    </footer>
+</body>
+</html>
